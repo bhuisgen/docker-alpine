@@ -1,0 +1,12 @@
+{
+    "service": {
+        "name": "nginx",
+        "port": 80,
+        "checks": [
+            {
+                "script": "curl http://127.0.0.1:80/ping > /dev/null 2>&1 || exit 2",
+                "interval": "15s"
+            }
+        ]
+    }
+}
