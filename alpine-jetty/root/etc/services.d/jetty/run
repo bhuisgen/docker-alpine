@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/jetty
+exec /usr/bin/java -jar start.jar
