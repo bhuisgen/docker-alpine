@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/tomcat
+exec /bin/sh bin/catalina.sh run
