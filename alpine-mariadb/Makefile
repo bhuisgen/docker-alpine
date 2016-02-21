@@ -1,7 +1,7 @@
 # Makefile
 
-IMAGE_NAME=bhuisgen/alpine-consul
-CONTAINER_NAME=consul
+IMAGE_NAME=bhuisgen/alpine-mariadb
+CONTAINER_NAME=mariadb
 
 .PHONY: all build clean start stop run
 
@@ -18,7 +18,12 @@ build:
 
 run:
 	docker run -d \
-		-p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8500:8500 -p 8600:8600 -p 8600:8600/udp \
+		-p 3306:3306 \
+		-e CONSUL_SERVER=172.17.0.1 \
+		-e MARIADB_HOSTNAME=172.17.0.1 \
+		-e MARIADB_DATABASE=alpine \
+		-e MARIADB_USERNAME=alpine \
+		-e MARIADB_PASSWORD=alpine \
 		--name ${CONTAINER_NAME} ${IMAGE_NAME}
 
 start:

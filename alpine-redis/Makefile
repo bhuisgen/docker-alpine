@@ -1,7 +1,7 @@
 # Makefile
 
-IMAGE_NAME="bhuisgen/alpine-redis"
-CONTAINER_NAME="redis"
+IMAGE_NAME=bhuisgen/alpine-redis
+CONTAINER_NAME=redis
 
 .PHONY: all build clean start stop run
 

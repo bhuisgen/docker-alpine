@@ -1,7 +1,7 @@
 # Makefile
 
-IMAGE_NAME="bhuisgen/alpine-registry"
-CONTAINER_NAME="registry"
+IMAGE_NAME=bhuisgen/alpine-registry
+CONTAINER_NAME=registry
 
 .PHONY: all build clean start stop run
 
