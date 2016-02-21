@@ -1,0 +1,13 @@
+{
+    "service": {
+        "name": "redis",
+        "port": 6379,
+        "checks": [
+            {
+                "tcp": "127.0.0.1:6379",
+                "interval": "15s",
+                "timeout": "4s"
+            }
+        ]
+    }
+}
