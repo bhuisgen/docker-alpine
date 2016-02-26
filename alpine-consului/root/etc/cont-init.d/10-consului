@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+echo "==> Initialize Consul UI"
+
+if [ ! -z ${CONSULUI_USERNAME} ] && [ ! -z ${CONSULUI_PASSWORD} ]; then
+    printf "%s:%s\n" ${CONSULUI_USERNAME} "$(openssl passwd -crypt ${CONSULUI_PASSWORD})" > "/etc/nginx/conf.d/consului.htpasswd"
+fi
