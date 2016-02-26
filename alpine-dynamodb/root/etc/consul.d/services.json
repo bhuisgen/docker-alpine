@@ -1,0 +1,15 @@
+{
+    "services": [
+        {
+            "name": "dynamodb",
+            "port": 8000,
+            "checks": [
+                {
+                    "tcp": "127.0.0.1:8000",
+                    "interval": "15s",
+                    "timeout": "4s"
+                }
+            ]
+        }
+    ]
+}
