@@ -1,35 +1,45 @@
 # Makefile
 
-IMAGE_NAME=bhuisgen/alpine-redis
-CONTAINER_NAME=redis
+DOCKER_IMAGE=bhuisgen/alpine-redis
+DOCKER_REPOSITORY=127.0.0.1:5000
+DOCKER_CONTAINER=redis
 
-.PHONY: all build clean start stop run
+.PHONY: all build clean exec logs pull push run start stop
 
 all: clean build
 
 clean:
-	(docker stop ${CONTAINER_NAME} || true) > /dev/null 2>&1
-	(docker kill ${CONTAINER_NAME} || true) > /dev/null 2>&1
-	(docker rm ${CONTAINER_NAME} || true) > /dev/null 2>&1
-	(docker rmi ${IMAGE_NAME} || true) > /dev/null 2>&1
+	(docker stop ${DOCKER_CONTAINER} || true) > /dev/null 2>&1
+	(docker kill ${DOCKER_CONTAINER} || true) > /dev/null 2>&1
+	(docker rm ${DOCKER_CONTAINER} || true) > /dev/null 2>&1
+	(docker rmi ${DOCKER_IMAGE} || true) > /dev/null 2>&1
 
 build:
-	docker build -t ${IMAGE_NAME} .
+	docker build -t ${DOCKER_IMAGE} .
+
+pull:
+	docker pull ${DOCKER_REPOSITORY}/${DOCKER_IMAGE}
+
+push:
+	docker push ${DOCKER_REPOSITORY}/${DOCKER_IMAGE}
 
 run:
 	docker run -d \
-		-p 6379:6379 \
-		-e CONSUL_SERVER=172.17.0.1 \
-		--name ${CONTAINER_NAME} ${IMAGE_NAME}
+		-p 6379:6379
+		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:
-	docker start ${CONTAINER_NAME}
+	docker start ${DOCKER_CONTAINER}
 
 stop:
-	docker stop ${CONTAINER_NAME}
+	docker stop ${DOCKER_CONTAINER}
 
 rm:
-	docker rm ${CONTAINER_NAME}
+	docker rm ${DOCKER_CONTAINER}
 
 exec:
-	docker exec -ti ${CONTAINER_NAME} /bin/sh
+	docker exec -ti ${DOCKER_CONTAINER} /bin/sh
+
+logs:
+	docker logs ${DOCKER_CONTAINER}
