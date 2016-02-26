@@ -1,9 +1,9 @@
 # Makefile
 
-IMAGE_NAME=bhuisgen/alpine-consul-ui
-CONTAINER_NAME=consul-ui
+IMAGE_NAME=bhuisgen/alpine-consului
+CONTAINER_NAME=consului
 
-.PHONY: all build clean start stop run
+.PHONY: all build clean exec logs start stop run
 
 all: clean build
 
@@ -20,6 +20,8 @@ run:
 	docker run -d \
 		-p 443:443 \
 		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-e CONSULUI_USERNAME=consul \
+		-e CONSULUI_PASSWORD=consul \
 		--name ${CONTAINER_NAME} ${IMAGE_NAME}
 
 start:
