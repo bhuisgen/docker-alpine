@@ -1,0 +1,4 @@
+{
+    "ui": true,
+    "ui_dir": "/var/consul/ui"
+}

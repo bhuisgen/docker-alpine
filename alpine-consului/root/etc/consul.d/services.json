@@ -1,0 +1,15 @@
+{
+    "services": [
+        {
+           "name": "consului",
+           "port": 443,
+           "checks": [
+               {
+                   "tcp": "127.0.0.1:443",
+                   "interval": "15s",
+                   "timeout": "4s"
+               }
+           ]
+       }
+    ]
+}
