@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ -z "$CONSUL_SERVER" ]; then
-    printf "172.17.0.1" > /var/run/s6/container_environment/CONSUL_SERVER
-fi

@@ -14,9 +14,7 @@ RUN apk add --update bash gcc git go make musl-dev zip && \
     make dev && \
     mv bin/consul /bin && \
     addgroup consul && \
-    adduser -D -G consul consul && \
-    mkdir -p /var/consul && \
-    chown -R consul:consul /var/consul && \
+    adduser -D -G consul -s /sbin/nologin -h /var/consul consul && \
     go get github.com/hashicorp/consul-template && \
     cd $GOPATH/src/github.com/hashicorp/consul-template && \
     git checkout -q --detach "v${CONSULTEMPLATE_VERSION}" && \

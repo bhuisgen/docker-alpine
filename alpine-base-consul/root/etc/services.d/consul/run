@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid consul consul agent -config-dir /etc/consul.d -retry-join ${CONSUL_SERVER} -retry-interval 15s
+exec s6-setuidgid consul consul agent -config-dir /etc/consul.d ${CONSUL_OPTIONS}
