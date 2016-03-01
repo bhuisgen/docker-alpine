@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+if [ ${CONSULTEMPLATE_ENABLE} -eq 1 ]; then
+    rm /etc/services.d/consul-template/down
+fi
