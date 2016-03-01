@@ -25,10 +25,12 @@ push:
 
 run:
 	docker run -d \
-		-p 443:443 \
-		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-h consului \
+		--link consul:consul \
+		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
 		-e CONSULUI_USERNAME=consul \
 		-e CONSULUI_PASSWORD=consul \
+		-p 443:443 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

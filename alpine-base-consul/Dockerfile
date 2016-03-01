@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION="0.6.3" \
-    CONSULTEMPLATE_VERSION="0.12.2" \
+    CONSULTEMPLATE_VERSION="0.13.0" \
     GOMAXPROCS=2
 
 RUN apk add --update bash gcc git go make musl-dev zip && \

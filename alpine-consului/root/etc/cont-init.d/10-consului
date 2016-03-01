@@ -3,5 +3,7 @@
 echo "==> Initialize Consul UI"
 
 if [ ! -z ${CONSULUI_USERNAME} ] && [ ! -z ${CONSULUI_PASSWORD} ]; then
-    printf "%s:%s\n" ${CONSULUI_USERNAME} "$(openssl passwd -crypt ${CONSULUI_PASSWORD})" > "/etc/nginx/conf.d/consului.htpasswd"
+    printf "%s:%s\n" ${CONSULUI_USERNAME} "$(openssl passwd -crypt ${CONSULUI_PASSWORD})" > "/etc/nginx/consului.htpasswd"
+    chown root:nginx "/etc/nginx/consului.htpasswd"
+    chmod 440 "/etc/nginx/consului.htpasswd"
 fi
