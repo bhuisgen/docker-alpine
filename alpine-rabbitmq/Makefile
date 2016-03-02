@@ -25,8 +25,10 @@ push:
 
 run:
 	docker run -d \
-		-p 5672:5672 -p 15672:15672 -p 61613:61613 -p 1883:1883 \
-		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-h rabbitmq \
+		--link consul:consul \
+		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
+		-p 15672:15672 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

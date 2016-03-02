@@ -35,6 +35,7 @@ RUN apk add --update curl tar xz \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz -o rabbitmq.tar.xz && \
     tar xf rabbitmq.tar.xz --strip-components=1 && \
     rm rabbitmq.tar.xz && \
+    /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_event_exchange && \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_management && \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_mqtt && \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_stomp && \
