@@ -28,6 +28,8 @@ run:
 		-h rabbitmq \
 		--link consul:consul \
 		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
+		-e RABBITMQ_USERNAME=alpine \
+		-e RABBITMQ_PASSWORD=alpine \
 		-p 15672:15672 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
