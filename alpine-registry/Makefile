@@ -25,8 +25,10 @@ push:
 
 run:
 	docker run -d \
-		-p 5000:5000
+		--link consul:consul \
+		-e CONSUL_ENABLE=1 \
 		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-p 5000:5000 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

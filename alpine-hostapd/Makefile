@@ -25,10 +25,10 @@ push:
 
 run:
 	docker run -d \
-		--privileged --net host \
 		-e HOSTAPD_INTERFACE=wlx74da386015cd \
 		-e HOSTAPD_SSID=SSID \
 		-e HOSTAPD_WPAPASSPHRASE=1234567890 \
+		--privileged --net host \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:
