@@ -25,12 +25,14 @@ push:
 
 run:
 	docker run -d \
-		-p 3306:3306 \
+		--link consul:consul \
+		-e CONSUL_ENABLE=1 \
 		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
 		-e MARIADB_HOSTNAME=172.17.0.1 \
 		-e MARIADB_DATABASE=alpine \
 		-e MARIADB_USERNAME=alpine \
 		-e MARIADB_PASSWORD=alpine \
+		-p 3306:3306 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

@@ -25,13 +25,13 @@ push:
 
 run:
 	docker run -d \
-		-p 53:53 -p 53:53/udp -p 67:67/udp \
-		--privileged --net host \
 		-e DNSMASQ_INTERFACE=wlx74da386015cd \
 		-e DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,12h \
 		-e DNSMASQ_DHCPNETMASK=255.255.255.0 \
 		-e DNSMASQ_DHCPROUTER=192.168.100.1 \
 		-e DNSMASQ_DHCPNTPSERVER=192.168.100.1 \
+		--privileged --net host \
+		-p 53:53 -p 53:53/udp -p 67:67/udp \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

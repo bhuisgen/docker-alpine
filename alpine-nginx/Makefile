@@ -25,8 +25,12 @@ push:
 
 run:
 	docker run -d \
+		-h nginx \
+		--link consul:consul \
+		-e CONSUL_ENABLE=1 \
+		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
+		-e CONSULTEMPLATE_ENABLE=1 \
 		-p 80:80 \
-		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 
 start:

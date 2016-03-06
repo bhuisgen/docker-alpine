@@ -27,6 +27,7 @@ run:
 	docker run -d \
 		-h consului \
 		--link consul:consul \
+		-e CONSUL_ENABLE=1 \
 		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
 		-e CONSULUI_USERNAME=consul \
 		-e CONSULUI_PASSWORD=consul \
