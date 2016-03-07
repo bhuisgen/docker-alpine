@@ -2,7 +2,12 @@
 
 echo "==> Configuring dnsmasq"
 
+if [ ${DNSMASQ_NORESOLV} -eq 1 ]; then
+    grep -q '^no-resolv' /etc/dnsmasq.conf || echo 'no-resolv' >> /etc/dnsmasq.conf
+fi
+
 sed -i "s/^interface=.*$/interface=${DNSMASQ_INTERFACE}/" /etc/dnsmasq.conf
+
 sed -i "s/^dhcp-range=.*$/dhcp-range=${DNSMASQ_DHCPRANGE}/" /etc/dnsmasq.conf
 sed -i "s/^dhcp-option=option:netmask,.*$/dhcp-option=option:netmask,${DNSMASQ_DHCPNETMASK}/" /etc/dnsmasq.conf
 sed -i "s/^dhcp-option=option:router,.*$/dhcp-option=option:router,${DNSMASQ_DHCPROUTER}/" /etc/dnsmasq.conf
