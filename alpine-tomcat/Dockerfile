@@ -9,8 +9,9 @@ RUN apk add --update curl openjdk8-jre tar && \
     cd /usr/local/tomcat && \
     curl -sSL https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -o tomcat.tar.gz && \
     tar xf tomcat.tar.gz --strip-components=1 && \
-    rm bin/*.bat && \
     rm tomcat.tar.gz* && \
+    rm bin/*.bat && \
+    rm -rf /usr/local/tomcat/webapps/* && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
