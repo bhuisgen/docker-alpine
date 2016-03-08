@@ -10,7 +10,7 @@ RUN apk add --update curl openjdk8-jre tar && \
     curl -sSL http://download.eclipse.org/jetty/${JETTY_MAJOR}/dist/jetty-distribution-${JETTY_VERSION}.tar.gz -o jetty.tar.gz && \
     tar xf jetty.tar.gz --strip-components=1 && \
     rm jetty.tar.gz* && \
-    apk del tar && \
+    apk del curl tar && \
     rm -rf /var/cache/apk/*
 
 COPY root /

@@ -12,7 +12,7 @@ RUN apk add --update curl openjdk8-jre tar && \
     rm tomcat.tar.gz* && \
     rm bin/*.bat && \
     rm -rf /usr/local/tomcat/webapps/* && \
-    apk del tar && \
+    apk del curl tar && \
     rm -rf /var/cache/apk/*
 
 COPY root /
