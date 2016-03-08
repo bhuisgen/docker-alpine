@@ -2,27 +2,31 @@ FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION="0.6.3" \
-    CONSULTEMPLATE_VERSION="0.13.0" \
+    CONSULTEMPLATE_VERSION="0.14.0" \
+    CONSULUI_VERSION="0.6.3" \
     GOMAXPROCS=2
 
-RUN apk add --update bash gcc git go make musl-dev zip && \
-    export GOPATH=/src && \
-    export PATH=${PATH}:${GOPATH}/bin && \
-    go get github.com/hashicorp/consul && \
-    cd $GOPATH/src/github.com/hashicorp/consul && \
-    git checkout -q --detach "v${CONSUL_VERSION}" && \
-    make dev && \
-    mv bin/consul /bin && \
+RUN apk update && \
+    apk upgrade && \
+    apk add curl zip && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_linux_amd64.zip -o /bin/consul.zip && \
+    cd /bin && \
+    unzip consul.zip && \
+    mkdir -p /var/consul && \
     addgroup consul && \
     adduser -D -G consul -s /sbin/nologin -h /var/consul consul && \
-    go get github.com/hashicorp/consul-template && \
-    cd $GOPATH/src/github.com/hashicorp/consul-template && \
-    git checkout -q --detach "v${CONSULTEMPLATE_VERSION}" && \
-    make dev && \
-    mv bin/consul-template /bin && \
-    mkdir -p /etc/consul-template/templates/ && \
-    rm -fr "${GOPATH}" && \
-    apk del bash gcc git go make musl-dev zip && \
+    rm /bin/consul.zip && \
+    mkdir -p /var/consul/ui && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_web_ui.zip -o /var/consul/ui/consul_web_ui.zip && \
+    cd /var/consul/ui && \
+    unzip consul_web_ui.zip && \
+    chown -R consul:consul /var/consul/ui && \
+    rm consul_web_ui.zip && \
+    curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /bin/consultemplate.zip && \
+    cd /bin && \
+    unzip consultemplate.zip && \
+    rm /bin/consultemplate.zip && \
+    apk del curl zip && \
     rm -rf /var/cache/apk/*
 
 COPY root /

@@ -7,9 +7,11 @@ ENV LANG="en_US.UTF-8" \
     TERM="xterm" \
     S6OVERLAY_VERSION="v1.17.1.1"
 
-RUN apk add --update bind-tools curl && \
+RUN apk update && \
+    apk upgrade && \
+    apk add bind-tools curl tar && \
     curl -sSL https://github.com/just-containers/s6-overlay/releases/download/${S6OVERLAY_VERSION}/s6-overlay-amd64.tar.gz | tar xvfz - -C / && \
-    apk del curl && \
+    apk del curl tar && \
     rm -rf /var/cache/apk/* /src
 
 COPY root /
