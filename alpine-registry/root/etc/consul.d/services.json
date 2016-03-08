@@ -1,0 +1,15 @@
+{
+    "services": [
+        {
+           "name": "registry",
+           "port": 5000,
+           "checks": [
+               {
+                   "tcp": "127.0.0.1:5000",
+                   "interval": "15s",
+                   "timeout": "4s"
+               }
+           ]
+       }
+    ]
+}
