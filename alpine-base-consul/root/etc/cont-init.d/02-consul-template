@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z ${CONSULTEMPLATE_ENABLE} ] && [ ${CONSULTEMPLATE_ENABLE} -eq 1 ]; then
+    echo "==> Enabling consul-template service"
+
     rm /etc/services.d/consul-template/down
 fi
