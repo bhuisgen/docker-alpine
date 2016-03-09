@@ -26,7 +26,6 @@ push:
 run:
 	docker run -d \
 		-h consul \
-		-e CONSUL_ENABLE=1 \
 		-e CONSUL_OPTIONS="-server -bootstrap-expect=1" \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 

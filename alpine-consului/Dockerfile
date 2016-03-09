@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base-consul:latest
+FROM bhuisgen/alpine-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN apk add --update nginx openssl && \

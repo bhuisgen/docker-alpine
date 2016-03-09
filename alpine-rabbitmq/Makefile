@@ -26,9 +26,6 @@ push:
 run:
 	docker run -d \
 		-h rabbitmq \
-		--link consul:consul \
-		-e CONSUL_ENABLE=1 \
-		-e CONSUL_OPTIONS="-retry-join consul -retry-interval 30s" \
 		-e RABBITMQ_USERNAME=alpine \
 		-e RABBITMQ_PASSWORD=alpine \
 		-p 15672:15672 \

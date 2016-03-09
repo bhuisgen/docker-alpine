@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base-consul:latest
+FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV JETTY_MAJOR="stable-9" \
