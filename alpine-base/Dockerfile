@@ -5,7 +5,7 @@ ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
     TERM="xterm" \
-    S6OVERLAY_VERSION="v1.17.1.1"
+    S6OVERLAY_VERSION="v1.17.2.0"
 
 RUN apk update && \
     apk upgrade && \
