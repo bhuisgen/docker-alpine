@@ -1,0 +1,30 @@
+{{- $noresolv := env "DNSMASQ_NORESOLV" -}}
+{{- $interface := env "DNSMASQ_INTERFACE" -}}
+{{- $nohosts := env "DNSMASQ_NOHOSTS" -}}
+{{- $addhosts := env "DNSMASQ_ADDHOSTS" -}}
+{{- $domain := env "DNSMASQ_DOMAIN" -}}
+{{- $nonegcache := env "DNSMASQ_NONEGCACHE" -}}
+{{- $cachesize := env "DNSMASQ_CACHESIZE" -}}
+{{- $dhcp_range:= env "DNSMASQ_DHCPRANGE" -}}
+{{- $dhcp_netmask := env "DNSMASQ_DHCPNETMASK" -}}
+{{- $dhcp_router := env "DNSMASQ_DHCPROUTER" -}}
+{{- $dhcp_ntpserver := env "DNSMASQ_DHCPNTPSERVER" -}}
+domain-needed
+bogus-priv
+filterwin2k
+{{if eq $noresolv "1"}}no-resolv{{end}}
+{{if $interface}}interface={{$interface}}{{end}}
+{{if eq $nohosts "1"}}no-hosts{{end}}
+{{if $addhosts}}addn-hosts={{$addhosts}}{{end}}
+expand-hosts
+{{if $domain}}domain={{$domain}}{{end}}
+{{if eq $nonegcache "1"}}no-negcache{{end}}
+{{if $cachesize}}cache-size=256{{end}}
+
+{{if and $dhcp_range $dhcp_netmask $dhcp_router}}
+dhcp-range={{$dhcp_range}}
+dhcp-option=option:netmask,{{$dhcp_netmask}}
+dhcp-option=option:router,{{$dhcp_router}}
+{{if $dhcp_ntpserver}}dhcp-option=option:ntp-server,{{$dhcp_ntpserver}}{{end}}
+dhcp-option=252,"\n"
+{{end}}
