@@ -1,10 +1,10 @@
-FROM bhuisgen/alpine-base:latest
+FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION="18.1-r5" \
     RABBITMQ_VERSION="3.6.1"
 
-RUN apk add --update curl tar xz \
+RUN apk add --update tar xz \
         erlang=${ERLANG_VERSION} \
         erlang-asn1=${ERLANG_VERSION} \
         erlang-crypto=${ERLANG_VERSION} \
@@ -39,10 +39,10 @@ RUN apk add --update curl tar xz \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_management && \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_mqtt && \
     /usr/local/rabbitmq/sbin/rabbitmq-plugins enable --offline rabbitmq_stomp && \
-    apk del --purge curl tar xz && \
+    apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
-ADD root /
+COPY root /
 
 ENTRYPOINT ["/init"]
 CMD []

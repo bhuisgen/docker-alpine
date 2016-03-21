@@ -25,11 +25,12 @@ push:
 
 run:
 	docker run -d \
+		--name ${DOCKER_CONTAINER} \
 		-h rabbitmq \
+		-p 15672:15672 \
 		-e RABBITMQ_USERNAME=alpine \
 		-e RABBITMQ_PASSWORD=alpine \
-		-p 15672:15672 \
-		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
+		${DOCKER_IMAGE}
 
 start:
 	docker start ${DOCKER_CONTAINER}

@@ -25,13 +25,14 @@ push:
 
 run:
 	docker run -d \
+		--name ${DOCKER_CONTAINER} \
 		-h mariadb \
+		-p 3306:3306 \
 		-e MARIADB_HOSTNAME=172.17.0.1 \
 		-e MARIADB_DATABASE=alpine \
 		-e MARIADB_USERNAME=alpine \
 		-e MARIADB_PASSWORD=alpine \
-		-p 3306:3306 \
-		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
+		${DOCKER_IMAGE}
 
 start:
 	docker start ${DOCKER_CONTAINER}

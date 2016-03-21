@@ -1,7 +1,7 @@
-FROM bhuisgen/alpine-base:latest
+FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-RUN apk add --update curl docker-registry && \
+RUN apk add --update docker-registry && \
     rm -rf /var/cache/apk/*
 
 COPY root /

@@ -25,9 +25,10 @@ push:
 
 run:
 	docker run -d \
+		--name ${DOCKER_CONTAINER} \
 		-h dynamodb \
 		-p 8000:8000 \
-		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
+		${DOCKER_IMAGE}
 
 start:
 	docker start ${DOCKER_CONTAINER}

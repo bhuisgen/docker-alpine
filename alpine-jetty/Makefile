@@ -25,9 +25,10 @@ push:
 
 run:
 	docker run -d \
+		--name ${DOCKER_CONTAINER} \
 		-h jetty \
 		-p 8080:8080 \
-		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
+		${DOCKER_IMAGE}
 
 start:
 	docker start ${DOCKER_CONTAINER}
