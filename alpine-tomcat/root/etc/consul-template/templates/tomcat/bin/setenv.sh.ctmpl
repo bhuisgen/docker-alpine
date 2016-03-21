@@ -1,0 +1,26 @@
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $debug := env "TOMCAT_DEBUG" -}}
+{{- $jdwp := env "TOMCAT_JDWP" -}}
+{{- $jmx := env "TOMCAT_JMX" -}}
+#!/bin/sh
+
+{{if eq $debug "1"}}
+CATALINA_OPTS="${CATALINA_OPTS} -Xdebug"
+{{end}}
+{{if eq $jdwp "1"}}
+CATALINA_OPTS="${CATALINA_OPTS} -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+{{end}}
+{{if and (eq $jmx "1") $ip}}
+CATALINA_OPTS="${CATALINA_OPTS} -Djava.rmi.server.hostname={{$ip}}"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote="
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.port=8090"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.rmi.port=8090"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file=/usr/local/tomcat/conf/jmxremote.password"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.access.file=/usr/local/tomcat/conf/jmxremote.access"
+{{end}}
+export CATALINA_OPTS
+
+CATALINA_TMPDIR=/usr/local/tomcat/temp
+export CATALINA_TMPDIR
