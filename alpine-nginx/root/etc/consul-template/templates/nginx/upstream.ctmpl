@@ -1,3 +1,5 @@
+{{- $name := env "NGINX_TEMPLATE_SERVICENAME" -}}
+{{- $tag := env "NGINX_TEMPLATE_SERVICETAG" -}}
 daemon off;
 user nginx;
 worker_processes 1;
@@ -13,7 +15,7 @@ http {
     tcp_nodelay on;
     keepalive_timeout 65;
     types_hash_max_size 2048;
-    # server_tokens off;
+    server_tokens off;
 
     # server_names_hash_bucket_size 64;
     # server_name_in_redirect off;
@@ -40,21 +42,34 @@ http {
     gzip_http_version 1.1;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
+    {{if and $name $tag}}
+    upstream app {
+        least_conn;
+
+    	{{range service (print $tag "." $name) -}}
+    	server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;
+    	{{- else -}}
+    	server 127.0.0.1:80 down; # error 502, no available services
+    	{{- end}}
+    }
+
     server {
-        listen 80;
-        server_name "";
+        listen 80 default_server;
 
-        root /var/www/default;
-        index index.html;
-
-        location /ping {
-            access_log off;
-
-            return 200;
-        }
-
-        location /favicon.ico {
-            log_not_found off;
+        location / {
+            proxy_pass http://app;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
         }
     }
+    {{else}}
+    server {
+        listen 80 default_server;
+
+        location / {
+            return 503; # error 503, missing service name/tag
+        }
+    }
+    {{end}}
 }

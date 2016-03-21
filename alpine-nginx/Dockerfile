@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base:latest
+FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN apk add --update nginx && \
@@ -6,9 +6,9 @@ RUN apk add --update nginx && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     rm -rf /var/cache/apk/*
 
-ADD root /
+COPY root /
 
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 80
+EXPOSE 80 443
