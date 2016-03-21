@@ -1,0 +1,44 @@
+{{- $name := env "HAPROXY_TEMPLATE_SERVICENAME" -}}
+{{- $tag := env "HAPROXY_TEMPLATE_SERVICETAG" -}}
+{{- $user := env "HAPROXY_TEMPLATE_STATSUSERNAME" -}}
+{{- $passwd := env "HAPROXY_TEMPLATE_STATSPASSWORD" -}}
+global
+    log 127.0.0.1 format rfc5424 local0 info
+    maxconn 1024
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5s
+    timeout client 30s
+    timeout server 30s
+{{if and $user $passwd }}
+    stats enable
+    stats hide-version
+    stats refresh 30s
+    stats show-node
+    stats auth {{print $user ":" $passwd}}
+    stats uri /haproxy?stats
+{{end}}
+
+frontend http-in
+    bind *:80
+    option forwardfor
+    option http-server-close
+    reqadd X-Forwarded-Proto:\ http
+    default_backend http-out
+
+{{if and $name $tag}}
+backend http-out
+    balance leastconn
+    {{range service (print $tag "." $name) -}}
+    server {{.Address}}-{{.Port}} {{ .Address }}:{{ .Port }} check
+    {{else -}}
+    errorfile 502 /etc/haproxy/errors/502.http # no available services
+    {{end -}}
+{{else}}
+backend http-out
+    errorfile 503 /etc/haproxy/errors/503.http # missing service name/tag
+{{end}}

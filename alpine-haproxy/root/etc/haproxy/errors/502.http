@@ -1,0 +1,13 @@
+HTTP/1.0 502 Not Found
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html>
+  <head>
+    <title>Error 502</title>
+  </head>
+  <body">
+    <h2>HTTP 502 - Not Found</h2>
+  </body>
+</html>

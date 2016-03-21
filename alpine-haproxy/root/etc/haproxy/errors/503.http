@@ -1,0 +1,13 @@
+HTTP/1.0 503 Service Unavailable
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html>
+  <head>
+    <title>Error 503</title>
+  </head>
+  <body">
+    <h2>HTTP 503 - Service Unavailable</h2>
+  </body>
+</html>
