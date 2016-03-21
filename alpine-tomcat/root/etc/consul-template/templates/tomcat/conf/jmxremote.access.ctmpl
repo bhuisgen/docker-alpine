@@ -1,0 +1,4 @@
+{{- $user := env "TOMCAT_JMXUSERNAME" -}}
+{{if $user}}
+{{$user}} readwrite
+{{end}}
