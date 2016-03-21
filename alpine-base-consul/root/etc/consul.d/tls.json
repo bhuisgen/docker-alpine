@@ -1,0 +1,6 @@
+{
+    "ca_file": "/etc/consul.d/ssl/ca.crt",
+    "cert_file": "/etc/consul.d/ssl/consul.crt",
+    "key_file": "/etc/consul.d/ssl/consul.key",
+    "verify_outgoing": true
+}
