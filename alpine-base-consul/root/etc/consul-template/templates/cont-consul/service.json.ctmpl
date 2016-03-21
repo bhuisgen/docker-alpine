@@ -1,9 +1,9 @@
-{{$host := env "CONTAINER_HOST" -}}
-{{$ip := env "CONTAINER_IP" -}}
-{{$name := env "CONSUL_SERVICENAME" -}}
-{{$tags := env "CONSUL_SERVICETAGS"|split "," -}}
-{{$port := env "CONSUL_SERVICEPORT" -}}
-{{if and $host $ip $name -}}
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $tags := env "CONSUL_SERVICETAGS"|split "," -}}
+{{- $port := env "CONSUL_SERVICEPORT" -}}
+{{- if and $host $ip $name -}}
 {
     "ID": "{{print $name "-" $host}}",
     "Name": "{{$name}}",
@@ -14,6 +14,4 @@
     "Port": {{$port}}
     {{- end}}
 }
-{{- else }}
-{}
-{{- end }}
+{{- end -}}

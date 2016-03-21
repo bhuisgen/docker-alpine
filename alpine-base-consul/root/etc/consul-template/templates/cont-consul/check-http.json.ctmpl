@@ -1,15 +1,13 @@
-{{$host := env "CONTAINER_HOST" -}}
-{{$ip := env "CONTAINER_IP" -}}
-{{$name := env "CONSUL_SERVICENAME" -}}
-{{$http := env "CONSUL_CHECKHTTP" -}}
-{{$interval := env "CONSUL_CHECKINTERVAL" -}}
-{{if and $host $ip $name $http -}}
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $http := env "CONSUL_CHECKHTTP" -}}
+{{- $interval := env "CONSUL_CHECKINTERVAL" -}}
+{{- if and $host $ip $name $http -}}
 {
     "ID": "{{print $name "-" $host "-http-" $http}}",
     "Name": "check HTTP {{$http}}",
     "HTTP": "{{$http}}",
     "Interval": {{if $interval}}{{$interval}}{{else}}"15s"{{end}}
 }
-{{- else }}
-{}
-{{- end }}
+{{- end -}}
