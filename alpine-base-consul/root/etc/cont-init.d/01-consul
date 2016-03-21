@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z ${CONSUL_ENABLE} ] && [ ${CONSUL_ENABLE} -eq 1 ]; then
-    echo "==> Enabling consul service"
-
-    rm /etc/services.d/consul/down
-fi

@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${CONSUL_AGENT} ]; then
+    echo "==> Registering container to consul"
+    /etc/cont-consul/register
+fi
