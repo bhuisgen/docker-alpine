@@ -25,9 +25,7 @@ push:
 
 run:
 	docker run -d \
-		--link consul:consul \
-		-e CONSUL_ENABLE=1 \
-		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-h jetty \
 		-p 8080:8080 \
 		--name ${DOCKER_CONTAINER} ${DOCKER_IMAGE}
 

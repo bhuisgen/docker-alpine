@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+
+CONTAINER_HOST=$(cat /etc/hostname)
+CONTAINER_IP=$(dig +short ${CONTAINER_HOST})
+
+export CONTAINER_HOST
+export CONTAINER_IP
+
+printf "%s" "${CONTAINER_HOST}" > /var/run/s6/container_environment/CONTAINER_HOST
+printf "%s" "${CONTAINER_IP}" > /var/run/s6/container_environment/CONTAINER_IP

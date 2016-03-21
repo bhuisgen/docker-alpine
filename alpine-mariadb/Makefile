@@ -25,9 +25,7 @@ push:
 
 run:
 	docker run -d \
-		--link consul:consul \
-		-e CONSUL_ENABLE=1 \
-		-e CONSUL_OPTIONS="-retry-join 172.17.0.1 -retry-interval 30s" \
+		-h mariadb \
 		-e MARIADB_HOSTNAME=172.17.0.1 \
 		-e MARIADB_DATABASE=alpine \
 		-e MARIADB_USERNAME=alpine \

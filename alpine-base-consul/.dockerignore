@@ -1,0 +1,3 @@
+root/etc/consul-template/conf-services.d/.gitkeep
+root/etc/cont-consul/services.d/.gitkeep
+root/etc/cont-consul/checks.d/.gitkeep

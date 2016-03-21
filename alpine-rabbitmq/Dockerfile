@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base-consul:latest
+FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION="18.1-r5" \

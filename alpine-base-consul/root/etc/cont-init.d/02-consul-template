@@ -1,7 +1,21 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${CONSULTEMPLATE_ENABLE} ] && [ ${CONSULTEMPLATE_ENABLE} -eq 1 ]; then
-    echo "==> Enabling consul-template service"
+if [ -z "$CONSULTEMPLATE_CONTAINER" ]; then
+    export CONSULTEMPLATE_CONTAINER=1
+    printf "%s" "${CONSULTEMPLATE_CONTAINER}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONTAINER
+fi
 
-    rm /etc/services.d/consul-template/down
+if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
+    export CONSULTEMPLATE_SERVICES=1
+    printf "%s" "${CONSULTEMPLATE_SERVICES}" > /var/run/s6/container_environment/CONSULTEMPLATE_SERVICES
+fi
+
+if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
+    echo "==> Processing container configuration"
+    consul-template -consul ${CONSUL_AGENT} -config /etc/consul-template/conf-cont.d -once ${CONSULTEMPLATE_OPTIONS}
+fi
+
+if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
+    echo "==> Enabling services configuration"
+    rm -f /etc/services.d/consul-template/down
 fi

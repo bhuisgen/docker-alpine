@@ -1,5 +1,26 @@
-FROM bhuisgen/alpine-base-consul:latest
+FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+
+ENV CONSUL_VERSION="0.6.4" \
+    CONSULUI_VERSION="0.6.4" \
+    GOMAXPROCS=2
+
+RUN apk add --update curl zip && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_linux_amd64.zip -o /bin/consul.zip && \
+    cd /bin && \
+    unzip consul.zip && \
+    mkdir -p /var/consul && \
+    addgroup consul && \
+    adduser -D -G consul -s /sbin/nologin -h /var/consul consul && \
+    rm /bin/consul.zip && \
+    mkdir -p /var/consul/ui && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_web_ui.zip -o /var/consul/ui/consul_web_ui.zip && \
+    cd /var/consul/ui && \
+    unzip consul_web_ui.zip && \
+    chown -R consul:consul /var/consul/ui && \
+    rm consul_web_ui.zip && \
+    apk del zip && \
+    rm -rf /var/cache/apk/*
 
 COPY root /
 
