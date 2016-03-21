@@ -2,7 +2,7 @@
 
 if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
-        [ -f $file ] || continue
+        [ -s $file ] || continue
 
         curl -sSL -X PUT -d "@$file" http://${CONSUL_AGENT}:8500/v1/agent/service/register
     done
@@ -10,7 +10,7 @@ fi
 
 if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
-        [ -f $file ] || continue
+        [ -s $file ] || continue
 
         curl -sSL -X PUT -d "@$file" http://${CONSUL_AGENT}:8500/v1/agent/check/register
     done

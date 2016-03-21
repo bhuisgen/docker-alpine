@@ -1,13 +1,11 @@
-{{$host := env "CONTAINER_HOST" -}}
-{{$ip := env "CONTAINER_IP" -}}
-{{$name := env "CONSUL_SERVICENAME" -}}
-{{$ttl := env "CONSUL_CHECKTTL" -}}
-{{if and $host $ip $name $ttl -}}
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $ttl := env "CONSUL_CHECKTTL" -}}
+{{- if and $host $ip $name $ttl -}}
 {
     "ID": "{{print $name "-" $host "-ttl"}}",
     "Name": "check TTL",
     "TTL": "{{$ttl}}"
 }
-{{- else }}
-{}
-{{- end }}
+{{- end -}}
