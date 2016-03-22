@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/bin/mysqld --user=mysql --console
+exec /usr/bin/mysqld --user=mysql --console ${MARIADB_OPTIONS}
