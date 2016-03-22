@@ -17,6 +17,10 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
         /usr/local/rabbitmq/sbin/rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} ".*" ".*" ".*"
     fi
 
+    if [ ! -z ${RABBITMQ_CONFIGSCRIPT} ]; then
+        /bin/sh ${RABBITMQ_CONFIGSCRIPT}
+    fi
+
     /usr/local/rabbitmq/sbin/rabbitmqctl stop_app
     sleep 1
     /usr/local/rabbitmq/sbin/rabbitmqctl stop

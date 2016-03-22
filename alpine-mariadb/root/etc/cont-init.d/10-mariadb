@@ -21,6 +21,10 @@ if [ -z ${MARIADB_CONFIG} ]; then
         mysql -u root -h localhost -e "CREATE DATABASE \`${MARIADB_DATABASE}\`"
         mysql -u root -h localhost -e "GRANT ALL PRIVILEGES ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTNAME}' IDENTIFIED BY '${MARIADB_PASSWORD}'"
 
+        if [ ! -z ${MARIADB_CONFIGSCRIPT} ]; then
+            /bin/sh ${MARIADB_CONFIGSCRIPT}
+        fi
+
         mysqladmin -u root -h localhost shutdown
         sleep 4
     fi
