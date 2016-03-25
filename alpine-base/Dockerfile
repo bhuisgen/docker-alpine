@@ -1,12 +1,12 @@
 FROM alpine:3.3
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV S6OVERLAY_VERSION="v1.17.2.0" \
+ENV S6OVERLAY_VERSION=v1.17.2.0 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1 \
-    LANG="en_US.UTF-8" \
-    LC_ALL="en_US.UTF-8" \
-    LANGUAGE="en_US.UTF-8" \
-    TERM="xterm"
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    TERM=xterm
 
 RUN apk update && \
     apk upgrade && \
