@@ -1,5 +1,6 @@
 {{- $noresolv := env "DNSMASQ_NORESOLV" -}}
 {{- $interface := env "DNSMASQ_INTERFACE" -}}
+{{- $listen_address := env "DNSMASQ_LISTENADDRESS" -}}
 {{- $nohosts := env "DNSMASQ_NOHOSTS" -}}
 {{- $addhosts := env "DNSMASQ_ADDHOSTS" -}}
 {{- $domain := env "DNSMASQ_DOMAIN" -}}
@@ -14,6 +15,7 @@ bogus-priv
 filterwin2k
 {{if eq $noresolv "1"}}no-resolv{{end}}
 {{if $interface}}interface={{$interface}}{{end}}
+{{if $listen_address}}listen-address={{$listen_address}}{{end}}
 {{if eq $nohosts "1"}}no-hosts{{end}}
 {{if $addhosts}}addn-hosts={{$addhosts}}{{end}}
 {{if $domain}}
