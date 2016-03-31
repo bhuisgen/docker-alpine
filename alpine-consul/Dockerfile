@@ -1,8 +1,8 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV CONSUL_VERSION="0.6.4" \
-    CONSULUI_VERSION="0.6.4" \
+ENV CONSUL_VERSION=0.6.4 \
+    CONSULUI_VERSION=0.6.4 \
     GOMAXPROCS=2
 
 RUN apk add --update curl zip && \

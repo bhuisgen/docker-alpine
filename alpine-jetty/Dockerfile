@@ -1,8 +1,8 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV JETTY_MAJOR="stable-9" \
-    JETTY_VERSION="9.3.8.v20160314"
+ENV JETTY_MAJOR=stable-9 \
+    JETTY_VERSION=9.3.8.v20160314
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir -p /usr/local/jetty && \
