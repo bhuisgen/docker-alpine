@@ -6,6 +6,7 @@ RUN apk add --update openjdk8-jre tar && \
     cd /usr/local/dynamodb && \
     curl -sSL http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz -o dynamodb.tar.gz && \
     tar xf dynamodb.tar.gz && \
+    rm /usr/local/dynamodb/DynamoDBLocal_lib/*sqlite4java* && \
     rm dynamodb.tar.gz && \
     apk del tar && \
     rm -rf /var/cache/apk/*
