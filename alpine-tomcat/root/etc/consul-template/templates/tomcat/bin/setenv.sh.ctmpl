@@ -20,6 +20,7 @@ CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=true
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file=/usr/local/tomcat/conf/jmxremote.password"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.access.file=/usr/local/tomcat/conf/jmxremote.access"
 {{end}}
+CATALINA_OPTS="${CATALINA_OPTS} -Djava.security.egd=file:/dev/./urandom"
 export CATALINA_OPTS
 
 CATALINA_TMPDIR=/usr/local/tomcat/temp
