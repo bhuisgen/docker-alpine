@@ -5,7 +5,7 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
     /usr/local/rabbitmq/sbin/rabbitmq-server -detached
     sleep 4
     /usr/local/rabbitmq/sbin/rabbitmqctl start_app
-    sleep 1
+    sleep 4
 
     if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
         /usr/local/rabbitmq/sbin/rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}
@@ -22,7 +22,7 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
     fi
 
     /usr/local/rabbitmq/sbin/rabbitmqctl stop_app
-    sleep 1
+    sleep 4
     /usr/local/rabbitmq/sbin/rabbitmqctl stop
     sleep 4
 
