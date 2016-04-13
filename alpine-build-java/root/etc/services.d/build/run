@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/build
+
+exec /bin/sh build.sh
