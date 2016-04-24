@@ -7,27 +7,28 @@ if [ -z ${MARIADB_CONFIG} ]; then
     chown -R mysql:root /var/run/mysqld
     mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql
 
+    /usr/bin/mysqld_safe > /dev/null 2>&1 &
+
+    RET=1
+    while [[ $RET -ne 0 ]]; do
+        sleep 4
+        mysql -uroot -e "status" > /dev/null 2>&1
+        RET=$?
+    done
+
     if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_HOSTNAME} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ]; then
         echo "==> Creating database and user"
-        /usr/bin/mysqld_safe > /dev/null 2>&1 &
-
-        RET=1
-        while [[ $RET -ne 0 ]]; do
-            sleep 4
-            mysql -uroot -e "status" > /dev/null 2>&1
-            RET=$?
-        done
 
         mysql -u root -h localhost -e "CREATE DATABASE \`${MARIADB_DATABASE}\`"
         mysql -u root -h localhost -e "GRANT ALL PRIVILEGES ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTNAME}' IDENTIFIED BY '${MARIADB_PASSWORD}'"
-
-        if [ ! -z ${MARIADB_CONFIGSCRIPT} ]; then
-            /bin/sh ${MARIADB_CONFIGSCRIPT}
-        fi
-
-        mysqladmin -u root -h localhost shutdown
-        sleep 4
     fi
+
+    if [ ! -z ${MARIADB_CONFIGSCRIPT} ]; then
+        /bin/sh ${MARIADB_CONFIGSCRIPT}
+    fi
+
+    mysqladmin -u root -h localhost shutdown
+    sleep 4
 
     export MARIADB_CONFIG=1
     printf "%s" "${MARIADB_CONFIG}" > /var/run/s6/container_environment/MARIADB_CONFIG
