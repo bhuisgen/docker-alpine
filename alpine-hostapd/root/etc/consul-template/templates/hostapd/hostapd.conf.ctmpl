@@ -1,5 +1,6 @@
 {{- $interface := env "HOSTAPD_INTERFACE" -}}
 {{- $ssid := env "HOSTAPD_SSID" -}}
+{{- $country_code := env "HOSTAPD_COUNTRYCODE" -}}
 {{- $wpa_passphrase := env "HOSTAPD_WPAPASSPHRASE" -}}
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
@@ -9,6 +10,10 @@ driver=nl80211
 ssid={{$ssid}}
 hw_mode=g
 channel=6
+ieee80211d=1
+country_code={{$country_code}}
+ieee80211n=1
+wmm_enabled=1
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
