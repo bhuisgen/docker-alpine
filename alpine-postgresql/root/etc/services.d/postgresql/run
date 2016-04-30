@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec su -c "postgres ${POSTGRESQL_OPTIONS}" postgres
