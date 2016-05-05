@@ -28,8 +28,8 @@ run:
 		--name ${DOCKER_CONTAINER} \
 		-h rabbitmq \
 		-p 15672:15672 \
-		-e RABBITMQ_USERNAME=alpine \
-		-e RABBITMQ_PASSWORD=alpine \
+		-e RABBITMQ_USERNAME=rabbitmq \
+		-e RABBITMQ_PASSWORD=rabbitmq \
 		${DOCKER_IMAGE}
 
 start:

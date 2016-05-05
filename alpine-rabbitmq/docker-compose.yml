@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    rabbitmq:
+        image: bhuisgen/alpine-rabbitmq
+        build: .
+        environment:
+            #- CONSUL_AGENT=consul                              # consul agent hostname/IP
+            #- CONSUL_SERVICENAME=rabbitmq                      # consul service name
+            #- CONSUL_SERVICETAGS=dev                           # consul service tag
+            #- CONSUL_SERVICEPORT=5672                          # consul service port
+            - RABBITMQ_USERNAME=rabbitmq                        # administrator user
+            - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
+            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script for first startup
+            #- RABBITMQ_CLUSTER=rabbit@abbitmq-master           # cluster to join
+            #- RABBITMQ_CLUSTERRAM=1                            # cluster RAM node
+            #- RABBITMQ_CLUSTERWAIT=15                          # delay slave startup if master starts at the same time
+
+    #
+    # CLUSTER
+    #
+
+    # rabbitmq1:
+    #     image: bhuisgen/alpine-rabbitmq
+    #     hostname: rabbitmq1
+    #     environment:
+    #         - RABBITMQ_USERNAME=rabbitmq
+    #         - RABBITMQ_PASSWORD=rabbitmq
+    #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2        # uncomment to rejoin a existing cluster if this node has crashed
+    #
+    # rabbitmq2:
+    #     image: bhuisgen/alpine-rabbitmq
+    #     hostname: rabbitmq2
+    #     environment:
+    #         - RABBITMQ_USERNAME=rabbitmq
+    #         - RABBITMQ_PASSWORD=rabbitmq
+    #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1         # join existing cluster
+    #         - RABBITMQ_CLUSTERWAIT=15                   # need to wait some time if master node starts at the same time

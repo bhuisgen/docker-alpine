@@ -2,28 +2,46 @@
 
 if [ -z ${RABBITMQ_CONFIG} ]; then
     echo "==> Configuring rabbitmq"
-    /usr/local/rabbitmq/sbin/rabbitmq-server -detached
-    sleep 4
-    /usr/local/rabbitmq/sbin/rabbitmqctl start_app
+
+    rabbitmq-server -detached
+    sleep 8
+
+    rabbitmqctl start_app
     sleep 4
 
     if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
-        /usr/local/rabbitmq/sbin/rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}
+        rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}
     fi
 
     if [ ! -z ${RABBITMQ_USERNAME} ] && [ ! -z ${RABBITMQ_PASSWORD} ]; then
-        /usr/local/rabbitmq/sbin/rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}
-        /usr/local/rabbitmq/sbin/rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator
-        /usr/local/rabbitmq/sbin/rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} ".*" ".*" ".*"
+        rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}
+        rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator
+        rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} ".*" ".*" ".*"
     fi
 
     if [ ! -z ${RABBITMQ_CONFIGSCRIPT} ]; then
         /bin/sh ${RABBITMQ_CONFIGSCRIPT}
     fi
 
-    /usr/local/rabbitmq/sbin/rabbitmqctl stop_app
+    rabbitmqctl stop_app
     sleep 4
-    /usr/local/rabbitmq/sbin/rabbitmqctl stop
+
+    if [ ! -z ${RABBITMQ_CLUSTER} ]; then
+        if [ ! -z ${RABBITMQ_CLUSTERWAIT} ]; then
+            sleep ${RABBITMQ_CLUSTERWAIT}
+        fi
+
+        if [ -z ${RABBITMQ_CLUSTERRAM} ]; then
+            rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}
+        else
+            rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}
+        fi
+
+        sleep 4
+        rabbitmqctl cluster_status
+    fi
+
+    rabbitmqctl stop
     sleep 4
 
     export RABBITMQ_CONFIG=1
