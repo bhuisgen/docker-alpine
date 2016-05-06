@@ -6,6 +6,7 @@
 {{- if and $host $ip $name $http -}}
 {
     "ID": "{{print $name "-" $host "-http-" $http}}",
+    "ServiceID": "{{print $name "-" $host}}",
     "Name": "check HTTP {{$http}}",
     "HTTP": "{{$http}}",
     "Interval": {{if $interval}}{{$interval}}{{else}}"15s"{{end}}

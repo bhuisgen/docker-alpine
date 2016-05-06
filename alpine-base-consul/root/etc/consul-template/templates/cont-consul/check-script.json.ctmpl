@@ -8,6 +8,7 @@
 {{- if and $host $ip $name $script -}}
 {
     "ID": "{{print $name "-" $host "-script-" $script}}",
+    "ServiceID": "{{print $name "-" $host}}",
     "Name": "check script {{$script}}",
     "Script": "{{$script}}",
     {{if and $docker_container_id $shell -}}

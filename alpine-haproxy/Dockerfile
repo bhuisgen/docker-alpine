@@ -9,4 +9,4 @@ COPY root /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 80
+EXPOSE 80 443 1936
