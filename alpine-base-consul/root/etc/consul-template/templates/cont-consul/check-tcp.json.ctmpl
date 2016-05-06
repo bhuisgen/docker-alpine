@@ -7,6 +7,7 @@
 {{- if and $host $ip $name $checkPort -}}
 {
     "ID": "{{print $name "-" $host "-tcp-" $checkPort}}",
+    "ServiceID": "{{print $name "-" $host}}",
     "Name": "check TCP {{$checkPort}}",
     "TCP": "{{$ip}}:{{$checkPort}}",
     "Interval": {{if $interval}}{{$interval}}{{else}}"15s"{{end}}
@@ -15,6 +16,7 @@
 {{- if and $host $ip $name $port -}}
 {
     "ID": "{{print $name "-" $host "-tcp-" $port}}",
+    "ServiceID": "{{print $name "-" $host}}",
     "Name": "check TCP {{$port}}",
     "TCP": "{{$ip}}:{{$port}}",
     "Interval": {{if $interval}}{{$interval}}{{else}}"15s"{{end}}
