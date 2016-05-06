@@ -5,6 +5,7 @@
 {{- if and $host $ip $name $ttl -}}
 {
     "ID": "{{print $name "-" $host "-ttl"}}",
+    "ServiceID": "{{print $name "-" $host}}",
     "Name": "check TTL",
     "TTL": "{{$ttl}}"
 }
