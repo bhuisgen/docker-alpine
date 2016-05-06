@@ -19,7 +19,6 @@ services:
     #
     # CLUSTER
     #
-
     # rabbitmq1:
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq1

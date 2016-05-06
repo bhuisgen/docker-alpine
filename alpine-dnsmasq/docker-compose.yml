@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+    dnsmasq:
+        image: bhuisgen/alpine-dnsmasq
+        privileged: true
+        network_mode: host
+        environment:
+            #- CONSUL_AGENT=consul                  # consul agent hostname/IP
+            #- CONSUL_SERVICENAME=dnsmasq           # consul service name
+            #- CONSUL_SERVICETAGS=dev               # consul service tag
+            #- CONSUL_SERVICEPORT=53                # consul service port
+            #- DNSMASQ_NORESOLV=1                   # read /etc/resolv.conf
+            - DNSMASQ_INTERFACE=wlan0               # listen interface
+            - DNSMASQ_LISTENADDRESS=192.168.100.1   # listen IP
+            #- DNSMASQ_NOHOSTS                      # disable hosts file
+            #- DNSMASQ_ADDHOSTS=/etc/hosts.dnsmasq  # custom hosts file
+            - DNSMASQ_DOMAIN=my.domain              # domain
+            #- DNSMASQ_LOG=1                        # enable log
+            # DHCP server options
+            #- DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,12h
+            #- DNSMASQ_DHCPNETMASK=255.255.255.0
+            #- DNSMASQ_DHCPROUTER=192.168.100.1
+            #- DNSMASQ_DHCPDNSSERVER=192.168.100.1
+            #- DNSMASQ_DHCPNTPSERVER=192.168.100.1
