@@ -3,7 +3,8 @@ version: '2'
 services:
     hostapd:
         image: bhuisgen/alpine-hostapd
-        privileged: true
+        cap_add:
+            - NET_ADMIN
         network_mode: host
         #environment:
             #- CONSUL_AGENT=consul                  # consul agent hostname/IP
