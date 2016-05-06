@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+    nginx:
+        image: bhuisgen/alpine-nginx
+        ports:
+            - "80:80"
+        environment:
+            #- CONSUL_AGENT=consul                  # consul agent hostname/IP
+            #- CONSUL_SERVICENAME=nginx             # consul service name
+            #- CONSUL_SERVICETAGS=dev               # consul service tag
+            #- CONSUL_SERVICEPORT=80                # consul service port
+            #- NGINX_TEMPLATE=upstream              # configuration template
+            #- NGINX_TEMPLATE_SERVICENAME=myservice # consul service name
+            #- NGINX_TEMPLATE_SERVICETAG=dev        # consul service tag

@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+    registry:
+        image: bhuisgen/alpine-registry
+        ports:
+            - "5000:5000"
+        #environment:
+            #- CONSUL_AGENT=consul          # consul agent hostname/IP
+            #- CONSUL_SERVICENAME=registry  # consul service name
+            #- CONSUL_SERVICETAGS=dev       # consul service tag
+            #- CONSUL_SERVICEPORT=5000      # consul service port

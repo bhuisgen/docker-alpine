@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+    postgresql:
+        image: bhuisgen/alpine-postgresql
+        ports:
+            - "5432:5432"
+        environment:
+            #- CONSUL_AGENT=consul              # consul agent hostname/IP
+            #- CONSUL_SERVICENAME=postgresql    # consul service name
+            #- CONSUL_SERVICETAGS=dev           # consul service tag
+            #- CONSUL_SERVICEPORT=5432          # consul service port
+            - POSTGRESQL_DATABASE=mydb          # create database
+            - POSTGRESQL_USERNAME=mariadb       # grant user name
+            - POSTGRESQL_PASSWORD=mariadb       # grant user password
+            - POSTGRESQL_ADDRESS=172.16.0.0/12  # grant user address
