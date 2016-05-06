@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+    hostapd:
+        image: bhuisgen/alpine-hostapd
+        cap_add:
+            - NET_ADMIN
+        network_mode: host
+        #environment:
+            #- CONSUL_AGENT=consul                  # consul agent hostname/IP
+            #- HOSTAPD_INTERFACE=wlx74da386015cd    # AP interface
+            #- HOSTAPD_SSID=${USERNAME}             # AP network SSID
+            #- HOSTAPD_COUNTRYCODE=FR               # AP country code
+            #- HOSTAPD_WPAPASSPHRASE=1234567890     # AP WPA passphrase
