@@ -2,4 +2,4 @@
 
 cd /usr/local/build
 
-exec /bin/sh build.sh
+exec /bin/sh ${BUILD_SCRIPT}
