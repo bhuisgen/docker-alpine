@@ -1,12 +1,19 @@
 version: '2'
 
 services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
     redis:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-redis
         ports:
             - "6379:6379"
-        #environment:
-            #- CONSUL_AGENT=consul          # consul agent hostname/IP
-            #- CONSUL_SERVICENAME=redis     # consul service name
-            #- CONSUL_SERVICETAGS=dev       # consul service tag
-            #- CONSUL_SERVICEPORT=6379      # consul service port
+        environment:
+            - CONSUL_AGENT=consul          # consul agent hostname/IP
+            - CONSUL_SERVICENAME=redis     # consul service name
+            - CONSUL_SERVICETAGS=dev       # consul service tag
+            - CONSUL_SERVICEPORT=6379      # consul service port

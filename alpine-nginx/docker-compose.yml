@@ -1,15 +1,22 @@
 version: '2'
 
 services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
     nginx:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-nginx
         ports:
             - "80:80"
         environment:
-            #- CONSUL_AGENT=consul                  # consul agent hostname/IP
-            #- CONSUL_SERVICENAME=nginx             # consul service name
-            #- CONSUL_SERVICETAGS=dev               # consul service tag
-            #- CONSUL_SERVICEPORT=80                # consul service port
-            #- NGINX_TEMPLATE=upstream              # configuration template
-            #- NGINX_TEMPLATE_SERVICENAME=myservice # consul service name
-            #- NGINX_TEMPLATE_SERVICETAG=dev        # consul service tag
+            - CONSUL_AGENT=consul                  # consul agent hostname/IP
+            - CONSUL_SERVICENAME=nginx             # consul service name
+            - CONSUL_SERVICETAGS=dev               # consul service tag
+            - CONSUL_SERVICEPORT=80                # consul service port
+            - NGINX_TEMPLATE=upstream              # configuration template
+            - NGINX_TEMPLATE_SERVICENAME=myservice # consul service name
+            - NGINX_TEMPLATE_SERVICETAG=dev        # consul service tag
