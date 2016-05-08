@@ -3,6 +3,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION=18.1-r5 \
     RABBITMQ_VERSION=3.6.1 \
+    RABBITMQ_LOGS=- \
+    RABBITMQ_SASL_LOGS=/dev/null \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
 RUN apk add --update tar xz \

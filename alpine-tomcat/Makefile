@@ -2,7 +2,6 @@
 
 DOCKER_IMAGE=bhuisgen/alpine-tomcat
 DOCKER_REPOSITORY=127.0.0.1:5000
-DOCKER_CONTAINER=tomcat
 
 .PHONY: all build clean pull push
 

@@ -1,14 +1,21 @@
 version: '2'
 
 services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
     rabbitmq:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-rabbitmq
         build: .
         environment:
-            #- CONSUL_AGENT=consul                              # consul agent hostname/IP
-            #- CONSUL_SERVICENAME=rabbitmq                      # consul service name
-            #- CONSUL_SERVICETAGS=dev                           # consul service tag
-            #- CONSUL_SERVICEPORT=5672                          # consul service port
+            - CONSUL_AGENT=consul                               # consul agent hostname/IP
+            - CONSUL_SERVICENAME=rabbitmq                       # consul service name
+            - CONSUL_SERVICETAGS=dev                            # consul service tag
+            - CONSUL_SERVICEPORT=5672                           # consul service port
             - RABBITMQ_USERNAME=rabbitmq                        # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
             #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script for first startup
@@ -20,18 +27,30 @@ services:
     # CLUSTER
     #
     # rabbitmq1:
+    #     depends_on:
+    #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq1
     #     environment:
+    #         - CONSUL_AGENT=consul                              # consul agent hostname/IP
+    #         - CONSUL_SERVICENAME=rabbitmq                      # consul service name
+    #         - CONSUL_SERVICETAGS=dev                           # consul service tag
+    #         - CONSUL_SERVICEPORT=5672                          # consul service port
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
-    #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2        # uncomment to rejoin a existing cluster if this node has crashed
+    #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2               # uncomment to rejoin a existing cluster if this node has crashed
     #
     # rabbitmq2:
+    #     depends_on:
+    #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq2
     #     environment:
+    #         - CONSUL_AGENT=consul                              # consul agent hostname/IP
+    #         - CONSUL_SERVICENAME=rabbitmq                      # consul service name
+    #         - CONSUL_SERVICETAGS=dev                           # consul service tag
+    #         - CONSUL_SERVICEPORT=5672                          # consul service port
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
-    #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1         # join existing cluster
-    #         - RABBITMQ_CLUSTERWAIT=15                   # need to wait some time if master node starts at the same time
+    #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1                # join existing cluster
+    #         - RABBITMQ_CLUSTERWAIT=15                          # need to wait some time if master node starts at the same time

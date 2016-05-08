@@ -1,15 +1,22 @@
 version: '2'
 
 services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
     postgresql:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-postgresql
         ports:
             - "5432:5432"
         environment:
-            #- CONSUL_AGENT=consul              # consul agent hostname/IP
-            #- CONSUL_SERVICENAME=postgresql    # consul service name
-            #- CONSUL_SERVICETAGS=dev           # consul service tag
-            #- CONSUL_SERVICEPORT=5432          # consul service port
+            - CONSUL_AGENT=consul               # consul agent hostname/IP
+            - CONSUL_SERVICENAME=postgresql     # consul service name
+            - CONSUL_SERVICETAGS=dev            # consul service tag
+            - CONSUL_SERVICEPORT=5432           # consul service port
             - POSTGRESQL_DATABASE=mydb          # create database
             - POSTGRESQL_USERNAME=mariadb       # grant user name
             - POSTGRESQL_PASSWORD=mariadb       # grant user password

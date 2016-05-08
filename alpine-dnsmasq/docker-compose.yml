@@ -1,20 +1,27 @@
 version: '2'
 
 services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
     dnsmasq:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-dnsmasq
         # cap_add:
         #     - NET_ADMIN
         network_mode: host
         environment:
-            #- CONSUL_AGENT=consul                  # consul agent hostname/IP
-            #- CONSUL_SERVICENAME=dnsmasq           # consul service name
-            #- CONSUL_SERVICETAGS=dev               # consul service tag
-            #- CONSUL_SERVICEPORT=53                # consul service port
-            #- DNSMASQ_NORESOLV=1                   # read /etc/resolv.conf
+            - CONSUL_AGENT=consul                   # consul agent hostname/IP
+            - CONSUL_SERVICENAME=dnsmasq            # consul service name
+            - CONSUL_SERVICETAGS=dev                # consul service tag
+            - CONSUL_SERVICEPORT=53                 # consul service port
+            - DNSMASQ_NORESOLV=1                    # read /etc/resolv.conf
             - DNSMASQ_INTERFACE=wlan0               # listen interface
             - DNSMASQ_LISTENADDRESS=192.168.100.1   # listen IP
-            #- DNSMASQ_NOHOSTS                      # disable hosts file
+            #- DNSMASQ_NOHOSTS=1                    # disable hosts file
             #- DNSMASQ_ADDHOSTS=/etc/hosts.dnsmasq  # custom hosts file
             - DNSMASQ_DOMAIN=my.domain              # domain
             #- DNSMASQ_LOG=1                        # enable log

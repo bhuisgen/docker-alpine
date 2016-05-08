@@ -3,6 +3,5 @@ version: '2'
 services:
     consul:
         image: bhuisgen/alpine-consul
-        hostname: consul
         environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # consul start options
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
