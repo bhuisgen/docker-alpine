@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    build:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-build-java
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - CONSUL_AGENT=consul           # consul agent hostname/IP
+            - CONSUL_SERVICENAME=build-java # consul service name
+            - CONSUL_SERVICETAGS=dev        # consul service tag
+            - CONSUL_SERVICEPORT=10050      # consul service port
+            - BUILD_SCRIPT=build.sh         # build script
