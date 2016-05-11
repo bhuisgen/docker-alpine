@@ -13,14 +13,14 @@ services:
         ports:
             - "8080:8080"
         environment:
-            - CONSUL_AGENT=consul          # consul agent hostname/IP
-            #- CONSUL_PORT=8500            # consul agent port
-            #- CONSUL_KEYPREFIX=/my/path   # consul key prefix path
-            - CONSUL_SERVICENAME=tomcat    # consul service name
-            - CONSUL_SERVICETAGS=dev       # consul service tag
-            - CONSUL_SERVICEPORT=8080      # consul service port
-            - TOMCAT_DEBUG=1               # enable JVM debug
-            - TOMCAT_JDWP=1                # enable JVM remote debug
-            - TOMCAT_JMX=1                 # enable JMX monitoring
-            - TOMCAT_JMXUSERNAME=tomcat    # JMX username
-            - TOMCAT_JMXPASSWORD=tomcat    # JMX password
+            - CONSUL_AGENT=consul           # consul agent hostname/IP
+            #- CONSUL_PORT=8500             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix # consul key prefix path
+            - CONSUL_SERVICENAME=tomcat     # consul service name
+            - CONSUL_SERVICETAGS=dev        # consul service tag
+            - CONSUL_SERVICEPORT=8080       # consul service port
+            - TOMCAT_DEBUG=1                # enable JVM debug
+            - TOMCAT_JDWP=1                 # enable JVM remote debug
+            - TOMCAT_JMX=1                  # enable JMX monitoring
+            - TOMCAT_JMXUSERNAME=tomcat     # JMX username
+            - TOMCAT_JMXPASSWORD=tomcat     # JMX password
