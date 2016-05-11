@@ -16,10 +16,10 @@ services:
         environment:
             - CONSUL_AGENT=consul                   # consul agent hostname/IP
             #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=/my/path            # consul key prefix path
             - CONSUL_SERVICENAME=dnsmasq            # consul service name
             - CONSUL_SERVICETAGS=dev                # consul service tag
             - CONSUL_SERVICEPORT=53                 # consul service port
-            #- CONSUL_KEYPREFIX=/my/path            # consul key prefix path
             - DNSMASQ_NORESOLV=1                    # read /etc/resolv.conf
             - DNSMASQ_INTERFACE=wlan0               # listen interface
             - DNSMASQ_LISTENADDRESS=192.168.100.1   # listen IP
