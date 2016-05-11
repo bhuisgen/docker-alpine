@@ -39,6 +39,10 @@ RUN apk add --update tar xz \
     rabbitmq-plugins enable --offline rabbitmq_stomp && \
     mkdir -p /usr/local/rabbitmq && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
+    mkdir -p /etc/rabbitmq /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/log/rabbitmq /var/run/rabbitmq && \
+    addgroup rabbitmq && \
+    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
+    chown -R rabbitmq:rabbitmq /etc/rabbitmq  /usr/local/rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
