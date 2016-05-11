@@ -15,13 +15,15 @@ services:
         #volumes:
             #- /host/data:/var/lib/postgresql                       # volume for data
         environment:
-            - POSTGRESQL_DATABASE=mydb          # create database
-            - POSTGRESQL_USERNAME=mariadb       # grant user name
-            - POSTGRESQL_PASSWORD=mariadb       # grant user password
-            - POSTGRESQL_ADDRESS=172.16.0.0/12  # grant user address
             - CONSUL_AGENT=consul                                   # consul agent hostname/IP
             #- CONSUL_PORT=8500                                     # consul agent port
             - CONSUL_SERVICENAME=postgresql                         # consul service name
             - CONSUL_SERVICETAGS=dev                                # consul service tag
             - CONSUL_SERVICEPORT=5432                               # consul service port
             - CONSUL_KEYPREFIX=/my/path                             # consul key prefix path
+            - POSTGRESQL_CONFIG=1                                   # enable configuration by environment variables
+            - POSTGRESQL_DATABASE=mydb                              # create database (optional)
+            - POSTGRESQL_USERNAME=mariadb                           # grant user name (optional)
+            - POSTGRESQL_PASSWORD=mariadb                           # grant user password (optional)
+            - POSTGRESQL_ADDRESS=172.16.0.0/12                      # grant user address (optional)
+            #- POSTGRESQL_CONFIGSCRIPT=/root/postgresql/config.sh   # custom configuration script
