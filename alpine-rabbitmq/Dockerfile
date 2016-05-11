@@ -33,15 +33,12 @@ RUN apk add --update tar xz \
         erlang-tools=${ERLANG_VERSION} \
         erlang-webtool=${ERLANG_VERSION} \
         erlang-xmerl=${ERLANG_VERSION} && \
-    mkdir /usr/local/rabbitmq && \
-    cd /usr/local/rabbitmq && \
-    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz -o rabbitmq.tar.xz && \
-    tar xf rabbitmq.tar.xz --strip-components=1 && \
-    rm rabbitmq.tar.xz && \
     rabbitmq-plugins enable --offline rabbitmq_event_exchange && \
     rabbitmq-plugins enable --offline rabbitmq_management && \
     rabbitmq-plugins enable --offline rabbitmq_mqtt && \
     rabbitmq-plugins enable --offline rabbitmq_stomp && \
+    mkdir -p /usr/local/rabbitmq && \
+    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
