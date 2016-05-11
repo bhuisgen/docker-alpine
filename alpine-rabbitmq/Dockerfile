@@ -3,6 +3,9 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION=18.1-r5 \
     RABBITMQ_VERSION=3.6.1 \
+    RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
+    RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
+    RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
     RABBITMQ_LOGS=- \
     RABBITMQ_SASL_LOGS=/dev/null \
     PATH=/usr/local/rabbitmq/sbin:$PATH
@@ -33,10 +36,6 @@ RUN apk add --update tar xz \
         erlang-tools=${ERLANG_VERSION} \
         erlang-webtool=${ERLANG_VERSION} \
         erlang-xmerl=${ERLANG_VERSION} && \
-    rabbitmq-plugins enable --offline rabbitmq_event_exchange && \
-    rabbitmq-plugins enable --offline rabbitmq_management && \
-    rabbitmq-plugins enable --offline rabbitmq_mqtt && \
-    rabbitmq-plugins enable --offline rabbitmq_stomp && \
     mkdir -p /usr/local/rabbitmq && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
     mkdir -p /etc/rabbitmq /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/log/rabbitmq /var/run/rabbitmq && \
@@ -51,5 +50,5 @@ COPY root /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 4369 5672 5673 15672 25672 61613 61614 1883 8883
+EXPOSE 4369 25672 5672 5671 15672 61613 61614 1883 8883
 VOLUME ["/var/lib/rabbitmq/mnesia"]
