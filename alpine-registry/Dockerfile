@@ -11,3 +11,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 5000
+VOLUME ["/var/lib/registry"]

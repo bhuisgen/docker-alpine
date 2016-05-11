@@ -3,6 +3,8 @@ version: '2'
 services:
     consul:
         image: bhuisgen/alpine-consul
+        #volumes:
+            #- /host/data:/var/consul                                           # volume for data
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
             #- CONSUL_AGENT=127.0.0.1                                           # consul agent hostname/IP

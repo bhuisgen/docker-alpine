@@ -12,6 +12,8 @@ services:
         image: bhuisgen/alpine-postgresql
         ports:
             - "5432:5432"
+        #volumes:
+            #- /host/data:/var/lib/postgresql                       # volume for data
         environment:
             - POSTGRESQL_DATABASE=mydb          # create database
             - POSTGRESQL_USERNAME=mariadb       # grant user name

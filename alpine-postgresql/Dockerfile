@@ -17,3 +17,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 5432
+VOLUME ["/var/lib/postgresql"]

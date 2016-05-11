@@ -12,6 +12,8 @@ services:
         image: bhuisgen/alpine-dynamodb
         ports:
             - "8000:8000"
+        #volumes:
+            #- /host/data:/var/lib/dynamodb # volume for data
         environment:
             - CONSUL_AGENT=consul           # consul agent hostname/IP
             #- CONSUL_PORT=8500             # consul agent port

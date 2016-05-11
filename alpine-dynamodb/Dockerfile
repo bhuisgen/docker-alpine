@@ -17,3 +17,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 8000
+VOLUME ["/var/lib/dynamodb"]

@@ -51,3 +51,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 4369 5672 5673 15672 25672 61613 61614 1883 8883
+VOLUME ["/var/lib/rabbitmq/mnesia"]

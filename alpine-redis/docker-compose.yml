@@ -12,6 +12,8 @@ services:
         image: bhuisgen/alpine-redis
         ports:
             - "6379:6379"
+        #volumes:
+            #- /host/data:/var/lib/redis   # volume for data
         environment:
             - CONSUL_AGENT=consul          # consul agent hostname/IP
             #- CONSUL_PORT=8500            # consul agent port

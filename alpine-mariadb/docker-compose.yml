@@ -12,6 +12,8 @@ services:
         image: bhuisgen/alpine-mariadb
         ports:
             - "3306:3306"
+        #volumes:
+            #- /host/data:/var/lib/mysql                    # volume for data
         environment:
             - MARIADB_ROOTPASSWORD=mariadb  # root password
             - MARIADB_DATABASE=mydb         # create database

@@ -12,6 +12,8 @@ services:
         image: bhuisgen/alpine-registry
         ports:
             - "5000:5000"
+        #volumes:
+            #- /host/data:/var/lib/registry # volume for data
         environment:
             - CONSUL_AGENT=consul           # consul agent hostname/IP
             #- CONSUL_PORT=8500             # consul agent port
