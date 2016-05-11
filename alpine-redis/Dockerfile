@@ -10,3 +10,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 6379
+VOLUME ["/var/lib/redis"]

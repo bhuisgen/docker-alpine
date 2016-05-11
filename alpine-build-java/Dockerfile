@@ -6,7 +6,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --update git maven@testing openjdk8 openssh-client && \
-    mkdir -p /usr/local/test && \
+    mkdir -p /usr/local/build && \
     rm -rf /var/cache/apk/*
 
 COPY root /

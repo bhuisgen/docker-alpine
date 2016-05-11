@@ -1,36 +1,37 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z ${MARIADB_CONFIG} ]; then
-    echo "==> Configuring mariadb"
+    if [ -z ${MARIADB_CONFIGSCRIPT} ]; then
+        echo "==> Configuring mariadb from environment"
 
-    mkdir -p /var/run/mysqld
-    chown -R mysql:root /var/run/mysqld
-    mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql
+        mkdir -p /var/run/mysqld
+        chown -R mysql:root /var/run/mysqld
+        mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --console
 
-    /usr/bin/mysqld_safe --skip-networking > /dev/null 2>&1 &
-
-    RET=1
-    while [[ $RET -ne 0 ]]; do
+        /usr/bin/mysqld_safe --skip-networking > /dev/null 2>&1 &
         sleep 4
-        mysql -u root -e "status" > /dev/null 2>&1
-        RET=$?
-    done
 
-    if [ ! -z ${MARIADB_ROOTPASSWORD} ]; then
-        echo "==> Setting root password"
-        mysql -u root -e "UPDATE user SET password=PASSWORD('${MARIADB_ROOTPASSWORD}') WHERE User='root'; FLUSH PRIVILEGES;" mysql
-    fi
+        if [ -z ${MARIADB_ROOTPASSWORD} ]; then
+            echo "MARIADB_ROOTPASSWORD is not set, aborting"
+            exit 1
+        fi
 
-    if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ] && [ ! -z ${MARIADB_HOSTMASK} ]; then
-        echo "==> Creating database and user"
-        mysql -u root -p"${MARIADB_ROOTPASSWORD}" \
-            -e "CREATE DATABASE \`${MARIADB_DATABASE}\`;" \
-            -e "CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}';" \
-            -e "GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}';" \
-            -e "FLUSH PRIVILEGES;" mysql
-    fi
+        mysql -u root -e " \
+        UPDATE user SET password=PASSWORD('${MARIADB_ROOTPASSWORD}') WHERE User='root'; \
+        FLUSH PRIVILEGES; \
+        " mysql
 
-    if [ ! -z ${MARIADB_CONFIGSCRIPT} ]; then
+        if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ] && [ ! -z ${MARIADB_HOSTMASK} ]; then
+            mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
+            CREATE DATABASE \`${MARIADB_DATABASE}\`; \
+            CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
+            GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}'; \
+            FLUSH PRIVILEGES; \
+            " mysql
+        fi
+    else
+        echo "==> Configuring mariadb from script"
+
         /bin/sh ${MARIADB_CONFIGSCRIPT} ${MARIADB_ROOTPASSWORD}
     fi
 
