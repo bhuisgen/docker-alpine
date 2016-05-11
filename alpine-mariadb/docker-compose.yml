@@ -15,14 +15,16 @@ services:
         #volumes:
             #- /host/data:/var/lib/mysql                    # volume for data
         environment:
-            - MARIADB_ROOTPASSWORD=mariadb  # root password
-            - MARIADB_DATABASE=mydb         # create database
-            - MARIADB_USERNAME=mariadb      # grant user name
-            - MARIADB_PASSWORD=mariadb      # grant user password
-            - MARIADB_HOSTMASK=172.%.%.%    # grant user hostmask
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             - CONSUL_SERVICENAME=mariadb                    # consul service name
             - CONSUL_SERVICETAGS=dev                        # consul service tag
             - CONSUL_SERVICEPORT=3306                       # consul service port
             #- CONSUL_KEYPREFIX=/my/path                    # consul key prefix path
+            - MARIADB_CONFIG=1                              # enable configuration by environment variables
+            - MARIADB_ROOTPASSWORD=mariadb                  # root password
+            - MARIADB_DATABASE=mydb                         # create database (optional)
+            - MARIADB_USERNAME=mariadb                      # grant user name (optional)
+            - MARIADB_PASSWORD=mariadb                      # grant user password (optional)
+            - MARIADB_HOSTMASK=172.%.%.%                    # grant user hostmask (optional)
+            #- MARIADB_CONFIGSCRIPT=/root/mariadb/config.sh # custom configuration script
