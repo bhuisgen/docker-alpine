@@ -13,7 +13,9 @@ services:
         ports:
             - "8000:8000"
         environment:
-            - CONSUL_AGENT=consul          # consul agent hostname/IP
-            - CONSUL_SERVICENAME=dynamodb  # consul service name
-            - CONSUL_SERVICETAGS=dev       # consul service tag
-            - CONSUL_SERVICEPORT=8000      # consul service port
+            - CONSUL_AGENT=consul           # consul agent hostname/IP
+            #- CONSUL_PORT=8500             # consul agent port
+            - CONSUL_SERVICENAME=dynamodb   # consul service name
+            - CONSUL_SERVICETAGS=dev        # consul service tag
+            - CONSUL_SERVICEPORT=8000       # consul service port
+            #- CONSUL_KEYPREFIX=/my/path    # consul key prefix path

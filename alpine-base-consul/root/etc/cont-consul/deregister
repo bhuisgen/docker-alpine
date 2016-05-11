@@ -5,7 +5,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
         [ -f $file ] || continue
 
         serviceid=`jq -r '.ID' $file`
-        curl -sSL http://${CONSUL_AGENT}:8500/v1/agent/service/deregister/$serviceid
+        curl -sSL http://${CONSUL_AGENT}:${CONSUL_PORT}/v1/agent/service/deregister/$serviceid
     done
 fi
 
@@ -14,6 +14,6 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
         [ -f $file ] || continue
 
         checkid=`jq -r '.ID' $file`
-        curl -sSL http://${CONSUL_AGENT}:8500/v1/agent/check/deregister/$checkid
+        curl -sSL http://${CONSUL_AGENT}:${CONSUL_PORT}/v1/agent/check/deregister/$checkid
     done
 fi

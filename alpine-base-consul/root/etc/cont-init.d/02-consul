@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${CONSUL_AGENT} ]; then
+    export CONSUL_AGENT=""
+    printf "%s" "${CONSUL_PORT}" > /var/run/s6/container_environment/CONSUL_AGENT
+fi
+
+if [ -z ${CONSUL_PORT} ]; then
+    export CONSUL_PORT=8500
+    printf "%s" "${CONSUL_PORT}" > /var/run/s6/container_environment/CONSUL_PORT
+fi
+
+if [ -z ${CONSUL_KEYPREFIX} ]; then
+    export CONSUL_KEYPREFIX=""
+    printf "%s" "${CONSUL_KEYPREFIX}" > /var/run/s6/container_environment/CONSUL_KEYPREFIX
+fi

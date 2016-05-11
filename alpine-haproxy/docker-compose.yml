@@ -14,9 +14,11 @@ services:
             - "80:80"
         environment:
             - CONSUL_AGENT=consul                      # consul agent hostname/IP
+            #- CONSUL_PORT=8500                        # consul agent port
             - CONSUL_SERVICENAME=haproxy               # consul service name
             - CONSUL_SERVICETAGS=dev                   # consul service tag
             - CONSUL_SERVICEPORT=80                    # consul service port
+            #- CONSUL_KEYPREFIX=/my/path               # consul key prefix path
             - HAPROXY_TEMPLATE=backend                 # configuration template
             - HAPROXY_TEMPLATE_SERVICENAME=myservice   # consul service name
             - HAPROXY_TEMPLATE_SERVICETAG=dev          # consul service tag

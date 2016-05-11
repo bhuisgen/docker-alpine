@@ -14,6 +14,8 @@ services:
             - "8080:8080"
         environment:
             - CONSUL_AGENT=consul          # consul agent hostname/IP
+            #- CONSUL_PORT=8500            # consul agent port
             - CONSUL_SERVICENAME=jetty     # consul service name
             - CONSUL_SERVICETAGS=dev       # consul service tag
             - CONSUL_SERVICEPORT=8080      # consul service port
+            #- CONSUL_KEYPREFIX=/my/path   # consul key prefix path

@@ -12,7 +12,7 @@ fi
 
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
     echo "==> Creating container configuration"
-    consul-template -consul ${CONSUL_AGENT}:8500 -config /etc/consul-template/conf-cont.d -once ${CONSULTEMPLATE_OPTIONS}
+    consul-template -consul ${CONSUL_AGENT}:${CONSUL_PORT} -config /etc/consul-template/conf-cont.d -once ${CONSULTEMPLATE_OPTIONS}
 fi
 
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
