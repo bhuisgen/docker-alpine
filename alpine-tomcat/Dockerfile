@@ -6,12 +6,8 @@ ENV TOMCAT_MAJOR=8 \
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir -p /usr/local/tomcat && \
-    cd /usr/local/tomcat && \
-    curl -sSL https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -o tomcat.tar.gz && \
-    tar xf tomcat.tar.gz --strip-components=1 && \
-    rm tomcat.tar.gz* && \
-    rm bin/*.bat && \
-    rm -rf /usr/local/tomcat/webapps/* && \
+    curl -sSL https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz | tar -xz -C /usr/local/tomcat --strip-components 1 && \
+    rm -fr /usr/local/tomcat/bin/*.bat /usr/local/tomcat/webapps/* && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 

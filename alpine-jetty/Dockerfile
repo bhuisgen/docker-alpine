@@ -6,10 +6,7 @@ ENV JETTY_MAJOR=stable-9 \
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir -p /usr/local/jetty && \
-    cd /usr/local/jetty && \
-    curl -sSL http://download.eclipse.org/jetty/${JETTY_MAJOR}/dist/jetty-distribution-${JETTY_VERSION}.tar.gz -o jetty.tar.gz && \
-    tar xf jetty.tar.gz --strip-components=1 && \
-    rm jetty.tar.gz* && \
+    curl -sSL http://download.eclipse.org/jetty/${JETTY_MAJOR}/dist/jetty-distribution-${JETTY_VERSION}.tar.gz | tar -xz -C /usr/local/jetty --strip-components 1 && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 

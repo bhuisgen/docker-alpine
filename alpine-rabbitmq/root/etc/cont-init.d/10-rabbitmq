@@ -1,48 +1,66 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z ${RABBITMQ_CONFIG} ]; then
-    echo "==> Configuring rabbitmq"
+    if [ -z ${RABBITMQ_CONFIGSCRIPT} ]; then
+        echo "==> Configuring rabbitmq from environment"
 
-    rabbitmq-server -detached
-    sleep 8
-
-    rabbitmqctl start_app
-    sleep 4
-
-    if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
-        rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}
-    fi
-
-    if [ ! -z ${RABBITMQ_USERNAME} ] && [ ! -z ${RABBITMQ_PASSWORD} ]; then
-        rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}
-        rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator
-        rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} ".*" ".*" ".*"
-    fi
-
-    if [ ! -z ${RABBITMQ_CONFIGSCRIPT} ]; then
-        /bin/sh ${RABBITMQ_CONFIGSCRIPT}
-    fi
-
-    rabbitmqctl stop_app
-    sleep 4
-
-    if [ ! -z ${RABBITMQ_CLUSTER} ]; then
-        if [ ! -z ${RABBITMQ_CLUSTERWAIT} ]; then
-            sleep ${RABBITMQ_CLUSTERWAIT}
+        if [ ! -z ${RABBITMQ_ERLANG_COOKIE} ]; then
+            echo ${RABBITMQ_ERLANG_COOKIE} > /var/lib/rabbitmq/.erlang.cookie
+            chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+            chmod 400 /var/lib/rabbitmq/.erlang.cookie
         fi
 
-        if [ -z ${RABBITMQ_CLUSTERRAM} ]; then
-            rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}
-        else
-            rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}
+        su -c " \
+            rabbitmq-server -detached; \
+            sleep 8; \
+            rabbitmqctl start_app; \
+            sleep 4; \
+            rabbitmq-plugins enable rabbitmq_event_exchange rabbitmq_management rabbitmq_mqtt rabbitmq_stomp; \
+        " rabbitmq
+
+        if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
+            su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
         fi
 
-        sleep 4
-        rabbitmqctl cluster_status
-    fi
+        if [ ! -z ${RABBITMQ_USERNAME} ] && [ ! -z ${RABBITMQ_PASSWORD} ]; then
+            su -c " \
+            rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
+            rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
+            rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
+            " rabbitmq
+        fi
 
-    rabbitmqctl stop
-    sleep 4
+        su -c " \
+        rabbitmqctl stop_app; \
+        sleep 4; \
+        " rabbitmq
+
+        if [ ! -z ${RABBITMQ_CLUSTER} ]; then
+            if [ ! -z ${RABBITMQ_CLUSTERWAIT} ]; then
+                sleep ${RABBITMQ_CLUSTERWAIT}
+            fi
+
+            if [ -z ${RABBITMQ_CLUSTERRAM} ]; then
+                su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
+            else
+                su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
+            fi
+
+            su -c " \
+            sleep 4; \
+            rabbitmqctl cluster_status; \
+            " rabbitmq
+        fi
+
+        su -c " \
+        rabbitmqctl stop; \
+        sleep 4; \
+        " rabbitmq
+    else
+        echo "==> Configuring rabbitmq from script"
+
+        su -c "/bin/sh ${RABBITMQ_CONFIGSCRIPT}" rabbitmq
+    fi
 
     export RABBITMQ_CONFIG=1
     printf "%s" "${RABBITMQ_CONFIG}" > /var/run/s6/container_environment/RABBITMQ_CONFIG

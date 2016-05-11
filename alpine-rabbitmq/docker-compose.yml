@@ -11,14 +11,19 @@ services:
             - consul
         image: bhuisgen/alpine-rabbitmq
         build: .
+        #volumes:
+            #- /host/data:/var/lib/rabbitmq                     # volume for data
         environment:
             - CONSUL_AGENT=consul                               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                 # consul agent port
+            #- CONSUL_KEYPREFIX=/my/path                        # consul key prefix path
             - CONSUL_SERVICENAME=rabbitmq                       # consul service name
             - CONSUL_SERVICETAGS=dev                            # consul service tag
             - CONSUL_SERVICEPORT=5672                           # consul service port
+            - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs       # erlang cookie
             - RABBITMQ_USERNAME=rabbitmq                        # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
-            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script for first startup
+            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script
             #- RABBITMQ_CLUSTER=rabbit@abbitmq-master           # cluster to join
             #- RABBITMQ_CLUSTERRAM=1                            # cluster RAM node
             #- RABBITMQ_CLUSTERWAIT=15                          # delay slave startup if master starts at the same time
@@ -31,11 +36,17 @@ services:
     #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq1
+    #     volumes:
+    #         - /host/data1:/var/lib/rabbitmq
     #     environment:
-    #         - CONSUL_AGENT=consul                              # consul agent hostname/IP
-    #         - CONSUL_SERVICENAME=rabbitmq                      # consul service name
-    #         - CONSUL_SERVICETAGS=dev                           # consul service tag
-    #         - CONSUL_SERVICEPORT=5672                          # consul service port
+    #         - CONSUL_AGENT=consul
+    #         #- CONSUL_PORT=8500
+    #         - CONSUL_SERVICENAME=rabbitmq
+    #         - CONSUL_SERVICETAGS=dev
+    #         - CONSUL_SERVICEPORT=5672
+    #         - CONSUL_KEYPREFIX=/my/path
+    #         - RABBITMQ_CONFIG=1
+    #         - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs      # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
     #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2               # uncomment to rejoin a existing cluster if this node has crashed
@@ -45,11 +56,17 @@ services:
     #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq2
+    #     volumes:
+    #         - /host/data2:/var/lib/rabbitmq
     #     environment:
-    #         - CONSUL_AGENT=consul                              # consul agent hostname/IP
-    #         - CONSUL_SERVICENAME=rabbitmq                      # consul service name
-    #         - CONSUL_SERVICETAGS=dev                           # consul service tag
-    #         - CONSUL_SERVICEPORT=5672                          # consul service port
+    #         - CONSUL_AGENT=consul
+    #         #- CONSUL_PORT=8500
+    #         - CONSUL_SERVICENAME=rabbitmq
+    #         - CONSUL_SERVICETAGS=dev
+    #         - CONSUL_SERVICEPORT=5672
+    #         - CONSUL_KEYPREFIX=/my/path
+    #         - RABBITMQ_CONFIG=1
+    #         - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs      # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
     #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1                # join existing cluster
