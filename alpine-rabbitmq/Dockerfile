@@ -38,10 +38,10 @@ RUN apk add --update tar xz \
         erlang-xmerl=${ERLANG_VERSION} && \
     mkdir -p /usr/local/rabbitmq && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
-    mkdir -p /etc/rabbitmq /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/log/rabbitmq /var/run/rabbitmq && \
+    mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/log/rabbitmq /var/run/rabbitmq && \
     addgroup rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
-    chown -R rabbitmq:rabbitmq /etc/rabbitmq  /usr/local/rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
+    chown -R rabbitmq:rabbitmq /usr/local/rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
@@ -51,4 +51,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 4369 25672 5672 5671 15672 61613 61614 1883 8883
-VOLUME ["/var/lib/rabbitmq/mnesia"]
+VOLUME ["/var/lib/rabbitmq"]
