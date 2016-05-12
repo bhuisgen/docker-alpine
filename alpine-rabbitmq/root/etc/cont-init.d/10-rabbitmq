@@ -15,8 +15,9 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             sleep 8; \
             rabbitmqctl start_app; \
             sleep 4; \
-            rabbitmq-plugins enable rabbitmq_event_exchange rabbitmq_management rabbitmq_mqtt rabbitmq_stomp; \
         " rabbitmq
+
+        rabbitmq-plugins enable --offline rabbitmq_event_exchange rabbitmq_management rabbitmq_mqtt rabbitmq_stomp
 
         if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
             su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
