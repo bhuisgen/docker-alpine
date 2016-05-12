@@ -41,7 +41,7 @@ RUN apk add --update tar xz \
     mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/log/rabbitmq /var/run/rabbitmq && \
     addgroup rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
-    chown -R rabbitmq:rabbitmq /usr/local/rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
+    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
