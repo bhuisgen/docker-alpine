@@ -10,6 +10,11 @@ ENV ERLANG_VERSION=18.1-r5 \
     RABBITMQ_SASL_LOGS=/dev/null \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
+RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/log/rabbitmq /var/run/rabbitmq && \
+    addgroup rabbitmq && \
+    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
+    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq
+
 RUN apk add --update tar xz \
         erlang=${ERLANG_VERSION} \
         erlang-asn1=${ERLANG_VERSION} \
@@ -38,10 +43,6 @@ RUN apk add --update tar xz \
         erlang-xmerl=${ERLANG_VERSION} && \
     mkdir -p /usr/local/rabbitmq && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
-    mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/log/rabbitmq /var/run/rabbitmq && \
-    addgroup rabbitmq && \
-    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
-    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 

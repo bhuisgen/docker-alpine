@@ -5,6 +5,10 @@ ENV CONSUL_VERSION=0.6.4 \
     CONSULUI_VERSION=0.6.4 \
     GOMAXPROCS=2
 
+RUN mkdir -p /var/lib/consul && \
+    addgroup consul && \
+    adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul
+
 RUN apk add --update curl jq zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_linux_amd64.zip -o /bin/consul.zip && \
     cd /bin && \
@@ -15,9 +19,6 @@ RUN apk add --update curl jq zip && \
     cd /var/lib/consului && \
     unzip consului.zip && \
     rm consului.zip && \
-    mkdir -p /var/lib/consul && \
-    addgroup consul && \
-    adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
