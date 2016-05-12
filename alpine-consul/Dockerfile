@@ -15,9 +15,9 @@ RUN apk add --update curl jq zip && \
     cd /var/lib/consului && \
     unzip consului.zip && \
     rm consului.zip && \
-    addgroup consul && \
-    adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/consul consul && \
     mkdir -p /var/lib/consul && \
+    addgroup consul && \
+    adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
