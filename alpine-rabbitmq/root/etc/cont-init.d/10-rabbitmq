@@ -4,8 +4,8 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
     if [ -z ${RABBITMQ_CONFIGSCRIPT} ]; then
         echo "==> Configuring rabbitmq from environment"
 
-        if [ ! -z ${RABBITMQ_ERLANG_COOKIE} ]; then
-            echo ${RABBITMQ_ERLANG_COOKIE} > /var/lib/rabbitmq/.erlang.cookie
+        if [ ! -z ${RABBITMQ_ERLANGCOOKIE} ]; then
+            echo ${RABBITMQ_ERLANGCOOKIE} > /var/lib/rabbitmq/.erlang.cookie
             chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
             chmod 400 /var/lib/rabbitmq/.erlang.cookie
         fi
