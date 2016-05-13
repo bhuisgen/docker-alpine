@@ -1,7 +1,14 @@
 #!/usr/bin/with-contenv sh
 
 CONTAINER_HOST=$(cat /etc/hostname)
-CONTAINER_IP=$(dig +short ${CONTAINER_HOST})
+if [ -z ${CONTAINER_HOST} ]; then
+    /bin/false
+fi
+
+CONTAINER_IP=$(getent hosts ${CONTAINER_HOST}|awk '{ print $1 }')
+if [ -z ${CONTAINER_IP} ]; then
+    /bin/false
+fi
 
 export CONTAINER_HOST
 export CONTAINER_IP
