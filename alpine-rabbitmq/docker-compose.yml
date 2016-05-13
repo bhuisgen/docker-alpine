@@ -20,7 +20,7 @@ services:
             - CONSUL_SERVICENAME=rabbitmq                       # consul service name
             - CONSUL_SERVICETAGS=dev                            # consul service tag
             - CONSUL_SERVICEPORT=5672                           # consul service port
-            - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs       # erlang cookie
+            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS        # erlang cookie
             - RABBITMQ_USERNAME=rabbitmq                        # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
             #- RABBITMQ_CLUSTER=rabbit@abbitmq-master           # cluster to join
@@ -44,8 +44,7 @@ services:
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_KEYPREFIX=path/prefix
-    #         - RABBITMQ_CONFIG=1
-    #         - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs      # cookie must be shared with other nodes
+    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
     #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2               # uncomment to rejoin a existing cluster if this node has crashed
@@ -64,8 +63,7 @@ services:
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_KEYPREFIX=path/prefix
-    #         - RABBITMQ_CONFIG=1
-    #         - RABBITMQ_ERLANG_COOKIE=Ne3oox8az4kiuheenohs      # cookie must be shared with other nodes
+    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
     #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1                # join existing cluster
