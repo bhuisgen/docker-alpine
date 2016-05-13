@@ -27,9 +27,11 @@ services:
             #- RABBITMQ_CLUSTERRAM=1                            # cluster RAM node
             #- RABBITMQ_CLUSTERWAIT=15                          # delay slave startup if master starts at the same time
             #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script
+
     #
     # CLUSTER
     #
+
     # rabbitmq1:
     #     depends_on:
     #         - consul
