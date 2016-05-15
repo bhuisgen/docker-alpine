@@ -2,12 +2,12 @@
 
 CONTAINER_HOST=$(cat /etc/hostname)
 if [ -z ${CONTAINER_HOST} ]; then
-    /bin/false
+    exit 1
 fi
 
 CONTAINER_IP=$(getent hosts ${CONTAINER_HOST}|awk '{ print $1 }')
 if [ -z ${CONTAINER_IP} ]; then
-    /bin/false
+    exit 2
 fi
 
 export CONTAINER_HOST
