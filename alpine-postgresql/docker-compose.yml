@@ -21,7 +21,6 @@ services:
             - CONSUL_SERVICENAME=postgresql                         # consul service name
             - CONSUL_SERVICETAGS=dev                                # consul service tag
             - CONSUL_SERVICEPORT=5432                               # consul service port
-            - POSTGRESQL_CONFIG=1                                   # enable configuration by environment variables
             - POSTGRESQL_DATABASE=mydb                              # create database (optional)
             - POSTGRESQL_USERNAME=mariadb                           # grant user name (optional)
             - POSTGRESQL_PASSWORD=mariadb                           # grant user password (optional)
