@@ -3,6 +3,11 @@ version: '2'
 services:
     consul:
         image: bhuisgen/alpine-consul
+        ports:
+            #- "8301:8301"
+            - "8500:8500"
+            #- "8500:8501"
+            #- "8600:8600"
         #volumes:
             #- /host/data:/var/consul                                           # volume for data
         environment:
