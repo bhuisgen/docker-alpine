@@ -1,19 +1,22 @@
 [ ca ]
-default_ca = localdomain
+default_ca = myca
 
-[ localdomain ]
+[ crl_ext ]
+authorityKeyIdentifier=keyid:always
+
+[ myca ]
 unique_subject = no
 new_certs_dir = .
-certificate = ca.crt
-database = index
-private_key = privkey.pem
+certificate = ca.pem
+database = certindex
+private_key = ca-priv-key.pem
 serial = serial
 default_days = 3650
 default_md = sha1
-policy = localdomain_policy
-x509_extensions = localdomain_extensions
+policy = myca_policy
+x509_extensions = myca_extensions
 
-[ localdomain_policy ]
+[ myca_policy ]
 commonName = supplied
 stateOrProvinceName = supplied
 countryName = supplied
@@ -21,10 +24,9 @@ emailAddress = optional
 organizationName = supplied
 organizationalUnitName = optional
 
-[ localdomain_extensions ]
+[ myca_extensions ]
 basicConstraints = CA:false
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always
 keyUsage = digitalSignature,keyEncipherment
 extendedKeyUsage = serverAuth,clientAuth
-
