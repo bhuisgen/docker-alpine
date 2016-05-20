@@ -1,7 +1,11 @@
 {
-    "ca_file": "/etc/consul.d/ssl/ca.crt",
-    "cert_file": "/etc/consul.d/ssl/consul.crt",
-    "key_file": "/etc/consul.d/ssl/consul.key",
+    "ca_file": "/etc/consul.d/ssl/ca.pem",
+    "cert_file": "/etc/consul.d/ssl/consul.pem",
+    "key_file": "/etc/consul.d/ssl/consul-priv-key.pem",
+    "verify_server_hostname": true,
     "verify_incoming": true,
-    "verify_outgoing": true
+    "verify_outgoing": true,
+    "ports": {
+        "https": 8501
+    }
 }
