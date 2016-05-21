@@ -42,7 +42,7 @@ RUN apk add --update tar xz \
         erlang-webtool=${ERLANG_VERSION} \
         erlang-xmerl=${ERLANG_VERSION} && \
     mkdir -p /usr/local/rabbitmq && \
-    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
+    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
