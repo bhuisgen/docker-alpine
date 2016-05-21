@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION=18.1-r5 \
-    RABBITMQ_VERSION=3.6.1 \
+    RABBITMQ_VERSION=3.6.2 \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \

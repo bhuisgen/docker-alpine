@@ -3,7 +3,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/lib/dynamodb && \
     addgroup dynamodb && \
-    adduser -S -D -g "" -G dynamodb -s /sbin/nologin -h /var/lib/dynamodb dynamodb
+    adduser -S -D -g "" -G dynamodb -s /sbin/nologin -h /var/lib/dynamodb dynamodb && \
+    chown -R dynamodb:dynamodb /var/lib/dynamodb
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir -p /usr/local/dynamodb && \

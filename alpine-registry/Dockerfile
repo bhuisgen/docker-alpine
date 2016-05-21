@@ -3,7 +3,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/lib/registry && \
     addgroup registry && \
-    adduser -S -D -g "" -G registry -s /bin/sh -h /var/lib/registry registry
+    adduser -S -D -g "" -G registry -s /bin/sh -h /var/lib/registry registry && \
+    chown -R registry:registry /var/lib/registry
 
 RUN apk add --update docker-registry && \
     rm -rf /var/cache/apk/*
