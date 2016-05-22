@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${ELASTICSEARCH_CONFIG} ]; then
+    if [ -z ${ELASTICSEARCH_CONFIG} ]; then
+        echo "==> Configuring elasticsearch from environment"
+
+        if [ ! -z ELASTICSEARCH_HEAPSIZE ]; then
+            ELASTICSEARCH_HEAPSIZE=256M
+            printf "%s" "${ELASTICSEARCH_HEAPSIZE}" > /var/run/s6/container_environment/ELASTICSEARCH_HEAPSIZE
+        fi
+    else
+        echo "==> Configuring elasticsearch from script"
+
+        /bin/sh ${ELASTICSEARCH_CONFIG}
+    fi
+
+    export ELASTICSEARCH_CONFIG=1
+    printf "%s" "${ELASTICSEARCH_CONFIG}" > /var/run/s6/container_environment/ELASTICSEARCH_CONFIG
+fi
