@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    zabbix-agent:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-zabbix-agent
+        privileged: true
+        network: host
+        volumes:
+            - /:/host
+            - /dev:/dev
+            - /run:/run
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - CONSUL_AGENT=consul              # consul agent hostname/IP
+            #- CONSUL_PORT=8500                # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix    # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-agent  # consul service name
+            - CONSUL_SERVICETAGS=dev           # consul service tag
+            - CONSUL_SERVICEPORT=10050         # consul service port
+            - ZABBIX_SYSIMAGE=/host            # real host mountpath
+            - ZABBIX_SERVER=172.16.0.1         # zabbix server IP/host
+            - ZABBIX_HOST=zabbix-agent         # zabbix agent host
+            - ZABBIX_HOSTMETADATA=docker       # zabbix agent host metadata
+            - ZABBIX_STARTAGENTS=1             # number of processes for passive checks
