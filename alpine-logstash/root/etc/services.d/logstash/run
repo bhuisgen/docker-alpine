@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/logstash
+
+exec s6-setuidgid logstash /usr/local/logstash/bin/logstash -f /usr/local/logstash/config/logstash.conf agent

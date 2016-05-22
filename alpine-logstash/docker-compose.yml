@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    logstash:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-logstash
+        ports:
+            - "10514:10514"
+            - "10514:10514/udp"
+            - "12201:12201/udp"
+        #volumes:
+            #- /host/data:/var/lib/logstash                     # volume for data
+        environment:
+            - CONSUL_AGENT=consul                                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix                         # consul key prefix path
+            - CONSUL_SERVICENAME=logstash                           # consul service name
+            - CONSUL_SERVICETAGS=dev                                # consul service tag
+            - CONSUL_SERVICEPORT=10514                                # consul service port
+            #- LOGSTASH_CONFIGSCRIPT=/root/elasticsearch/config.sh  # custom configuration script

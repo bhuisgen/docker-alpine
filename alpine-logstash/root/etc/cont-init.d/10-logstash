@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${LOGSTASH_CONFIG} ]; then
+    if [ -z ${LOGSTASH_CONFIGSCRIPT} ]; then
+        echo "==> Configuring logstash from environment"
+
+        echo "TODO"
+    else
+        echo "==> Configuring logstash from script"
+
+        /bin/sh ${LOGSTASH_CONFIGSCRIPT}
+    fi
+
+    export LOGSTASH_CONFIG=1
+    printf "%s" "${LOGSTASH_CONFIG}" > /var/run/s6/container_environment/LOGSTASH_CONFIG
+fi
