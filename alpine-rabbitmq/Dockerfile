@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ERLANG_VERSION=18.1-r5 \
-    RABBITMQ_VERSION=3.6.1 \
+    RABBITMQ_VERSION=3.6.2 \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
@@ -42,7 +42,7 @@ RUN apk add --update tar xz \
         erlang-webtool=${ERLANG_VERSION} \
         erlang-xmerl=${ERLANG_VERSION} && \
     mkdir -p /usr/local/rabbitmq && \
-    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJ -C /usr/local/rabbitmq --strip-components 1 && \
+    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 

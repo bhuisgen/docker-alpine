@@ -4,14 +4,23 @@ services:
     consul:
         image: bhuisgen/alpine-consul
         ports:
-            #- "8301:8301"
-            - "8500:8500"
-            #- "8500:8501"
-            #- "8600:8600"
+            - "8300:8300"   # server RPC
+            - "8301:8301"   # serf LAN
+            #- "8302:8302"  # serf WAN
+            #- "8500:8500"  # HTTP
+            - "8500:8501"   # HTTPS
+            #- "8600:8600"  # DNS
         #volumes:
             #- /host/data:/var/consul                                           # volume for data
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
-            #- CONSUL_AGENT=127.0.0.1                                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                                 # consul agent port
-            #- CONSUL_KEYPREFIX=/my/path                                        # consul key prefix path
+            - CONSUL_DATACENTER=local                                           # datacenter
+            - CONSUL_DOMAIN=test                                                # domain name
+            - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
+            - CONSUL_TLS=1                                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
+            - CONSUL_ACLDATACENTER=local                                        # ACL authoritative datacenter
+            - CONSUL_ACLMASTERTOKEN=a29fc95f-2501-4fd1-902c-686151082fe9        # ACL master token (server only)
+            - CONSUL_ACLDEFAULTPOLICY=deny                                      # ACL default policy (server only)
+            #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy (server only)
+            #- CONSUL_ACLTTL=30                                                 # ACL TTL (server only)
+            #- CONSUL_TOKEN=d17fade7-2391-45a4-aa00-c9ed5e707e0b                # ACL token (client only)

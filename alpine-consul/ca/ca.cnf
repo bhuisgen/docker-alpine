@@ -7,9 +7,9 @@ authorityKeyIdentifier=keyid:always
 [ myca ]
 unique_subject = no
 new_certs_dir = .
-certificate = ca.pem
+certificate = keys/ca.pem
 database = certindex
-private_key = ca-priv-key.pem
+private_key = keys/ca-priv-key.pem
 serial = serial
 default_days = 3650
 default_md = sha1

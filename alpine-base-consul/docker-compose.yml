@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+    foo:
+        build: .
+        ports:
+            - "1234:1234"
+        environment:
+            - CONSUL_AGENT=1.2.3.4                              # agent hostname
+            - CONSUL_PORT=8500                                  # agent port
+            - CONSUL_TLS=0                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
+            - CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985 # ACL token
+            - CONSUL_KEYPREFIX=/my/path                         # keystore prefix path
+            - CONSUL_SERVICENAME=foo                            # service name
+            - CONSUL_SERVICETAGS=local,foo                      # service tags
+            - CONSUL_SERVICEPORT=1234                           # service port

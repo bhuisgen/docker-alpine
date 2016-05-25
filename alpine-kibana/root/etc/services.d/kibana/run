@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/kibana
+exec s6-setuidgid kibana /usr/local/kibana/bin/kibana
