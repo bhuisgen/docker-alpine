@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${CONSUL_CONFIG} ]; then
+    if [ -z ${CONSUL_CONFIGSCRIPT} ]; then
+        echo "==> Configuring consul from environment"
+
+        consul-template -consul localhost:8500 -config /etc/consul-template/conf-env.d -once
+    else
+        echo "==> Configuring consul from script"
+
+        /bin/sh ${CONSUL_CONFIGSCRIPT}
+    fi
+
+    export CONSUL_CONFIG=1
+    printf "%s" "${CONSUL_CONFIG}" > /var/run/s6/container_environment/CONSUL_CONFIG
+fi
