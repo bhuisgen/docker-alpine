@@ -1,3 +1,18 @@
 #!/usr/bin/with-contenv sh
 
-exec /bin/consul-template -consul ${CONSUL_AGENT}:${CONSUL_PORT} -config /etc/consul-template/conf-services.d ${CONSULTEMPLATE_OPTIONS}
+options="-consul ${CONSUL_AGENT}:${CONSUL_PORT}"
+if [ ! -z ${CONSUL_TLS} ]; then
+    options="${options} -ssl"
+fi
+
+if [ ! -z ${CONSUL_TOKEN} ]; then
+    options="${options} -token ${CONSUL_TOKEN}"
+fi
+
+options="${options} -config /etc/consul-template/conf-services.d"
+
+if [ ! -z ${CONSULTEMPLATE_OPTIONS} ]; then
+    options="${options} ${CONSULTEMPLATE_OPTIONS}"
+fi
+
+exec /bin/consul-template ${options} ${CONSULTEMPLATE_OPTIONS}
