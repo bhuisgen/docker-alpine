@@ -2,5 +2,6 @@
 
 if [ ! -z ${HAPROXY_TEMPLATE} ]; then
     echo "==> Activating haproxy template '${HAPROXY_TEMPLATE}'"
+    
     cp "/etc/consul-template/templates/haproxy/${HAPROXY_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-haproxy.conf
 fi
