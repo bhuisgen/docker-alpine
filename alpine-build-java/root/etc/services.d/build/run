@@ -1,5 +1,4 @@
 #!/usr/bin/with-contenv sh
 
 cd /usr/local/build
-
 exec /bin/sh ${BUILD_SCRIPT}

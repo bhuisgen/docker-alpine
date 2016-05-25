@@ -10,6 +10,16 @@ if [ -z ${CONSUL_PORT} ]; then
     printf "%s" "${CONSUL_PORT}" > /var/run/s6/container_environment/CONSUL_PORT
 fi
 
+if [ -z ${CONSUL_TLS} ]; then
+    export CONSUL_TLS=""
+    printf "%s" "${CONSUL_TLS}" > /var/run/s6/container_environment/CONSUL_TLS
+fi
+
+if [ -z ${CONSUL_TOKEN} ]; then
+    export CONSUL_TOKEN=""
+    printf "%s" "${CONSUL_TOKEN}" > /var/run/s6/container_environment/CONSUL_TOKEN
+fi
+
 if [ -z ${CONSUL_KEYPREFIX} ]; then
     export CONSUL_KEYPREFIX=""
     printf "%s" "${CONSUL_KEYPREFIX}" > /var/run/s6/container_environment/CONSUL_KEYPREFIX
