@@ -18,7 +18,7 @@ services:
             - CONSUL_DOMAIN=test                                                # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
             - CONSUL_TLS=1                                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
-            - CONSUL_ACLDATACENTER=local                                        # ACL authoritative datacenter
+            - CONSUL_ACLDATACENTER=local                                        # ACL authoritative datacenter (server only)
             - CONSUL_ACLMASTERTOKEN=a29fc95f-2501-4fd1-902c-686151082fe9        # ACL master token (server only)
             - CONSUL_ACLDEFAULTPOLICY=deny                                      # ACL default policy (server only)
             #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy (server only)
