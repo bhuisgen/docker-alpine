@@ -4,7 +4,7 @@ exec s6-setuidgid elasticsearch /usr/bin/java -server \
     -XX:+DisableExplicitGC \
     -Djava.awt.headless=true \
     -Dfile.encoding=utf-8 \
-    -Xms256M -Xmx256M \
+    -Xms${ELASTICSEARCH_HEAPSIZE} -Xmx${ELASTICSEARCH_HEAPSIZE} \
     -Des.path.conf=/usr/local/elasticsearch/config/ \
     -Des.path.home=/var/lib/elasticsearch \
     -Des.default.path.data=/var/lib/elasticsearch/data \
