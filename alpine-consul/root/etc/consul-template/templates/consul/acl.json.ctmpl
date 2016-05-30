@@ -3,12 +3,12 @@
 {{- $acl_default_policy := env "CONSUL_ACLDEFAULTPOLICY" -}}
 {{- $acl_down_policy := env "CONSUL_ACLDOWNPOLICY" -}}
 {{- $acl_ttl := env "CONSUL_ACLTTL" -}}
-{{- $token := env "CONSUL_TOKEN" -}}
+{{- $acl_token := env "CONSUL_ACLTOKEN" -}}
 {
     {{if $acl_datacenter}}"acl_datacenter": "{{$acl_datacenter}}",{{end}}
     {{if $acl_master_token}}"acl_master_token": "{{$acl_master_token}}",{{end}}
     {{if $acl_default_policy}}"acl_default_policy": "{{$acl_default_policy}}",{{end}}
     {{if $acl_down_policy}}"acl_down_policy": "{{$acl_down_policy}}",{{end}}
     {{if $acl_ttl}}"acl_ttl": "{{$acl_ttl}}",{{end}}
-    "acl_token": {{if $token}}"{{$token}}"{{else}}"anonymous"{{end}}
+    "acl_token": {{if $acl_token}}"{{$acl_token}}"{{else}}"anonymous"{{end}}
 }
