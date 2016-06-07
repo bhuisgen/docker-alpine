@@ -4,7 +4,7 @@ options=""
 url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
 params=""
 
-if [ ! -z ${CONSUL_TLS} ]; then
+if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
     options="${options} --insecure --cacert /etc/consul.d/ssl/ca.pem --cert /etc/consul.d/ssl/client.pem --key /etc/consul.d/ssl/client-priv-key.pem"
     url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
 fi
