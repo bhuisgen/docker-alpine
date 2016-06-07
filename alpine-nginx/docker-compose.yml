@@ -22,5 +22,5 @@ services:
             - CONSUL_SERVICETAGS=dev               # consul service tag
             - CONSUL_SERVICEPORT=80                # consul service port
             - NGINX_TEMPLATE=upstream              # configuration template
-            - NGINX_TEMPLATE_SERVICENAME=myservice # consul service name
-            - NGINX_TEMPLATE_SERVICETAG=dev        # consul service tag
+            - NGINX_TEMPLATE_SERVICENAME=myservice # service name to proxify
+            - NGINX_TEMPLATE_SERVICETAG=dev        # service tag to proxify
