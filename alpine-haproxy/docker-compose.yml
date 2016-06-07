@@ -15,14 +15,17 @@ services:
         ports:
             - "80:80"
         environment:
-            - CONSUL_AGENT=consul                      # consul agent hostname/IP
-            #- CONSUL_PORT=8500                        # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix            # consul key prefix path
-            - CONSUL_SERVICENAME=haproxy               # consul service name
-            - CONSUL_SERVICETAGS=dev                   # consul service tag
-            - CONSUL_SERVICEPORT=80                    # consul service port
-            - HAPROXY_TEMPLATE=backend                 # configuration template
-            - HAPROXY_TEMPLATE_SERVICENAME=myservice   # consul service name
-            - HAPROXY_TEMPLATE_SERVICETAG=dev          # consul service tag
-            - HAPROXY_TEMPLATE_STATSUSERNAME=haproxy   # haproxy stats user
-            - HAPROXY_TEMPLATE_STATSPASSWORD=haproxy   # haproxy stats password
+            - CONSUL_AGENT=consul                               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix                     # consul key prefix path
+            - CONSUL_SERVICENAME=haproxy                        # consul service name
+            - CONSUL_SERVICETAGS=dev                            # consul service tag
+            - CONSUL_SERVICEPORT=80                             # consul service port
+            - HAPROXY_TEMPLATE=backend                          # configuration template
+            - HAPROXY_TEMPLATE_SERVICENAME=myservice            # service name to proxify
+            - HAPROXY_TEMPLATE_SERVICETAG=dev                   # service tag to proxify
+            #- HAPROXY_TEMPLATE_STATSPORT=1936                  # statistics port
+            #- HAPROXY_TEMPLATE_STATSURI=/haproxy?stats         # statistics URI
+            #- HAPROXY_TEMPLATE_STATSREALM=Haproxy\ Statistics  # statistics realm
+            - HAPROXY_TEMPLATE_STATSUSERNAME=haproxy            # statistics user
+            - HAPROXY_TEMPLATE_STATSPASSWORD=haproxy            # statistics password
