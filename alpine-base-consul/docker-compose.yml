@@ -11,6 +11,7 @@ services:
             - CONSUL_TLS=0                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
             - CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985 # ACL token
             - CONSUL_KEYPREFIX=/my/path                         # keystore prefix path
-            - CONSUL_SERVICENAME=foo                            # service name
-            - CONSUL_SERVICETAGS=local,foo                      # service tags
+            - CONSUL_SERVICENAME=foo                            # service name to register
+            #- CONSUL_SERVICETAGS=local,foo                     # service tags (optional)
+            #- CONSUL_SERVICEADDR=172.31.1.1                    # service address (optional, by default container address)
             - CONSUL_SERVICEPORT=1234                           # service port
