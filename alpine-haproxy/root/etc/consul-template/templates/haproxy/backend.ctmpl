@@ -18,7 +18,7 @@ defaults
     timeout client 30s
     timeout server 30s
 
-{{if and $stats_username $stats_password }}
+{{if and $stats_username $stats_password}}
 listen stats
     bind :{{if $stats_port}}{{$stats_port}}{{else}}1936{{end}}
     mode http
