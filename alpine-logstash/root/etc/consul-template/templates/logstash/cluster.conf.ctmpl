@@ -1,0 +1,50 @@
+{{- $name := env "LOGSTASH_TEMPLATE_SERVICENAME" -}}
+{{- $tag := env "LOGSTASH_TEMPLATE_SERVICETAG" -}}
+input {
+    tcp {
+        port => 10514
+        data_timeout => 30
+        type => syslog
+    }
+
+    udp {
+        port => 10514
+        type => syslog
+    }
+
+    gelf {
+        port => 12201
+        type => docker
+    }
+}
+
+filter {
+    if [type] == "syslog" {
+        grok {
+            match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+            add_field => [ "received_at", "%{@timestamp}" ]
+            add_field => [ "received_from", "%{host}" ]
+        }
+
+        date {
+            match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+        }
+    }
+}
+
+{{if and $name $tag}}
+output {
+    elasticsearch {
+        hosts => [
+            {{range $i, $e := service (print $tag "." $name)}}
+            {{if ne $i 0}}, {{end}}"{{.Address}}:{{.Port}}"
+            {{end}}
+        ]
+    }
+}
+{{else}}
+output {
+    elasticsearch {
+    }
+}
+{{end}}
