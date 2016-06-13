@@ -1,6 +1,9 @@
+{{- $name := env "LOGSTASH_TEMPLATE_SERVICENAME" -}}
+{{- $tag := env "LOGSTASH_TEMPLATE_SERVICETAG" -}}
 input {
     tcp {
         port => 10514
+        data_timeout => 30
         type => syslog
     }
 
@@ -29,7 +32,19 @@ filter {
     }
 }
 
+{{if and $name $tag}}
+output {
+    elasticsearch {
+        hosts => [
+            {{range $i, $e := service (print $tag "." $name)}}
+            {{if ne $i 0}}, {{end}}"{{.Address}}:{{.Port}}"
+            {{end}}
+        ]
+    }
+}
+{{else}}
 output {
     elasticsearch {
     }
 }
+{{end}}
