@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.4
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV S6OVERLAY_VERSION=v1.17.2.0 \
