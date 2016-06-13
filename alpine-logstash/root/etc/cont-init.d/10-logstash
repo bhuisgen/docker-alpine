@@ -1,16 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${LOGSTASH_CONFIG} ]; then
-    if [ -z ${LOGSTASH_CONFIGSCRIPT} ]; then
-        echo "==> Configuring logstash from environment"
+if [ ! -z ${LOGSTASH_TEMPLATE} ]; then
+    echo "==> Activating logstash template '${LOGSTASH_TEMPLATE}'"
 
-        echo "TODO"
-    else
-        echo "==> Configuring logstash from script"
-
-        /bin/sh ${LOGSTASH_CONFIGSCRIPT}
-    fi
-
-    export LOGSTASH_CONFIG=1
-    printf "%s" "${LOGSTASH_CONFIG}" > /var/run/s6/container_environment/LOGSTASH_CONFIG
+    cp "/etc/consul-template/templates/logstash/${LOGSTASH_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-logstash.conf
 fi
