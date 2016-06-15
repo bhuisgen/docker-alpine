@@ -13,10 +13,8 @@ services:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
-            - CONSUL_AGENT=consul               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                 # consul agent port
-            #- CONSUL_KEYPREFIX=/my/path        # consul key prefix path
-            - CONSUL_SERVICENAME=build-nodejs   # consul service name
-            - CONSUL_SERVICETAGS=dev            # consul service tag
-            - CONSUL_SERVICEPORT=10050          # consul service port
-            - BUILD_SCRIPT=build.sh             # build script
+            - CONSUL_AGENT=consul                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                         # consul agent port
+            #- CONSUL_KEYPREFIX=/my/path                # consul key prefix path
+            #- BUILD_SCRIPT=/usr/local/build/run.sh     # build script
+            #- BUILD_TIMEOUT=3600                       # build timeout
