@@ -13,8 +13,11 @@ services:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
-            - CONSUL_AGENT=consul                       # consul agent hostname/IP
-            #- CONSUL_PORT=8500                         # consul agent port
-            #- CONSUL_KEYPREFIX=/my/path                # consul key prefix path
-            #- BUILD_SCRIPT=/usr/local/build/run.sh     # build script
-            #- BUILD_TIMEOUT=3600                       # build timeout
+            - CONSUL_AGENT=consul                                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                         # consul agent port
+            #- CONSUL_KEYPREFIX=/my/path                                # consul key prefix path
+            #- BUILD_SCRIPT=/usr/local/build/run.sh                     # build script
+            #- BUILD_TIMEOUT=3600                                       # build timeout
+            - BUILD_REPOSITORY=git@git.my.domain:mydomain/project.git   # git repository
+            - BUILD_REFNAME=master                                      # git branch name
+            - BUILD_REF=HEAD                                            # git tag/commit id
