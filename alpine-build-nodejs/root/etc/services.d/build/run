@@ -1,4 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-cd /usr/local/build
-exec /usr/bin/timeout -s ${BUILD_TIMEOUT} /bin/sh ${BUILD_SCRIPT}

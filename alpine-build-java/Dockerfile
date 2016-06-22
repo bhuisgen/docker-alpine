@@ -11,5 +11,5 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
 
 COPY root /
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/usr/local/build/run.sh"]
 CMD []
