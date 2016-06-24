@@ -8,5 +8,5 @@ RUN sed -i -e 's/v3\.3/edge/g' /etc/apk/repositories && \
 
 COPY root /
 
-ENTRYPOINT ["/usr/local/build/run.sh"]
+ENTRYPOINT ["/init"]
 CMD []

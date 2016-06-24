@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z ${BUILD_SCRIPT} ]; then
-    export BUILD_SCRIPT="/usr/local/build/run.sh"
+    export BUILD_SCRIPT="/usr/local/build/job.sh"
     printf "%s" "${BUILD_SCRIPT}" > /var/run/s6/container_environment/BUILD_SCRIPT
 fi
 

@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-/usr/bin/timeout -s ${BUILD_TIMEOUT} /bin/sh ${BUILD_SCRIPT}
+/usr/bin/timeout -t ${BUILD_TIMEOUT} /bin/bash ${BUILD_SCRIPT}
