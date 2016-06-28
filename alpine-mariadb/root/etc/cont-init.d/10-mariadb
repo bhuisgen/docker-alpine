@@ -19,6 +19,7 @@ if [ -z ${MARIADB_CONFIG} ]; then
         mysql -u root -e " \
         UPDATE user SET password=PASSWORD('${MARIADB_ROOTPASSWORD}') WHERE User='root'; \
         DROP DATABASE test; \
+        DELETE FROM mysql.user WHERE User=''; \
         FLUSH PRIVILEGES; \
         " mysql
 
