@@ -23,6 +23,13 @@ if [ -z ${MARIADB_CONFIG} ]; then
         FLUSH PRIVILEGES; \
         " mysql
 
+        if [ ! -z ${MARIADB_ROOTHOSTMASK} ]; then
+            mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
+            GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION; \
+            FLUSH PRIVILEGES; \
+            " mysql
+        fi
+
         if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ] && [ ! -z ${MARIADB_HOSTMASK} ]; then
             mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
             CREATE DATABASE \`${MARIADB_DATABASE}\`; \
