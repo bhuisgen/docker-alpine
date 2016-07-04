@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV LOGSTASH_VERSION=2.3.2
+ENV LOGSTASH_VERSION=2.3.3
 
 RUN addgroup logstash && \
     mkdir -p /var/lib/logstash && \
