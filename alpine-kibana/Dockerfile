@@ -8,7 +8,7 @@ RUN addgroup kibana && \
     adduser -S -D -g "" -G kibana -s /sbin/nologin -h /var/lib/kibana kibana && \
     chown -R kibana:kibana /var/lib/kibana
 
-RUN sed -i -e 's/v3\.3/edge/g' /etc/apk/repositories && \
+RUN sed -i -e 's/\/v.\+\//\/edge\//g' /etc/apk/repositories && \
     apk add --update nodejs tar && \
     mkdir -p /usr/local/kibana && \
     curl -sSL https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz | tar -xzo -C /usr/local/kibana --strip-components 1 && \
