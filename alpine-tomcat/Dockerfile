@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV TOMCAT_MAJOR=8 \
-    TOMCAT_VERSION=8.0.35
+    TOMCAT_VERSION=8.0.36
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir -p /usr/local/tomcat && \
