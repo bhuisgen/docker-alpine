@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${BUILD_SCRIPT} ]; then
+    export BUILD_SCRIPT="/usr/local/build/job.sh"
+    printf "%s" "${BUILD_SCRIPT}" > /var/run/s6/container_environment/BUILD_SCRIPT
+fi
+
+if [ -z ${BUILD_TIMEOUT} ]; then
+    export BUILD_TIMEOUT=0
+    printf "%s" "${BUILD_TIMEOUT}" > /var/run/s6/container_environment/BUILD_TIMEOUT
+fi
