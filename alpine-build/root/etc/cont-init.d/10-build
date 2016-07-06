@@ -6,6 +6,6 @@ if [ -z ${BUILD_SCRIPT} ]; then
 fi
 
 if [ -z ${BUILD_TIMEOUT} ]; then
-    export BUILD_TIMEOUT=3600
+    export BUILD_TIMEOUT=0
     printf "%s" "${BUILD_TIMEOUT}" > /var/run/s6/container_environment/BUILD_TIMEOUT
 fi
