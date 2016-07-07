@@ -9,7 +9,7 @@ SUBDIRS := alpine-base alpine-base-consul alpine-build alpine-build-java \
 
 .PHONY: all build clean
 
-all: clean build
+all: build
 
 clean:
 	-for subdir in $(SUBDIRS); do (cd $$subdir; $(MAKE) clean); done
