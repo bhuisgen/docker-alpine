@@ -16,4 +16,4 @@ git clone ${GIT_URL} --progress project
 cd project
 git checkout -q ${GIT_REF}
 
-make
+make ${MAKE_OPTIONS} ${MAKE_TARGET}
