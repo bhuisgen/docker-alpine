@@ -12,8 +12,12 @@ if [ -z ${GIT_REF} ]; then
     exit 1
 fi
 
+if [ -z ${MVN_GOAL} ]; then
+    MVN_GOAL="test"
+fi
+
 git clone ${GIT_URL} --progress project
 cd project
 git checkout -q ${GIT_REF}
 
-mvn package -B
+mvn -B ${MVN_OPTIONS} ${MVN_GOAL}
