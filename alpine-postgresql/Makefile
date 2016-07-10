@@ -1,20 +1,20 @@
 # Makefile
 
-DOCKER_IMAGE=bhuisgen/alpine-postgresql
-DOCKER_REPOSITORY=127.0.0.1:5000
+IMAGE=bhuisgen/alpine-postgresql
 
-.PHONY: all build clean pull push
+ifeq ($(TAG),)
+	TAG=latest
+endif
+
+.PHONY: all build clean pull
 
 all: clean build
 
 clean:
-	(docker rmi ${DOCKER_IMAGE} || true) > /dev/null 2>&1
+	docker rmi ${IMAGE}:$(TAG) || true
 
 build:
-	docker build -t ${DOCKER_IMAGE} .
+	docker build -t ${IMAGE}:$(TAG) . || false
 
 pull:
-	docker pull ${DOCKER_REPOSITORY}/${DOCKER_IMAGE}
-
-push:
-	docker push ${DOCKER_REPOSITORY}/${DOCKER_IMAGE}
+	docker pull ${IMAGE}:$(TAG) || false
