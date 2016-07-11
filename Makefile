@@ -1,5 +1,7 @@
 # Makefile
 
+export TAG
+
 SUBDIRS := alpine-base alpine-base-consul alpine-build alpine-build-java \
 	alpine-build-make alpine-build-nodejs alpine-consul alpine-dnsmasq \
 	alpine-dynamodb alpine-elasticsearch alpine-haproxy alpine-java \
@@ -7,7 +9,7 @@ SUBDIRS := alpine-base alpine-base-consul alpine-build alpine-build-java \
 	alpine-nodejs alpine-postgresql alpine-rabbitmq alpine-redis \
 	alpine-registry alpine-tomcat alpine-zabbix-agent
 
-.PHONY: all build clean
+.PHONY: all build clean pull
 
 all: build
 
@@ -16,3 +18,6 @@ clean:
 
 build:
 	-for subdir in $(SUBDIRS); do (cd $$subdir; $(MAKE) build); done
+
+pull:
+	-for subdir in $(SUBDIRS); do (cd $$subdir; $(MAKE) pull); done
