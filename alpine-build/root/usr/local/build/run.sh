@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
+trap 'exit 2' ERR INT TERM
+
 if [ -z ${BUILD_TIMEOUT} ] || [ ${BUILD_TIMEOUT} -eq 0 ]; then
     /bin/bash ${BUILD_SCRIPT}
 else
