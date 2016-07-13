@@ -1,9 +1,13 @@
 # Makefile
 
-IMAGE=bhuisgen/alpine-zabbix-agent
+IMAGE := bhuisgen/alpine-zabbix-agent
+
+ifneq ($(REPOSITORY),)
+IMAGE := $(REPOSITORY)/$(IMAGE)
+endif
 
 ifeq ($(TAG),)
-	TAG=latest
+TAG := latest
 endif
 
 .PHONY: all build clean pull

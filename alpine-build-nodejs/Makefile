@@ -1,9 +1,13 @@
 # Makefile
 
-IMAGE=bhuisgen/alpine-build-nodejs
+IMAGE := bhuisgen/alpine-build-nodejs
+
+ifneq ($(REPOSITORY),)
+IMAGE := $(REPOSITORY)/$(IMAGE)
+endif
 
 ifeq ($(TAG),)
-	TAG=latest
+TAG := latest
 endif
 
 .PHONY: all build clean pull
