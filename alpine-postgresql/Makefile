@@ -1,9 +1,13 @@
 # Makefile
 
-IMAGE=bhuisgen/alpine-postgresql
+IMAGE := bhuisgen/alpine-postgresql
+
+ifneq ($(REPOSITORY),)
+IMAGE := $(REPOSITORY)/$(IMAGE)
+endif
 
 ifeq ($(TAG),)
-	TAG=latest
+TAG := latest
 endif
 
 .PHONY: all build clean pull
