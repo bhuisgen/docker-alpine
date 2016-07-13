@@ -1,9 +1,13 @@
 # Makefile
 
-IMAGE=bhuisgen/alpine-base
+IMAGE := bhuisgen/alpine-base
+
+ifneq ($(REPOSITORY),)
+IMAGE := $(REPOSITORY)/$(IMAGE)
+endif
 
 ifeq ($(TAG),)
-	TAG=latest
+TAG := latest
 endif
 
 .PHONY: all build clean pull

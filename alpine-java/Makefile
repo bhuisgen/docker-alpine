@@ -1,9 +1,13 @@
 # Makefile
 
-IMAGE=bhuisgen/alpine-java
+IMAGE := bhuisgen/alpine-java
+
+ifneq ($(REPOSITORY),)
+IMAGE := $(REPOSITORY)/$(IMAGE)
+endif
 
 ifeq ($(TAG),)
-	TAG=latest
+TAG := latest
 endif
 
 .PHONY: all build clean pull
