@@ -16,4 +16,8 @@ git clone ${GIT_URL} --progress project
 cd project
 git checkout -q ${GIT_REF}
 
-make ${MAKE_OPTIONS} ${MAKE_TARGET}
+if [ ! -z ${PROJECT_SUBDIR} ]; then
+    cd ${PROJECT_SUBDIR}
+fi
+
+make ${MAKE_OPTIONS} ${MAKE_TARGET} ${MAKE_TARGETOPTIONS}

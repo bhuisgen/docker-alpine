@@ -12,13 +12,17 @@ if [ -z ${GIT_REF} ]; then
     exit 1
 fi
 
-if [ -z ${NPM_COMMAND} ]; then
-    NPM_COMMAND="test"
-fi
-
 git clone ${GIT_URL} --progress project
 cd project
 git checkout -q ${GIT_REF}
+
+if [ ! -z ${PROJECT_SUBDIR} ]; then
+    cd ${PROJECT_SUBDIR}
+fi
+
+if [ -z ${NPM_COMMAND} ]; then
+    NPM_COMMAND="test"
+fi
 
 npm install
 npm run ${NPM_COMMAND}
