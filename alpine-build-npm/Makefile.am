@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-build-nodejs
+IMAGE = bhuisgen/alpine-build-npm
 
 all-local: build
 
