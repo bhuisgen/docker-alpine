@@ -9,10 +9,9 @@ RUN mkdir -p /var/lib/consul && \
     chown -R consul:consul /var/lib/consul
 
 RUN apk add --update zip && \
-    curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /bin/consul-template.zip && \
-    cd /bin && \
-    unzip consul-template.zip && \
-    rm /bin/consul-template.zip && \
+    curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /tmp/consul-template.zip && \
+    unzip /tmp/consul-template.zip -d /bin && \
+    rm /tmp/consul-template.zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
