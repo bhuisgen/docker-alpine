@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-build-java
+IMAGE = bhuisgen/alpine-build-maven
 
 all-local: build
 
