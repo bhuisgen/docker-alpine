@@ -276,10 +276,9 @@ SUBDIRS = \
 	alpine-base \
 	alpine-base-consul \
 	alpine-build \
-	alpine-build-java \
 	alpine-build-make \
-	alpine-build-make-terraform \
-	alpine-build-nodejs \
+	alpine-build-maven \
+	alpine-build-npm \
 	alpine-consul \
 	alpine-dnsmasq \
 	alpine-dynamodb \

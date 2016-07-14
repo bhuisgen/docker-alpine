@@ -28,10 +28,9 @@ AC_CONFIG_FILES([
     alpine-base/Makefile
     alpine-base-consul/Makefile
     alpine-build/Makefile
-    alpine-build-java/Makefile
     alpine-build-make/Makefile
-    alpine-build-make-terraform/Makefile
-    alpine-build-nodejs/Makefile
+    alpine-build-maven/Makefile
+    alpine-build-npm/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
     alpine-dynamodb/Makefile
