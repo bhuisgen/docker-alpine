@@ -1,8 +1,8 @@
-FROM bhuisgen/alpine-tomcat:latest
+FROM bhuisgen/alpine-java:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV JENKINS_HOME=/home/jenkins \
-    CATALINA_OPTS="-DJENKINS_HOME=/home/jenkins/"
+ENV JENKINS_VERSION=2.7.1 \
+    JENKINS_HOME=/home/jenkins
 
 RUN mkdir -p /home/jenkins && \
     addgroup jenkins && \
@@ -10,7 +10,14 @@ RUN mkdir -p /home/jenkins && \
     chown -R jenkins:jenkins /home/jenkins
 
 RUN apk add --update git openssh-client ttf-dejavu && \
-    curl -sSL http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war -o /usr/local/tomcat/webapps/ROOT.war && \
+    mkdir -p /usr/local/jenkins && \
+    curl -sSL http://mirrors.jenkins-ci.org/war-stable/${JENKINS_VERSION}/jenkins.war -o /usr/local/jenkins/jenkins.war && \
     rm -rf /var/cache/apk/*
 
+COPY root /
+
+ENTRYPOINT ["/init"]
+CMD []
+
+EXPOSE 8080
 VOLUME ["/home/jenkins"]
