@@ -11,7 +11,9 @@ SUBDIRS = \
 	alpine-dynamodb \
 	alpine-elasticsearch \
 	alpine-haproxy \
+	alpine-hostapd \
 	alpine-java \
+	alpine-jenkins \
 	alpine-jetty \
 	alpine-kibana \
 	alpine-logstash \
