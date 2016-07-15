@@ -20,4 +20,8 @@ if [ ! -z ${PROJECT_SUBDIR} ]; then
     cd ${PROJECT_SUBDIR}
 fi
 
-echo "Please add your build commands here"
+if [ -z ${MVN_GOAL} ]; then
+    MVN_GOAL="test"
+fi
+
+mvn -B ${MVN_OPTIONS} ${MVN_GOAL}

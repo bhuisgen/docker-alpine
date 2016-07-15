@@ -20,4 +20,9 @@ if [ ! -z ${PROJECT_SUBDIR} ]; then
     cd ${PROJECT_SUBDIR}
 fi
 
-echo "Please add your build commands here"
+if [ -z ${NPM_COMMAND} ]; then
+    NPM_COMMAND="test"
+fi
+
+npm install
+npm run ${NPM_COMMAND}

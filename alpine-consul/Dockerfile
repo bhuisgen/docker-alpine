@@ -11,20 +11,17 @@ RUN mkdir -p /var/lib/consul && \
     adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     chown -R consul:consul /var/lib/consul
 
-RUN apk add --update curl jq zip && \
-    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_linux_amd64.zip -o /bin/consul.zip && \
-    cd /bin && \
-    unzip consul.zip && \
-    rm /bin/consul.zip && \
+RUN apk add --update zip && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_linux_amd64.zip -o /tmp/consul.zip && \
+    unzip /tmp/consul.zip -d /bin && \
+    rm /tmp/consul.zip && \
     mkdir -p /var/lib/consului && \
-    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_web_ui.zip -o /var/lib/consului/consului.zip && \
-    cd /var/lib/consului && \
-    unzip consului.zip && \
-    rm consului.zip && \
-    curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /bin/consul-template.zip && \
-    cd /bin && \
-    unzip consul-template.zip && \
-    rm /bin/consul-template.zip && \
+    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_web_ui.zip -o /tmp/consului.zip && \
+    unzip /tmp/consului.zip -d /var/lib/consului && \
+    rm /tmp/consului.zip && \
+    curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /tmp/consul-template.zip && \
+    unzip /tmp/consul-template.zip -d /bin && \
+    rm /tmp/consul-template.zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
