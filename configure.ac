@@ -9,6 +9,11 @@ AM_INIT_AUTOMAKE([foreign])
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
+AC_CHECK_PROG(DOCKER, docker, yes, no)
+if test x"$DOCKER" != x"yes" ; then
+    AC_MSG_ERROR([required program 'docker' not found])
+fi
+
 # Checks for libraries.
 
 # Checks for header files.
@@ -19,9 +24,8 @@ AC_PROG_MAKE_SET
 
 AC_ARG_VAR(TAG, tag for docker images)
 if test "x${TAG}" = "x"; then
-    AC_SUBST(TAG,latest)
+    AC_SUBST(TAG, latest)
 fi
-
 
 AC_CONFIG_FILES([
     Makefile
@@ -53,4 +57,4 @@ AC_CONFIG_FILES([
     alpine-zabbix-agent/Makefile
 ])
 
-AC_OUTPUT()
+AC_OUTPUT
