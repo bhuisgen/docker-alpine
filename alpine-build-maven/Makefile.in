@@ -85,7 +85,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = alpine-build-nodejs
+subdir = alpine-build-maven
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -125,6 +125,7 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
+DOCKER = @DOCKER@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -191,7 +192,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-IMAGE = bhuisgen/alpine-build-nodejs
+IMAGE = bhuisgen/alpine-build-maven
 all: all-am
 
 .SUFFIXES:
@@ -204,9 +205,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu alpine-build-nodejs/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign alpine-build-maven/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu alpine-build-nodejs/Makefile
+	  $(AUTOMAKE) --foreign alpine-build-maven/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -381,13 +382,13 @@ uninstall-am:
 all-local: build
 
 clean-local:
-	docker rmi ${IMAGE}:$(TAG) || true
+	docker rmi $(IMAGE):$(TAG) || true
 
 build:
-	docker build -t ${IMAGE}:$(TAG) .
+	docker build -t $(IMAGE):$(TAG) .
 
 pull:
-	docker pull ${IMAGE}:$(TAG)
+	docker pull $(IMAGE):$(TAG)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

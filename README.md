@@ -1,5 +1,3 @@
-README
-
-docker-alpine
+# docker-alpine
 
 Docker images based on Alpine Linux

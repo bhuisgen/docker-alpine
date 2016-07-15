@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-haproxy
+IMAGE = bhuisgen/alpine-build-npm
 
 all-local: build
 

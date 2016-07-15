@@ -3,11 +3,16 @@
 
 AC_PREREQ([2.69])
 AC_INIT([docker-alpine], [0.1], [bhuisgen@hbis.fr])
-AM_INIT_AUTOMAKE()
+AM_INIT_AUTOMAKE([foreign])
 
 # Checks for programs.
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+
+AC_CHECK_PROG(DOCKER, docker, yes, no)
+if test x"$DOCKER" != x"yes" ; then
+    AC_MSG_ERROR([required program 'docker' not found])
+fi
 
 # Checks for libraries.
 
@@ -17,21 +22,21 @@ AC_PROG_MAKE_SET
 
 # Checks for library functions.
 
-AC_ARG_VAR(TAG, tag for docker images)
+AC_ARG_VAR(TAG, tag of docker images)
+AC_MSG_CHECKING([tag of docker images])
 if test "x${TAG}" = "x"; then
-    AC_SUBST(TAG,latest)
+    AC_SUBST(TAG, latest)
 fi
-
+AC_MSG_RESULT([${TAG}])
 
 AC_CONFIG_FILES([
     Makefile
     alpine-base/Makefile
     alpine-base-consul/Makefile
     alpine-build/Makefile
-    alpine-build-java/Makefile
     alpine-build-make/Makefile
-    alpine-build-make-terraform/Makefile
-    alpine-build-nodejs/Makefile
+    alpine-build-maven/Makefile
+    alpine-build-npm/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
     alpine-dynamodb/Makefile
@@ -54,4 +59,4 @@ AC_CONFIG_FILES([
     alpine-zabbix-agent/Makefile
 ])
 
-AC_OUTPUT()
+AC_OUTPUT

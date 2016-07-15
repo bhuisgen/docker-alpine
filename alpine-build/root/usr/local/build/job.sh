@@ -16,4 +16,8 @@ git clone ${GIT_URL} --progress project
 cd project
 git checkout -q ${GIT_REF}
 
+if [ ! -z ${PROJECT_SUBDIR} ]; then
+    cd ${PROJECT_SUBDIR}
+fi
+
 echo "Please add your build commands here"

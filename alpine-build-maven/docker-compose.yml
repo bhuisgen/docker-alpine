@@ -9,7 +9,7 @@ services:
     build:
         depends_on:
             - consul
-        image: bhuisgen/alpine-build-nodejs
+        image: bhuisgen/alpine-build-java
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
@@ -20,4 +20,6 @@ services:
             #- BUILD_TIMEOUT=3600                                       # build timeout
             - GIT_URL=git@git.my.domain:mydomain/project.git            # git repository URL
             - GIT_REF=HEAD                                              # git tag/commit reference
-            #- NPM_COMMAND=test                                         # npm command
+            #- PROJECT_SUBDIR=                                          # project subdirectory, leave empty for project root
+            #- MVN_OPTIONS=                                             # maven options
+            #- MVN_GOAL=test                                            # maven goal

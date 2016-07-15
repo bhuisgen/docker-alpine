@@ -125,6 +125,7 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
+DOCKER = @DOCKER@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -204,9 +205,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu alpine-dnsmasq/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign alpine-dnsmasq/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu alpine-dnsmasq/Makefile
+	  $(AUTOMAKE) --foreign alpine-dnsmasq/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -381,13 +382,13 @@ uninstall-am:
 all-local: build
 
 clean-local:
-	docker rmi ${IMAGE}:$(TAG) || true
+	docker rmi $(IMAGE):$(TAG) || true
 
 build:
-	docker build -t ${IMAGE}:$(TAG) .
+	docker build -t $(IMAGE):$(TAG) .
 
 pull:
-	docker pull ${IMAGE}:$(TAG)
+	docker pull $(IMAGE):$(TAG)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
