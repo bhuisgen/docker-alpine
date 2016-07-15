@@ -22,10 +22,12 @@ fi
 
 # Checks for library functions.
 
-AC_ARG_VAR(TAG, tag for docker images)
+AC_ARG_VAR(TAG, tag of docker images)
+AC_MSG_CHECKING([tag of docker images])
 if test "x${TAG}" = "x"; then
     AC_SUBST(TAG, latest)
 fi
+AC_MSG_RESULT([${TAG}])
 
 AC_CONFIG_FILES([
     Makefile

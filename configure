@@ -1292,7 +1292,7 @@ Optional Features:
   --disable-silent-rules  verbose build output (undo: "make V=0")
 
 Some influential environment variables:
-  TAG         tag for docker images
+  TAG         tag of docker images
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -2419,10 +2419,14 @@ fi
 # Checks for library functions.
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking tag of docker images" >&5
+$as_echo_n "checking tag of docker images... " >&6; }
 if test "x${TAG}" = "x"; then
     TAG=latest
 
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${TAG}" >&5
+$as_echo "${TAG}" >&6; }
 
 ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-tomcat/Makefile alpine-zabbix-agent/Makefile"
 
