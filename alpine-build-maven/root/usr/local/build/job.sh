@@ -21,7 +21,7 @@ if [ ! -z ${PROJECT_SUBDIR} ]; then
 fi
 
 if [ -z ${MVN_GOAL} ]; then
-    MVN_GOAL="test"
+    MVN_GOAL="install"
 fi
 
 mvn -B ${MVN_OPTIONS} ${MVN_GOAL}
