@@ -6,10 +6,10 @@ services:
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
 
-    build:
+    build-npm:
         depends_on:
             - consul
-        image: bhuisgen/alpine-build-nodejs
+        image: bhuisgen/alpine-build-npm
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
