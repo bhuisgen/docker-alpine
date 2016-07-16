@@ -6,7 +6,7 @@ services:
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
 
-    build:
+    build-make:
         depends_on:
             - consul
         image: bhuisgen/alpine-build-make

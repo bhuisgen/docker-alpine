@@ -6,10 +6,10 @@ services:
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
 
-    build:
+    build-maven:
         depends_on:
             - consul
-        image: bhuisgen/alpine-build-java
+        image: bhuisgen/alpine-build-maven
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
@@ -22,4 +22,4 @@ services:
             - GIT_REF=HEAD                                              # git tag/commit reference
             #- PROJECT_SUBDIR=                                          # project subdirectory, leave empty for project root
             #- MVN_OPTIONS=                                             # maven options
-            #- MVN_GOAL=test                                            # maven goal
+            #- MVN_GOAL=install                                         # maven goal
