@@ -2334,6 +2334,7 @@ END
 fi
 
 
+
 # Checks for programs.
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} sets \$(MAKE)" >&5
