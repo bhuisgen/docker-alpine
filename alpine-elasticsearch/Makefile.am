@@ -5,8 +5,8 @@ all-local: build
 clean-local:
 	docker rmi $(IMAGE):$(TAG) || true
 
-build:
+build-local:
 	docker build -t $(IMAGE):$(TAG) .
 
-pull:
+pull-local:
 	docker pull $(IMAGE):$(TAG)
