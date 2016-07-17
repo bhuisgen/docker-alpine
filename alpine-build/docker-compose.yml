@@ -16,8 +16,8 @@ services:
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                                         # consul agent port
             #- CONSUL_KEYPREFIX=/my/path                                # consul key prefix path
-            #- BUILD_SCRIPT=/usr/local/build/run.sh                     # build script
+            - BUILD_GITURL=git@git.my.domain:your/project.git           # git repository URL
+            - BUILD_GITREF=HEAD                                         # git tag/commit reference to build
+            #- BUILD_PROJECT=                                           # project directory (empty for the root of sources)
+            #- BUILD_SCRIPT=/usr/local/build/build.sh                   # build script
             #- BUILD_TIMEOUT=3600                                       # build timeout
-            - GIT_URL=git@git.my.domain:mydomain/project.git            # git repository URL
-            - GIT_REF=HEAD                                              # git tag/commit reference
-            #- PROJECT_SUBDIR=                                          # project subdirectory, leave empty for project root
