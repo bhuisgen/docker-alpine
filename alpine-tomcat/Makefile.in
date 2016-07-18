@@ -113,6 +113,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__extra_recursive_targets = build-recursive pull-recursive
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -137,6 +138,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LTLIBOBJS = @LTLIBOBJS@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 PACKAGE = @PACKAGE@
@@ -196,7 +198,7 @@ IMAGE = bhuisgen/alpine-tomcat
 all: all-am
 
 .SUFFIXES:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -220,11 +222,13 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+build-local: 
+pull-local: 
 tags TAGS:
 
 ctags CTAGS:
@@ -296,6 +300,10 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+build: build-am
+
+build-am: build-local
+
 clean: clean-am
 
 clean-am: clean-generic clean-local mostlyclean-am
@@ -360,21 +368,25 @@ ps: ps-am
 
 ps-am:
 
+pull: pull-am
+
+pull-am: pull-local
+
 uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am all-local check check-am clean clean-generic \
-	clean-local cscopelist-am ctags-am distclean distclean-generic \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-data install-data-am install-dvi \
+.PHONY: all all-am all-local build-am build-local check check-am clean \
+	clean-generic clean-local cscopelist-am ctags-am distclean \
+	distclean-generic distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic pdf pdf-am ps ps-am tags-am uninstall \
-	uninstall-am
+	mostlyclean-generic pdf pdf-am ps ps-am pull-am pull-local \
+	tags-am uninstall uninstall-am
 
 .PRECIOUS: Makefile
 
@@ -384,10 +396,10 @@ all-local: build
 clean-local:
 	docker rmi $(IMAGE):$(TAG) || true
 
-build:
+build-local:
 	docker build -t $(IMAGE):$(TAG) .
 
-pull:
+pull-local:
 	docker pull $(IMAGE):$(TAG)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -4,6 +4,8 @@
 AC_PREREQ([2.69])
 AC_INIT([docker-alpine], [0.1], [bhuisgen@hbis.fr])
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
+AM_EXTRA_RECURSIVE_TARGETS([build pull])
 
 # Checks for programs.
 AC_PROG_INSTALL
