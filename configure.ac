@@ -58,6 +58,7 @@ AC_CONFIG_FILES([
     alpine-rabbitmq/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
+    alpine-strongswan/Makefile
     alpine-tomcat/Makefile
     alpine-zabbix-agent/Makefile
 ])

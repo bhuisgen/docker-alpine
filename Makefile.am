@@ -24,5 +24,6 @@ SUBDIRS = \
 	alpine-rabbitmq \
 	alpine-redis \
 	alpine-registry \
+	alpine-strongswan \
 	alpine-tomcat \
 	alpine-zabbix-agent
