@@ -13,8 +13,6 @@ services:
             - consul
         image: bhuisgen/alpine-strongswan
         privileged: true
-        cap_add:
-            - NET_ADMIN
         network_mode: host
         volumes:
             - /etc/localtime:/etc/localtime
@@ -27,13 +25,11 @@ services:
             #- CONSUL_PORT=8500                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix             # consul key prefix path
             - STRONGSWAN_INTERFACE=eth0                 # VPN public interface
-            - STRONGSWAN_LEFT=10.0.1.0.1                # VPN left public interface IP
+            - STRONGSWAN_LEFT=10.1.1.0.1                # VPN left private IP interface to gateway
             - STRONGSWAN_LEFTSUBNET=10.1.0.0/16         # VPN left subnet
             - STRONGSWAN_LEFTCERT=vpn-01.pem            # VPN left certificate name
             - STRONGSWAN_LEFTKEY=vpn-01-priv.pem        # VPN left private key name
-            - STRONGSWAN_LEFTID="C=LU, ST=Luxembourg, L=Luxembourg, O=localhost, OU=localhost, CN=vpn-01, E=root@localhost"
-                                                        # VPN left certificate id
+            - STRONGSWAN_LEFTID="CN=vpn-01"             # VPN left certificate id
             - STRONGSWAN_RIGHT=81.82.83.84              # VPN right public IP
             - STRONGSWAN_RIGHTSUBNET=10.2.0.0/16        # VPN right subnet
-            - STRONGSWAN_RIGHTID="C=LU, ST=Luxembourg, L=Luxembourg, O=localhost, OU=localhost, CN=vpn-02, E=root@localhost"
-                                                        # VPN right certificate id
+            - STRONGSWAN_RIGHTID="CN=vpn-02"            # VPN right certificate id
