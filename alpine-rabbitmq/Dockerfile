@@ -10,10 +10,10 @@ ENV ERLANG_VERSION=18.3.2-r0 \
     RABBITMQ_SASL_LOGS=/dev/null \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
-RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/log/rabbitmq /var/run/rabbitmq && \
+RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitmq/logs /var/run/rabbitmq && \
     addgroup rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
-    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/log/rabbitmq /var/run/rabbitmq
+    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
 
 RUN apk add --update tar xz \
         erlang=${ERLANG_VERSION} \
