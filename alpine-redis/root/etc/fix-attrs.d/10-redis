@@ -1,1 +1,1 @@
-/var/lib/redis true redis:redis 0640 0750
+/var/lib/redis false redis:redis 0640 0750
