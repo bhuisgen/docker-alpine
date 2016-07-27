@@ -1,1 +1,1 @@
-/var/lib/postgresql true postgres:postgres 0600 0700
+/var/lib/postgresql false postgres:postgres 0600 0700
