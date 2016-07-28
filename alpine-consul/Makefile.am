@@ -3,10 +3,10 @@ IMAGE = bhuisgen/alpine-consul
 all-local: build
 
 clean-local:
-	docker rmi ${IMAGE}:$(TAG) || true
+	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true
 
-build:
-	docker build -t ${IMAGE}:$(TAG) .
+build-local:
+	docker build -t $(IMAGE):$(TAG) $(BUILD_OPTIONS) .
 
-pull:
-	docker pull ${IMAGE}:$(TAG)
+pull-local:
+	docker pull $(IMAGE):$(TAG) $(PULL_OPTIONS)
