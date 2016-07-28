@@ -93,24 +93,24 @@ fi
 trap 'exit 2' ERR INT TERM
 
 if [ ! -d project ]; then
-    git clone "${BUILD_GITURL}" project
+    git clone ${BUILD_GITURL} project
 
     cd project
 
-    git checkout "${BUILD_GITREF}"
+    git checkout ${BUILD_GITREF}
 else
     cd project
 
     git reset --hard
     git clean -fdx
-    git remote set-url origin "${BUILD_GITURL}"
+    git remote set-url origin ${BUILD_GITURL}
     git fetch origin
 
-    git checkout "${BUILD_GITREF}"
+    git checkout ${BUILD_GITREF}
 fi
 
 if [ ! -z "${BUILD_PROJECT}" ]; then
-    cd "${BUILD_PROJECT}"
+    cd ${BUILD_PROJECT}
 fi
 
-timeout -t "${BUILD_TIMEOUT}" bash "${BUILD_SCRIPT}"
+timeout -t ${BUILD_TIMEOUT} bash ${BUILD_SCRIPT}
