@@ -586,6 +586,9 @@ PACKAGE_URL=''
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+PULL_OPTIONS
+BUILD_OPTIONS
+CLEAN_OPTIONS
 TAG
 DOCKER
 MAINT
@@ -666,7 +669,10 @@ enable_maintainer_mode
       ac_precious_vars='build_alias
 host_alias
 target_alias
-TAG'
+TAG
+CLEAN_OPTIONS
+BUILD_OPTIONS
+PULL_OPTIONS'
 
 
 # Initialize some variables set by options.
@@ -1300,6 +1306,12 @@ Optional Features:
 
 Some influential environment variables:
   TAG         tag of docker images
+  CLEAN_OPTIONS
+              clean options
+  BUILD_OPTIONS
+              build options
+  PULL_OPTIONS
+              pull options
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -2458,6 +2470,10 @@ if test "x${TAG}" = "x"; then
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${TAG}" >&5
 $as_echo "${TAG}" >&6; }
+
+
+
+
 
 ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-make-terraform/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-strongswan/Makefile alpine-tomcat/Makefile alpine-zabbix-agent/Makefile"
 

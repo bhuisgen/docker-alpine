@@ -19,7 +19,7 @@ do
     key="$1"
     case $key in
         -u|--git-url)
-        if [ -z $2 ]; then
+        if [ -z "$2" ]; then
             usage
             exit 2
         fi
@@ -29,7 +29,7 @@ do
         ;;
 
         -r|--git-ref)
-        if [ -z $2 ]; then
+        if [ -z "$2" ]; then
             usage
             exit 2
         fi
@@ -39,7 +39,7 @@ do
         ;;
 
         -p|--project)
-        if [ -z $2 ]; then
+        if [ -z "$2" ]; then
             usage
             exit 2
         fi
@@ -49,7 +49,7 @@ do
         ;;
 
         -s|--script)
-        if [ -z $2 ]; then
+        if [ -z "$2" ]; then
             usage
             exit 2
         fi
@@ -59,7 +59,7 @@ do
         ;;
 
         -t|--timeout)
-        if [ -z $2 ]; then
+        if [ -z "$2" ]; then
             usage
             exit 2
         fi
@@ -80,12 +80,12 @@ do
     esac
 done
 
-if [ -z ${BUILD_GITURL} ]; then
+if [ -z "${BUILD_GITURL}" ]; then
     echo "BUILD_GITURL is not set, aborting"
     exit 1
 fi
 
-if [ -z ${BUILD_GITREF} ]; then
+if [ -z "${BUILD_GITREF}" ]; then
     echo "BUILD_GITREF is not set, aborting"
     exit 1
 fi
@@ -93,24 +93,24 @@ fi
 trap 'exit 2' ERR INT TERM
 
 if [ ! -d project ]; then
-    git clone ${BUILD_GITURL} project
+    git clone "${BUILD_GITURL}" project
 
     cd project
 
-    git checkout ${BUILD_GITREF}
+    git checkout "${BUILD_GITREF}"
 else
     cd project
 
     git reset --hard
     git clean -fdx
-    git remote set-url origin ${BUILD_GITURL}
+    git remote set-url origin "${BUILD_GITURL}"
     git fetch origin
 
-    git checkout ${BUILD_GITREF}
+    git checkout "${BUILD_GITREF}"
 fi
 
-if [ ! -z ${BUILD_PROJECT} ]; then
-    cd ${BUILD_PROJECT}
+if [ ! -z "${BUILD_PROJECT}" ]; then
+    cd "${BUILD_PROJECT}"
 fi
 
-timeout -t ${BUILD_TIMEOUT} bash ${BUILD_SCRIPT}
+timeout -t "${BUILD_TIMEOUT}" bash "${BUILD_SCRIPT}"

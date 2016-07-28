@@ -124,6 +124,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_OPTIONS = @BUILD_OPTIONS@
+CLEAN_OPTIONS = @CLEAN_OPTIONS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DOCKER = @DOCKER@
@@ -149,6 +151,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PULL_OPTIONS = @PULL_OPTIONS@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -300,6 +303,8 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+build: build-am
+
 build-am: build-local
 
 clean: clean-am
@@ -366,23 +371,25 @@ ps: ps-am
 
 ps-am:
 
+pull: pull-am
+
 pull-am: pull-local
 
 uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am all-local build build-am build-local check check-am \
-	clean clean-generic clean-local cscopelist-am ctags-am \
-	distclean distclean-generic distdir dvi dvi-am html html-am \
-	info info-am install install-am install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am pull \
-	pull-am pull-local tags-am uninstall uninstall-am
+.PHONY: all all-am all-local build-am build-local check check-am clean \
+	clean-generic clean-local cscopelist-am ctags-am distclean \
+	distclean-generic distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic pdf pdf-am ps ps-am pull-am pull-local \
+	tags-am uninstall uninstall-am
 
 .PRECIOUS: Makefile
 
@@ -390,13 +397,13 @@ uninstall-am:
 all-local: build
 
 clean-local:
-	docker rmi ${IMAGE}:$(TAG) || true
+	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true
 
-build:
-	docker build -t ${IMAGE}:$(TAG) .
+build-local:
+	docker build -t $(IMAGE):$(TAG) $(BUILD_OPTIONS) .
 
-pull:
-	docker pull ${IMAGE}:$(TAG)
+pull-local:
+	docker pull $(IMAGE):$(TAG) $(PULL_OPTIONS)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
