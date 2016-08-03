@@ -23,6 +23,8 @@ services:
             - CONSUL_SERVICETAGS=dev                            # consul service tag
             - CONSUL_SERVICEPORT=5672                           # consul service port
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS        # erlang cookie
+            - RABBITMQ_RAMLIMIT=0.4                             # RAM limit
+            - RABBITMQ_DISKLIMIT=1000000000                     # disk limit
             - RABBITMQ_USERNAME=rabbitmq                        # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
             #- RABBITMQ_CLUSTER=rabbit@abbitmq-master           # cluster to join
