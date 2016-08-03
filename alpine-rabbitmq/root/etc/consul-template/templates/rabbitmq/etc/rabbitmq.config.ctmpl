@@ -1,0 +1,34 @@
+{{$rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT"}}
+{{$rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT"}}
+[
+    {kernel, [
+        {inet_default_connect_options, [{nodelay, true}]},
+        {inet_default_listen_options, [{nodelay, true}]}
+    ]},
+    {rabbit, [
+        {collect_statistics_interval, 30000},
+        {tcp_listen_options, [
+            binary,
+            {packet, raw},
+            {reuseaddr, true},
+            {backlog, 4096},
+            {nodelay, true},
+            {sndbuf, 32768},
+            {recbuf, 32768}
+        ]}
+        {{if $rabbitmq_ramlimit}},
+        {vm_memory_high_watermark, {{$rabbitmq_ramlimit}}}
+        {{end}}
+        {{if $rabbitmq_disklimit}},
+        {disk_free_limit, {{$rabbitmq_disklimit}}}
+        {{end}}
+    ]},
+    {rabbitmq_mqtt, [
+        {allow_anonymous, false},
+        {vhost, <<"/">>},
+        {exchange, <<"amq.topic">>},
+        {subscription_ttl, 1800000},
+        {prefetch, 10},
+        {tcp_listeners, [1883]}
+    ]}
+].
