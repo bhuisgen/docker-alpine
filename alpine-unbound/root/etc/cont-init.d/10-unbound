@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${UNBOUND_TEMPLATE} ]; then
+    echo "==> Activating unbound template '${UNBOUND_TEMPLATE}'"
+
+    cp "/etc/consul-template/templates/unbound/${UNBOUND_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-unbound.conf
+fi
