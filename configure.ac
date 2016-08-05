@@ -64,6 +64,7 @@ AC_CONFIG_FILES([
     alpine-registry/Makefile
     alpine-strongswan/Makefile
     alpine-tomcat/Makefile
+    alpine-unbound/Makefile
     alpine-zabbix-agent/Makefile
 ])
 
