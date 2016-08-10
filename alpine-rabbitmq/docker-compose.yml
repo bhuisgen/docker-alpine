@@ -14,23 +14,34 @@ services:
         image: bhuisgen/alpine-rabbitmq
         build: .
         #volumes:
-            #- /host/data:/var/lib/rabbitmq                     # volume for data
+            #- /host/data:/var/lib/rabbitmq                                 # volume for data
         environment:
-            - CONSUL_AGENT=consul                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix                     # consul key prefix path
-            - CONSUL_SERVICENAME=rabbitmq                       # consul service name
-            - CONSUL_SERVICETAGS=dev                            # consul service tag
-            - CONSUL_SERVICEPORT=5672                           # consul service port
-            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS        # erlang cookie
-            - RABBITMQ_RAMLIMIT=0.4                             # RAM limit
-            - RABBITMQ_DISKLIMIT=1000000000                     # disk limit
-            - RABBITMQ_USERNAME=rabbitmq                        # administrator user
-            - RABBITMQ_PASSWORD=rabbitmq                        # administrator password
-            #- RABBITMQ_CLUSTER=rabbit@abbitmq-master           # cluster to join
-            #- RABBITMQ_CLUSTERRAM=1                            # cluster RAM node
-            #- RABBITMQ_CLUSTERWAIT=15                          # delay slave startup if master starts at the same time
-            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh   # custom configuration script
+            - CONSUL_AGENT=consul                                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix                                 # consul key prefix path
+            - CONSUL_SERVICENAME=rabbitmq                                   # consul service name
+            - CONSUL_SERVICETAGS=dev                                        # consul service tag
+            - CONSUL_SERVICEPORT=5672                                       # consul service port
+            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
+            - RABBITMQ_MQTT=1                                               # enable MQTT
+            - RABBITMQ_STOMP=1                                              # enable STOMP
+            - RABBITMQ_PLUGINS=rabbitmq_event_exchange,rabbitmq_management  # enable plugins
+            - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
+            - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
+            - RABBITMQ_SSL=0                                                # enable TLS
+            #- RABBITMQ_SSLCACERTS=/etc/ssl/certs/cacerts.pem               # TLS CA bundle
+            #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificate
+            #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
+            #- RABBITMQ_SSLKEYFILE=/etc/ssl/private/server.key              # TLS server key
+            #- RABBITMQ_SSLDEPTH=2                                          # TLS CA chain verification depth
+            - RABBITMQ_SSLVERIFY=verify_peer                                # TLS verification
+            - RABBITMQ_SSLFAILIFNOPEERCERT=false                            # TLS fail if client has no certificate
+            - RABBITMQ_RAMLIMIT=0.4                                         # RAM limit
+            - RABBITMQ_DISKLIMIT=1000000000                                 # disk limit
+            #- RABBITMQ_CLUSTER=rabbit@abbitmq-master                       # cluster to join
+            #- RABBITMQ_CLUSTERRAM=1                                        # cluster RAM node
+            #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
+            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
 
     #
     # CLUSTER
