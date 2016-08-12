@@ -29,8 +29,7 @@ services:
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
             - RABBITMQ_SSL=0                                                # enable TLS
-            #- RABBITMQ_SSLCACERTS=/etc/ssl/certs/cacerts.pem               # TLS CA bundle
-            #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificate
+            #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificates
             #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
             #- RABBITMQ_SSLKEYFILE=/etc/ssl/private/server.key              # TLS server key
             #- RABBITMQ_SSLDEPTH=2                                          # TLS CA chain verification depth
