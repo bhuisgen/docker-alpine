@@ -1,1 +1,2 @@
+/usr/local/rabbitmq/etc true rabbitmq:rabbitmq 0640 0750
 /var/lib/rabbitmq false rabbitmq:rabbitmq 0640 0750
