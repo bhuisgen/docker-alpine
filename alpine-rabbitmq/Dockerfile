@@ -6,7 +6,7 @@ ENV RABBITMQ_VERSION=3.6.5 \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
     RABBITMQ_LOGS=- \
-    RABBITMQ_SASL_LOGS=/dev/null \
+    RABBITMQ_SASL_LOGS=- \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
 RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitmq/logs /var/run/rabbitmq && \

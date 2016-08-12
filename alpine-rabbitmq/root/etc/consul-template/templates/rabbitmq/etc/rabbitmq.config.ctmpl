@@ -1,7 +1,6 @@
 {{$rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT"}}
 {{$rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT"}}
 {{$rabbitmq_ssl := env "RABBITMQ_SSL"}}
-{{$rabbitmq_sslcacerts := env "RABBITMQ_SSLCACERTS"}}
 {{$rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE"}}
 {{$rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE"}}
 {{$rabbitmq_sslkeyfile := env "RABBITMQ_SSLKEYFILE"}}
@@ -29,7 +28,6 @@
         {{if eq $rabbitmq_ssl "1"}},
         {ssl_listeners, [5671]},
         {ssl_options, [
-            {cacerts, "{{$rabbitmq_sslcacerts}}"},
             {cacertfile, "{{$rabbitmq_sslcacertfile}}"},
             {certfile, "{{$rabbitmq_sslcertfile}}"},
             {keyfile, "{{$rabbitmq_sslkeyfile}}"},
