@@ -26,4 +26,5 @@ SUBDIRS = \
 	alpine-registry \
 	alpine-strongswan \
 	alpine-tomcat \
+	alpine-unbound \
 	alpine-zabbix-agent

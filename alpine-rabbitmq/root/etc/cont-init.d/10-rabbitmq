@@ -17,7 +17,18 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             sleep 4; \
         " rabbitmq
 
-        rabbitmq-plugins enable --offline rabbitmq_event_exchange rabbitmq_management rabbitmq_mqtt rabbitmq_stomp
+        if [ ! -z ${RABBITMQ_MQTT} ] && [ ${RABBITMQ_MQTT} -eq 1 ]; then
+            rabbitmq-plugins enable --offline rabbitmq_mqtt
+        fi
+
+        if [ ! -z ${RABBITMQ_STOMP} ] && [ ${RABBITMQ_STOMP} -eq 1 ]; then
+            rabbitmq-plugins enable --offline rabbitmq_stomp
+        fi
+
+        if [ ! -z ${RABBITMQ_PLUGINS} ]; then
+            PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
+            rabbitmq-plugins enable --offline ${PLUGINS}
+        fi
 
         if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
             su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq

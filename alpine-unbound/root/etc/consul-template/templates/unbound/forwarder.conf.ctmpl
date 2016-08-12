@@ -1,0 +1,11 @@
+{{$forwardaddr := env "UNBOUND_TEMPLATE_FORWARDADDR"}}
+server:
+    interface: 0.0.0.0
+    access-control: 10.0.0.0/16 allow
+    access-control: 127.0.0.0/8 allow
+    access-control: 172.16.0.0/12 allow
+    access-control: 192.168.0.0/16 allow
+
+forward-zone:
+    name: "."
+    forward-addr: {{$forwardaddr}}

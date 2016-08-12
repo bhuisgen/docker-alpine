@@ -1,34 +1,83 @@
 {{$rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT"}}
 {{$rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT"}}
+{{$rabbitmq_ssl := env "RABBITMQ_SSL"}}
+{{$rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE"}}
+{{$rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE"}}
+{{$rabbitmq_sslkeyfile := env "RABBITMQ_SSLKEYFILE"}}
+{{$rabbitmq_ssldepth := env "RABBITMQ_SSLDEPTH"}}
+{{$rabbitmq_sslverify := env "RABBITMQ_SSLVERIFY"}}
+{{$rabbitmq_sslfailifnopeercert := env "RABBITMQ_SSLFAILIFNOPEERCERT"}}
+{{$rabbitmq_mqtt := env "RABBITMQ_MQTT"}}
+{{$rabbitmq_stomp := env "RABBITMQ_STOMP"}}
 [
     {kernel, [
         {inet_default_connect_options, [{nodelay, true}]},
         {inet_default_listen_options, [{nodelay, true}]}
     ]},
+    {{if eq $rabbitmq_ssl "1"}}
+    {ssl, [{versions, ['tlsv1.2', 'tlsv1.1']}]},
+    {{end}}
     {rabbit, [
         {collect_statistics_interval, 30000},
         {tcp_listen_options, [
-            binary,
-            {packet, raw},
-            {reuseaddr, true},
-            {backlog, 4096},
+            {backlog, 128},
             {nodelay, true},
             {sndbuf, 32768},
             {recbuf, 32768}
         ]}
+        {{if eq $rabbitmq_ssl "1"}},
+        {ssl_listeners, [5671]},
+        {ssl_options, [
+            {cacertfile, "{{$rabbitmq_sslcacertfile}}"},
+            {certfile, "{{$rabbitmq_sslcertfile}}"},
+            {keyfile, "{{$rabbitmq_sslkeyfile}}"},
+            {depth, ${{rabbitmq_ssldepth}}},
+            {verify, ${{rabbitmq_sslverify}}},
+            {fail_if_no_peer_cert, ${{rabbitmq_sslfailifnopeercert}}},
+            {versions, ['tlsv1.2', 'tlsv1.1']}
+        ]},
+        {auth_mechanisms, ['EXTERNAL', 'PLAIN']},
+        {ssl_cert_login_from, common_name},
+        {{end}}
         {{if $rabbitmq_ramlimit}},
         {vm_memory_high_watermark, {{$rabbitmq_ramlimit}}}
         {{end}}
         {{if $rabbitmq_disklimit}},
         {disk_free_limit, {{$rabbitmq_disklimit}}}
         {{end}}
-    ]},
+        {auth_backends, [rabbit_auth_backend_internal]}
+    ]}
+    {{if eq $rabbitmq_mqtt "1"}},
     {rabbitmq_mqtt, [
         {allow_anonymous, false},
         {vhost, <<"/">>},
         {exchange, <<"amq.topic">>},
         {subscription_ttl, 1800000},
         {prefetch, 10},
-        {tcp_listeners, [1883]}
+        {tcp_listeners, [1883]},
+        {tcp_listen_options, [
+            {backlog, 4096},
+            {nodelay, true},
+            {sndbuf, 32768},
+            {recbuf, 32768}
+        ]}
+        {{if eq $rabbitmq_ssl "1"}},
+        {ssl_listeners, [8883]}
+        {{end}}
     ]}
+    {{end}}
+    {{if eq $rabbitmq_stomp "1"}},
+    {rabbitmq_stomp, [
+        {tcp_listeners, [61613]}
+        {tcp_listen_options, [
+            {backlog, 4096},
+            {nodelay, true},
+            {sndbuf, 32768},
+            {recbuf, 32768}
+        ]}
+        {{if eq $rabbitmq_ssl "1"}},
+        {ssl_listeners, [61614]}
+        {{end}}
+    ]}
+    {{end}}
 ].
