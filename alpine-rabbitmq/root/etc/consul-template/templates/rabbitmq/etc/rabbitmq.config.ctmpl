@@ -35,7 +35,9 @@
             {verify, ${{rabbitmq_sslverify}}},
             {fail_if_no_peer_cert, ${{rabbitmq_sslfailifnopeercert}}},
             {versions, ['tlsv1.2', 'tlsv1.1']}
-        ]}
+        ]},
+        {auth_mechanisms, ['EXTERNAL', 'PLAIN']},
+        {ssl_cert_login_from, common_name},
         {{end}}
         {{if $rabbitmq_ramlimit}},
         {vm_memory_high_watermark, {{$rabbitmq_ramlimit}}}
@@ -43,6 +45,7 @@
         {{if $rabbitmq_disklimit}},
         {disk_free_limit, {{$rabbitmq_disklimit}}}
         {{end}}
+        {auth_backends, [rabbit_auth_backend_internal]}
     ]}
     {{if eq $rabbitmq_mqtt "1"}},
     {rabbitmq_mqtt, [
