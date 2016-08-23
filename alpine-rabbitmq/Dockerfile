@@ -14,8 +14,8 @@ RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitm
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
     chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
 
-RUN sed -i -e 's/\/v.\+\//\/edge\//g' /etc/apk/repositories && \
-    apk add --update tar xz \
+RUN apk add --update tar xz && \
+    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
         erlang \
         erlang-asn1 \
         erlang-crypto \
