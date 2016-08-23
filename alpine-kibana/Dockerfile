@@ -8,8 +8,8 @@ RUN addgroup kibana && \
     adduser -S -D -g "" -G kibana -s /sbin/nologin -h /var/lib/kibana kibana && \
     chown -R kibana:kibana /var/lib/kibana
 
-RUN sed -i -e 's/\/v.\+\//\/edge\//g' /etc/apk/repositories && \
-    apk add --update nodejs tar && \
+RUN apk add --update tar && \
+    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted nodejs && \
     mkdir -p /usr/local/kibana && \
     curl -sSL https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz | tar -xzo -C /usr/local/kibana --strip-components 1 && \
     rm -rf /usr/share/kibana/node && \
