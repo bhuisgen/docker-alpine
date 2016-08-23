@@ -5,7 +5,7 @@ if [ -z ${CONTAINER_HOST} ]; then
     exit 1
 fi
 
-CONTAINER_IP=$(getent hosts ${CONTAINER_HOST}|awk '{ print $1 }')
+CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit }')
 if [ -z ${CONTAINER_IP} ]; then
     exit 2
 fi

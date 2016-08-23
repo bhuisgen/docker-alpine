@@ -4,8 +4,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
     PATH=${PATH}:${JAVA_HOME}/bin
 
-RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    apk add --update maven@testing openjdk8 && \
+RUN apk add --update openjdk8 && \
+    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted maven && \
     rm -rf /var/cache/apk/*
 
 COPY root /
