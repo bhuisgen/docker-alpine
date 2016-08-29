@@ -5,25 +5,25 @@ if [ -z ${CONTAINER_HOST} ]; then
     exit 1
 fi
 
-if [ -z ${CONTAINER_IP_RESOLVER} ]; then
-    CONTAINER_IP_RESOLVER=route
+if [ -z ${CONTAINER_RESOLVER} ]; then
+    CONTAINER_RESOLVER=route
 fi
 
-case ${CONTAINER_IP_RESOLVER} in
+case ${CONTAINER_RESOLVER} in
     route)
         CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit; }')
         ;;
 
     interface)
-        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACENAME} ]; then
-            CONTAINER_IP_RESOLVER_INTERFACENAME=eth0
+        if [ -z ${CONTAINER_IFNAME} ]; then
+            CONTAINER_IFNAME=eth0
         fi
 
-        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACETYPE} ]; then
-            CONTAINER_IP_RESOLVER_INTERFACETYPE=inet
+        if [ -z ${CONTAINER_IFTYPE} ]; then
+            CONTAINER_IFTYPE=inet
         fi
 
-        CONTAINER_IP=$(ip -o addr show ${CONTAINER_IP_RESOLVER_INTERFACENAME}|grep "${CONTAINER_IP_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+        CONTAINER_IP=$(ip -o addr show ${CONTAINER_IFNAME}|grep "${CONTAINER_IFTYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
         ;;
 esac
 
