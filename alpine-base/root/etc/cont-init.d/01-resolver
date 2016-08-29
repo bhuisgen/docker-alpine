@@ -5,7 +5,28 @@ if [ -z ${CONTAINER_HOST} ]; then
     exit 1
 fi
 
-CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit }')
+if [ -z ${CONTAINER_IP_RESOLVER} ]; then
+    CONTAINER_IP_RESOLVER=route
+fi
+
+case ${CONTAINER_IP_RESOLVER} in
+    route)
+        CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit; }')
+        ;;
+
+    interface)
+        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACE_NAME} ]; then
+            CONTAINER_IP_RESOLVER_INTERFACE_NAME=eth0
+        fi
+
+        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACE_TYPE} ]; then
+            CONTAINER_IP_RESOLVER_INTERFACE_TYPE=inet
+        fi
+
+        CONTAINER_IP=$(ip -o addr show ${CONTAINER_IP_RESOLVER_INTERFACE_NAME}|grep "${CONTAINER_IP_RESOLVER_INTERFACE_TYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+        ;;
+esac
+
 if [ -z ${CONTAINER_IP} ]; then
     exit 2
 fi
