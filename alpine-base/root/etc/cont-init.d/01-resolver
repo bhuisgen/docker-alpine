@@ -15,15 +15,15 @@ case ${CONTAINER_IP_RESOLVER} in
         ;;
 
     interface)
-        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACE_NAME} ]; then
-            CONTAINER_IP_RESOLVER_INTERFACE_NAME=eth0
+        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACENAME} ]; then
+            CONTAINER_IP_RESOLVER_INTERFACENAME=eth0
         fi
 
-        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACE_TYPE} ]; then
-            CONTAINER_IP_RESOLVER_INTERFACE_TYPE=inet
+        if [ -z ${CONTAINER_IP_RESOLVER_INTERFACETYPE} ]; then
+            CONTAINER_IP_RESOLVER_INTERFACETYPE=inet
         fi
 
-        CONTAINER_IP=$(ip -o addr show ${CONTAINER_IP_RESOLVER_INTERFACE_NAME}|grep "${CONTAINER_IP_RESOLVER_INTERFACE_TYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+        CONTAINER_IP=$(ip -o addr show ${CONTAINER_IP_RESOLVER_INTERFACENAME}|grep "${CONTAINER_IP_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
         ;;
 esac
 
