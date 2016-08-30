@@ -24,3 +24,39 @@ if [ -z ${CONSUL_KEYPREFIX} ]; then
     export CONSUL_KEYPREFIX=""
     printf "%s" "${CONSUL_KEYPREFIX}" > /var/run/s6/container_environment/CONSUL_KEYPREFIX
 fi
+
+if [ ! -z ${CONSUL_SERVICENAME} ] && [ -z ${CONSUL_SERVICEADDR} ]; then
+    if [ -z ${CONSUL_RESOLVER} ]; then
+        CONSUL_RESOLVER=container
+    fi
+
+    case ${CONSUL_RESOLVER} in
+        container)
+            CONSUL_SERVICEADDR=${CONTAINER_IP}
+            ;;
+
+        interface)
+            if [ -z ${CONTAINER_RESOLVER_INTERFACENAME} ]; then
+                CONSUL_RESOLVER_INTERFACENAME=eth0
+            fi
+
+            if [ -z ${CONTAINER_RESOLVER_INTERFACETYPE} ]; then
+                CONSUL_RESOLVER_INTERFACETYPE=inet
+            fi
+
+            CONSUL_SERVICEADDR=$(ip -o addr show ${CONSUL_RESOLVER_INTERFACENAME}|grep "${CONSUL_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+            ;;
+
+
+        route)
+            CONSUL_SERVICEADDR=$(ip route get 1|awk '{ print $NF; exit; }')
+            ;;
+    esac
+
+    if [ -z ${CONSUL_SERVICEADDR} ]; then
+        exit 2
+    fi
+
+    export CONSUL_SERVICEADDR
+    printf "%s" "${CONSUL_SERVICEADDR}" > /var/run/s6/container_environment/CONSUL_SERVICEADDR
+fi
