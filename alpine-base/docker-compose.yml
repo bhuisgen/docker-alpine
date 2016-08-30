@@ -4,6 +4,6 @@ services:
     foo:
         build: .
         environment:
-            #- CONTAINER_RESOLVER=route # container internal IP resolver mode (route/interface, default: route)
-            #- CONTAINER_IFNAME=eth0    # container network interface name for IP resolver (default: eth0)
-            #- CONTAINER_IFTYPE=inet    # container network interface type for IP resolver (inet/inet6, default: inet)
+            #- CONTAINER_RESOLVER=route                 # IP resolver method for container (route/interface, default: route)
+            #- CONTAINER_RESOLVER_INTERFACENAME=eth0    # network interface name for IP resolver (default: eth0)
+            #- CONTAINER_RESOLVER_INTERFACETYPE=inet    # network interface type for IP resolver (inet/inet6, default: inet)

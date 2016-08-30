@@ -4,15 +4,14 @@
 {{- $tags := env "CONSUL_SERVICETAGS"|split "," -}}
 {{- $addr := env "CONSUL_SERVICEADDR" -}}
 {{- $port := env "CONSUL_SERVICEPORT" -}}
-{{- if and $host $ip $name -}}
+{{- if and $host $ip $name $addr $port -}}
 {
     "ID": "{{print $name "-" $host}}",
     "Name": "{{$name}}",
     {{if $tags -}}
     "Tags": [ {{range $index, $tag := $tags}}{{if gt $index 0}}, {{end}}"{{$tag}}"{{end}} ],
     {{- end}}
-    "Address": "{{if $addr}}{{$addr}}{{else}}{{$ip}}{{end}}"{{if $port -}},
+    "Address": "{{$addr}}",
     "Port": {{$port}}
-    {{- end}}
 }
 {{- end -}}
