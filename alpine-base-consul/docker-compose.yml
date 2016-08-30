@@ -19,5 +19,37 @@ services:
             #- CONSUL_RESOLVER_INTERFACETYPE=inet               # network interface type for IP resolver (inet/inet6, default: inet)
             - CONSUL_SERVICENAME=foo                            # service name to register
             #- CONSUL_SERVICETAGS=local,foo                     # service tags (optional)
-            #- CONSUL_SERVICEADDR=172.31.1.1                    # service address (optional, by default container address)
+            #- CONSUL_SERVICEADDR=172.31.1.1                    # service address (optional, resolved by consul IP resolver)
             - CONSUL_SERVICEPORT=1234                           # service port
+            #- CONSUL_CHECKTYPE=tcp                             # health check type (none/http/script/tcp/ttl, default: none)
+            #- CONSUL_CHECKINTERVAL=15s                         # health check interval
+
+            #
+            # HTTP health check
+            #
+            #- CONSUL_CHECKTYPE=http
+            #- CONSUL_CHECKHTTP=http://foo:1234                 # HTTP url
+            #- CONSUL_CHECKINTERVAL=15s                         # check interval
+
+            #
+            # Script health check
+            #
+            #- CONSUL_CHECKTYPE=script
+            #- CONSUL_CHECKSCRIPT=/usr/local/bin/healthcheck.sh # script to execute
+            #- CONSUL_CHECKDOCKERCONTAINERID=                   # docker container id
+            #- CONSUL_CHECKSHELL=/bin/bash                      # custom shell
+            #- CONSUL_CHECKINTERVAL=15s                         # check interval
+
+            #
+            # TCP health check
+            #
+            #- CONSUL_CHECKTYPE=tcp
+            #- CONSUL_CHECKADDR=static                          # custom TCP address if different from service registration
+            #- CONSUL_CHECKPORT=5678                            # custom TCP port if different from service registration
+            #- CONSUL_CHECKINTERVAL=15s                         # check interval
+
+            #
+            # TTL health check
+            #
+            #- CONSUL_CHECKTYPE=ttl
+            #- CONSUL_CHECKTTL=15s                              # TTL update
