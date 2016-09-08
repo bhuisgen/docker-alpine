@@ -13,10 +13,6 @@ if [ -z ${STRONGSWAN_CONFIG} ]; then
     iptables -t nat -A POSTROUTING -s $STRONGSWAN_LEFTSUBNET -o $STRONGSWAN_INTERFACE -m policy --dir out --pol ipsec -j ACCEPT
     iptables -t nat -A POSTROUTING -s $STRONGSWAN_LEFTSUBNET -o $STRONGSWAN_INTERFACE -j MASQUERADE
 
-    mkdir -p /etc/ipsec.d/cacerts
-    mkdir -p /etc/ipsec.d/certs
-    mkdir -p /etc/ipsec.d/private
-
     cat > /etc/ipsec.conf <<EOF
 # ipsec.conf
 
