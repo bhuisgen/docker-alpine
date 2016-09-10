@@ -22,6 +22,7 @@ services:
             - CONSUL_SERVICENAME=dnsmasq            # consul service name
             - CONSUL_SERVICETAGS=dev                # consul service tag
             - CONSUL_SERVICEPORT=53                 # consul service port
+            - CONSUL_CHECKTYPE=tcp                  # consul health check type
             - DNSMASQ_NORESOLV=1                    # read /etc/resolv.conf
             - DNSMASQ_INTERFACE=wlan0               # listen interface
             - DNSMASQ_LISTENADDRESS=192.168.100.1   # listen IP

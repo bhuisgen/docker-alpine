@@ -23,3 +23,4 @@ services:
             - CONSUL_SERVICENAME=registry   # consul service name
             - CONSUL_SERVICETAGS=dev        # consul service tag
             - CONSUL_SERVICEPORT=5000       # consul service port
+            - CONSUL_CHECKTYPE=tcp          # consul health check type
