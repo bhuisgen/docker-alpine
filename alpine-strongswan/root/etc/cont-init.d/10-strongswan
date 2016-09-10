@@ -38,7 +38,7 @@ conn ipsec-ikev2
     rightid=$STRONGSWAN_RIGHTID
     dpdaction=restart
     dpddelay=30
-    auto=add
+    auto=$STRONGSWAN_AUTO
 
 # end
 EOF

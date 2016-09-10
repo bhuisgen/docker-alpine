@@ -33,3 +33,4 @@ services:
             - STRONGSWAN_RIGHT=81.82.83.84              # VPN right public IP
             - STRONGSWAN_RIGHTSUBNET=10.2.0.0/16        # VPN right subnet
             - STRONGSWAN_RIGHTID="CN=vpn-02"            # VPN right certificate id
+            - STRONGSWAN_AUTO=start                     # VPN startup
