@@ -26,6 +26,7 @@ services:
             - CONSUL_SERVICENAME=zabbix-agent  # consul service name
             - CONSUL_SERVICETAGS=dev           # consul service tag
             - CONSUL_SERVICEPORT=10050         # consul service port
+            - CONSUL_CHECKTYPE=tcp             # consul health check type
             - ZABBIX_SYSIMAGE=/host            # real host mountpath
             - ZABBIX_SERVER=172.16.0.1         # zabbix server IP/host
             - ZABBIX_HOST=zabbix-agent         # zabbix agent host

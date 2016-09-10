@@ -21,3 +21,4 @@ services:
             - CONSUL_SERVICENAME=jetty      # consul service name
             - CONSUL_SERVICETAGS=dev        # consul service tag
             - CONSUL_SERVICEPORT=8080       # consul service port
+            - CONSUL_CHECKTYPE=tcp          # consul health check type
