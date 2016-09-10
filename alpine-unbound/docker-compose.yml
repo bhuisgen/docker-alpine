@@ -16,11 +16,12 @@ services:
             - NET_ADMIN
         network_mode: host
         environment:
-            - CONSUL_AGENT=consul                       # consul agent hostname/IP
-            #- CONSUL_PORT=8500                         # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix             # consul key prefix path
-            - CONSUL_SERVICENAME=unbound                # consul service name
-            - CONSUL_SERVICETAGS=dev                    # consul service tag
-            - CONSUL_SERVICEPORT=53                     # consul service port
-            - UNBOUND_TEMPLATE=forwarder                # configuration template
-            - UNBOUND_TEMPLATE_FORWARDADDR=208.67.222.222     # IP address of forwarder
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix                 # consul key prefix path
+            - CONSUL_SERVICENAME=unbound                    # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=53                         # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - UNBOUND_TEMPLATE=forwarder                    # configuration template
+            - UNBOUND_TEMPLATE_FORWARDADDR=208.67.222.222   # IP address of forwarder

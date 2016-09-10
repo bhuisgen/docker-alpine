@@ -22,6 +22,7 @@ services:
             - CONSUL_SERVICENAME=rabbitmq                                   # consul service name
             - CONSUL_SERVICETAGS=dev                                        # consul service tag
             - CONSUL_SERVICEPORT=5672                                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                                          # consul health check type
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
             - RABBITMQ_MQTT=1                                               # enable MQTT
             - RABBITMQ_STOMP=1                                              # enable STOMP
@@ -59,6 +60,7 @@ services:
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
+    #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=path/prefix
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
@@ -78,6 +80,7 @@ services:
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
+    #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=path/prefix
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
