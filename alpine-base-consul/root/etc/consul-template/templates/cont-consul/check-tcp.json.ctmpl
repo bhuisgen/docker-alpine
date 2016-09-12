@@ -9,7 +9,7 @@
 {{- if eq $check_type "tcp" -}}
 {{- if and $host $ip $name $port $check_addr $check_port -}}
 {
-    "ID": "{{print $name "-" $host "-tcp-" $port}}",
+    "ID": "{{print $name "-" $host "-tcp"}}",
     "ServiceID": "{{print $name "-" $host}}",
     "Name": "check TCP {{$check_port}}",
     "TCP": "{{$check_addr}}:{{$check_port}}",
@@ -18,7 +18,7 @@
 {{- else -}}
 {{- if and $host $ip $name $port -}}
 {
-    "ID": "{{print $name "-" $host "-tcp-" $port}}",
+    "ID": "{{print $name "-" $host "-tcp"}}",
     "ServiceID": "{{print $name "-" $host}}",
     "Name": "check TCP {{$port}}",
     "TCP": "{{$ip}}:{{$port}}",
