@@ -9,7 +9,7 @@
 {{- if eq $check_type "script" -}}
 {{- if and $host $ip $name $check_script -}}
 {
-    "ID": "{{print $name "-" $host "-script-" $check_script}}",
+    "ID": "{{print $name "-" $host "-script"}}",
     "ServiceID": "{{print $name "-" $host}}",
     "Name": "check script {{$check_script}}",
     "Script": "{{$check_script}}",
