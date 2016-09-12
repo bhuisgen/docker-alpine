@@ -7,7 +7,7 @@
 {{- if eq $check_type "http" -}}
 {{- if and $host $ip $name $check_http -}}
 {
-    "ID": "{{print $name "-" $host "-http-" $check_http}}",
+    "ID": "{{print $name "-" $host "-http"}}",
     "ServiceID": "{{print $name "-" $host}}",
     "Name": "check HTTP {{$check_http}}",
     "HTTP": "{{$check_http}}",
