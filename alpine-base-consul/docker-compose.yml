@@ -28,7 +28,8 @@ services:
             # HTTP health check
             #
             #- CONSUL_CHECKTYPE=http
-            #- CONSUL_CHECKHTTP=http://foo:1234                 # HTTP url
+            #- CONSUL_CHECKHTTPURL=http://foo:1234              # HTTP custom URL
+            #- CONSUL_CHECKHTTPPATH=/                           # HTTP path for auto-generated URL (http://<container_ip>:<service_port><path>)
             #- CONSUL_CHECKINTERVAL=15s                         # check interval
 
             #
