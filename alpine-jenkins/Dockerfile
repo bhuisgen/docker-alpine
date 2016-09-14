@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-java:latest
+FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV JENKINS_VERSION=2.7.4 \
@@ -9,7 +9,7 @@ RUN mkdir -p /home/jenkins && \
     adduser -D -g "" -G jenkins -s /bin/sh -h /home/jenkins jenkins && \
     chown -R jenkins:jenkins /home/jenkins
 
-RUN apk add --update git openssh-client ttf-dejavu && \
+RUN apk add --update git openjdk8-jre openssh-client ttf-dejavu && \
     mkdir -p /usr/local/jenkins && \
     curl -sSL http://mirrors.jenkins-ci.org/war-stable/${JENKINS_VERSION}/jenkins.war -o /usr/local/jenkins/jenkins.war && \
     rm -rf /var/cache/apk/*
