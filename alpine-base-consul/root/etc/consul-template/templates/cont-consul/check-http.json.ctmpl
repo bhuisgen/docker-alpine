@@ -11,7 +11,7 @@
 {
     "ID": "{{print $name "-" $host "-http"}}",
     "ServiceID": "{{print $name "-" $host}}",
-    "Name": "check HTTP {{$check_http}}",
+    "Name": "check HTTP",
     {{if $check_httpurl}}
     "HTTP": "{{$check_httpurl}}",
     {{else}}
