@@ -11,7 +11,7 @@
 {
     "ID": "{{print $name "-" $host "-script"}}",
     "ServiceID": "{{print $name "-" $host}}",
-    "Name": "check script {{$check_script}}",
+    "Name": "check script",
     "Script": "{{$check_script}}",
     {{if and $check_docker_container_id $check_shell -}}
     "DockerContainerID": "{{$check_docker_container_id}}",
