@@ -1,0 +1,35 @@
+#!/usr/bin/with-contenv sh
+
+options=""
+url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
+params=""
+
+if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
+    options="${options} --insecure --cacert /etc/consul.d/ssl/ca.pem --cert /etc/consul.d/ssl/client.pem --key /etc/consul.d/ssl/client-priv-key.pem"
+    url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
+fi
+
+if [ ! -z ${CONSUL_TOKEN} ]; then
+    params="?token=${CONSUL_TOKEN}"
+fi
+
+if [ -d /etc/cont-consul/services.d/ ]; then
+    for file in /etc/cont-consul/services.d/*.json; do
+        [ -f $file ] || continue
+
+        id=`jq -r '.ID' $file`
+        name=`jq -r '.Name' $file`
+
+        health=$(curl -sSL ${options} -X GET "${url}/v1/health/service/$name${params}&passing=true")
+        service_ids=$(echo $health|jq -r '.[].Service.ID')
+        for service_id in $service_ids; do
+            if [ "$service_id" == "$id" ]; then
+                echo "OK"
+                exit 0
+            fi
+        done
+    done
+
+    echo "KO"
+    exit 0
+fi
