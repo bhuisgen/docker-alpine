@@ -11,7 +11,7 @@
 {
     "ID": "{{print $name "-" $host "-tcp"}}",
     "ServiceID": "{{print $name "-" $host}}",
-    "Name": "check TCP",
+    "Name": "Check TCP",
     "TCP": "{{$check_addr}}:{{$check_port}}",
     "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
 }
