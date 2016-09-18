@@ -24,3 +24,4 @@ services:
             #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy (server only)
             #- CONSUL_ACLTTL=30                                                 # ACL TTL (server only)
             #- CONSUL_ACLTOKEN=d17fade7-2391-45a4-aa00-c9ed5e707e0b             # ACL token (client only)
+            #- CONSUL_RAFTMULTIPLIER=0                                          # Raft mutliplier
