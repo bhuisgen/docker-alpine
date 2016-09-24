@@ -33,7 +33,7 @@ RUN apk add --update tar xz && \
     apk del --purge tar xz && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []

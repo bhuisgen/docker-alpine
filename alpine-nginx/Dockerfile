@@ -6,7 +6,7 @@ RUN apk add --update nginx && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []

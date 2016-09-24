@@ -9,7 +9,7 @@ RUN apk add --update postgresql postgresql-contrib && \
     chown -R postgres ${PGHOME} && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []

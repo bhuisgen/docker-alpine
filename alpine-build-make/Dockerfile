@@ -4,7 +4,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 RUN apk add --update make && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []
