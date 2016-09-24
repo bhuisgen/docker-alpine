@@ -15,4 +15,4 @@ RUN apk update && \
     apk del tar && \
     rm -rf /var/cache/apk/* /src
 
-COPY root /
+COPY rootfs/ /

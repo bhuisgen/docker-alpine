@@ -15,4 +15,4 @@ RUN apk add --update zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /

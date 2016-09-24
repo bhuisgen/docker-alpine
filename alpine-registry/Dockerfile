@@ -9,7 +9,7 @@ RUN mkdir -p /var/lib/registry && \
 RUN apk add --update docker-registry && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []

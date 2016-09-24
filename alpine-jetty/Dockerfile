@@ -10,7 +10,7 @@ RUN apk add --update openjdk8-jre tar && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
-COPY root /
+COPY rootfs/ /
 
 ENTRYPOINT ["/init"]
 CMD []
