@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-cd /usr/local/jetty
-exec /usr/bin/java ${JAVA_OPTS} -jar start.jar
+cd "${JETTY_BASE}" || exit 1
+exec /usr/bin/java ${JAVA_OPTS} -jar "${JETTY_HOME}/start.jar"

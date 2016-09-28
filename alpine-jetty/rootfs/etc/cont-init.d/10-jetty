@@ -1,0 +1,28 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z ${JETTY_BASE} ]; then
+    export JETTY_BASE=/usr/local/jetty-base
+    printf "%s" "${JETTY_BASE}" > /var/run/s6/container_environment/JETTY_BASE
+fi
+
+if [ -z ${JETTY_MODULES} ]; then
+    export JETTY_MODULES=http,deploy
+    printf "%s" "${JETTY_MODULES}" > /var/run/s6/container_environment/JETTY_MODULES
+fi
+
+if [ -z ${JETTY_CONFIG} ]; then
+    if [ -z "${JETTY_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring jetty from environment"
+
+        mkdir -p "${JETTY_BASE}"
+        cd "${JETTY_BASE}" || exit 1
+        java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES}
+    else
+        echo "==> Configuring rabbitmq from script"
+
+        /bin/sh "${JETTY_CONFIGSCRIPT}"
+    fi
+
+    export JETTY_CONFIG=1
+    printf "%s" "${JETTY_CONFIG}" > /var/run/s6/container_environment/JETTY_CONFIG
+fi
