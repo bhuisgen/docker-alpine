@@ -12,7 +12,8 @@ services:
         depends_on:
             - consul
         image: bhuisgen/alpine-strongswan
-        privileged: true
+        cap_add:
+            - NET_ADMIN
         network_mode: host
         volumes:
             - /etc/localtime:/etc/localtime
