@@ -25,7 +25,7 @@ services:
             - CONSUL_SERVICEPORT=3306                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
             - MARIADB_ROOTPASSWORD=mariadb                  # root password
-            #- MARIADB_ROOTHOSTMASK='172.30.0.%'            # root user hostmask (optional)
+            #- MARIADB_ROOTHOSTMASK=172.30.0.%              # root user hostmask (optional)
             - MARIADB_DATABASE=mydb                         # create database (optional)
             - MARIADB_USERNAME=mariadb                      # grant user name (optional)
             - MARIADB_PASSWORD=mariadb                      # grant user password (optional)

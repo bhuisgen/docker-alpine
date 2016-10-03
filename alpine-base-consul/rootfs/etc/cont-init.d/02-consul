@@ -2,7 +2,7 @@
 
 if [ -z ${CONSUL_AGENT} ]; then
     export CONSUL_AGENT=""
-    printf "%s" "${CONSUL_PORT}" > /var/run/s6/container_environment/CONSUL_AGENT
+    printf "%s" "${CONSUL_AGENT}" > /var/run/s6/container_environment/CONSUL_AGENT
 fi
 
 if [ -z ${CONSUL_PORT} ]; then
