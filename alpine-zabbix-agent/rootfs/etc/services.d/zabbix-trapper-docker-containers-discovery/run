@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid zabbix /bin/watch -n 900 /etc/zabbix/scripts/trapper/docker-containers-discovery
+exec s6-setuidgid zabbix /bin/watch -n 900 /etc/zabbix/scripts/trapper/docker-containers-discovery > /dev/null 2>&1

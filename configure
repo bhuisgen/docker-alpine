@@ -2475,7 +2475,7 @@ $as_echo "${TAG}" >&6; }
 
 
 
-ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-make-terraform/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-php/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-strongswan/Makefile alpine-terraform/Makefile alpine-tomcat/Makefile alpine-unbound/Makefile alpine-zabbix-agent/Makefile"
+ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-make-terraform/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-php/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-strongswan/Makefile alpine-terraform/Makefile alpine-tomcat/Makefile alpine-unbound/Makefile alpine-zabbix-agent/Makefile alpine-zabbix-frontend-php/Makefile alpine-zabbix-server-pgsql/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -3231,6 +3231,8 @@ do
     "alpine-tomcat/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-tomcat/Makefile" ;;
     "alpine-unbound/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-unbound/Makefile" ;;
     "alpine-zabbix-agent/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-zabbix-agent/Makefile" ;;
+    "alpine-zabbix-frontend-php/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-zabbix-frontend-php/Makefile" ;;
+    "alpine-zabbix-server-pgsql/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-zabbix-server-pgsql/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

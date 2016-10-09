@@ -68,6 +68,8 @@ AC_CONFIG_FILES([
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
     alpine-zabbix-agent/Makefile
+    alpine-zabbix-frontend-php/Makefile
+    alpine-zabbix-server-pgsql/Makefile
 ])
 
 AC_OUTPUT
