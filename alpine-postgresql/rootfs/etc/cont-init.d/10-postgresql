@@ -18,14 +18,16 @@ if [ -z ${POSTGRESQL_CONFIG} ]; then
             su -c "pg_ctl reload" postgres
             sleep 4
         fi
+
+        su -c "pg_ctl -m fast -w stop" postgres
+        sleep 4
+
+        echo "listen_addresses = '*'" >> "/var/lib/postgresql/data/postgresql.conf"
     else
         echo "==> Configuring postgresql from script"
 
         /bin/sh ${POSTGRESQL_CONFIGSCRIPT}
     fi
-
-    su -c "pg_ctl -m fast -w stop" postgres
-    sleep 4
 
     export POSTGRESQL_CONFIG=1
     printf "%s" "${POSTGRESQL_CONFIG}" > /var/run/s6/container_environment/POSTGRESQL_CONFIG
