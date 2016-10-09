@@ -38,14 +38,14 @@ if [ -z ${MARIADB_CONFIG} ]; then
             FLUSH PRIVILEGES; \
             " mysql
         fi
+
+        mysqladmin -u root -p"${MARIADB_ROOTPASSWORD}" shutdown
+        sleep 4
     else
         echo "==> Configuring mariadb from script"
 
         /bin/sh ${MARIADB_CONFIGSCRIPT} ${MARIADB_ROOTPASSWORD}
     fi
-
-    mysqladmin -u root -p"${MARIADB_ROOTPASSWORD}" shutdown
-    sleep 4
 
     export MARIADB_CONFIG=1
     printf "%s" "${MARIADB_CONFIG}" > /var/run/s6/container_environment/MARIADB_CONFIG
