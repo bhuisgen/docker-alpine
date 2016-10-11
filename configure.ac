@@ -58,11 +58,13 @@ AC_CONFIG_FILES([
     alpine-mariadb/Makefile
     alpine-nginx/Makefile
     alpine-nodejs/Makefile
+    alpine-php/Makefile
     alpine-postgresql/Makefile
     alpine-rabbitmq/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
     alpine-strongswan/Makefile
+    alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
     alpine-zabbix-agent/Makefile
