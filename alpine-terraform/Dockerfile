@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-build-make:latest
+FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV TERRAFORM_VERSION=0.7.5
