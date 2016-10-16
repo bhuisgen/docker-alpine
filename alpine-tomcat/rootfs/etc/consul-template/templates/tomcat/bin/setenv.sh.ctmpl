@@ -1,24 +1,45 @@
 {{- $ip := env "CONTAINER_IP" -}}
-{{- $debug := env "TOMCAT_DEBUG" -}}
-{{- $jdwp := env "TOMCAT_JDWP" -}}
-{{- $jmx := env "TOMCAT_JMX" -}}
+{{- $tomcat_debug := env "TOMCAT_DEBUG" -}}
+{{- $tomcat_jdwp := env "TOMCAT_JDWP" -}}
+{{- $tomcat_jmx := env "TOMCAT_JMX" -}}
+{{- $tomcat_jmxauth := env "TOMCAT_JMXAUTH" -}}
+{{- $tomcat_jmxssl := env "TOMCAT_JMXSSL" -}}
+{{- $tomcat_jmxkeystore := env "TOMCAT_JMXSSLKEYSTORE" -}}
+{{- $tomcat_jmxkeystorepassword := env "TOMCAT_JMXSSLKEYSTOREPASSWORD" -}}
+{{- $tomcat_jmxtruststore := env "TOMCAT_JMXSSLTRUSTSTORE" -}}
+{{- $tomcat_jmxtruststorepassword := env "TOMCAT_JMXSSLTRUSTSTOREPASSWORD" -}}
 #!/bin/sh
 
-{{if eq $debug "1"}}
+{{if eq $tomcat_debug "1"}}
 CATALINA_OPTS="${CATALINA_OPTS} -Xdebug"
 {{end}}
-{{if eq $jdwp "1"}}
+{{if eq $tomcat_jdwp "1"}}
 CATALINA_OPTS="${CATALINA_OPTS} -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
 {{end}}
-{{if and (eq $jmx "1") $ip}}
-CATALINA_OPTS="${CATALINA_OPTS} -Djava.rmi.server.hostname={{$ip}}"
-CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote="
+{{if eq $tomcat_jmx "1"}}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.local.only=false"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.port=8090"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.rmi.port=8090"
-CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
+CATALINA_OPTS="${CATALINA_OPTS} -Djava.rmi.server.hostname={{$ip}}"
+{{if eq $tomcat_jmxauth "1" }}
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=true"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.password.file=/usr/local/tomcat/conf/jmxremote.password"
 CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.access.file=/usr/local/tomcat/conf/jmxremote.access"
+{{else}}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=false"
+{{end}}
+{{if eq $tomcat_jmxssl "1"}}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl.need.client.auth=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.registry.ssl=true"
+CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.keyStore={{$tomcat_jmxkeystore}}"
+CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.keyStorePassword={{$tomcat_jmxkeystorepassword}}"
+CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore={{$tomcat_jmxtruststore}}"
+CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStorePassword={{$tomcat_jmxtruststorepassword}}"
+{{else}}
+CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
+{{end}}
 {{end}}
 CATALINA_OPTS="${CATALINA_OPTS} -Djava.security.egd=file:/dev/./urandom"
 export CATALINA_OPTS
