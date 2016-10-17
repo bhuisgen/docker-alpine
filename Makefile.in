@@ -154,7 +154,7 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in install-sh missing
+am__DIST_COMMON = $(srcdir)/Makefile.in TODO install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -278,36 +278,44 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = \
-	alpine-base \
-	alpine-base-consul \
-	alpine-build \
-	alpine-build-make \
-	alpine-build-make-terraform \
-	alpine-build-maven \
-	alpine-build-npm \
-	alpine-consul \
-	alpine-dnsmasq \
-	alpine-dynamodb \
-	alpine-elasticsearch \
-	alpine-haproxy \
-	alpine-hostapd \
-	alpine-java \
-	alpine-jenkins \
-	alpine-jetty \
-	alpine-kibana \
-	alpine-logstash \
-	alpine-mariadb \
-	alpine-nginx \
-	alpine-nodejs \
-	alpine-postgresql \
-	alpine-rabbitmq \
-	alpine-redis \
-	alpine-registry \
-	alpine-strongswan \
+    alpine-base \
+    alpine-base-consul \
+    alpine-build \
+    alpine-build-make \
+    alpine-build-make-terraform \
+    alpine-build-maven \
+    alpine-build-npm \
+    alpine-consul \
+    alpine-dnsmasq \
+    alpine-dynamodb \
+    alpine-elasticsearch \
+    alpine-haproxy \
+    alpine-hostapd \
+    alpine-java \
+    alpine-jenkins \
+    alpine-jetty \
+    alpine-kibana \
+    alpine-logstash \
+    alpine-mariadb \
+    alpine-nginx \
+    alpine-nodejs \
+    alpine-php \
+    alpine-postgresql \
+    alpine-rabbitmq \
+    alpine-redis \
+    alpine-registry \
+    alpine-strongswan \
     alpine-terraform \
-	alpine-tomcat \
-	alpine-unbound \
-	alpine-zabbix-agent
+    alpine-tomcat \
+    alpine-unbound \
+    alpine-zabbix-agent \
+    alpine-zabbix-frontend-php \
+    alpine-zabbix-java-gateway \
+    alpine-zabbix-proxy-mysql \
+    alpine-zabbix-proxy-pgsql \
+    alpine-zabbix-proxy-sqlite3 \
+    alpine-zabbix-server-mysql \
+    alpine-zabbix-server-pgsql
 
 all: all-recursive
 

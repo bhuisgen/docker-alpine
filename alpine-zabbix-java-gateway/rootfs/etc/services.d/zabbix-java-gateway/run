@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+
+cd "/usr/share/zabbix/zabbix_java" || exit 1
+exec s6-setuidgid zabbix /usr/bin/java \
+    ${JAVA_OPTS} \
+    -Dlogback.configurationFile=logback-console.xml \
+    -Dzabbix.startPollers=${ZABBIX_STARTPOLLERS} \
+    -Dzabbix.timeout=${ZABBIX_TIMEOUT} \
+    -Dsun.rmi.transport.tcp.responseTimeout=${ZABBIX_TIMEOUT}000 \
+    -classpath "./bin/*:./lib/*" com.zabbix.gateway.JavaGateway

@@ -1,9 +1,17 @@
-{{- $server := env "ZABBIX_SERVER" -}}
-{{- $host := env "ZABBIX_HOST" -}}
-{{- $host_metadata := env "ZABBIX_HOSTMETADATA" -}}
-{{- $start_agents := env "ZABBIX_STARTAGENTS" -}}
-{{- $machineid := file "/host/etc/machine-id" -}}
-{{if and $server $host_metadata}}
+{{- $machineid := file "/rootfs/etc/machine-id" -}}
+{{- $zabbix_enableremotecommands := env "ZABBIX_ENABLEREMOTECOMMANDS" -}}
+{{- $zabbix_logremotecommands := env "ZABBIX_LOGREMOTECOMMANDS" -}}
+{{- $zabbix_server := env "ZABBIX_SERVER" -}}
+{{- $zabbix_hostname := env "ZABBIX_HOSTNAME" -}}
+{{- $zabbix_hostmetadata := env "ZABBIX_HOSTMETADATA" -}}
+{{- $zabbix_startagents := env "ZABBIX_STARTAGENTS" -}}
+{{- $zabbix_refreshactivechecks := env "ZABBIX_REFRESHACTIVECHECKS" -}}
+{{- $zabbix_buffersend := env "ZABBIX_BUFFERSEND" -}}
+{{- $zabbix_buffersize := env "ZABBIX_BUFFERSIZE" -}}
+{{- $zabbix_maxlinespersecond := env "ZABBIX_MAXLINESPERSECOND" -}}
+{{- $zabbix_timeout := env "ZABBIX_TIMEOUT" -}}
+{{- $zabbix_rootfilsystem := env "ZABBIX_ROOTFILESYSTEM" -}}
+{{- $zabbix_unsafeuserparameters := env "ZABBIX_UNSAFEUSERPARAMETERS" -}}
 # This is a configuration file for Zabbix agent daemon (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
@@ -14,7 +22,9 @@
 #
 # Mandatory: no
 # Default:
-# PidFile=/var/run/zabbix/zabbix_agentd.pid
+# PidFile=/tmp/zabbix_agentd.pid
+
+PidFile=/var/run/zabbix/zabbix_agentd.pid
 
 ### Option: LogType
 #	Specifies where log messages are written to:
@@ -58,8 +68,6 @@ LogType=console
 # Default:
 # DebugLevel=3
 
-DebugLevel=2
-
 ### Option: SourceIP
 #	Source IP address for outgoing connections.
 #
@@ -76,6 +84,8 @@ DebugLevel=2
 # Default:
 # EnableRemoteCommands=0
 
+{{if $zabbix_enableremotecommands}}EnableRemoteCommands={{$zabbix_enableremotecommands}}{{end}}
+
 ### Option: LogRemoteCommands
 #	Enable logging of executed shell commands as warnings.
 #	0 - disabled
@@ -84,6 +94,8 @@ DebugLevel=2
 # Mandatory: no
 # Default:
 # LogRemoteCommands=0
+
+{{if $zabbix_logremotecommands}}LogRemoteCommands={{$zabbix_logremotecommands}}{{end}}
 
 ##### Passive checks related
 
@@ -96,7 +108,7 @@ DebugLevel=2
 # Default:
 # Server=
 
-Server={{$server}}
+Server={{$zabbix_server}}
 
 ### Option: ListenPort
 #	Agent will listen on this port for connections from the server.
@@ -123,9 +135,7 @@ Server={{$server}}
 # Default:
 # StartAgents=3
 
-{{if $start_agents}}
-StartAgents={{$start_agents}}
-{{end}}
+{{if $zabbix_startagents}}StartAgents={{$zabbix_startagents}}{{end}}
 
 ##### Active checks related
 
@@ -141,7 +151,7 @@ StartAgents={{$start_agents}}
 # Default:
 # ServerActive=
 
-ServerActive={{$server}}
+ServerActive={{$zabbix_server}}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -152,10 +162,10 @@ ServerActive={{$server}}
 # Default:
 # Hostname=
 
-{{if $host}}
-Hostname={{$host}}
+{{if $zabbix_hostname}}
+Hostname={{$zabbix_hostname}}
 {{else}}
-Hostname={{ print ($host_metadata "-" $machineid) }}
+Hostname={{ print ($zabbix_hostmetadata "-" $machineid) }}
 {{end}}
 
 ### Option: HostnameItem
@@ -177,7 +187,7 @@ Hostname={{ print ($host_metadata "-" $machineid) }}
 # Default:
 # HostMetadata=
 
-HostMetadata={{$host_metadata}}
+HostMetadata={{$zabbix_hostmetadata}}
 
 ### Option: HostMetadataItem
 #	Optional parameter that defines an item used for getting host metadata.
@@ -198,6 +208,8 @@ HostMetadata={{$host_metadata}}
 # Default:
 # RefreshActiveChecks=120
 
+{{if $zabbix_refreshactivechecks}}RefreshActiveChecks={{$zabbix_refreshactivechecks}}{{end}}
+
 ### Option: BufferSend
 #	Do not keep data longer than N seconds in buffer.
 #
@@ -205,6 +217,8 @@ HostMetadata={{$host_metadata}}
 # Range: 1-3600
 # Default:
 # BufferSend=5
+
+{{if $zabbix_refreshactivechecks}}BufferSend={{$zabbix_refreshactivechecks}}{{end}}
 
 ### Option: BufferSize
 #	Maximum number of values in a memory buffer. The agent will send
@@ -214,6 +228,8 @@ HostMetadata={{$host_metadata}}
 # Range: 2-65535
 # Default:
 # BufferSize=100
+
+{{if $zabbix_buffersize}}BufferSize={{$zabbix_buffersize}}{{end}}
 
 ### Option: MaxLinesPerSecond
 #	Maximum number of new lines the agent will send per second to Zabbix Server
@@ -225,6 +241,8 @@ HostMetadata={{$host_metadata}}
 # Range: 1-1000
 # Default:
 # MaxLinesPerSecond=20
+
+{{if $zabbix_maxlinespersecond}}MaxLinesPerSecond={{$zabbix_maxlinespersecond}}{{end}}
 
 ############ ADVANCED PARAMETERS #################
 
@@ -249,6 +267,8 @@ HostMetadata={{$host_metadata}}
 # Default:
 # Timeout=3
 
+{{if $zabbix_timeout}}Timeout={{$zabbix_timeout}}{{end}}
+
 ### Option: AllowRoot
 #	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
 #	will try to switch to the user specified by the User configuration option instead.
@@ -260,8 +280,6 @@ HostMetadata={{$host_metadata}}
 # Default:
 # AllowRoot=0
 
-AllowRoot=1
-
 ### Option: User
 #	Drop privileges to a specific, existing user on the system.
 #	Only has effect if run as 'root' and AllowRoot is disabled.
@@ -269,6 +287,18 @@ AllowRoot=1
 # Mandatory: no
 # Default:
 # User=zabbix
+
+### Option: RootFilesystem
+#	Use a custom rootfs path to access host system metrics and agent checks based on files.
+#	Only needed when the agent is running inside a container/jail environment.
+#	/ 		- default rootfs path
+#	/rootfs - access to /proc/mounts will be translated to /rootfs/proc/mounts
+#
+# Mandatory: no
+# Default:
+# RootFilesystem=/
+
+{{if $zabbix_rootfilsystem}}RootFilesystem={{$zabbix_rootfilsystem}}{{end}}
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.
@@ -408,4 +438,3 @@ Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf
 # Mandatory: no
 # Default:
 # TLSPSKFile=
-{{end}}

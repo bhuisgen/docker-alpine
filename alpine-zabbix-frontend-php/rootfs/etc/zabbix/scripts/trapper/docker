@@ -1,0 +1,26 @@
+#!/bin/sh
+
+ZABBIX_SENDER=/usr/bin/zabbix_sender
+ZABBIX_CONF=/etc/zabbix/zabbix_agentd.conf
+ZABBIX_HOST=
+
+DOCKER_SOCKET=/var/run/docker.sock
+
+CONFIG_FILE=/etc/zabbix/scripts/trapper/docker.conf
+
+[ -r "$CONFIG_FILE" ] && . "$CONFIG_FILE"
+
+zsendall () {
+    if [ ! -z "$ZABBIX_HOST" ]; then
+		echo "$1"|$ZABBIX_SENDER -c $ZABBIX_CONF -s "$ZABBIX_HOST" -i - > /dev/null 2>&1
+	else
+		echo "$1"|$ZABBIX_SENDER -c $ZABBIX_CONF -i - > /dev/null 2>&1
+	fi
+}
+
+RET=$(/etc/zabbix/scripts/docker -s $DOCKER_SOCKET)
+if [ "$?" -ne "0" ]; then
+   exit 1
+fi
+
+zsendall "$RET"

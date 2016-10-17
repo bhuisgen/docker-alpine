@@ -1,0 +1,4 @@
+{{- $zabbix_jmxusername := env "ZABBIX_JMXUSERNAME" -}}
+{{if $zabbix_jmxusername}}
+{{$zabbix_jmxusername}} readwrite
+{{end}}
