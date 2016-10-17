@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+    zabbix-frontend-php:
+        image: bhuisgen/alpine-zabbix-frontend-php
+        entrypoint: /bin/sh
+        volumes:
+            - /var/www

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ZABBIX_SENDER=/usr/bin/zabbix_sender
+ZABBIX_CONF=/etc/zabbix/zabbix_agentd.conf
+ZABBIX_HOST=
+
+CONFIG_FILE=/etc/zabbix/scripts/trapper/docker.conf
+
+[ -r "$CONFIG_FILE" ] && . "$CONFIG_FILE"
+
+zsend () {
+    if [ ! -z "$ZABBIX_HOST" ]; then
+        $ZABBIX_SENDER -c $ZABBIX_CONF -s "$ZABBIX_HOST" -k "$1" -o "$2" > /dev/null 2>&1
+    else
+        $ZABBIX_SENDER -c $ZABBIX_CONF -k "$1" -o "$2" > /dev/null 2>&1
+    fi
+}
+
+KEY="docker.discovery.containers"
+VALUE=$(/etc/zabbix/scripts/discovery/docker-containers)
+if [ "$?" -ne "0" ]; then
+   exit 1
+fi
+
+zsend "$KEY" "$VALUE"

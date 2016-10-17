@@ -20,6 +20,7 @@ SUBDIRS = \
     alpine-mariadb \
     alpine-nginx \
     alpine-nodejs \
+    alpine-php \
     alpine-postgresql \
     alpine-rabbitmq \
     alpine-redis \
@@ -30,5 +31,9 @@ SUBDIRS = \
     alpine-unbound \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
+    alpine-zabbix-java-gateway \
+    alpine-zabbix-proxy-mysql \
+    alpine-zabbix-proxy-pgsql \
+    alpine-zabbix-proxy-sqlite3 \
+    alpine-zabbix-server-mysql \
     alpine-zabbix-server-pgsql
-    

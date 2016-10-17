@@ -1,8 +1,17 @@
+{{- $machineid := file "/rootfs/etc/machine-id" -}}
+{{- $zabbix_enableremotecommands := env "ZABBIX_ENABLEREMOTECOMMANDS" -}}
+{{- $zabbix_logremotecommands := env "ZABBIX_LOGREMOTECOMMANDS" -}}
 {{- $zabbix_server := env "ZABBIX_SERVER" -}}
-{{- $zabbix_host := env "ZABBIX_HOST" -}}
+{{- $zabbix_hostname := env "ZABBIX_HOSTNAME" -}}
 {{- $zabbix_hostmetadata := env "ZABBIX_HOSTMETADATA" -}}
 {{- $zabbix_startagents := env "ZABBIX_STARTAGENTS" -}}
-{{- $machineid := file "/rootfs/etc/machine-id" -}}
+{{- $zabbix_refreshactivechecks := env "ZABBIX_REFRESHACTIVECHECKS" -}}
+{{- $zabbix_buffersend := env "ZABBIX_BUFFERSEND" -}}
+{{- $zabbix_buffersize := env "ZABBIX_BUFFERSIZE" -}}
+{{- $zabbix_maxlinespersecond := env "ZABBIX_MAXLINESPERSECOND" -}}
+{{- $zabbix_timeout := env "ZABBIX_TIMEOUT" -}}
+{{- $zabbix_rootfilsystem := env "ZABBIX_ROOTFILESYSTEM" -}}
+{{- $zabbix_unsafeuserparameters := env "ZABBIX_UNSAFEUSERPARAMETERS" -}}
 # This is a configuration file for Zabbix agent daemon (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
@@ -75,6 +84,8 @@ LogType=console
 # Default:
 # EnableRemoteCommands=0
 
+{{if $zabbix_enableremotecommands}}EnableRemoteCommands={{$zabbix_enableremotecommands}}{{end}}
+
 ### Option: LogRemoteCommands
 #	Enable logging of executed shell commands as warnings.
 #	0 - disabled
@@ -83,6 +94,8 @@ LogType=console
 # Mandatory: no
 # Default:
 # LogRemoteCommands=0
+
+{{if $zabbix_logremotecommands}}LogRemoteCommands={{$zabbix_logremotecommands}}{{end}}
 
 ##### Passive checks related
 
@@ -122,9 +135,7 @@ Server={{$zabbix_server}}
 # Default:
 # StartAgents=3
 
-{{if $zabbix_startagents}}
-StartAgents={{$zabbix_startagents}}
-{{end}}
+{{if $zabbix_startagents}}StartAgents={{$zabbix_startagents}}{{end}}
 
 ##### Active checks related
 
@@ -151,8 +162,8 @@ ServerActive={{$zabbix_server}}
 # Default:
 # Hostname=
 
-{{if $zabbix_host}}
-Hostname={{$zabbix_host}}
+{{if $zabbix_hostname}}
+Hostname={{$zabbix_hostname}}
 {{else}}
 Hostname={{ print ($zabbix_hostmetadata "-" $machineid) }}
 {{end}}
@@ -197,6 +208,8 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Default:
 # RefreshActiveChecks=120
 
+{{if $zabbix_refreshactivechecks}}RefreshActiveChecks={{$zabbix_refreshactivechecks}}{{end}}
+
 ### Option: BufferSend
 #	Do not keep data longer than N seconds in buffer.
 #
@@ -204,6 +217,8 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Range: 1-3600
 # Default:
 # BufferSend=5
+
+{{if $zabbix_refreshactivechecks}}BufferSend={{$zabbix_refreshactivechecks}}{{end}}
 
 ### Option: BufferSize
 #	Maximum number of values in a memory buffer. The agent will send
@@ -213,6 +228,8 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Range: 2-65535
 # Default:
 # BufferSize=100
+
+{{if $zabbix_buffersize}}BufferSize={{$zabbix_buffersize}}{{end}}
 
 ### Option: MaxLinesPerSecond
 #	Maximum number of new lines the agent will send per second to Zabbix Server
@@ -224,6 +241,8 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Range: 1-1000
 # Default:
 # MaxLinesPerSecond=20
+
+{{if $zabbix_maxlinespersecond}}MaxLinesPerSecond={{$zabbix_maxlinespersecond}}{{end}}
 
 ############ ADVANCED PARAMETERS #################
 
@@ -248,6 +267,8 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Default:
 # Timeout=3
 
+{{if $zabbix_timeout}}Timeout={{$zabbix_timeout}}{{end}}
+
 ### Option: AllowRoot
 #	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
 #	will try to switch to the user specified by the User configuration option instead.
@@ -266,6 +287,18 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Mandatory: no
 # Default:
 # User=zabbix
+
+### Option: RootFilesystem
+#	Use a custom rootfs path to access host system metrics and agent checks based on files.
+#	Only needed when the agent is running inside a container/jail environment.
+#	/ 		- default rootfs path
+#	/rootfs - access to /proc/mounts will be translated to /rootfs/proc/mounts
+#
+# Mandatory: no
+# Default:
+# RootFilesystem=/
+
+{{if $zabbix_rootfilsystem}}RootFilesystem={{$zabbix_rootfilsystem}}{{end}}
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.

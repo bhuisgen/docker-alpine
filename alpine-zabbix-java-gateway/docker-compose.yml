@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    zabbix-java-gateway:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-zabbix-java-gateway
+        environment:
+            - CONSUL_AGENT=consul                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix             # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-java-gateway    # consul service name
+            - CONSUL_SERVICETAGS=dev                    # consul service tag
+            - CONSUL_SERVICEPORT=10052                  # consul service port
+            - CONSUL_CHECKTYPE=tcp                      # consul health check type
+            - ZABBIX_STARTPOLLERS=5                     # number of zabbix worker threads
+            - ZABBIX_TIMEOUT=3                          # network operations timeout
+            - ZABBIX_JMX=0                              # enable JMX monitoring
+            #- ZABBIX_JMXAUTH=0                         # enable JMX authentication
+            #- ZABBIX_JMXUSERNAME=zabbix                # JMX username
+            #- ZABBIX_JMXPASSWORD=zabbix                # JMX password
+            #- ZABBIX_JMXSSL=0                          # enable SSL protocol for JMX
+            #- ZABBIX_JMXSSLKEYSTORE=/usr/share/zabbix/zabbix_java/conf/truststore.jks      # JMX SSL keystore file
+            #- ZABBIX_JMXSSLKEYSTOREPASSWORD=mysecret                                       # JMX SSL keystore password
+            #- ZABBIX_JMXSSLTRUSTSTORE=/usr/share/zabbix/zabbix_java/conf/truststore.jks    # JMX SSL truststore file
+            #- ZABBIX_JMXSSLTRUSTSTOREPASSWORD=mysecret                                     # JMX SSL truststore password

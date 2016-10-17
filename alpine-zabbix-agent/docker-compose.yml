@@ -14,17 +14,29 @@ services:
         image: bhuisgen/alpine-zabbix-agent
         network_mode: host
         volumes:
-            - /:/rootfs:ro
-            - /var/run/docker.sock:/var/run/docker.sock
+            - /etc:/rootfs/etc:ro
+            - /dev:/rootfs/dev
+            - /proc:/rootfs/proc:ro
+            - /sys:/rootfs/sys:ro
+            - /var/log:/rootfs/var/log
+            - /var/run:/var/run
         environment:
-            - CONSUL_AGENT=consul              # consul agent hostname/IP
-            #- CONSUL_PORT=8500                # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix    # consul key prefix path
-            - CONSUL_SERVICENAME=zabbix-agent  # consul service name
-            - CONSUL_SERVICETAGS=dev           # consul service tag
-            - CONSUL_SERVICEPORT=10050         # consul service port
-            - CONSUL_CHECKTYPE=tcp             # consul health check type
-            - ZABBIX_SERVER=172.16.0.1         # zabbix server IP/host
-            - ZABBIX_HOST=zabbix-agent         # zabbix agent host
-            - ZABBIX_HOSTMETADATA=docker       # zabbix agent host metadata
-            - ZABBIX_STARTAGENTS=1             # number of processes for passive checks
+            - CONSUL_AGENT=consul               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix     # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-agent   # consul service name
+            - CONSUL_SERVICETAGS=dev            # consul service tag
+            - CONSUL_SERVICEPORT=10050          # consul service port
+            - CONSUL_CHECKTYPE=tcp              # consul health check type
+            #- ZABBIX_ENABLEREMOTECOMMANDS=0    # enable remote commands execution
+            #- ZABBIX_LOGREMOTECOMMANDS=0       # log remote commands
+            - ZABBIX_SERVER=172.16.0.1          # zabbix server IP/host
+            - ZABBIX_HOSTNAME=zabbix-agent      # zabbix agent hostname
+            #- ZABBIX_HOSTMETADATA=             # zabbix agent host metadata
+            - ZABBIX_STARTAGENTS=1              # number of processes for passive checks
+            #- ZABBIX_REFRESHACTIVECHECKS=120   # time between active checks refresh
+            #- ZABBIX_BUFFERSEND=5              # time to keep data in buffer
+            #- ZABBIX_BUFFERSIZE=100            # maximum number of values in buffer before sending
+            #- ZABBIX_MAXLINESPERSECOND=20      # maximum number of new lines to send per second
+            #- ZABBIX_TIMEOUT=3                 # timeout of processing
+            #- ZABBIX_UNSAFEUSERPARAMETERS=
