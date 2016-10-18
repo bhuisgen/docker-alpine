@@ -93,24 +93,53 @@ fi
 trap 'exit 2' ERR INT TERM
 
 if [ ! -d project ]; then
-    git clone ${BUILD_GITURL} project
+    status=0
+    retry=0
 
-    cd project
+    while true; do
+        git clone ${BUILD_GITURL} project && status=1 || retry=$((retry+1))
+
+        if [ $status -eq 1 ]; then
+            break
+        fi
+
+        if [ $retry -ge 3 ]; then
+            echo "Failed to clone repository, aborting"
+            exit 1
+        fi
+    done
+
+    cd project || exit 1
 
     git checkout ${BUILD_GITREF}
 else
-    cd project
+    cd project || exit 1
 
     git reset --hard
     git clean -fdx
     git remote set-url origin ${BUILD_GITURL}
-    git fetch origin
+
+    status=0
+    retry=0
+
+    while true; do
+        git fetch origin && status=1 || retry=$((retry+1))
+
+        if [ $status -eq 1 ]; then
+            break
+        fi
+
+        if [ $retry -ge 3 ]; then
+            echo "Failed to fetch repository, aborting"
+            exit 1
+        fi
+    done
 
     git checkout ${BUILD_GITREF}
 fi
 
 if [ ! -z "${BUILD_PROJECT}" ]; then
-    cd ${BUILD_PROJECT}
+    cd ${BUILD_PROJECT} || exit 1
 fi
 
 timeout -t ${BUILD_TIMEOUT} bash ${BUILD_SCRIPT}
