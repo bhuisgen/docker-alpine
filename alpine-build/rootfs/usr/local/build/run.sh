@@ -92,6 +92,8 @@ fi
 
 trap 'exit 2' ERR INT TERM
 
+cd "${0%/*}" || exit
+
 if [ ! -d project ]; then
     status=0
     retry=0
