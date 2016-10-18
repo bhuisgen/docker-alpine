@@ -13,7 +13,8 @@ services:
             - consul
         image: bhuisgen/alpine-rabbitmq
         build: .
-        #volumes:
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/rabbitmq                                 # volume for data
         environment:
             - CONSUL_AGENT=consul                                           # consul agent hostname/IP

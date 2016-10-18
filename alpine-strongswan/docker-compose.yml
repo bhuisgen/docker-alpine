@@ -16,8 +16,8 @@ services:
             - NET_ADMIN
         network_mode: host
         volumes:
-            - /etc/localtime:/etc/localtime
-            - /lib/modules:/lib/modules
+            - /etc/localtime:/etc/localtime:ro
+            - /lib/modules:/lib/modules:ro
         ports:
             - "500:500/udp"
             - "4500:4500/udp"

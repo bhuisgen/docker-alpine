@@ -14,6 +14,8 @@ services:
         image: bhuisgen/alpine-php
         ports:
             - "9000:9000"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port

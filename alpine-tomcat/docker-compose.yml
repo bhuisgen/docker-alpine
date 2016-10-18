@@ -14,6 +14,10 @@ services:
         image: bhuisgen/alpine-tomcat
         ports:
             - "8080:8080"
+            #- "8000:8000"                  # enable remote debug port
+            #- "8090:8090"                  # enable JMX monitoring port
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_AGENT=consul           # consul agent hostname/IP
             #- CONSUL_PORT=8500             # consul agent port

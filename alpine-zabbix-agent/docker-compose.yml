@@ -14,6 +14,7 @@ services:
         image: bhuisgen/alpine-zabbix-agent
         network_mode: host
         volumes:
+            - /etc/localtime:/etc/localtime:ro
             - /etc:/rootfs/etc:ro
             - /dev:/rootfs/dev
             - /proc:/rootfs/proc:ro

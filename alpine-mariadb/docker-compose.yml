@@ -14,7 +14,8 @@ services:
         image: bhuisgen/alpine-mariadb
         ports:
             - "3306:3306"
-        #volumes:
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/mysql                    # volume for data
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
