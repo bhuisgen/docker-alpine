@@ -10,7 +10,8 @@ services:
             #- "8500:8500"  # HTTP
             - "8500:8501"   # HTTPS
             #- "8600:8600"  # DNS
-        #volumes:
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/consul                                           # volume for data
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options

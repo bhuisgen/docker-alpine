@@ -14,7 +14,8 @@ services:
         image: bhuisgen/alpine-postgresql
         ports:
             - "5432:5432"
-        #volumes:
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/postgresql                       # volume for data
         environment:
             - CONSUL_AGENT=consul                                   # consul agent hostname/IP

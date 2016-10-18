@@ -11,6 +11,7 @@ services:
             - consul
         image: bhuisgen/alpine-build
         volumes:
+            - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP

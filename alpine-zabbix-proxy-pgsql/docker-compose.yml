@@ -12,6 +12,8 @@ services:
         depends_on:
             - consul
         image: bhuisgen/alpine-zabbix-proxy-pgsql
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port

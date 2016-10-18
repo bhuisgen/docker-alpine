@@ -15,7 +15,8 @@ services:
         ports:
             - "9200:9200"
             - "9300:9300"
-        #volumes:
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/elasticsearch                # volume for data
         environment:
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP
