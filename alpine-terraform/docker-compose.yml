@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+    terraform:
+        image: bhuisgen/alpine-terraform
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./:/data
