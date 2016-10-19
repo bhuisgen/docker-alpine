@@ -10,5 +10,8 @@ RUN apk add --update zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["terraform"]
 CMD []
+
+VOLUME ["/data"]
+WORKDIR /data
