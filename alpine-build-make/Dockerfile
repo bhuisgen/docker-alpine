@@ -6,5 +6,7 @@ RUN apk add --update make && \
 
 COPY rootfs/ /
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/bin/sh"]
 CMD []
+
+WORKDIR /usr/local/build
