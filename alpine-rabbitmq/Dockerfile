@@ -15,8 +15,9 @@ RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitm
     chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
 
 RUN apk add --update tar xz && \
-    apk add --update \
-        libcrypto1.0 \
+    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main --allow-untrusted \
+        libressl libressl2.4-libcrypto && \
+    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
         erlang \
         erlang-asn1 \
         erlang-crypto \
