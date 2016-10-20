@@ -15,7 +15,7 @@ services:
             - CONSUL_PORT=8500                                  # agent port
             - CONSUL_TLS=0                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
             - CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985 # ACL token
-            - CONSUL_KEYPREFIX=/my/path                         # keystore prefix path
+            #- CONSUL_KEYPREFIX=/my/path                        # keystore prefix path
             #- CONSUL_RESOLVER=container                        # IP resolver method for consul service registration (container/route/interface, by default container)
             #- CONSUL_RESOLVER_INTERFACENAME=eth0               # network interface name for IP resolver (default: eth0)
             #- CONSUL_RESOLVER_INTERFACETYPE=inet               # network interface type for IP resolver (inet/inet6, default: inet)
