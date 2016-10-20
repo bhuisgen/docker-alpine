@@ -20,7 +20,7 @@ services:
         environment:
             - CONSUL_AGENT=consul                  # consul agent hostname/IP
             #- CONSUL_PORT=8500                    # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix        # consul key prefix path
+            #- CONSUL_KEYPREFIX=/path/prefix       # consul key prefix path
             - HOSTAPD_INTERFACE=wlx74da386015cd    # AP interface
             - HOSTAPD_SSID=${USERNAME}             # AP network SSID
             - HOSTAPD_COUNTRYCODE=FR               # AP country code
