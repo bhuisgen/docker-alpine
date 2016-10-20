@@ -19,7 +19,7 @@ services:
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix     # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
             - CONSUL_SERVICENAME=kibana         # consul service name
             - CONSUL_SERVICETAGS=dev            # consul service tag
             - CONSUL_SERVICEPORT=5601           # consul service port
