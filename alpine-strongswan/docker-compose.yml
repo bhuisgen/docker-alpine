@@ -24,7 +24,7 @@ services:
         environment:
             - CONSUL_AGENT=consul                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                         # consul agent port
-            #- CONSUL_KEYPREFIX=/path/prefix            # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix             # consul key prefix path
             - STRONGSWAN_INTERFACE=eth0                 # VPN public interface
             - STRONGSWAN_LEFT=10.1.1.0.1                # VPN left private IP interface to gateway
             - STRONGSWAN_LEFTSUBNET=10.1.0.0/16         # VPN left subnet
