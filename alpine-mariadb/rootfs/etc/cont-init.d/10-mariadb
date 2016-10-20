@@ -4,6 +4,19 @@ if [ -z ${MARIADB_CONFIG} ]; then
     if [ -z ${MARIADB_CONFIGSCRIPT} ]; then
         echo "==> Configuring mariadb from environment"
 
+        if [ -z ${MARIADB_PROFILE} ]; then
+            MARIADB_PROFILE="my-small"
+        fi
+
+        if [ ! -f "/usr/share/mysql/${MARIADB_PROFILE}.cnf" ]; then
+            echo "Configuration profile has not been found, aborting"
+            exit 1
+        fi
+
+        cp "/usr/share/mysql/${MARIADB_PROFILE}.cnf" /etc/mysql/my.cnf
+        echo "" >> /etc/mysql/my.cnf
+        echo "!includedir /etc/mysql/conf.d/" >> /etc/mysql/my.cnf
+
         mkdir -p /var/run/mysqld
         chown -R mysql:root /var/run/mysqld
         mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --console
