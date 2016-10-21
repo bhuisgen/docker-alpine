@@ -48,6 +48,7 @@ AC_CONFIG_FILES([
     alpine-dnsmasq/Makefile
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
+    alpine-fabric/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-java/Makefile

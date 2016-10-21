@@ -10,6 +10,7 @@ SUBDIRS = \
     alpine-dnsmasq \
     alpine-dynamodb \
     alpine-elasticsearch \
+    alpine-fabric \
     alpine-haproxy \
     alpine-hostapd \
     alpine-java \
