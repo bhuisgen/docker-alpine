@@ -14,11 +14,13 @@ services:
         image: bhuisgen/alpine-kibana
         ports:
             - "5601:5601"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul           # consul agent hostname/IP
-            #- CONSUL_PORT=8500             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix # consul key prefix path
-            - CONSUL_SERVICENAME=kibana     # consul service name
-            - CONSUL_SERVICETAGS=dev        # consul service tag
-            - CONSUL_SERVICEPORT=5601       # consul service port
-            - CONSUL_CHECKTYPE=tcp          # consul health check type
+            - CONSUL_AGENT=consul               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
+            - CONSUL_SERVICENAME=kibana         # consul service name
+            - CONSUL_SERVICETAGS=dev            # consul service tag
+            - CONSUL_SERVICEPORT=5601           # consul service port
+            - CONSUL_CHECKTYPE=tcp              # consul health check type

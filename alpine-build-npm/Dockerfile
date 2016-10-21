@@ -6,5 +6,7 @@ RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ 
 
 COPY rootfs/ /
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/bin/sh"]
 CMD []
+
+WORKDIR /usr/local/build

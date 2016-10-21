@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV TERRAFORM_VERSION=0.7.5
+ENV TERRAFORM_VERSION=0.7.7
 
 RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
@@ -10,5 +10,8 @@ RUN apk add --update zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["terraform"]
 CMD []
+
+VOLUME ["/data"]
+WORKDIR /data

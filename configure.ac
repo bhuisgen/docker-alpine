@@ -48,6 +48,7 @@ AC_CONFIG_FILES([
     alpine-dnsmasq/Makefile
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
+    alpine-fabric/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-java/Makefile
@@ -68,6 +69,13 @@ AC_CONFIG_FILES([
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
     alpine-zabbix-agent/Makefile
+    alpine-zabbix-frontend-php/Makefile
+    alpine-zabbix-java-gateway/Makefile
+    alpine-zabbix-proxy-mysql/Makefile
+    alpine-zabbix-proxy-pgsql/Makefile
+    alpine-zabbix-proxy-sqlite3/Makefile
+    alpine-zabbix-server-mysql/Makefile
+    alpine-zabbix-server-pgsql/Makefile
 ])
 
 AC_OUTPUT

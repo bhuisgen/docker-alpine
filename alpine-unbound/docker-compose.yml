@@ -15,10 +15,12 @@ services:
         cap_add:
             - NET_ADMIN
         network_mode: host
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix                 # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=unbound                    # consul service name
             - CONSUL_SERVICETAGS=dev                        # consul service tag
             - CONSUL_SERVICEPORT=53                         # consul service port

@@ -11,11 +11,12 @@ services:
             - consul
         image: bhuisgen/alpine-build
         volumes:
+            - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                                         # consul agent port
-            #- CONSUL_KEYPREFIX=/my/path                                # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
             - BUILD_GITURL=git@git.my.domain:your/project.git           # git repository URL
             - BUILD_GITREF=HEAD                                         # git tag/commit reference to build
             #- BUILD_PROJECT=                                           # project directory (empty for the root of sources)

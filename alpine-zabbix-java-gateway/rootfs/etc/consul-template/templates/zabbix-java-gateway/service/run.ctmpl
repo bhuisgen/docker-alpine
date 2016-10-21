@@ -1,0 +1,46 @@
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $zabbix_startpollers := env "ZABBIX_STARTPOLLERS" -}}
+{{- $zabbix_timeout := env "ZABBIX_TIMEOUT" -}}
+{{- $zabbix_jmx := env "ZABBIX_JMX" -}}
+{{- $zabbix_jmxauth := env "ZABBIX_JMXAUTH" -}}
+{{- $zabbix_jmxssl := env "ZABBIX_JMXSSL" -}}
+{{- $zabbix_jmxkeystore := env "ZABBIX_JMXSSLKEYSTORE" -}}
+{{- $zabbix_jmxkeystorepassword := env "ZABBIX_JMXSSLKEYSTOREPASSWORD" -}}
+{{- $zabbix_jmxtruststore := env "ZABBIX_JMXSSLTRUSTSTORE" -}}
+{{- $zabbix_jmxtruststorepassword := env "ZABBIX_JMXSSLTRUSTSTOREPASSWORD" -}}
+#!/usr/bin/with-contenv sh
+
+cd "/usr/share/zabbix/zabbix_java" || exit 1
+exec s6-setuidgid zabbix /usr/bin/java \
+    ${JAVA_OPTS} \
+    -Dlogback.configurationFile=logback-console.xml \
+    -Dzabbix.startPollers={{$zabbix_startpollers}} \
+    -Dzabbix.timeout={{$zabbix_timeout}} \
+    -Dsun.rmi.transport.tcp.responseTimeout={{$zabbix_timeout}}000 \
+    {{if eq $zabbix_jmx "1"}} \
+    -Dcom.sun.management.jmxremote=true \
+    -Dcom.sun.management.jmxremote.local.only=false \
+    -Dcom.sun.management.jmxremote.port=8090 \
+    -Dcom.sun.management.jmxremote.rmi.port=8090 \
+    -Djava.rmi.server.hostname={{$ip}} \
+    {{if eq $zabbix_jmxauth "1"}} \
+    -Dcom.sun.management.jmxremote.authenticate=true \
+    -Dcom.sun.management.jmxremote.access.file=/usr/share/zabbix/zabbix_java/conf/jmxremote.access \
+    -Dcom.sun.management.jmxremote.password.file=/usr/share/zabbix/zabbix_java/conf/jmxremote.password \
+    {{else}} \
+    -Dcom.sun.management.jmxremote.authenticate=false \
+    {{end}} \
+    {{if eq $zabbix_jmxssl "1"}} \
+    -Dcom.sun.management.jmxremote.ssl=true \
+    -Dcom.sun.management.jmxremote.ssl.need.client.auth=true \
+    -Dcom.sun.management.jmxremote.registry.ssl=true \
+    -Djavax.net.ssl.keyStore={{$zabbix_jmxkeystore}} \
+    -Djavax.net.ssl.keyStorePassword={{$zabbix_jmxkeystorepassword}} \
+    -Djavax.net.ssl.trustStore={{$zabbix_jmxtruststore}} \
+    -Djavax.net.ssl.trustStorePassword={{$zabbix_jmxtruststorepassword}} \
+    {{else}} \
+    -Dcom.sun.management.jmxremote.ssl=false \
+    {{end}} \
+    {{end}} \
+    -classpath "bin/*:lib/*" \
+    com.zabbix.gateway.JavaGateway

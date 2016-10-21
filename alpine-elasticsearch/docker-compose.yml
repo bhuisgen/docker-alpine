@@ -15,12 +15,13 @@ services:
         ports:
             - "9200:9200"
             - "9300:9300"
-        #volumes:
-            #- /host/data:/var/lib/elasticsearch                # volume for data
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/elasticsearch                        # volume for data
         environment:
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                                         # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix                             # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
             - CONSUL_SERVICENAME=elasticsearch                          # consul service name
             - CONSUL_SERVICETAGS=dev                                    # consul service tag
             - CONSUL_SERVICEPORT=9200                                   # consul service port

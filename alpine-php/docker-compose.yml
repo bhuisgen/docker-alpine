@@ -14,10 +14,12 @@ services:
         image: bhuisgen/alpine-php
         ports:
             - "9000:9000"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix     # consul key prefix path
+            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
             - CONSUL_SERVICENAME=php            # consul service name
             - CONSUL_SERVICETAGS=dev            # consul service tag
             - CONSUL_SERVICEPORT=9000           # consul service port
