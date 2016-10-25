@@ -271,7 +271,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile all-local
+all-am: Makefile
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -379,7 +379,7 @@ uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am all-local build-am build-local check check-am clean \
+.PHONY: all all-am build-am build-local check check-am clean \
 	clean-generic clean-local cscopelist-am ctags-am distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
@@ -393,8 +393,6 @@ uninstall-am:
 
 .PRECIOUS: Makefile
 
-
-all-local: build
 
 clean-local:
 	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true

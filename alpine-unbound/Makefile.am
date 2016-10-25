@@ -1,7 +1,5 @@
 IMAGE = bhuisgen/alpine-unbound
 
-all-local: build
-
 clean-local:
 	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true
 
