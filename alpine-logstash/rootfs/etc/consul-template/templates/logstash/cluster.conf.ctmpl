@@ -1,5 +1,5 @@
-{{- $name := env "LOGSTASH_TEMPLATE_SERVICENAME" -}}
-{{- $tag := env "LOGSTASH_TEMPLATE_SERVICETAG" -}}
+{{- $name := env "LOGSTASH_TEMPLATE_CLUSTER_SERVICENAME" -}}
+{{- $tag := env "LOGSTASH_TEMPLATE_CLUSTER_SERVICETAG" -}}
 input {
     tcp {
         port => 10514

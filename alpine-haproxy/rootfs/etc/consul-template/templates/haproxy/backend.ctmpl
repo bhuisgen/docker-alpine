@@ -1,10 +1,10 @@
-{{- $name := env "HAPROXY_TEMPLATE_SERVICENAME" -}}
-{{- $tag := env "HAPROXY_TEMPLATE_SERVICETAG" -}}
-{{- $stats_username := env "HAPROXY_TEMPLATE_STATSUSERNAME" -}}
-{{- $stats_password := env "HAPROXY_TEMPLATE_STATSPASSWORD" -}}
-{{- $stats_port := env "HAPROXY_TEMPLATE_STATSPORT" -}}
-{{- $stats_uri := env "HAPROXY_TEMPLATE_STATSURI" -}}
-{{- $stats_realm := env "HAPROXY_TEMPLATE_STATSREALM" -}}
+{{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
+{{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
+{{- $stats_username := env "HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME" -}}
+{{- $stats_password := env "HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD" -}}
+{{- $stats_port := env "HAPROXY_TEMPLATE_BACKEND_STATSPORT" -}}
+{{- $stats_uri := env "HAPROXY_TEMPLATE_BACKEND_STATSURI" -}}
+{{- $stats_realm := env "HAPROXY_TEMPLATE_BACKEND_STATSREALM" -}}
 global
     log 127.0.0.1 format rfc5424 local0 info
     maxconn 1024

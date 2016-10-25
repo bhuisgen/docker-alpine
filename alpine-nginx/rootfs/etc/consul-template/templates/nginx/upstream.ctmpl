@@ -1,5 +1,5 @@
-{{- $name := env "NGINX_TEMPLATE_SERVICENAME" -}}
-{{- $tag := env "NGINX_TEMPLATE_SERVICETAG" -}}
+{{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
+{{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
 daemon off;
 user nginx;
 worker_processes 1;

@@ -1,4 +1,4 @@
-{{$forwardaddr := env "UNBOUND_TEMPLATE_FORWARDADDR"}}
+{{$forwardaddr := env "UNBOUND_TEMPLATE_FORWARDER_FORWARDADDR"}}
 server:
     interface: 0.0.0.0
     access-control: 10.0.0.0/16 allow

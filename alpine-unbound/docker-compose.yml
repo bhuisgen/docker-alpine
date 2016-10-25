@@ -26,4 +26,7 @@ services:
             - CONSUL_SERVICEPORT=53                         # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
             - UNBOUND_TEMPLATE=forwarder                    # configuration template
-            - UNBOUND_TEMPLATE_FORWARDADDR=208.67.222.222   # IP address of forwarder
+            #
+            # template forwarder
+            #
+            - UNBOUND_TEMPLATE_FORWARDER_FORWARDADDR=1.2.3.4    # IP address of forwarder
