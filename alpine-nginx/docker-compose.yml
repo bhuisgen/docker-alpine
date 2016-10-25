@@ -25,5 +25,8 @@ services:
             - CONSUL_SERVICEPORT=80                # consul service port
             - CONSUL_CHECKTYPE=tcp                 # consul health check type
             - NGINX_TEMPLATE=upstream              # configuration template
-            - NGINX_TEMPLATE_SERVICENAME=myservice # service name to proxify
-            - NGINX_TEMPLATE_SERVICETAG=dev        # service tag to proxify
+            #
+            # template upstream
+            #
+            - NGINX_TEMPLATE_UPSTREAM_SERVICENAME=myservice # service name to proxify
+            - NGINX_TEMPLATE_UPSTREAM_SERVICETAG=dev        # service tag to proxify

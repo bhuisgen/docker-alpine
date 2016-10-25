@@ -25,10 +25,13 @@ services:
             - CONSUL_SERVICEPORT=80                             # consul service port
             - CONSUL_CHECKTYPE=tcp                              # consul health check type
             - HAPROXY_TEMPLATE=backend                          # configuration template
-            - HAPROXY_TEMPLATE_SERVICENAME=myservice            # service name to proxify
-            - HAPROXY_TEMPLATE_SERVICETAG=dev                   # service tag to proxify
-            #- HAPROXY_TEMPLATE_STATSPORT=1936                  # statistics port
-            #- HAPROXY_TEMPLATE_STATSURI=/haproxy?stats         # statistics URI
-            #- HAPROXY_TEMPLATE_STATSREALM=Haproxy\ Statistics  # statistics realm
-            - HAPROXY_TEMPLATE_STATSUSERNAME=haproxy            # statistics user
-            - HAPROXY_TEMPLATE_STATSPASSWORD=haproxy            # statistics password
+            #
+            # template backend
+            #
+            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice            # service name to proxify
+            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                   # service tag to proxify
+            #- HAPROXY_TEMPLATE_BACKEND_STATSPORT=1936                  # statistics port
+            #- HAPROXY_TEMPLATE_BACKEND_STATSURI=/haproxy?stats         # statistics URI
+            #- HAPROXY_TEMPLATE_BACKEND_STATSREALM=Haproxy\ Statistics  # statistics realm
+            - HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME=haproxy            # statistics user
+            - HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD=haproxy            # statistics password
