@@ -5,6 +5,10 @@ if [ -z ${CONSUL_CONFIG} ]; then
         echo "==> Configuring consul from environment"
 
         consul-template -consul localhost:8500 -config /etc/consul-template/conf-env.d -once
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from environment, aborting" >&2
+            exit 1
+        fi
     else
         echo "==> Configuring consul from script"
 
