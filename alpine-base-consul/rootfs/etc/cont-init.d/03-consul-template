@@ -33,6 +33,6 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
 fi
 
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
-    echo "==> Enabling services configuration"
+    echo "==> Enabling service"
     rm -f /etc/services.d/consul-template/down
 fi

@@ -54,7 +54,8 @@ if [ ! -z ${CONSUL_SERVICENAME} ] && [ -z ${CONSUL_SERVICEADDR} ]; then
     esac
 
     if [ -z ${CONSUL_SERVICEADDR} ]; then
-        exit 2
+        echo "Failed to resolve service address, aborting" >&2
+        exit 1
     fi
 
     export CONSUL_SERVICEADDR

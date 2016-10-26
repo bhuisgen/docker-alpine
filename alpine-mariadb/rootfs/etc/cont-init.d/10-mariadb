@@ -9,7 +9,7 @@ if [ -z ${MARIADB_CONFIG} ]; then
         fi
 
         if [ ! -f "/usr/share/mysql/${MARIADB_PROFILE}.cnf" ]; then
-            echo "Configuration profile has not been found, aborting"
+            echo "Configuration profile has not been found, aborting" >&2
             exit 1
         fi
 
@@ -25,8 +25,8 @@ if [ -z ${MARIADB_CONFIG} ]; then
         sleep 4
 
         if [ -z ${MARIADB_ROOTPASSWORD} ]; then
-            echo "MARIADB_ROOTPASSWORD is not set, aborting"
-            exit 1
+            echo "MARIADB_ROOTPASSWORD is not set, aborting" >&2
+            exit 2
         fi
 
         mysql -u root -e " \
