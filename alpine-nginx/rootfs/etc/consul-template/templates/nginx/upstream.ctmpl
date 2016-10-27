@@ -44,12 +44,11 @@ http {
 
     upstream app {
         least_conn;
-
-        {{range service (print $tag "." $name) -}}
+        {{range service (print $tag "." $name)}}
         server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;
-        {{- else -}}
-        server 127.0.0.1:80 down; # error 502, no available services
-        {{- end}}
+        {{else}}
+        server 127.0.0.1:80 down;
+        {{end}}
     }
 
     server {
