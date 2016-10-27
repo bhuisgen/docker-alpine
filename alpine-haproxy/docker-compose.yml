@@ -17,21 +17,25 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                    # consul key prefix path
-            - CONSUL_SERVICENAME=haproxy                        # consul service name
-            - CONSUL_SERVICETAGS=dev                            # consul service tag
-            - CONSUL_SERVICEPORT=80                             # consul service port
-            - CONSUL_CHECKTYPE=tcp                              # consul health check type
-            - HAPROXY_TEMPLATE=backend                          # configuration template
+            - CONSUL_AGENT=consul                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
+            - CONSUL_SERVICENAME=haproxy                # consul service name
+            - CONSUL_SERVICETAGS=dev                    # consul service tag
+            - CONSUL_SERVICEPORT=80                     # consul service port
+            - CONSUL_CHECKTYPE=tcp                      # consul health check type
+            #- HAPROXY_STATSPORT=1936                   # statistics port
+            #- HAPROXY_STATSURI=/haproxy?stats          # statistics URI
+            #- HAPROXY_STATSREALM=Haproxy\ Statistics   # statistics realm
+            - HAPROXY_STATSUSERNAME=haproxy             # statistics user
+            - HAPROXY_STATSPASSWORD=haproxy             # statistics password
+            - HAPROXY_TEMPLATE=backend                  # configuration template
             #
             # template backend
             #
             - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice            # service name to proxify
             - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                   # service tag to proxify
-            #- HAPROXY_TEMPLATE_BACKEND_STATSPORT=1936                  # statistics port
-            #- HAPROXY_TEMPLATE_BACKEND_STATSURI=/haproxy?stats         # statistics URI
-            #- HAPROXY_TEMPLATE_BACKEND_STATSREALM=Haproxy\ Statistics  # statistics realm
-            - HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME=haproxy            # statistics user
-            - HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD=haproxy            # statistics password
+            #
+            # template loadbalancer
+            #
+            - HAPROXY_TEMPLATE_LOADBALANCER_KEYPREFIX=myloadbalancer/   # key prefix for configuration
