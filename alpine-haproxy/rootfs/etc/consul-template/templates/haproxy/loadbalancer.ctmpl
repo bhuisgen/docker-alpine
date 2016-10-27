@@ -3,8 +3,7 @@
 {{- $haproxy_stats_port := env "HAPROXY_STATSPORT" -}}
 {{- $haproxy_stats_uri := env "HAPROXY_STATSURI" -}}
 {{- $haproxy_stats_realm := env "HAPROXY_STATSREALM" -}}
-{{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
-{{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
+{{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCER_KEYPREFIX" -}}
 global
     log 127.0.0.1 format rfc5424 local0 info
     maxconn 1024
@@ -40,7 +39,7 @@ frontend http-in
 
 backend http-out
     balance leastconn
-    {{range service (print $tag "." $name)}}
-    server {{.Address}} {{.Address}}:{{.Port}} check
+    {{range ls (print $loadbalancer_keyprefix "targets")}}
+    server {{.Key}} {{.Key}} check
     {{end}}
     errorfile 502 /etc/haproxy/errors/502.http
