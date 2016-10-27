@@ -17,6 +17,7 @@ defaults
     timeout connect 5s
     timeout client 30s
     timeout server 30s
+    balance roundrobin
 
 {{if and $haproxy_stats_username $haproxy_stats_password}}
 listen stats
@@ -39,7 +40,6 @@ frontend http-in
     default_backend http-out
 
 backend http-out
-    balance leastconn
     {{range service (print $tag "." $name)}}
     server {{.Address}} {{.Address}}:{{.Port}} check
     {{end}}
