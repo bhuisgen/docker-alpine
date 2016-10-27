@@ -27,8 +27,8 @@ http {
     ssl_prefer_server_ciphers on;
 
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-    '$status $body_bytes_sent "$http_referer" '
-    '"$http_user_agent" "$http_x_forwarded_for"';
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
     access_log /var/log/nginx/access.log main;
     error_log /var/log/nginx/error.log warn;
 
@@ -42,7 +42,6 @@ http {
     gzip_http_version 1.1;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-    {{if and $name $tag}}
     upstream app {
         least_conn;
 
@@ -63,13 +62,4 @@ http {
             proxy_set_header X-Real-IP $remote_addr;
         }
     }
-    {{else}}
-    server {
-        listen 80 default_server;
-
-        location / {
-            return 503; # error 503, missing service name/tag
-        }
-    }
-    {{end}}
 }

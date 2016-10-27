@@ -32,7 +32,6 @@ filter {
     }
 }
 
-{{if and $name $tag}}
 output {
     elasticsearch {
         hosts => [
@@ -40,11 +39,6 @@ output {
             {{if ne $i 0}}, {{end}}"{{.Address}}:{{.Port}}"
             {{end}}
         ]
-    }
-}
-{{else}}
-output {
-    elasticsearch {
     }
 }
 {{end}}

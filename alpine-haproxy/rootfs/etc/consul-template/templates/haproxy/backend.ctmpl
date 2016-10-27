@@ -38,7 +38,7 @@ frontend http-in
     reqadd X-Forwarded-Proto:\ http
     default_backend http-out
 
-{{if and $name $tag}}
+
 backend http-out
     balance leastconn
     {{range service (print $tag "." $name) -}}
@@ -46,7 +46,3 @@ backend http-out
     {{else -}}
     errorfile 502 /etc/haproxy/errors/502.http # no available services
     {{end -}}
-{{else}}
-backend http-out
-    errorfile 503 /etc/haproxy/errors/503.http # missing service name/tag
-{{end}}
