@@ -1,10 +1,10 @@
+{{- $haproxy_stats_username := env "HAPROXY_STATSUSERNAME" -}}
+{{- $haproxy_stats_password := env "HAPROXY_STATSPASSWORD" -}}
+{{- $haproxy_stats_port := env "HAPROXY_STATSPORT" -}}
+{{- $haproxy_stats_uri := env "HAPROXY_STATSURI" -}}
+{{- $haproxy_stats_realm := env "HAPROXY_STATSREALM" -}}
 {{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
 {{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
-{{- $haproxy_stats_username := env "HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME" -}}
-{{- $haproxy_stats_password := env "HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD" -}}
-{{- $haproxy_stats_port := env "HAPROXY_TEMPLATE_BACKEND_STATSPORT" -}}
-{{- $haproxy_stats_uri := env "HAPROXY_TEMPLATE_BACKEND_STATSURI" -}}
-{{- $haproxy_stats_realm := env "HAPROXY_TEMPLATE_BACKEND_STATSREALM" -}}
 global
     log 127.0.0.1 format rfc5424 local0 info
     maxconn 1024
@@ -38,11 +38,9 @@ frontend http-in
     reqadd X-Forwarded-Proto:\ http
     default_backend http-out
 
-
 backend http-out
     balance leastconn
-    {{range service (print $tag "." $name) -}}
+    {{range service (print $tag "." $name)}}
     server {{.Address}} {{.Address}}:{{.Port}} check
-    {{else -}}
-    errorfile 502 /etc/haproxy/errors/502.http # no available services
-    {{end -}}
+    {{end}}
+    errorfile 502 /etc/haproxy/errors/502.http
