@@ -72,6 +72,10 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
         echo "==> Configuring rabbitmq from script"
 
         su -c "/bin/sh ${RABBITMQ_CONFIGSCRIPT}" rabbitmq
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
     fi
 
     export RABBITMQ_CONFIG=1

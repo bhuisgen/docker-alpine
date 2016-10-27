@@ -17,7 +17,8 @@ if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
         [ -f $file ] || continue
 
-        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/service/register${params}"
+        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/service/register${params}" ||
+            echo "Failed to register service in ${file}" >&2
     done
 fi
 
@@ -25,6 +26,7 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
         [ -f $file ] || continue
 
-        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/check/register${params}"
+        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/check/register${params}" ||
+            echo "Failed to register check in ${file}" >&2
     done
 fi

@@ -27,6 +27,10 @@ if [ -z ${POSTGRESQL_CONFIG} ]; then
         echo "==> Configuring postgresql from script"
 
         /bin/sh ${POSTGRESQL_CONFIGSCRIPT}
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
     fi
 
     export POSTGRESQL_CONFIG=1

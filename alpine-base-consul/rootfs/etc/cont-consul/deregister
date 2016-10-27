@@ -17,8 +17,8 @@ if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
         [ -f $file ] || continue
 
-        serviceid=`jq -r '.ID' $file`
-        curl -sSL ${options} -X GET "${url}/v1/agent/service/deregister/${serviceid}${params}"
+        serviceid=`jq -r '.ID' $file` && curl -sSL ${options} -X GET "${url}/v1/agent/service/deregister/${serviceid}${params}" ||
+            echo "Failed to deregister service in $file" >&2
     done
 fi
 
@@ -26,7 +26,7 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
         [ -f $file ] || continue
 
-        checkid=`jq -r '.ID' $file`
-        curl -sSL ${options} -X GET "${url}/v1/agent/check/deregister/${checkid}${params}"
+        checkid=`jq -r '.ID' $file` && curl -sSL ${options} -X GET "${url}/v1/agent/check/deregister/${checkid}${params}" ||
+            echo "Failed to deregister check in $file" >&2
     done
 fi

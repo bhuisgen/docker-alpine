@@ -1,8 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${CONSUL_CLEANUP} ] && [ ${CONSUL_CLEANUP} -eq 1 ]; then
-    echo "==> Cleanup consul checks and services"
-    /bin/sh /etc/consul.d/scripts/cleanup.sh
-fi
-
 exec s6-setuidgid consul consul force-leave ${HOSTNAME};

@@ -21,6 +21,10 @@ if [ -z ${JETTY_CONFIG} ]; then
         echo "==> Configuring rabbitmq from script"
 
         /bin/sh "${JETTY_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
     fi
 
     export JETTY_CONFIG=1

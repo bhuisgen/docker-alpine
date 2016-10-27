@@ -1,10 +1,10 @@
 {{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
 {{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
-{{- $stats_username := env "HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME" -}}
-{{- $stats_password := env "HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD" -}}
-{{- $stats_port := env "HAPROXY_TEMPLATE_BACKEND_STATSPORT" -}}
-{{- $stats_uri := env "HAPROXY_TEMPLATE_BACKEND_STATSURI" -}}
-{{- $stats_realm := env "HAPROXY_TEMPLATE_BACKEND_STATSREALM" -}}
+{{- $haproxy_stats_username := env "HAPROXY_TEMPLATE_BACKEND_STATSUSERNAME" -}}
+{{- $haproxy_stats_password := env "HAPROXY_TEMPLATE_BACKEND_STATSPASSWORD" -}}
+{{- $haproxy_stats_port := env "HAPROXY_TEMPLATE_BACKEND_STATSPORT" -}}
+{{- $haproxy_stats_uri := env "HAPROXY_TEMPLATE_BACKEND_STATSURI" -}}
+{{- $haproxy_stats_realm := env "HAPROXY_TEMPLATE_BACKEND_STATSREALM" -}}
 global
     log 127.0.0.1 format rfc5424 local0 info
     maxconn 1024
@@ -18,14 +18,14 @@ defaults
     timeout client 30s
     timeout server 30s
 
-{{if and $stats_username $stats_password}}
+{{if and $haproxy_stats_username $haproxy_stats_password}}
 listen stats
-    bind :{{if $stats_port}}{{$stats_port}}{{else}}1936{{end}}
+    bind :{{if $haproxy_stats_port}}{{$haproxy_stats_port}}{{else}}1936{{end}}
     mode http
     stats enable
-    stats uri {{if $stats_uri}}{{$stats_uri}}{{else}}/haproxy?stats{{end}}
-    stats realm {{if $stats_realm}}{{$stats_realm}}{{else}}Haproxy\ Statistics{{end}}
-    stats auth {{print $stats_username ":" $stats_password}}
+    stats uri {{if $haproxy_stats_uri}}{{$haproxy_stats_uri}}{{else}}/haproxy?stats{{end}}
+    stats realm {{if $haproxy_stats_realm}}{{$haproxy_stats_realm}}{{else}}Haproxy\ Statistics{{end}}
+    stats auth {{print $haproxy_stats_username ":" $haproxy_stats_password}}
     stats hide-version
     stats refresh 30s
     stats show-node
@@ -38,7 +38,7 @@ frontend http-in
     reqadd X-Forwarded-Proto:\ http
     default_backend http-out
 
-{{if and $name $tag}}
+
 backend http-out
     balance leastconn
     {{range service (print $tag "." $name) -}}
@@ -46,7 +46,3 @@ backend http-out
     {{else -}}
     errorfile 502 /etc/haproxy/errors/502.http # no available services
     {{end -}}
-{{else}}
-backend http-out
-    errorfile 503 /etc/haproxy/errors/503.http # missing service name/tag
-{{end}}

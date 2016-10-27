@@ -17,3 +17,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 80 443
+VOLUME ["/var/www"]

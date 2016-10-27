@@ -12,6 +12,10 @@ if [ -z ${ELASTICSEARCH_CONFIG} ]; then
         echo "==> Configuring elasticsearch from script"
 
         /bin/sh ${ELASTICSEARCH_CONFIGSCRIPT}
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
     fi
 
     export ELASTICSEARCH_CONFIG=1
