@@ -26,19 +26,24 @@ services:
             - CONSUL_CHECKTYPE=tcp                                      # consul health check type
             #- NGINX_WORKERPROCESSES=1                                  # number of worker processes
             #- NGINX_WORKERCONNECTIONS=1024                             # number of connections per worker process
+            #- NGINX_WORKERRLIMITNOFILE=2048                            # limit of maximum number of open files
             #- NGINX_SSL=0                                              # enable SSL support
             #- NGINX_SSLHTTP2=0                                         # enable HTTP2 support
             #- NGINX_SSLCERTIFICATE=/etc/nginx/ssl/cert.pem             # SSL certificate file
             #- NGINX_SSLCERTIFICATEKEY=/etc/nginx/ssl/cert-privkey.pem  # SSL private key file
             #- NGINX_SSLREDIRECT=0                                      # redirect HTTP to HTTPS
+            #- NGINX_OPENFILECACHE=0                                    # enable open file cache
             #- NGINX_GZIP=0                                             # enable gzip support
+            - NGINX_EXPIRE=1                                            # enable expire on static content
+            #- NGINX_EXPIREDELAY=1d                                     # expire delay of static content
+            #- NGINX_EXPIREDISABLELOG=0                                 # disable access log for static content
             #- NGINX_STATUS=0                                           # enable status page
+            #- NGINX_STATUSALLOW=127.0.0.1                              # IP/netmask allowed to access to status page
             - NGINX_TEMPLATE=static                                     # configuration template
             #
             # template loadbalancer
             #
             - NGINX_TEMPLATE_LOADBALANCER_KEYPREFIX=myloadbalancer/     # key prefix for configuration
-            #
             #
             # template upstream
             #
