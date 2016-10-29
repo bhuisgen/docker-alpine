@@ -27,6 +27,8 @@ services:
             #- NGINX_WORKERPROCESSES=1                                  # number of worker processes
             #- NGINX_WORKERCONNECTIONS=1024                             # number of connections per worker process
             #- NGINX_WORKERRLIMITNOFILE=2048                            # limit of maximum number of open files
+            #- NGINX_KEEPALIVETIMEOUT=75s                               # keepalive timeout
+            #- NGINX_KEEPALIVEREQUESTS=100                              # maximum requests per connection with keepalive
             #- NGINX_SSL=0                                              # enable SSL support
             #- NGINX_SSLHTTP2=0                                         # enable HTTP2 support
             #- NGINX_SSLCERTIFICATE=/etc/nginx/ssl/cert.pem             # SSL certificate file
@@ -49,3 +51,9 @@ services:
             #
             - NGINX_TEMPLATE_UPSTREAM_SERVICENAME=myservice             # service name to proxify
             - NGINX_TEMPLATE_UPSTREAM_SERVICETAG=dev                    # service tag to proxify
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING=off               # enable proxy buffering
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT=60s          # proxy connect timeout
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT=60s             # proxy read timeout
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE=0              # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS=1               # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT=10s          # time before marking upstream server as unavailable and period of unavailability
