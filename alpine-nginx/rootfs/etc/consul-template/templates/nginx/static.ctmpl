@@ -1,17 +1,24 @@
 {{- $nginx_worker_processes := env "NGINX_WORKERPROCESSES" -}}
 {{- $nginx_worker_connections := env "NGINX_WORKERCONNECTIONS" -}}
+{{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
+{{- $nginx_keepalive_timeout := env "NGINX_KEEPALIVETIMEOUT" -}}
+{{- $nginx_keepalive_requests := env "NGINX_KEEPALIVEREQUESTS" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_http2 := env "NGINX_SSLHTTP2" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
 {{- $nginx_ssl_certificate_key := env "NGINX_SSLCERTIFICATEKEY" -}}
 {{- $nginx_ssl_redirect := env "NGINX_SSLREDIRECT" -}}
+{{- $nginx_open_file_cache := env "NGINX_OPENFILECACHE" -}}
 {{- $nginx_gzip := env "NGINX_GZIP" -}}
+{{- $nginx_expire := env "NGINX_EXPIRE" -}}
+{{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
+{{- $nginx_expire_disable_log := env "NGINX_EXPIREDISABLELOG" -}}
 {{- $nginx_status := env "NGINX_STATUS" -}}
-{{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
-{{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
+{{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
+{{if $nginx_worker_rlimit_nofile}}worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};{{end}}
 pid  /var/run/nginx.pid;
 
 events {
@@ -25,8 +32,12 @@ http {
     tcp_nopush on;
     tcp_nodelay on;
 
-    keepalive_timeout 75s;
-    keepalive_requests 1000;
+    keepalive_timeout {{if $nginx_keepalive_timeout}}{{$nginx_keepalive_timeout}}{{else}}75{{end}};
+    keepalive_requests {{if $nginx_keepalive_requests}}{{$nginx_keepalive_requests}}{{else}}100{{end}};
+
+    reset_timedout_connection on;
+    client_body_timeout 10s;
+    send_timeout 2s;
 
     types_hash_max_size 2048;
     server_tokens off;
@@ -42,37 +53,35 @@ http {
     access_log /var/log/nginx/access.log main;
     error_log /var/log/nginx/error.log warn;
 
-    upstream app {
-        {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;
-        {{else}}
-        server 127.0.0.1:80 down;
-        {{end}}
-    }
-
     server {
         listen 80 default_server;
 
         {{if eq $nginx_ssl "1"}}
-        listen 443 ssl {{if $nginx_ssl_http2 eq "1"}}http2 {{end}}default_server;
+        listen 443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
-
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         ssl_prefer_server_ciphers on;
         ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
         ssl_ecdh_curve secp384r1;
-
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
 
-        {{if eq $nginx_ssl_redirect eq "1"}}
+        {{if eq $nginx_ssl_redirect "1"}}
         add_header Strict-Transport-Security max-age=2592000;
 
         if ($scheme != "https") {
             rewrite ^ https://$host$uri permanent;
+        }
         {{end}}
+        {{end}}
+
+        {{if eq $nginx_open_file_cache "1"}}
+        open_file_cache max=1000 inactive=20s;
+        open_file_cache_valid 30s;
+        open_file_cache_min_uses 2;
+        open_file_cache_errors on;
         {{end}}
 
         {{if eq $nginx_gzip "1"}}
@@ -89,11 +98,22 @@ http {
         root /var/www;
         index index.html;
 
-        {{if eq nginx_status "1"}}
+        {{if eq $nginx_expire "1"}}
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
+            add_header Pragma public;
+            add_header Cache-Control "public";
+            {{if eq $nginx_expire_disable_log "1"}}
+            access_log off;
+            {{end}}
+        }
+        {{end}}
+
+        {{if eq $nginx_status "1"}}
         location /nginx_status {
             stub_status on;
             access_log off;
-            allow 127.0.0.1;
+            allow {{if $nginx_status_allow}}{{$nginx_status_allow}}{{else}}127.0.0.1{{end}};
             deny all;
         }
         {{end}}
