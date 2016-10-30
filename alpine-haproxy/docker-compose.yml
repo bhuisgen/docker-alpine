@@ -17,19 +17,33 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul                       # consul agent hostname/IP
-            #- CONSUL_PORT=8500                         # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
-            - CONSUL_SERVICENAME=haproxy                # consul service name
-            - CONSUL_SERVICETAGS=dev                    # consul service tag
-            - CONSUL_SERVICEPORT=80                     # consul service port
-            - CONSUL_CHECKTYPE=tcp                      # consul health check type
-            #- HAPROXY_STATSPORT=1936                   # statistics port
-            #- HAPROXY_STATSURI=/haproxy?stats          # statistics URI
-            #- HAPROXY_STATSREALM=Haproxy\ Statistics   # statistics realm
-            - HAPROXY_STATSUSERNAME=haproxy             # statistics user
-            - HAPROXY_STATSPASSWORD=haproxy             # statistics password
-            - HAPROXY_TEMPLATE=backend                  # configuration template
+            - CONSUL_AGENT=consul                                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
+            - CONSUL_SERVICENAME=haproxy                                # consul service name
+            - CONSUL_SERVICETAGS=dev                                    # consul service tag
+            - CONSUL_SERVICEPORT=80                                     # consul service port
+            - CONSUL_CHECKTYPE=tcp                                      # consul health check type
+            #- HAPROXY_MAXCONN=1024                                     # maximum of connections allowed
+            #- HAPROXY_TIMEOUTCONNECT=5s                                # connect timeout
+            #- HAPROXY_TIMEOUTSERVER=10s                                # server timeout
+            #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
+            #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
+            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout
+            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                          # HTTP keepalive request timeout
+            #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
+            #- HAPROXY_BALANCE=roundrobin                               # balance mode
+            #- HAPROXY_RETRIES=3                                        # number of connection retries
+            #- HAPROXY_REDISPATCH=0                                     # allow redispatch of cookie sticked connections
+            #- HAPROXY_STATS=0                                          # enable statistics
+            #- HAPROXY_STATSPORT=1936                                   # statistics port
+            #- HAPROXY_STATSURI=/haproxy?stats                          # statistics URI
+            #- HAPROXY_STATSREALM=Haproxy\ Statistics                   # statistics realm
+            #- HAPROXY_STATSUSERNAME=                                   # auth user
+            #- HAPROXY_STATSPASSWORD=                                   # auth password
+            #- HAPROXY_SSL=0                                            # enable SSL
+            #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
+            - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend
             #
