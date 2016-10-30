@@ -3,6 +3,14 @@
 {{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
 {{- $nginx_keepalive_timeout := env "NGINX_KEEPALIVETIMEOUT" -}}
 {{- $nginx_keepalive_requests := env "NGINX_KEEPALIVEREQUESTS" -}}
+{{- $nginx_reset_timedout_connection := env "NGINX_RESETTIMEDOUTCONNECTION" -}}
+{{- $nginx_client_header_timeout := env "NGINX_CLIENTHEADERTIMEOUT" -}}
+{{- $nginx_client_body_timeout := env "NGINX_CLIENTBODYTIMEOUT" -}}
+{{- $nginx_send_timeout := env "NGINX_SENDTIMEOUT" -}}
+{{- $nginx_client_header_buffer_size := env "NGINX_CLIENTHEADERBUFFERSIZE" -}}
+{{- $nginx_large_client_header_buffers := env "NGINX_LARGECLIENTHEADERBUFFERS" -}}
+{{- $nginx_client_body_buffer_size := env "NGINX_CLIENTBODYBUFFERSIZE" -}}
+{{- $nginx_client_max_body_size := env "NGINX_CLIENTMAXBODYSIZE" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_http2 := env "NGINX_SSLHTTP2" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
@@ -13,6 +21,7 @@
 {{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
 {{- $nginx_expire_disable_log := env "NGINX_EXPIREDISABLELOG" -}}
 {{- $nginx_status := env "NGINX_STATUS" -}}
+{{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
 {{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
 {{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
@@ -22,6 +31,8 @@
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
 {{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
 {{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
+{{- $nginx_upstream_slow_start := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMSLOWSTART" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -42,9 +53,15 @@ http {
     keepalive_timeout {{if $nginx_keepalive_timeout}}{{$nginx_keepalive_timeout}}{{else}}75{{end}};
     keepalive_requests {{if $nginx_keepalive_requests}}{{$nginx_keepalive_requests}}{{else}}100{{end}};
 
-    reset_timedout_connection on;
-    client_body_timeout 10s;
-    send_timeout 2s;
+    reset_timedout_connection {{if $nginx_reset_timedout_connection}}{{$nginx_reset_timedout_connection}}{{else}}off{{end}};
+    client_header_timeout {{if $nginx_client_header_timeout}}{{$nginx_client_header_timeout}}{{else}}60s{{end}};
+    client_body_timeout {{if $nginx_client_body_timeout}}{{$nginx_client_body_timeout}}{{else}}60s{{end}};
+    send_timeout {{if $nginx_send_timeout}}{{$nginx_send_timeout}}{{else}}60s{{end}};
+
+    client_header_buffer_size {{if $nginx_client_header_buffer_size}}{{$nginx_client_header_buffer_size}}{{else}}1k{{end}};
+    large_client_header_buffers {{if $nginx_large_client_header_buffers}}{{$nginx_large_client_header_buffers}}{{else}}4 8k{{end}};
+    client_body_buffer_size {{if $nginx_client_body_buffer_size}}{{$nginx_client_body_buffer_size}}{{else}}8k{{end}};
+    client_max_body_size {{if $nginx_client_max_body_size}}{{$nginx_client_max_body_size}}{{else}}1m{{end}};
 
     types_hash_max_size 2048;
     server_tokens off;
@@ -66,7 +83,7 @@ http {
         {{end}}
 
         {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}} weight=1;
+        server {{.Address}}:{{.Port}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}} c{{$nginx_upstream_slow_start}}{{else}}0s{{end}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}};
         {{else}}
         server 127.0.0.1:80 down;
         {{end}}
@@ -122,7 +139,7 @@ http {
         {{end}}
 
         {{if eq $nginx_status "1"}}
-        location /nginx_status {
+        location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
             stub_status on;
             access_log off;
             allow {{if $nginx_status_allow}}{{$nginx_status_allow}}{{else}}127.0.0.1{{end}};
@@ -132,19 +149,17 @@ http {
 
         location / {
             proxy_pass http://app;
-
-            proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}off{{end}};
+            proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
-
             {{if $nginx_upstream_keepalive}}
             proxy_http_version 1.1;
             proxy_set_header Connection "";
             {{end}}
-
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
         }
     }
 }
