@@ -41,6 +41,7 @@ AC_CONFIG_FILES([
     alpine-base-consul/Makefile
     alpine-build/Makefile
     alpine-build-make/Makefile
+    alpine-build-make-gcc/Makefile
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
     alpine-build-npm/Makefile
@@ -59,7 +60,9 @@ AC_CONFIG_FILES([
     alpine-mariadb/Makefile
     alpine-nginx/Makefile
     alpine-nodejs/Makefile
+    alpine-perl/Makefile
     alpine-php/Makefile
+    alpine-python/Makefile
     alpine-postgresql/Makefile
     alpine-rabbitmq/Makefile
     alpine-redis/Makefile
