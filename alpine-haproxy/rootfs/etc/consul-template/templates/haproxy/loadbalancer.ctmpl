@@ -1,24 +1,47 @@
+{{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
+{{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
+{{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
+{{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
+{{- $haproxy_timeout_queue := env "HAPROXY_TIMEOUTQUEUE" -}}
+{{- $haproxy_timeout_tunnel := env "HAPROXY_TIMEOUTTUNNEL" -}}
+{{- $haproxy_timeout_http_request := env "HAPROXY_TIMEOUTHTTPREQUEST" -}}
+{{- $haproxy_timeout_http_keepalive := env "HAPROXY_TIMEOUTHTTPKEEPALIVE" -}}
+{{- $haproxy_balance := env "HAPROXY_BALANCE" -}}
+{{- $haproxy_retries := env "HAPROXY_RETRIES" -}}
+{{- $haproxy_redispatch := env "HAPROXY_REDISPATCH" -}}
+{{- $haproxy_stats := env "HAPROXY_STATS" -}}
 {{- $haproxy_stats_username := env "HAPROXY_STATSUSERNAME" -}}
 {{- $haproxy_stats_password := env "HAPROXY_STATSPASSWORD" -}}
 {{- $haproxy_stats_port := env "HAPROXY_STATSPORT" -}}
 {{- $haproxy_stats_uri := env "HAPROXY_STATSURI" -}}
 {{- $haproxy_stats_realm := env "HAPROXY_STATSREALM" -}}
+{{- $haproxy_ssl := env "HAPROXY_SSL" -}}
+{{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCER_KEYPREFIX" -}}
 global
+    maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
+    tune.ssl.default-dh-param 2048
     log 127.0.0.1 format rfc5424 local0 info
-    maxconn 1024
 
 defaults
-    log global
     mode http
+    option httpclose
+    option abortonclose
+    timeout connect {{if $haproxy_timeout_connect}}{{$haproxy_timeout_connect}}{{else}}5s{{end}}
+    timeout server {{if $haproxy_timeout_server}}{{$haproxy_timeout_server}}{{else}}10s{{end}}
+    timeout client {{if $haproxy_timeout_client}}{{$haproxy_timeout_client}}{{else}}30s{{end}}
+    timeout queue {{if $haproxy_timeout_queue}}{{$haproxy_timeout_queue}}{{else}}30s{{end}}
+    timeout tunnel {{if $haproxy_timeout_tunnel}}{{$haproxy_timeout_tunnel}}{{else}}1h{{end}}
+    timeout http-request {{if $haproxy_timeout_http_request}}{{$haproxy_timeout_http_request}}{{else}}5s{{end}}
+    timeout http-keep-alive {{if $haproxy_timeout_http_keepalive}}{{$haproxy_timeout_http_keepalive}}{{else}}5s{{end}}
+    balance {{if $haproxy_balance}}{{$haproxy_balance}}{{else}}roundrobin{{end}}
+    retries {{if $haproxy_retries}}{{$haproxy_retries}}{{else}}3{{end}}
+    {{if eq $$haproxy_redispatch "1"}}option redispatch{{end}}
+    log global
     option httplog
     option dontlognull
-    timeout connect 5s
-    timeout client 30s
-    timeout server 30s
-    balance roundrobin
 
-{{if and $haproxy_stats_username $haproxy_stats_password}}
+{{if eq $haproxy_stats "1"}}
 listen stats
     bind :{{if $haproxy_stats_port}}{{$haproxy_stats_port}}{{else}}1936{{end}}
     mode http
@@ -38,8 +61,17 @@ frontend http-in
     reqadd X-Forwarded-Proto:\ http
     default_backend http-out
 
+{{if eq $haproxy_ssl "1"}}
+frontend https-in
+    bind *:443 ssl crt {{$haproxy_ssl_certificate}}
+    option forwardfor
+    option http-server-close
+    reqadd X-Forwarded-Proto:\ https
+    default_backend http-out
+{{end}}
+
 backend http-out
     {{range ls (print $loadbalancer_keyprefix "targets")}}
     server {{.Key}} {{.Key}} check
     {{end}}
-    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
