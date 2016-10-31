@@ -20,7 +20,7 @@
 {{- $nginx_gzip := env "NGINX_GZIP" -}}
 {{- $nginx_expire := env "NGINX_EXPIRE" -}}
 {{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
-{{- $nginx_expire_disable_log := env "NGINX_EXPIREDISABLELOG" -}}
+{{- $nginx_expire_access_log := env "NGINX_EXPIREACCESSLOG" -}}
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
@@ -69,10 +69,10 @@ http {
     error_log /var/log/nginx/error.log warn;
 
     server {
-        listen 80 default_server;
+        listen [::]:80 default_server;
 
         {{if eq $nginx_ssl "1"}}
-        listen 443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
+        listen [::]:443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
@@ -82,14 +82,6 @@ http {
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
-
-        {{if eq $nginx_ssl_redirect "1"}}
-        add_header Strict-Transport-Security max-age=2592000;
-
-        if ($scheme != "https") {
-            rewrite ^ https://$host$uri permanent;
-        }
-        {{end}}
         {{end}}
 
         {{if eq $nginx_open_file_cache "1"}}
@@ -118,7 +110,7 @@ http {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";
-            {{if eq $nginx_expire_disable_log "1"}}
+            {{if eq $nginx_expire_access_log "0"}}
             access_log off;
             {{end}}
         }
@@ -130,6 +122,16 @@ http {
             access_log off;
             allow {{if $nginx_status_allow}}{{$nginx_status_allow}}{{else}}127.0.0.1{{end}};
             deny all;
+        }
+        {{end}}
+
+        {{if eq $nginx_ssl $nginx_ssl_redirect "1"}}
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+
+        if ($scheme != "https") {
+            rewrite ^ https://$host$uri permanent;
         }
         {{end}}
     }
