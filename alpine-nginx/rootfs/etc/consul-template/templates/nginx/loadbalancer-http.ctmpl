@@ -19,19 +19,19 @@
 {{- $nginx_gzip := env "NGINX_GZIP" -}}
 {{- $nginx_expire := env "NGINX_EXPIRE" -}}
 {{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
-{{- $nginx_expire_disable_log := env "NGINX_EXPIREDISABLELOG" -}}
+{{- $nginx_expire_access_log := env "NGINX_EXPIREACCESSLOG" -}}
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCER_KEYPREFIX" -}}
-{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_LOADBALANCER_PROXYBUFFERING" -}}
-{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_LOADBALANCER_PROXYCONNECTTIMEOUT" -}}
-{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_LOADBALANCER_PROXYREADTIMEOUT" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_LOADBALANCER_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCER_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCER_UPSTREAMFAILTIMEOUT" -}}
-{{- $nginx_upstream_slow_start := env "NGINX_TEMPLATE_LOADBALANCER_UPSTREAMSLOWSTART" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCER_UPSTREAMWEIGHT" -}}
+{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
+{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYBUFFERING" -}}
+{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYCONNECTTIMEOUT" -}}
+{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -76,23 +76,30 @@ http {
     access_log /var/log/nginx/access.log main;
     error_log /var/log/nginx/error.log warn;
 
+    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
+                                '"$request" $status $body_bytes_sent '
+                                '"$http_referer" "$http_user_agent"'
+                                'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+
     upstream app {
         {{if $nginx_upstream_keepalive}}
         keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};
         {{end}}
 
         {{range ls (print $loadbalancer_keyprefix "targets")}}
-        server {{.Key}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}} slow_start={{if $nginx_upstream_slow_start}}{{$nginx_upstream_slow_start}}{{else}}0s{{end}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}};
+        {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+        server {{.Key}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}};
+        {{end}}
         {{else}}
         server 127.0.0.1:80 down;
         {{end}}
     }
 
     server {
-        listen 80 default_server;
+        listen [::]:80 default_server;
 
         {{if eq $nginx_ssl "1"}}
-        listen 443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
+        listen [::]:443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
@@ -102,14 +109,6 @@ http {
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
-
-        {{if eq $nginx_ssl_redirect "1"}}
-        add_header Strict-Transport-Security max-age=2592000;
-
-        if ($scheme != "https") {
-            rewrite ^ https://$host$uri permanent;
-        }
-        {{end}}
         {{end}}
 
         {{if eq $nginx_gzip "1"}}
@@ -131,7 +130,7 @@ http {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";
-            {{if eq $nginx_expire_disable_log "1"}}
+            {{if eq $nginx_expire_access_log "0"}}
             access_log off;
             {{end}}
         }
@@ -146,11 +145,23 @@ http {
         }
         {{end}}
 
+        {{if eq $nginx_ssl $nginx_ssl_redirect "1"}}
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+
+        if ($scheme != "https") {
+            rewrite ^ https://$host$uri permanent;
+        }
+        {{end}}
+
         location / {
             proxy_pass http://app;
+
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
+
             {{if $nginx_upstream_keepalive}}
             proxy_http_version 1.1;
             proxy_set_header Connection "";
@@ -159,6 +170,12 @@ http {
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+
+            {{if eq $nginx_proxy_access_log "1"}}
+            access_log /var/log/nginx/access.log upstream_time;
+            {{else}}
+            access_log off;
+            {{end}}
         }
     }
 }
