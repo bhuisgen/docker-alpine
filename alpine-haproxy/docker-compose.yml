@@ -14,6 +14,7 @@ services:
         image: bhuisgen/alpine-haproxy
         ports:
             - "80:80"
+            - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
@@ -29,9 +30,9 @@ services:
             #- HAPROXY_TIMEOUTSERVER=10s                                # server timeout
             #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
             #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
-            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout
-            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                          # HTTP keepalive request timeout
             #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
+            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout (http mode only)
+            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                          # HTTP keepalive request timeout (http mode only)
             #- HAPROXY_BALANCE=roundrobin                               # balance mode
             #- HAPROXY_RETRIES=3                                        # number of connection retries
             #- HAPROXY_REDISPATCH=0                                     # allow redispatch of cookie sticked connections
@@ -41,15 +42,22 @@ services:
             #- HAPROXY_STATSREALM=Haproxy\ Statistics                   # statistics realm
             #- HAPROXY_STATSUSERNAME=                                   # auth user
             #- HAPROXY_STATSPASSWORD=                                   # auth password
+            #- HAPROXY_STATSALLOW=127.0.0.1                             # IP allowed to access to stats
             #- HAPROXY_SSL=0                                            # enable SSL
             #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
+            #- HAPROXY_SSLREDIRECT=0                                    # redirect HTTP to HTTPS
             - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend
             #
-            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice            # service name to proxify
-            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                   # service tag to proxify
+            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                    # service name to proxify
+            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                           # service tag to proxify
             #
-            # template loadbalancer
+            # template loadbalancer-http
             #
-            - HAPROXY_TEMPLATE_LOADBALANCER_KEYPREFIX=myloadbalancer/   # key prefix for configuration
+            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer-http/  # key prefix for configuration
+            #
+            # template loadbalancer-tcp
+            #
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer-tcp/    # key prefix for configuration
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
