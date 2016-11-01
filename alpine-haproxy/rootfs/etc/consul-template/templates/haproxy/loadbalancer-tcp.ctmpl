@@ -58,8 +58,7 @@ listen stats
     http-request deny if !access_allowed
 {{end}}
 
-{{range ls (print $loadbalancer_keyprefix "listeners")}}
-{{with $listener := .Key}}
+{{range $index, $listener := $loadbalancer_listeners | split ","}}
 frontend tcp-in-{{$listener}}
     bind *:{{$listener}}
     bind :::{{$listener}}
@@ -71,5 +70,4 @@ backend tcp-out-{{$listener}}
     server {{.Key}} {{.Key}} check
     {{end}}
     {{end}}
-{{end}}
 {{end}}
