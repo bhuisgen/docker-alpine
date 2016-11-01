@@ -20,6 +20,10 @@
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
 {{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
+{{- $haproxy_httpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK" -}}
+{{- $haproxy_httpcheck_options := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS" -}}
+{{- $haproxy_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404" -}}
+{{- $haproxy_httpcheck_expect := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKEXPECT" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
@@ -91,6 +95,12 @@ frontend https-in
 {{end}}
 
 backend http-out
+    {{if eq $haproxy_httpcheck "1"}}
+    option httpchk{{if $haproxy_httpcheck_options}} {{$haproxy_httpcheck_options}}{{end}}
+    {{if eq $haproxy_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
+    {{if $haproxy_httpcheck_expect}}http-check expect {{$haproxy_httpcheck_expect}}{{end}}
+    http-check send-state
+    {{end}}
     {{range ls (print $loadbalancer_keyprefix "targets")}}
     {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check

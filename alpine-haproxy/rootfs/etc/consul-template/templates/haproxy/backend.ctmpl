@@ -21,6 +21,10 @@
 {{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
 {{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
 {{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
+{{- $haproxy_httpcheck := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECK" -}}
+{{- $haproxy_httpcheck_options := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKOPTIONS" -}}
+{{- $haproxy_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKDISABLEON404" -}}
+{{- $haproxy_httpcheck_expect := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKEXPECT" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
@@ -92,6 +96,12 @@ frontend https-in
 {{end}}
 
 backend http-out
+    {{if eq $haproxy_httpcheck "1"}}
+    option httpchk{{if $haproxy_httpcheck_options}} {{$haproxy_httpcheck_options}}{{end}}
+    {{if eq $haproxy_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
+    {{if $haproxy_httpcheck_expect}}http-check expect {{$haproxy_httpcheck_expect}}{{end}}
+    http-check send-state
+    {{end}}
     {{range service (print $tag "." $name)}}
     server {{.Address}} {{.Address}}:{{.Port}} check
     {{end}}
