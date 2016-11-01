@@ -52,12 +52,21 @@ services:
             #
             - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                    # service name to proxify
             - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                           # service tag to proxify
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECK=0                             # enable HTTP check
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKOPTIONS=                       # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKDISABLEON404=0                 # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKEXPECT=                        # response validation ([!] <match> <pattern>)
             #
             # template loadbalancer-http
             #
-            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer-http/  # key prefix for configuration
+            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/       # key prefix for configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK=0                    # enable HTTP check
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS=              # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404=0        # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKEXPECT=               # response validation ([!] <match> <pattern>)
             #
             # template loadbalancer-tcp
             #
-            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer-tcp/    # key prefix for configuration
             - HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERTCP_TCPCHECK=0                      # enable TCP check
