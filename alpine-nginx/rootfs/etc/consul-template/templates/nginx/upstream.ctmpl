@@ -11,6 +11,8 @@
 {{- $nginx_large_client_header_buffers := env "NGINX_LARGECLIENTHEADERBUFFERS" -}}
 {{- $nginx_client_body_buffer_size := env "NGINX_CLIENTBODYBUFFERSIZE" -}}
 {{- $nginx_client_max_body_size := env "NGINX_CLIENTMAXBODYSIZE" -}}
+{{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
+{{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_http2 := env "NGINX_SSLHTTP2" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
@@ -29,15 +31,19 @@
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
 {{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
+{{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS" -}}
 {{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
 {{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
 {{if $nginx_worker_rlimit_nofile}}worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};{{end}}
 pid  /var/run/nginx.pid;
+pcre_jit on;
+include /etc/nginx/modules/*.conf;
 
 events {
     worker_connections {{if $nginx_worker_connections}}{{$nginx_worker_connections}}{{else}}1024{{end}};
@@ -74,31 +80,34 @@ http {
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
-    access_log /var/log/nginx/access.log main;
-    error_log /var/log/nginx/error.log warn;
-
     log_format upstream_time '$remote_addr - $remote_user [$time_local] '
                                 '"$request" $status $body_bytes_sent '
                                 '"$http_referer" "$http_user_agent"'
                                 'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
+    {{if eq $nginx_access_log "1"}}
+    access_log /var/log/nginx/access.log main;
+    {{else}}
+    access_log off;
+    {{end}}
+    error_log /var/log/nginx/error.log warn;
+
     upstream app {
-        {{if $nginx_upstream_keepalive}}
-        keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};
-        {{end}}
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+        {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
 
         {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}};
+        server {{.Address}}:{{.Port}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}} max_conns={{if $nginx_upstream_max_conns}}{{$nginx_upstream_max_conns}}{{else}}0{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
         {{else}}
         server 127.0.0.1:80 down;
         {{end}}
     }
 
     server {
-        listen [::]:80 default_server;
+        listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
 
         {{if eq $nginx_ssl "1"}}
-        listen [::]:443 ssl {{if eq $nginx_ssl_http2 "1"}}http2 {{end}}default_server;
+        listen [::]:443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
@@ -129,9 +138,7 @@ http {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";
-            {{if eq $nginx_expire_access_log "0"}}
-            access_log off;
-            {{end}}
+            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
         }
         {{end}}
 
