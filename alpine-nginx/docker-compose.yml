@@ -71,6 +71,7 @@ services:
             # # template loadbalancer-tcp
             # #
             # - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567                # listening ports
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999             # listening secured ports
             # - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/          # key prefix for dynamic configuration
             # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                   # load balancing method (set empty for default round-robin)
             # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                  # weight of the server
