@@ -1,0 +1,60 @@
+{{- $nginx_worker_processes := env "NGINX_WORKERPROCESSES" -}}
+{{- $nginx_worker_connections := env "NGINX_WORKERCONNECTIONS" -}}
+{{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
+{{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
+{{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
+{{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT" -}}
+{{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
+{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
+daemon off;
+user nginx;
+worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
+{{if $nginx_worker_rlimit_nofile}}worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};{{end}}
+pid  /var/run/nginx.pid;
+pcre_jit on;
+include /etc/nginx/modules/*.conf;
+
+events {
+    worker_connections {{if $nginx_worker_connections}}{{$nginx_worker_connections}}{{else}}1024{{end}};
+    use epoll;
+    multi_accept on;
+}
+
+stream {
+    tcp_nodelay on;
+
+    #log_format basic '$remote_addr [$time_local] '
+    #                    '$protocol $status $bytes_sent $bytes_received '
+    #                    '$session_time';
+    #
+    #{{if eq $nginx_access_log "1"}}
+    #access_log /var/log/nginx/access.log basic buffer=1m flush=10s;
+    #{{else}}
+    #access_log off;
+    #{{end}}
+    error_log /var/log/nginx/error.log warn;
+
+    {{range $index, $listener := $loadbalancer_listeners | split ","}}
+    upstream out-{{$listener}} {
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+
+        {{range ls (print $loadbalancer_keyprefix "targets")}}
+        {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+        server {{.Key}} weight={{$nginx_upstream_weight}} max_conns={{$nginx_upstream_max_conns}} max_fails={{$nginx_upstream_max_fails}} fail_timeout={{$nginx_upstream_fail_timeout}};
+        {{end}}
+        {{else}}
+        server 127.0.0.1:{{$listener}} down;
+        {{end}}
+    }
+
+    server {
+        listen [::]:{{$listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}};
+
+        proxy_pass out-{{$listener}};
+    }
+    {{end}}
+}

@@ -6,6 +6,12 @@ RUN mkdir -p /var/www && \
     adduser -u 82 -D -S -G www-data www-data && \
     chown www-data:www-data /var/www
 
+# RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted \
+#         nginx nginx-mod-stream && \
+#     ln -sf /dev/stdout /var/log/nginx/access.log && \
+#     ln -sf /dev/stderr /var/log/nginx/error.log && \
+#     rm -rf /var/cache/apk/*
+
 RUN apk add --update nginx && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
