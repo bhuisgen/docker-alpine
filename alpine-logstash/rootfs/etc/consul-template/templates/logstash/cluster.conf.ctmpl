@@ -1,5 +1,5 @@
-{{- $name := env "LOGSTASH_TEMPLATE_SERVICENAME" -}}
-{{- $tag := env "LOGSTASH_TEMPLATE_SERVICETAG" -}}
+{{- $name := env "LOGSTASH_TEMPLATE_CLUSTER_SERVICENAME" -}}
+{{- $tag := env "LOGSTASH_TEMPLATE_CLUSTER_SERVICETAG" -}}
 input {
     tcp {
         port => 10514
@@ -32,7 +32,6 @@ filter {
     }
 }
 
-{{if and $name $tag}}
 output {
     elasticsearch {
         hosts => [
@@ -40,11 +39,6 @@ output {
             {{if ne $i 0}}, {{end}}"{{.Address}}:{{.Port}}"
             {{end}}
         ]
-    }
-}
-{{else}}
-output {
-    elasticsearch {
     }
 }
 {{end}}

@@ -14,16 +14,84 @@ services:
         image: bhuisgen/alpine-nginx
         ports:
             - "80:80"
+            - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul                  # consul agent hostname/IP
-            #- CONSUL_PORT=8500                    # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/       # consul key prefix path
-            - CONSUL_SERVICENAME=nginx             # consul service name
-            - CONSUL_SERVICETAGS=dev               # consul service tag
-            - CONSUL_SERVICEPORT=80                # consul service port
-            - CONSUL_CHECKTYPE=tcp                 # consul health check type
-            - NGINX_TEMPLATE=upstream              # configuration template
-            - NGINX_TEMPLATE_SERVICENAME=myservice # service name to proxify
-            - NGINX_TEMPLATE_SERVICETAG=dev        # service tag to proxify
+            - CONSUL_AGENT=consul                                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
+            - CONSUL_SERVICENAME=nginx                                  # consul service name
+            - CONSUL_SERVICETAGS=dev                                    # consul service tag
+            - CONSUL_SERVICEPORT=80                                     # consul service port
+            - CONSUL_CHECKTYPE=tcp                                      # consul health check type
+            #- NGINX_WORKERPROCESSES=1                                  # number of worker processes
+            #- NGINX_WORKERCONNECTIONS=1024                             # number of connections per worker process
+            #- NGINX_WORKERRLIMITNOFILE=2048                            # limit of maximum number of open files
+            #- NGINX_KEEPALIVETIMEOUT=75s                               # keepalive timeout
+            #- NGINX_KEEPALIVEREQUESTS=100                              # maximum requests per connection with keepalive
+            #- NGINX_RESETTIMEDOUTCONNECTION=off                        # enable resetting timed out connections
+            #- NGINX_CLIENTHEADERTIMEOUT=60s                            # client header request timeout
+            #- NGINX_CLIENTBODYTIMEOUT=60s                              # client body timeout
+            #- NGINX_SENDTIMEOUT=60s                                    # send timeout
+            #- NGINX_CLIENTHEADERBUFFERSIZE=1k                          # buffer size for reading client request header
+            #- NGINX_LARGECLIENTHEADERBUFFERS=4 8k                      # maximum number and size of buffers used for reading large client request header
+            #- NGINX_CLIENTBODYBUFFERSIZE=8k                            # buffer size for reading client request body
+            #- NGINX_CLIENTMAXBODYSIZE=1m                               # maximum allowed size of the client request body
+            #- NGINX_ACCESSLOG=0                                        # enable access logs
+            #- NGINX_REUSEPORT=0                                        # enable reuse port
+            #- NGINX_SSL=0                                              # enable SSL support
+            #- NGINX_SSLHTTP2=0                                         # enable HTTP2 support
+            #- NGINX_SSLCERTIFICATE=/etc/nginx/ssl/cert.pem             # SSL certificate file
+            #- NGINX_SSLCERTIFICATEKEY=/etc/nginx/ssl/cert-privkey.pem  # SSL private key file
+            #- NGINX_SSLREDIRECT=0                                      # redirect HTTP to HTTPS
+            #- NGINX_OPENFILECACHE=0                                    # enable open file cache
+            #- NGINX_GZIP=0                                             # enable gzip support
+            #- NGINX_EXPIRE=0                                           # enable expire on static content
+            #- NGINX_EXPIREDELAY=1d                                     # expire delay of static content
+            #- NGINX_EXPIREACCESSLOG=0                                  # enable access log for static content
+            #- NGINX_STATUS=0                                           # enable status page
+            #- NGINX_STATUSLOCATION=/nginx_status                       # status page location
+            #- NGINX_STATUSALLOW=127.0.0.1                              # IP/CIDR allowed to access to status page
+            - NGINX_TEMPLATE=static                                     # configuration template
+            #
+            # template loadbalancer-http
+            #
+            - NGINX_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/         # key prefix for dynamic configuration
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYBUFFERING=on                # enable proxy buffering
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYCONNECTTIMEOUT=60s          # proxy connect timeout
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT=60s             # proxy read timeout
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD=                  # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE=0              # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT=1                 # weight of the server
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS=0               # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS=1               # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT=10s          # time before marking upstream server as unavailable and period of unavailability
+            # #
+            # # template loadbalancer-tcp
+            # #
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567                # listening ports
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999             # listening secured ports
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/          # key prefix for dynamic configuration
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                   # load balancing method (set empty for default round-robin)
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                  # weight of the server
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS=0                # maximum connections by upstream server (0 to disable)
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1                # number of unsuccessful attempts before marking upstream server as unavailable
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s           # time before marking upstream server as unavailable and period of unavailability
+            #
+            # template static
+            #
+            #
+            # template upstream
+            #
+            - NGINX_TEMPLATE_UPSTREAM_SERVICENAME=myservice                     # service name to proxify
+            - NGINX_TEMPLATE_UPSTREAM_SERVICETAG=dev                            # service tag to proxify
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING=on                        # enable proxy buffering
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT=60s                  # proxy connect timeout
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT=60s                     # proxy read timeout
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD=                          # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE=0                      # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT=1                         # weight of the server
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS=0                       # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS=1                       # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT=10s                  # time before marking upstream server as unavailable and period of unavailability

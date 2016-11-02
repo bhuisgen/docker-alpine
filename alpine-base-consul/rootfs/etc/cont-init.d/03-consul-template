@@ -30,9 +30,13 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
     fi
 
     consul-template ${options}
+    if [ $? -ne 0 ]; then
+        echo "Failed to render templates, aborting" >&2
+        exit 1
+    fi
 fi
 
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
-    echo "==> Enabling services configuration"
+    echo "==> Enabling service"
     rm -f /etc/services.d/consul-template/down
 fi

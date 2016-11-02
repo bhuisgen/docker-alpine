@@ -4,8 +4,6 @@
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
 {{- $haproxy_timeout_queue := env "HAPROXY_TIMEOUTQUEUE" -}}
 {{- $haproxy_timeout_tunnel := env "HAPROXY_TIMEOUTTUNNEL" -}}
-{{- $haproxy_timeout_http_request := env "HAPROXY_TIMEOUTHTTPREQUEST" -}}
-{{- $haproxy_timeout_http_keepalive := env "HAPROXY_TIMEOUTHTTPKEEPALIVE" -}}
 {{- $haproxy_balance := env "HAPROXY_BALANCE" -}}
 {{- $haproxy_retries := env "HAPROXY_RETRIES" -}}
 {{- $haproxy_redispatch := env "HAPROXY_REDISPATCH" -}}
@@ -18,13 +16,10 @@
 {{- $haproxy_stats_allow := env "HAPROXY_STATSALLOW" -}}
 {{- $haproxy_ssl := env "HAPROXY_SSL" -}}
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
-{{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
-{{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
-{{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
-{{- $haproxy_httpcheck := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECK" -}}
-{{- $haproxy_httpcheck_options := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKOPTIONS" -}}
-{{- $haproxy_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKDISABLEON404" -}}
-{{- $haproxy_httpcheck_expect := env "HAPROXY_TEMPLATE_BACKEND_HTTPCHECKEXPECT" -}}
+{{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
+{{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
+{{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
+{{- $haproxy_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_TCPCHECK" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
@@ -33,27 +28,24 @@ global
     ssl-default-bind-ciphers AES128+EECDH:AES128+EDH
 
 defaults
-    mode http
-    option httpclose
+    mode tcp
     option abortonclose
     timeout connect {{if $haproxy_timeout_connect}}{{$haproxy_timeout_connect}}{{else}}5s{{end}}
     timeout server {{if $haproxy_timeout_server}}{{$haproxy_timeout_server}}{{else}}10s{{end}}
     timeout client {{if $haproxy_timeout_client}}{{$haproxy_timeout_client}}{{else}}30s{{end}}
     timeout queue {{if $haproxy_timeout_queue}}{{$haproxy_timeout_queue}}{{else}}30s{{end}}
     timeout tunnel {{if $haproxy_timeout_tunnel}}{{$haproxy_timeout_tunnel}}{{else}}1h{{end}}
-    timeout http-request {{if $haproxy_timeout_http_request}}{{$haproxy_timeout_http_request}}{{else}}5s{{end}}
-    timeout http-keep-alive {{if $haproxy_timeout_http_keepalive}}{{$haproxy_timeout_http_keepalive}}{{else}}5s{{end}}
     balance {{if $haproxy_balance}}{{$haproxy_balance}}{{else}}roundrobin{{end}}
     retries {{if $haproxy_retries}}{{$haproxy_retries}}{{else}}3{{end}}
     {{if eq $haproxy_redispatch "1"}}option redispatch{{end}}
     log global
-    option httplog
+    option tcplog
     option dontlognull
 
 {{if eq $haproxy_stats "1"}}
 listen stats
     bind *:{{if $haproxy_stats_port}}{{$haproxy_stats_port}}{{else}}1936{{end}}
-    bind ::{{if $haproxy_stats_port}}{{$haproxy_stats_port}}{{else}}1936{{end}}
+    bind :::{{if $haproxy_stats_port}}{{$haproxy_stats_port}}{{else}}1936{{end}}
     mode http
     stats enable
     stats uri {{if $haproxy_stats_uri}}{{$haproxy_stats_uri}}{{else}}/haproxy?stats{{end}}
@@ -68,41 +60,34 @@ listen stats
     http-request deny if !access_allowed
 {{end}}
 
-frontend http-in
-    bind *:80
-    bind :::80
-    option http-server-close
-    option forwardfor
-    reqadd X-Forwarded-Proto:\ http
-    {{if eq $haproxy_ssl_redirect "1"}}
-    redirect scheme https code 301 if !{ ssl_fc }
-    {{else}}
-    default_backend http-out
-    {{end}}
+{{range $index, $listener := $loadbalancer_listeners | split ","}}
+frontend tcp-in-{{$listener}}
+    bind *:{{$listener}}
+    bind :::{{$listener}}
+    default_backend tcp-out-{{$listener}}
 
-{{if eq $haproxy_ssl "1"}}
-frontend https-in
-    bind *:443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
-    bind :::443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
-    option http-server-close
-    option forwardfor
-    reqadd X-Forwarded-Proto:\ https
-    {{if eq $haproxy_ssl_redirect "1"}}
-    rspadd Strict-Transport-Security:\ max-age=31536000;\ includeSubDomains;\ preload
-    rspadd X-Frame-Options:\ DENY
-    rspadd X-Content-Type-Options:\ nosniff
+backend tcp-out-{{$listener}}
+    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
+    {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
+    {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+    server {{.Key}} {{.Key}} check
     {{end}}
-    default_backend http-out
+    {{end}}
 {{end}}
 
-backend http-out
-    {{if eq $haproxy_httpcheck "1"}}
-    option httpchk{{if $haproxy_httpcheck_options}} {{$haproxy_httpcheck_options}}{{end}}
-    {{if eq $haproxy_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
-    {{if $haproxy_httpcheck_expect}}http-check expect {{$haproxy_httpcheck_expect}}{{end}}
-    http-check send-state
+{{if eq $haproxy_ssl "1"}}
+{{range $index, $ssl_listener := $loadbalancer_ssl_listeners | split ","}}
+frontend tcp-in-ssl-{{$ssl_listener}}
+    bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
+    bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
+    default_backend tcp-out-ssl-{{$ssl_listener}}
+
+backend tcp-out-ssl-{{$ssl_listener}}
+    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
+    {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
+    {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+    server {{.Key}} {{.Key}} check
     {{end}}
-    {{range service (print $tag "." $name)}}
-    server {{.Address}} {{.Address}}:{{.Port}} check
     {{end}}
-    errorfile 503 /etc/haproxy/errors/503.http
+{{end}}
+{{end}}

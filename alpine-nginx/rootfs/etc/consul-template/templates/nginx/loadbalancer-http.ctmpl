@@ -25,18 +25,16 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
-{{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
-{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING" -}}
-{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
-{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
-{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
-{{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
-{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
+{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYBUFFERING" -}}
+{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYCONNECTTIMEOUT" -}}
+{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT" -}}
+{{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT" -}}
+{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -77,27 +75,26 @@ http {
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
-                                '"$request" $status $body_bytes_sent '
-                                '"$http_referer" "$http_user_agent"'
-                                'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+    log_format basic '$remote_addr - $remote_user [$time_local] '
+                        '"$request" $status $body_bytes_sent '
+                        '"$http_referer" "$http_user_agent"'
+                        'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /var/log/nginx/access.log basic buffer=1m flush=10s;
     {{else}}
     access_log off;
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
     upstream app {
-        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}}{{end}};
         {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
 
-        {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}} max_conns={{if $nginx_upstream_max_conns}}{{$nginx_upstream_max_conns}}{{else}}0{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        {{range ls (print $loadbalancer_keyprefix "targets")}}
+        {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}} max_conns={{if $nginx_upstream_max_conns}}{{$nginx_upstream_max_conns}}{{else}}0{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        {{end}}
         {{else}}
         server 127.0.0.1:80 down;
         {{end}}
@@ -176,12 +173,6 @@ http {
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
-
-            {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream_time;
-            {{else}}
-            access_log off;
-            {{end}}
         }
     }
 }

@@ -2,6 +2,7 @@
 
 CONTAINER_HOST=$(cat /etc/hostname)
 if [ -z ${CONTAINER_HOST} ]; then
+    echo "Failed to get hostname, aborting" >&2
     exit 1
 fi
 
@@ -28,6 +29,7 @@ case ${CONTAINER_RESOLVER} in
 esac
 
 if [ -z ${CONTAINER_IP} ]; then
+    echo "Failed to get IP address, aborting" >&2
     exit 2
 fi
 

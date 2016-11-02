@@ -2475,7 +2475,7 @@ $as_echo "${TAG}" >&6; }
 
 
 
-ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-make-terraform/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-fabric/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-php/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-strongswan/Makefile alpine-terraform/Makefile alpine-tomcat/Makefile alpine-unbound/Makefile alpine-zabbix-agent/Makefile alpine-zabbix-frontend-php/Makefile alpine-zabbix-java-gateway/Makefile alpine-zabbix-proxy-mysql/Makefile alpine-zabbix-proxy-pgsql/Makefile alpine-zabbix-proxy-sqlite3/Makefile alpine-zabbix-server-mysql/Makefile alpine-zabbix-server-pgsql/Makefile"
+ac_config_files="$ac_config_files Makefile alpine-base/Makefile alpine-base-consul/Makefile alpine-build/Makefile alpine-build-make/Makefile alpine-build-make-gcc/Makefile alpine-build-make-terraform/Makefile alpine-build-maven/Makefile alpine-build-npm/Makefile alpine-consul/Makefile alpine-dnsmasq/Makefile alpine-dynamodb/Makefile alpine-elasticsearch/Makefile alpine-fabric/Makefile alpine-haproxy/Makefile alpine-hostapd/Makefile alpine-java/Makefile alpine-jenkins/Makefile alpine-jetty/Makefile alpine-kibana/Makefile alpine-logstash/Makefile alpine-mariadb/Makefile alpine-nginx/Makefile alpine-nodejs/Makefile alpine-perl/Makefile alpine-php/Makefile alpine-python/Makefile alpine-postgresql/Makefile alpine-rabbitmq/Makefile alpine-redis/Makefile alpine-registry/Makefile alpine-strongswan/Makefile alpine-terraform/Makefile alpine-tomcat/Makefile alpine-unbound/Makefile alpine-zabbix-agent/Makefile alpine-zabbix-frontend-php/Makefile alpine-zabbix-java-gateway/Makefile alpine-zabbix-proxy-mysql/Makefile alpine-zabbix-proxy-pgsql/Makefile alpine-zabbix-proxy-sqlite3/Makefile alpine-zabbix-server-mysql/Makefile alpine-zabbix-server-pgsql/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -3204,6 +3204,7 @@ do
     "alpine-base-consul/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-base-consul/Makefile" ;;
     "alpine-build/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build/Makefile" ;;
     "alpine-build-make/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build-make/Makefile" ;;
+    "alpine-build-make-gcc/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build-make-gcc/Makefile" ;;
     "alpine-build-make-terraform/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build-make-terraform/Makefile" ;;
     "alpine-build-maven/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build-maven/Makefile" ;;
     "alpine-build-npm/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-build-npm/Makefile" ;;
@@ -3222,7 +3223,9 @@ do
     "alpine-mariadb/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-mariadb/Makefile" ;;
     "alpine-nginx/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-nginx/Makefile" ;;
     "alpine-nodejs/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-nodejs/Makefile" ;;
+    "alpine-perl/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-perl/Makefile" ;;
     "alpine-php/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-php/Makefile" ;;
+    "alpine-python/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-python/Makefile" ;;
     "alpine-postgresql/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-postgresql/Makefile" ;;
     "alpine-rabbitmq/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-rabbitmq/Makefile" ;;
     "alpine-redis/Makefile") CONFIG_FILES="$CONFIG_FILES alpine-redis/Makefile" ;;

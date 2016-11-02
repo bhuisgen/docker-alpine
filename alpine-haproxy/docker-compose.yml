@@ -14,21 +14,60 @@ services:
         image: bhuisgen/alpine-haproxy
         ports:
             - "80:80"
+            - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                    # consul key prefix path
-            - CONSUL_SERVICENAME=haproxy                        # consul service name
-            - CONSUL_SERVICETAGS=dev                            # consul service tag
-            - CONSUL_SERVICEPORT=80                             # consul service port
-            - CONSUL_CHECKTYPE=tcp                              # consul health check type
-            - HAPROXY_TEMPLATE=backend                          # configuration template
-            - HAPROXY_TEMPLATE_SERVICENAME=myservice            # service name to proxify
-            - HAPROXY_TEMPLATE_SERVICETAG=dev                   # service tag to proxify
-            #- HAPROXY_TEMPLATE_STATSPORT=1936                  # statistics port
-            #- HAPROXY_TEMPLATE_STATSURI=/haproxy?stats         # statistics URI
-            #- HAPROXY_TEMPLATE_STATSREALM=Haproxy\ Statistics  # statistics realm
-            - HAPROXY_TEMPLATE_STATSUSERNAME=haproxy            # statistics user
-            - HAPROXY_TEMPLATE_STATSPASSWORD=haproxy            # statistics password
+            - CONSUL_AGENT=consul                                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
+            - CONSUL_SERVICENAME=haproxy                                # consul service name
+            - CONSUL_SERVICETAGS=dev                                    # consul service tag
+            - CONSUL_SERVICEPORT=80                                     # consul service port
+            - CONSUL_CHECKTYPE=tcp                                      # consul health check type
+            #- HAPROXY_MAXCONN=1024                                     # maximum of connections allowed
+            #- HAPROXY_TIMEOUTCONNECT=5s                                # connect timeout
+            #- HAPROXY_TIMEOUTSERVER=10s                                # server timeout
+            #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
+            #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
+            #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
+            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout (http mode only)
+            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                          # HTTP keepalive request timeout (http mode only)
+            #- HAPROXY_BALANCE=roundrobin                               # balance mode
+            #- HAPROXY_RETRIES=3                                        # number of connection retries
+            #- HAPROXY_REDISPATCH=0                                     # allow redispatch of cookie sticked connections
+            #- HAPROXY_STATS=0                                          # enable statistics
+            #- HAPROXY_STATSPORT=1936                                   # statistics port
+            #- HAPROXY_STATSURI=/haproxy?stats                          # statistics URI
+            #- HAPROXY_STATSREALM=Haproxy\ Statistics                   # statistics realm
+            #- HAPROXY_STATSUSERNAME=                                   # auth user
+            #- HAPROXY_STATSPASSWORD=                                   # auth password
+            #- HAPROXY_STATSALLOW=127.0.0.1                             # IP allowed to access to stats
+            #- HAPROXY_SSL=0                                            # enable SSL
+            #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
+            #- HAPROXY_SSLREDIRECT=0                                    # redirect HTTP to HTTPS
+            - HAPROXY_TEMPLATE=backend                                  # configuration template
+            #
+            # template backend
+            #
+            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                    # service name to proxify
+            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                           # service tag to proxify
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECK=0                             # enable HTTP check
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKOPTIONS=                       # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKDISABLEON404=0                 # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKEXPECT=                        # response validation ([!] <match> <pattern>)
+            #
+            # template loadbalancer-http
+            #
+            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/       # key prefix for configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK=0                    # enable HTTP check
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS=              # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404=0        # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKEXPECT=               # response validation ([!] <match> <pattern>)
+            #
+            # template loadbalancer-tcp
+            #
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999           # listening secured ports
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERTCP_TCPCHECK=0                      # enable TCP check
