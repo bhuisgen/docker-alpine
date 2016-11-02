@@ -3,12 +3,16 @@
 {{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
 {{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
 {{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
+{{- $nginx_ssl := env "NGINX_SSL" -}}
+{{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
+{{- $nginx_ssl_certificate_key := env "NGINX_SSLCERTIFICATEKEY" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT" -}}
 {{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS" -}}
 {{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS" -}}
 {{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT" -}}
 {{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
+{{- $loadbalancer_ssl_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
 {{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 daemon off;
 user nginx;
@@ -39,10 +43,10 @@ stream {
     error_log /var/log/nginx/error.log warn;
 
     {{range $index, $listener := $loadbalancer_listeners | split ","}}
-    upstream out-{{$listener}} {
+    upstream tcp-out-{{$listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
-        {{range ls (print $loadbalancer_keyprefix "targets")}}
+        {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
         {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
         server {{.Key}} weight={{$nginx_upstream_weight}} max_conns={{$nginx_upstream_max_conns}} max_fails={{$nginx_upstream_max_fails}} fail_timeout={{$nginx_upstream_fail_timeout}};
         {{end}}
@@ -54,7 +58,38 @@ stream {
     server {
         listen [::]:{{$listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}};
 
-        proxy_pass out-{{$listener}};
+        proxy_pass tcp-out-{{$listener}};
     }
+    {{end}}
+
+    {{if eq $nginx_ssl "1"}}
+    {{range $index, listener := $loadbalancer_ssl_listeners | split ","}}
+    upstream tcp-out-ssl-{{$ssl_listener}} {
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+
+        {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
+        {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
+        server {{.Key}} weight={{$nginx_upstream_weight}} max_conns={{$nginx_upstream_max_conns}} max_fails={{$nginx_upstream_max_fails}} fail_timeout={{$nginx_upstream_fail_timeout}};
+        {{end}}
+        {{else}}
+        server 127.0.0.1:{{$ssl_listener}} down;
+        {{end}}
+    }
+
+    server {
+        listen [::]:{{$ssl_listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl;
+
+        ssl_certificate {{$nginx_ssl_certificate}};
+        ssl_certificate_key {{$nginx_ssl_certificate_key}};
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+        ssl_ecdh_curve secp384r1;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_tickets off;
+
+        proxy_pass tcp-out-ssl-{{$ssl_listener}};
+    }
+    {{end}}
     {{end}}
 }
