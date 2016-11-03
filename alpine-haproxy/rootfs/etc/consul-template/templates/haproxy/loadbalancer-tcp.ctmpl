@@ -1,4 +1,6 @@
 {{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
+{{- $haproxy_maxspreadchecks := env HAPROXY_MAXSPREADCHECKS" -}}
+{{- $haproxy_spreadchecks := env HAPROXY_SPREADCHECKS" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
 {{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
@@ -19,6 +21,12 @@
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 {{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
+{{- $haproxy_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKINTER" -}}
+{{- $haproxy_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKFASTINTER" -}}
+{{- $haproxy_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKDOWNINTER" -}}
+{{- $haproxy_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKRISE" -}}
+{{- $haproxy_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKFALL" -}}
+{{- $haproxy_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKTIMEOUT" -}}
 {{- $haproxy_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_TCPCHECK" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
@@ -26,6 +34,8 @@ global
     tune.ssl.default-dh-param 2048
     ssl-default-bind-options no-sslv3 no-tls-tickets force-tlsv12
     ssl-default-bind-ciphers AES128+EECDH:AES128+EDH
+    {{if $haproxy_maxspreadchecks}}max-spread-checks {{$haproxy_maxspreadchecks}}{{end}}
+    spread-checks {{if $haproxy_spreadchecks}}{{$haproxy_spreadchecks}}{{else}}0{{end}}
 
 defaults
     mode tcp
@@ -67,7 +77,8 @@ frontend tcp-in-{{$listener}}
     default_backend tcp-out-{{$listener}}
 
 backend tcp-out-{{$listener}}
-    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
+    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
     {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check
@@ -77,12 +88,14 @@ backend tcp-out-{{$listener}}
 
 {{if eq $haproxy_ssl "1"}}
 {{range $index, $ssl_listener := $loadbalancer_ssl_listeners | split ","}}
-frontend tcp-in-ssl-{{$ssl_listener}}
+frontend tcp-ssl-in-{{$ssl_listener}}
     bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
-    default_backend tcp-out-ssl-{{$ssl_listener}}
+    default_backend tcp-ssl-out-{{$ssl_listener}}
 
-backend tcp-out-ssl-{{$ssl_listener}}
+backend tcp-ssl-out-{{$ssl_listener}}
+    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}
     {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
     {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
