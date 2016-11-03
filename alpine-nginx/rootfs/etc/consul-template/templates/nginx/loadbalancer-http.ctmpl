@@ -25,16 +25,17 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
+{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
 {{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYBUFFERING" -}}
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYSENDTIMEOUT" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE" -}}
 {{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT" -}}
 {{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS" -}}
 {{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS" -}}
 {{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT" -}}
-{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -164,6 +165,7 @@ http {
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
+            proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
 
             {{if $nginx_upstream_keepalive}}
             proxy_http_version 1.1;
