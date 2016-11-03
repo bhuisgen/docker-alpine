@@ -30,6 +30,7 @@
 {{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING" -}}
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYSENDTIMEOUT" -}}
 {{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
@@ -167,6 +168,7 @@ http {
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
+            proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
 
             {{if $nginx_upstream_keepalive}}
             proxy_http_version 1.1;
