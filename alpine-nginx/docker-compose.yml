@@ -61,6 +61,7 @@ services:
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYBUFFERING=on                # enable proxy buffering
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYCONNECTTIMEOUT=60s          # proxy connect timeout
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT=60s             # proxy read timeout
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYSENDTIMEOUT=60s             # proxy send timeout
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD=                  # load balancing method (set empty for default round-robin)
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE=0              # number of upstream minimal keepalive connections (0 to disable)
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT=1                 # weight of the server
@@ -89,6 +90,7 @@ services:
             #- NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING=on                        # enable proxy buffering
             #- NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT=60s                  # proxy connect timeout
             #- NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT=60s                     # proxy read timeout
+            #- NGINX_TEMPLATE_UPSTREAM_PROXYSENDTIMEOUT=60s                     # proxy send timeout
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD=                          # load balancing method (set empty for default round-robin)
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE=0                      # number of upstream minimal keepalive connections (0 to disable)
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT=1                         # weight of the server
