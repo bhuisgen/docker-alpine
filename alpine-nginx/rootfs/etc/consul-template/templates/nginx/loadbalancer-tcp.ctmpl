@@ -6,14 +6,14 @@
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
 {{- $nginx_ssl_certificate_key := env "NGINX_SSLCERTIFICATEKEY" -}}
+{{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
+{{- $loadbalancer_ssl_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
+{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT" -}}
 {{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS" -}}
 {{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS" -}}
 {{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT" -}}
-{{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
-{{- $loadbalancer_ssl_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
-{{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -64,7 +64,7 @@ stream {
 
     {{if eq $nginx_ssl "1"}}
     {{range $index, listener := $loadbalancer_ssl_listeners | split ","}}
-    upstream tcp-out-ssl-{{$ssl_listener}} {
+    upstream tcp-ssl-out-{{$ssl_listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
         {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
@@ -88,7 +88,7 @@ stream {
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
 
-        proxy_pass tcp-out-ssl-{{$ssl_listener}};
+        proxy_pass tcp-ssl-out-{{$ssl_listener}};
     }
     {{end}}
     {{end}}
