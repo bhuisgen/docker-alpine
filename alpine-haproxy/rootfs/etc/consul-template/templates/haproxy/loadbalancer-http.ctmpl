@@ -1,4 +1,6 @@
 {{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
+{{- $haproxy_maxspreadchecks := env HAPROXY_MAXSPREADCHECKS" -}}
+{{- $haproxy_spreadchecks := env HAPROXY_SPREADCHECKS" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
 {{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
@@ -20,6 +22,12 @@
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
 {{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
+{{- $haproxy_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKINTER" -}}
+{{- $haproxy_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFASTINTER" -}}
+{{- $haproxy_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKDOWNINTER" -}}
+{{- $haproxy_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKRISE" -}}
+{{- $haproxy_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFALL" -}}
+{{- $haproxy_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKTIMEOUT" -}}
 {{- $haproxy_httpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK" -}}
 {{- $haproxy_httpcheck_options := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS" -}}
 {{- $haproxy_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404" -}}
@@ -30,6 +38,8 @@ global
     tune.ssl.default-dh-param 2048
     ssl-default-bind-options no-sslv3 no-tls-tickets force-tlsv12
     ssl-default-bind-ciphers AES128+EECDH:AES128+EDH
+    {{if $haproxy_maxspreadchecks}}max-spread-checks {{$haproxy_maxspreadchecks}}{{end}}
+    spread-checks {{if $haproxy_spreadchecks}}{{$haproxy_spreadchecks}}{{else}}0{{end}}
 
 defaults
     mode http
@@ -95,6 +105,8 @@ frontend https-in
 {{end}}
 
 backend http-out
+    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}
     {{if eq $haproxy_httpcheck "1"}}
     option httpchk{{if $haproxy_httpcheck_options}} {{$haproxy_httpcheck_options}}{{end}}
     {{if eq $haproxy_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
