@@ -78,9 +78,11 @@ http {
     error_log /var/log/nginx/error.log warn;
 
     server {
+        listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
         listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
 
         {{if eq $nginx_ssl "1"}}
+        listen 443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
         listen [::]:443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
