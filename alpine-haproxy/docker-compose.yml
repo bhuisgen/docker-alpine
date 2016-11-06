@@ -48,42 +48,45 @@ services:
             #- HAPROXY_SSL=0                                            # enable SSL
             #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
             #- HAPROXY_SSLREDIRECT=0                                    # redirect HTTP to HTTPS
+            #- HAPROXY_GZIP=0                                           # enable gzip compression (frontend)
             - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend
             #
             - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                    # service name to proxify
             - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                           # service tag to proxify
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKINTER=2s                           # interval between checks
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKFASTINTER=                         # interval between checks only if server is up or unchecked (inter must be unset)
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKDOWNINTER=                         # interval between checks only if server is down (inter must be unset)
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKRISE=2                             # number of successfull checks to considerate servers up
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKFALL=3                             # number of failed checks to considerate server down
-            #- HAPROXY_TEMPLATE_BACKEND_CHECKTIMEOUT=                           # check timeout (smallest value between timeout check and inter)
-            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECK=0                             # enable HTTP check
-            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKOPTIONS=                       # HTTP check options (<method> [<uri> [<version]])
-            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKDISABLEON404=0                 # enable maintenance on error 404
-            #- HAPROXY_TEMPLATE_BACKEND_HTTPCHECKEXPECT=                        # response validation ([!] <match> <pattern>)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKINTER=2s                    # interval between checks
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFASTINTER=                  # interval between checks only if server is up or unchecked (inter must be unset)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKDOWNINTER=                  # interval between checks only if server is down (inter must be unset)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKRISE=2                      # number of successfull checks to considerate servers up
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFALL=3                      # number of failed checks to considerate server down
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKTIMEOUT=                    # check timeout (smallest value between timeout check and inter)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECK=0                      # enable HTTP check
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKOPTIONS=                # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKDISABLEON404=0          # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKEXPECT=                 # response validation ([!] <match> <pattern>)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDGZIP=0                           # enable gzip compression (backend)
             #
             # template loadbalancer-http
             #
-            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/       # key prefix for configuration
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKINTER=2s                  # interval between checks
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFASTINTER=                # interval between checks only if server is up or unchecked (inter must be unset)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKDOWNINTER=                # interval between checks only if server is down (inter must be unset)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKRISE=2                    # number of successfull checks to considerate servers up
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFALL=3                    # number of failed checks to considerate server down
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKTIMEOUT=                  # check timeout (smallest value between timeout check and inter)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK=0                    # enable HTTP check
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS=              # HTTP check options (<method> [<uri> [<version]])
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404=0        # enable maintenance on error 404
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKEXPECT=               # response validation ([!] <match> <pattern>)
+            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/       # key prefix for dynamic configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKINTER=2s           # interval between checks
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFASTINTER=         # interval between checks only if server is up or unchecked (inter must be unset)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKDOWNINTER=         # interval between checks only if server is down (inter must be unset)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKRISE=2             # number of successfull checks to considerate servers up
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFALL=3             # number of failed checks to considerate server down
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKTIMEOUT=           # check timeout (smallest value between timeout check and inter)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECK=0             # enable HTTP check
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKOPTIONS=       # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKDISABLEON404=0 # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKEXPECT=        # response validation ([!] <match> <pattern>)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDGZIP=0                  # enable gzip compression (backend)
             #
             # template loadbalancer-tcp
             #
             - HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
             - HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999           # listening secured ports
-            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for configuration
+            - HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for dynamic configuration
             #- HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKINTER=2s                   # interval between checks
             #- HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKFASTINTER=                 # interval between checks only if server is up or unchecked (inter must be unset)
             #- HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKDOWNINTER=                 # interval between checks only if server is down (inter must be unset)
