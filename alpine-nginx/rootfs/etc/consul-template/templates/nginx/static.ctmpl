@@ -78,9 +78,11 @@ http {
     error_log /var/log/nginx/error.log warn;
 
     server {
+        listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
         listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
 
         {{if eq $nginx_ssl "1"}}
+        listen 443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
         listen [::]:443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
 
         ssl_certificate {{$nginx_ssl_certificate}};
@@ -104,7 +106,7 @@ http {
         gzip on;
         gzip_disable "msie6";
         gzip_vary on;
-        gzip_proxied any;
+        gzip_proxied off;
         gzip_comp_level 6;
         gzip_buffers 16 8k;
         gzip_http_version 1.1;
@@ -113,15 +115,6 @@ http {
 
         root /var/www;
         index index.html;
-
-        {{if eq $nginx_expire "1"}}
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
-            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
-            add_header Pragma public;
-            add_header Cache-Control "public";
-            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
-        }
-        {{end}}
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -139,6 +132,15 @@ http {
 
         if ($scheme != "https") {
             rewrite ^ https://$host$uri permanent;
+        }
+        {{end}}
+
+        {{if eq $nginx_expire "1"}}
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
+            add_header Pragma public;
+            add_header Cache-Control "public";
+            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
         }
         {{end}}
     }

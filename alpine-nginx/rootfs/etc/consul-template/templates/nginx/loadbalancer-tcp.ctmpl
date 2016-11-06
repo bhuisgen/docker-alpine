@@ -56,6 +56,7 @@ stream {
     }
 
     server {
+        listen {{$listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}};
         listen [::]:{{$listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}};
 
         proxy_pass tcp-out-{{$listener}};
@@ -77,6 +78,7 @@ stream {
     }
 
     server {
+        listen {{$ssl_listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl;
         listen [::]:{{$ssl_listener}}{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl;
 
         ssl_certificate {{$nginx_ssl_certificate}};

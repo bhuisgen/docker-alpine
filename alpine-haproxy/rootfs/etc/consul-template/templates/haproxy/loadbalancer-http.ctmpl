@@ -21,17 +21,19 @@
 {{- $haproxy_ssl := env "HAPROXY_SSL" -}}
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
 {{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
+{{- $haproxy_gzip := env "HAPROXY_GZIP" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
-{{- $haproxy_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKINTER" -}}
-{{- $haproxy_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFASTINTER" -}}
-{{- $haproxy_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKDOWNINTER" -}}
-{{- $haproxy_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKRISE" -}}
-{{- $haproxy_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKFALL" -}}
-{{- $haproxy_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKTIMEOUT" -}}
-{{- $haproxy_httpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECK" -}}
-{{- $haproxy_httpcheck_options := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKOPTIONS" -}}
-{{- $haproxy_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKDISABLEON404" -}}
-{{- $haproxy_httpcheck_expect := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_HTTPCHECKEXPECT" -}}
+{{- $haproxy_backend_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKINTER" -}}
+{{- $haproxy_backend_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFASTINTER" -}}
+{{- $haproxy_backend_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKDOWNINTER" -}}
+{{- $haproxy_backend_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKRISE" -}}
+{{- $haproxy_backend_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFALL" -}}
+{{- $haproxy_backend_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKTIMEOUT" -}}
+{{- $haproxy_backend_httpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECK" -}}
+{{- $haproxy_backend_httpcheck_options := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKOPTIONS" -}}
+{{- $haproxy_backend_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKDISABLEON404" -}}
+{{- $haproxy_backend_httpcheck_expect := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKEXPECT" -}}
+{{- $haproxy_backend_gzip := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDGZIP" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
@@ -81,6 +83,10 @@ frontend http-in
     bind *:80
     bind :::80
     option http-server-close
+    {{if eq $haproxy_gzip "1"}}
+    compression algo gzip
+    compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
+    {{end}}
     option forwardfor
     reqadd X-Forwarded-Proto:\ http
     {{if eq $haproxy_ssl_redirect "1"}}
@@ -94,6 +100,10 @@ frontend https-in
     bind *:443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     bind :::443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     option http-server-close
+    {{if eq $haproxy_gzip "1"}}
+    compression algo gzip
+    compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
+    {{end}}
     option forwardfor
     reqadd X-Forwarded-Proto:\ https
     {{if eq $haproxy_ssl_redirect "1"}}
@@ -105,12 +115,12 @@ frontend https-in
 {{end}}
 
 backend http-out
-    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
-    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}
-    {{if eq $haproxy_httpcheck "1"}}
-    option httpchk{{if $haproxy_httpcheck_options}} {{$haproxy_httpcheck_options}}{{end}}
-    {{if eq $haproxy_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
-    {{if $haproxy_httpcheck_expect}}http-check expect {{$haproxy_httpcheck_expect}}{{end}}
+    default-server inter {{if $haproxy_backend_check_inter}}{{$haproxy_backend_check_inter}}{{else}}2s{{end}}{{if $haproxy_backend_check_fastinter}} fastinter {{$haproxy_backend_check_fastinter}}{{end}}{{if $haproxy_backend_check_downinter}} downinter {{$haproxy_backend_check_downinter}}{{end}} rise {{if $haproxy_backend_check_rise}}{{$haproxy_backend_check_rise}}{{else}}2{{end}} fall {{if $haproxy_backend_check_fall}}{{$haproxy_backend_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
+    {{if eq $haproxy_backend_httpcheck "1"}}
+    option httpchk{{if $haproxy_backend_httpcheck_options}} {{$haproxy_backend_httpcheck_options}}{{end}}
+    {{if eq $haproxy_backend_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
+    {{if $haproxy_backend_httpcheck_expect}}http-check expect {{$haproxy_backend_httpcheck_expect}}{{end}}
     http-check send-state
     {{end}}
     {{range ls (print $loadbalancer_keyprefix "targets")}}
@@ -119,3 +129,7 @@ backend http-out
     {{end}}
     {{end}}
     errorfile 503 /etc/haproxy/errors/503.http
+    {{if eq $haproxy_backend_gzip "1"}}
+    compression algo gzip
+    compression offload
+    {{end}}
