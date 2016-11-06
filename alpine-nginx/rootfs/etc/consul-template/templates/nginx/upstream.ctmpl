@@ -31,6 +31,7 @@
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
 {{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYSENDTIMEOUT" -}}
+{{- $nginx_proxy_gzip := env "NGINX_TEMPLATE_UPSTREAM_PROXYGZIP" -}}
 {{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
@@ -126,7 +127,7 @@ http {
         gzip on;
         gzip_disable "msie6";
         gzip_vary on;
-        gzip_proxied any;
+        gzip_proxied off;
         gzip_comp_level 6;
         gzip_buffers 16 8k;
         gzip_http_version 1.1;
@@ -135,15 +136,6 @@ http {
 
         root /var/www;
         index index.html;
-
-        {{if eq $nginx_expire "1"}}
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
-            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
-            add_header Pragma public;
-            add_header Cache-Control "public";
-            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
-        }
-        {{end}}
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -164,22 +156,38 @@ http {
         }
         {{end}}
 
+        {{if eq $nginx_expire "1"}}
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
+            add_header Pragma public;
+            add_header Cache-Control "public";
+            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
+        }
+        {{end}}
+
         location / {
             proxy_pass http://app;
-
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
             proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
-
-            {{if $nginx_upstream_keepalive}}
             proxy_http_version 1.1;
             proxy_set_header Connection "";
-            {{end}}
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+
+            {{if eq $nginx_proxy_gzip "1"}}
+            gzip on;
+            gzip_disable "msie6";
+            gzip_vary on;
+            gzip_proxied any;
+            gzip_comp_level 6;
+            gzip_buffers 16 8k;
+            gzip_http_version 1.1;
+            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+            {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
             access_log /var/log/nginx/access.log upstream_time;
