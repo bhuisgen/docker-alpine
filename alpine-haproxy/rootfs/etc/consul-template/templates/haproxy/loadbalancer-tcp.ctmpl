@@ -21,13 +21,13 @@
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 {{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
-{{- $haproxy_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKINTER" -}}
-{{- $haproxy_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKFASTINTER" -}}
-{{- $haproxy_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKDOWNINTER" -}}
-{{- $haproxy_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKRISE" -}}
-{{- $haproxy_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKFALL" -}}
-{{- $haproxy_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKTIMEOUT" -}}
-{{- $haproxy_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_TCPCHECK" -}}
+{{- $haproxy_backend_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKINTER" -}}
+{{- $haproxy_backend_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKFASTINTER" -}}
+{{- $haproxy_backend_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKDOWNINTER" -}}
+{{- $haproxy_backend_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKRISE" -}}
+{{- $haproxy_backend_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKFALL" -}}
+{{- $haproxy_backend_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKTIMEOUT" -}}
+{{- $haproxy_backend_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDTCPCHECK" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
@@ -77,8 +77,9 @@ frontend tcp-in-{{$listener}}
     default_backend tcp-out-{{$listener}}
 
 backend tcp-out-{{$listener}}
-    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
-    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
+    default-server inter {{if $haproxy_backend_check_inter}}{{$haproxy_backend_check_inter}}{{else}}2s{{end}}{{if $haproxy_backend_check_fastinter}} fastinter {{$haproxy_backend_check_fastinter}}{{end}}{{if $haproxy_backend_check_downinter}} downinter {{$haproxy_backend_check_downinter}}{{end}} rise {{if $haproxy_backend_check_rise}}{{$haproxy_backend_check_rise}}{{else}}2{{end}} fall {{if $haproxy_backend_check_fall}}{{$haproxy_backend_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
+    {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
     {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check
@@ -94,9 +95,9 @@ frontend tcp-ssl-in-{{$ssl_listener}}
     default_backend tcp-ssl-out-{{$ssl_listener}}
 
 backend tcp-ssl-out-{{$ssl_listener}}
-    default-server inter {{if $haproxy_check_inter}}{{$haproxy_check_inter}}{{else}}2s{{if $haproxy_check_fastinter}} fastinter {{$haproxy_check_fastinter}}{{end}}{{if $haproxy_check_downinter}} downinter {{$haproxy_check_downinter}}{{end}}{{end}} rise {{if $haproxy_check_rise}}{{$haproxy_check_rise}}{{else}}2{{end}} fall {{if $haproxy_check_fall}}{{$haproxy_check_fall}}{{else}}3{{end}}
-    {{if $haproxy_check_timeout}}timeout check {{$haproxy_check_timeout}}{{end}}
-    {{if eq $haproxy_tcpcheck "1"}}option tcp-check{{end}}
+    default-server inter {{if $haproxy_backend_check_inter}}{{$haproxy_backend_check_inter}}{{else}}2s{{end}}{{if $haproxy_backend_check_fastinter}} fastinter {{$haproxy_backend_check_fastinter}}{{end}}{{if $haproxy_backend_check_downinter}} downinter {{$haproxy_backend_check_downinter}}{{end}} rise {{if $haproxy_backend_check_rise}}{{$haproxy_backend_check_rise}}{{else}}2{{end}} fall {{if $haproxy_backend_check_fall}}{{$haproxy_backend_check_fall}}{{else}}3{{end}}
+    {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
+    {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
     {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check
