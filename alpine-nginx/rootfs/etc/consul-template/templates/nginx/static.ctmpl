@@ -125,7 +125,7 @@ http {
         }
         {{end}}
 
-        {{if eq $nginx_ssl $nginx_ssl_redirect "1"}}
+        {{if and (eq $nginx_ssl "1") (eq $nginx_ssl_redirect "1")}}
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
         add_header X-Frame-Options DENY;
         add_header X-Content-Type-Options nosniff;
