@@ -7,6 +7,7 @@ SUBDIRS = \
     alpine-build-make-terraform \
     alpine-build-maven \
     alpine-build-npm \
+    alpine-awscli \
     alpine-consul \
     alpine-dnsmasq \
     alpine-dynamodb \
