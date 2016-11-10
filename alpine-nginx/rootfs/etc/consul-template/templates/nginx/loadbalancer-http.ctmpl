@@ -138,7 +138,13 @@ http {
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
             stub_status on;
             access_log off;
-            allow {{if $nginx_status_allow}}{{$nginx_status_allow}}{{else}}127.0.0.1{{end}};
+            {{if $nginx_status_allow}}
+            {{range $address := $nginx_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
             deny all;
         }
         {{end}}
