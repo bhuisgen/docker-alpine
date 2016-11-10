@@ -70,7 +70,7 @@ listen stats
     http-request deny if !access_allowed
 {{end}}
 
-{{range $index, $listener := $loadbalancer_listeners | split ","}}
+{{range $listener := $loadbalancer_listeners | split ","}}
 frontend tcp-in-{{$listener}}
     bind *:{{$listener}}
     bind :::{{$listener}}
@@ -88,7 +88,7 @@ backend tcp-out-{{$listener}}
 {{end}}
 
 {{if eq $haproxy_ssl "1"}}
-{{range $index, $ssl_listener := $loadbalancer_ssl_listeners | split ","}}
+{{range $ssl_listener := $loadbalancer_ssl_listeners | split ","}}
 frontend tcp-ssl-in-{{$ssl_listener}}
     bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
