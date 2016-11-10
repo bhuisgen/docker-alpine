@@ -42,7 +42,7 @@ stream {
     #{{end}}
     error_log /var/log/nginx/error.log warn;
 
-    {{range $index, $listener := $loadbalancer_listeners | split ","}}
+    {{range $listener := $loadbalancer_listeners | split ","}}
     upstream tcp-out-{{$listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
@@ -64,7 +64,7 @@ stream {
     {{end}}
 
     {{if eq $nginx_ssl "1"}}
-    {{range $index, listener := $loadbalancer_ssl_listeners | split ","}}
+    {{range $listener := $loadbalancer_ssl_listeners | split ","}}
     upstream tcp-ssl-out-{{$ssl_listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 

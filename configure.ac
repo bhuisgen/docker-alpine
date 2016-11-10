@@ -45,6 +45,7 @@ AC_CONFIG_FILES([
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
     alpine-build-npm/Makefile
+    alpine-awscli/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
     alpine-dynamodb/Makefile

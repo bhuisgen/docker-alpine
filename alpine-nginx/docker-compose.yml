@@ -52,7 +52,7 @@ services:
             #- NGINX_EXPIREACCESSLOG=0                                  # enable access log for static content
             #- NGINX_STATUS=0                                           # enable status page
             #- NGINX_STATUSLOCATION=/nginx_status                       # status page location
-            #- NGINX_STATUSALLOW=127.0.0.1                              # IP/CIDR allowed to access to status page
+            #- NGINX_STATUSALLOW=127.0.0.1                              # IP/CIDR allowed to access to status page (comma separated list)
             - NGINX_TEMPLATE=static                                     # configuration template
             #
             # template loadbalancer-http

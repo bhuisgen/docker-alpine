@@ -138,12 +138,18 @@ http {
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
             stub_status on;
             access_log off;
-            allow {{if $nginx_status_allow}}{{$nginx_status_allow}}{{else}}127.0.0.1{{end}};
+            {{if $nginx_status_allow}}
+            {{range $address := $nginx_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
             deny all;
         }
         {{end}}
 
-        {{if eq $nginx_ssl $nginx_ssl_redirect "1"}}
+        {{if and (eq $nginx_ssl "1") (eq $nginx_ssl_redirect "1")}}
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
         add_header X-Frame-Options DENY;
         add_header X-Content-Type-Options nosniff;

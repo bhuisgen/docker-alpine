@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-    fabric:
-        image: bhuisgen/alpine-fabric
+    awscli:
+        image: bhuisgen/alpine-awscli
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - ./:/data
-            - $HOME/.ssh:/root/.ssh
+            - $HOME/.aws:/root/.aws
