@@ -8,7 +8,7 @@ RUN apk add --update \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["aws"]
-CMD []
+CMD ["--help"]
 
 VOLUME ["/data"]
 WORKDIR /data

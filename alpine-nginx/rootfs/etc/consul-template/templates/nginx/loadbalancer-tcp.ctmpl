@@ -48,7 +48,7 @@ stream {
 
         {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
         {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
-        server {{.Key}} weight={{$nginx_upstream_weight}} max_conns={{$nginx_upstream_max_conns}} max_fails={{$nginx_upstream_max_fails}} fail_timeout={{$nginx_upstream_fail_timeout}};
+        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
         {{end}}
         {{else}}
         server 127.0.0.1:{{$listener}} down;
@@ -70,7 +70,7 @@ stream {
 
         {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
         {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
-        server {{.Key}} weight={{$nginx_upstream_weight}} max_conns={{$nginx_upstream_max_conns}} max_fails={{$nginx_upstream_max_fails}} fail_timeout={{$nginx_upstream_fail_timeout}};
+        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
         {{end}}
         {{else}}
         server 127.0.0.1:{{$ssl_listener}} down;

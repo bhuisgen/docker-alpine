@@ -1,9 +1,11 @@
 #!/bin/bash
 
 function usage {
-    echo "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
-    echo "Build a project."
-    echo "Options:"
+    echo -e "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
+    echo -e ""
+    echo -e "Build a project."
+    echo -e ""
+    echo -e "Options:"
     echo -e "  -u, --git-url <URL>\t\tthe git repository URL of the project"
     echo -e "  -r, --git-ref <COMMIT>\tthe git reference to build"
     echo -e "  -p, --project <DIR>\t\tthe project directory"
