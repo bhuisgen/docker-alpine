@@ -6,7 +6,7 @@ RUN apk add --update docker git openssh-client && \
 
 COPY rootfs/ /
 
-ENTRYPOINT ["/bin/sh"]
-CMD []
+ENTRYPOINT ["/usr/local/build/run.sh"]
+CMD ["--help"]
 
 WORKDIR /usr/local/build
