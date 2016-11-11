@@ -10,7 +10,7 @@ RUN apk add --update zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/bin/sh"]
-CMD []
+ENTRYPOINT ["/usr/local/build/run.sh"]
+CMD ["--help"]
 
 WORKDIR /usr/local/build

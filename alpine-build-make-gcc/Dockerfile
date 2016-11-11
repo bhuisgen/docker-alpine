@@ -4,7 +4,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 RUN apk add --update gcc && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/bin/sh"]
-CMD []
+ENTRYPOINT ["/usr/local/build/run.sh"]
+CMD ["--help"]
 
 WORKDIR /usr/local/build
