@@ -48,6 +48,7 @@ AC_CONFIG_FILES([
     alpine-awscli/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
+    alpine-dockercompose/Makefile
     alpine-dockermachine/Makefile
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
