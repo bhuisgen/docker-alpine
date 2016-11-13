@@ -81,9 +81,7 @@ backend tcp-out-{{$listener}}
     {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
     {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
-    {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check
-    {{end}}
     {{end}}
 {{end}}
 
@@ -99,9 +97,7 @@ backend tcp-ssl-out-{{$ssl_listener}}
     {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
     {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
-    {{if (.Key | regexMatch "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\:[0-9]{1,5}$")}}
     server {{.Key}} {{.Key}} check
-    {{end}}
     {{end}}
 {{end}}
 {{end}}
