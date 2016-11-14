@@ -129,9 +129,6 @@ http {
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
         {{end}}
 
-        root /var/www;
-        index index.html;
-
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
             stub_status on;
