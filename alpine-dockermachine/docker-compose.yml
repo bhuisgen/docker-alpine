@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+    dockermachine:
+        image: bhuisgen/alpine-dockermachine
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./:/data
+            - $HOME/.docker:/root/.docker

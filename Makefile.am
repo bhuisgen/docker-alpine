@@ -10,6 +10,8 @@ SUBDIRS = \
     alpine-awscli \
     alpine-consul \
     alpine-dnsmasq \
+    alpine-dockercompose \
+    alpine-dockermachine \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \
