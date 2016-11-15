@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-build-make:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV TERRAFORM_VERSION=0.7.9
+ENV TERRAFORM_VERSION=0.7.11
 
 RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
