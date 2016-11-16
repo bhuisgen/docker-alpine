@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/lib/registry && \
-    addgroup registry && \
+    addgroup -S registry && \
     adduser -S -D -g "" -G registry -s /bin/sh -h /var/lib/registry registry && \
     chown -R registry:registry /var/lib/registry
 

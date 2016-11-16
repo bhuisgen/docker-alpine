@@ -3,8 +3,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV ELASTICSEARCH_VERSION=2.3.3
 
-RUN addgroup elasticsearch && \
-    mkdir -p /var/lib/elasticsearch && \
+RUN mkdir -p /var/lib/elasticsearch && \
+    addgroup -S elasticsearch && \
     adduser -S -D -g "" -G elasticsearch -s /sbin/nologin -h /var/lib/elasticsearch elasticsearch && \
     chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
 
