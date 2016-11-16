@@ -3,8 +3,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV LOGSTASH_VERSION=2.3.3
 
-RUN addgroup logstash && \
-    mkdir -p /var/lib/logstash && \
+RUN mkdir -p /var/lib/logstash && \
+    addgroup -S logstash && \
     adduser -S -D -g "" -G logstash -s /sbin/nologin -h /var/lib/logstash logstash && \
     chown -R logstash:logstash /var/lib/logstash
 

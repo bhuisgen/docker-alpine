@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/lib/dynamodb && \
-    addgroup dynamodb && \
+    addgroup -S dynamodb && \
     adduser -S -D -g "" -G dynamodb -s /sbin/nologin -h /var/lib/dynamodb dynamodb && \
     chown -R dynamodb:dynamodb /var/lib/dynamodb
 
