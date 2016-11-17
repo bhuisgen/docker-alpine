@@ -81,8 +81,23 @@ services:
             # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1                # number of unsuccessful attempts before marking upstream server as unavailable
             # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s           # time before marking upstream server as unavailable and period of unavailability
             #
+            # template php
+            #
+            #- NGINX_TEMPLATE_PHP_SERVERNAME=""                                 # server name
+            #- NGINX_TEMPLATE_PHP_SERVERROOT=/var/www                           # server root
+            #- NGINX_TEMPLATE_PHP_SERVERINDEX=index.html index.php              # index pages
+            #- NGINX_TEMPLATE_PHP_PHPSTATUS=0                                   # php status page
+            #- NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION=/php-fpm_status             # php status page location
+            #- NGINX_TEMPLATE_PHP_PHPSTATUSALLOW=127.0.0.1                      # IP/CIDR allowed to access to php status page (comma separated list)
+            #- NGINX_TEMPLATE_PHP_PHPSTATUSPING=0                               # php ping page
+            #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION=/php-fpm_ping           # php ping page location
+            #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW=127.0.0.1                  # IP/CIDR allowed to access to php ping page (comma separated list)
+            #
             # template static
             #
+            #- NGINX_TEMPLATE_STATIC_SERVERNAME=""                              # server name
+            #- NGINX_TEMPLATE_STATIC_SERVERROOT=/var/www                        # server root
+            #- NGINX_TEMPLATE_STATIC_SERVERINDEX=index.html                     # index pages
             #
             # template upstream
             #

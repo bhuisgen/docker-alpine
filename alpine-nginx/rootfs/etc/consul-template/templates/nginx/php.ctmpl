@@ -26,13 +26,19 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $nginx_server_name := env "NGINX_TEMPLATE_STATIC_SERVERNAME" -}}
-{{- $nginx_server_root := env "NGINX_TEMPLATE_STATIC_SERVERROOT" -}}
-{{- $nginx_server_index := env "NGINX_TEMPLATE_STATIC_SERVERINDEX" -}}
+{{- $nginx_server_name := env "NGINX_TEMPLATE_PHP_SERVERNAME" -}}
+{{- $nginx_server_root := env "NGINX_TEMPLATE_PHP_SERVERROOT" -}}
+{{- $nginx_server_index := env "NGINX_TEMPLATE_PHP_SERVERINDEX" -}}
+{{- $nginx_php_status := env "NGINX_TEMPLATE_PHP_PHPSTATUS" -}}
+{{- $nginx_php_status_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION" -}}
+{{- $nginx_php_status_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSALLOW" -}}
+{{- $nginx_php_status_ping := env "NGINX_TEMPLATE_PHP_PHPSTATUSPING" -}}
+{{- $nginx_php_status_ping_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION" -}}
+{{- $nginx_php_status_ping_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW" -}}
 daemon off;
 user nginx;
-worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
-{{if $nginx_worker_rlimit_nofile}}worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};{{end}}
+worker_processes {{$nginx_worker_processes}};
+worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};
 pid  /var/run/nginx.pid;
 pcre_jit on;
 include /etc/nginx/modules/*.conf;
@@ -116,9 +122,9 @@ http {
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
         {{end}}
 
-        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
+        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}"";
         root {{if $nginx_server_root}}{{$nginx_server_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_server_index}}{{$nginx_server_index}}{{else}}index.html{{end}};
+        index {{if $nginx_server_index}}{{$nginx_server_index}}{{else}}index.html index.php{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -126,6 +132,40 @@ http {
             access_log off;
             {{if $nginx_status_allow}}
             {{range $address := $nginx_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
+            deny all;
+        }
+        {{end}}
+
+        {{if eq $nginx_php_status "1"}}
+        location {{if $nginx_php_status_location}}{{$nginx_php_status_location}}{{else}}/php-fpm_status{{end}} {
+            fastcgi_pass php:9000;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi.conf;
+            access_log off;
+            {{if $nginx_php_status_allow}}
+            {{range $address := $nginx_php_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
+            deny all;
+        }
+        {{end}}
+
+        {{if eq $nginx_php_status_ping "1"}}
+        location {{if $nginx_php_status_ping_location}}{{$nginx_php_status_ping_location}}{{else}}/php-fpm_ping{{end}} {
+            fastcgi_pass php:9000;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi.conf;
+            access_log off;
+            {{if $nginx_php_status_ping_allow}}
+            {{range $address := $nginx_php_status_ping_allow | split ","}}
             allow {{$address}};
             {{end}}
             {{else}}
@@ -153,5 +193,19 @@ http {
             {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
         }
         {{end}}
+
+        location / {
+            try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+
+            fastcgi_index index.php;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass php:9000;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi.conf;
+        }
     }
 }

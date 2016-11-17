@@ -6,8 +6,6 @@ RUN tar xzf /root/zabbix-frontend-php-3.2.1-r0.apk -C / && \
     ln -s /usr/share/webapps/zabbix/ /var/www && \
     rm -f /root/*.apk
 
-COPY rootfs/ /
-
 ENTRYPOINT ["/bin/sh"]
 CMD []
 VOLUME ["/var/www"]

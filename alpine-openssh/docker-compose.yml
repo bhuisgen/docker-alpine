@@ -1,0 +1,31 @@
+$version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    openssh:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-openssh
+        network_mode: host
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /srv/data:/home
+        environment:
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=openssh                    # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=22                         # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            #- OPENSSH_PASSWORDAUTHENTICATION=no            # enable authentication by password
+            #- OPENSSH_SFTPUSERS=                           # SFTP users to create (comma separated list)
+            #- OPENSSH_SFTPGROUP=sftp                       # group of SFTP users
+            #- OPENSSH_SFTPCHROOT=1                         # enable chroot for SFTP
+            #- OPENSSH_SFTPCHROOTUSERDIR=public_html        # user directory inside chroot

@@ -3,7 +3,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/www && \
     addgroup -g 82 -S www-data && \
-    adduser -u 82 -D -S -G www-data www-data && \
+    adduser -u 82 -S -D -g "" -G www-data www-data && \
     chown -R www-data:www-data /var/www
 
 RUN apk add --update php5 \

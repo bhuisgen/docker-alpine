@@ -26,7 +26,7 @@
 ; Relative path can also be used. They will be prefixed by:
 ;  - the global prefix if it's been set (-p argument)
 ;  - /usr otherwise
-include = /etc/php5/fpm.d/*.conf
+;include = /etc/php5/fpm.d/*.conf
 
 ;;;;;;;;;;;;;;;;;;
 ; Global Options ;
@@ -160,8 +160,8 @@ daemonize = no
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = nobody
-group = nobody
+user = www-data
+group = www-data
 
 ; The address on which to accept FastCGI requests.
 ; Valid syntaxes are:
