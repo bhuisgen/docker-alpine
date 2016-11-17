@@ -63,6 +63,7 @@ AC_CONFIG_FILES([
     alpine-mariadb/Makefile
     alpine-nginx/Makefile
     alpine-nodejs/Makefile
+    alpine-openssh/Makefile
     alpine-perl/Makefile
     alpine-php/Makefile
     alpine-python/Makefile
