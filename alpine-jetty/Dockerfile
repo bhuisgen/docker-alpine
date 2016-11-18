@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV JETTY_VERSION=9.3.12.v20160915 \
+ENV JETTY_VERSION=9.3.14.v20161028 \
     JETTY_HOME=/usr/local/jetty
 
 RUN apk add --update openjdk8-jre tar && \
