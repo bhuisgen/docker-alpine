@@ -26,6 +26,7 @@ services:
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
             #- OPENSSH_PASSWORDAUTHENTICATION=no            # enable authentication by password
             #- OPENSSH_SFTPUSERS=                           # SFTP users to create (comma separated list)
-            #- OPENSSH_SFTPGROUP=sftp                       # group of SFTP users
+            #- OPENSSH_SFTPGROUP=sftp                       # SFTP group for users
+            #- OPENSSH_SFTPGID=101                          # GID of SFTP group
             #- OPENSSH_SFTPCHROOT=1                         # enable chroot for SFTP
             #- OPENSSH_SFTPCHROOTUSERDIR=public_html        # user directory inside chroot

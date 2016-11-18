@@ -4,20 +4,26 @@
 {{$prefix := env "CONSUL_KEYPREFIX"}}
 {{$openssh_sftp_users := env "OPENSSH_SFTPUSERS"}}
 {{$openssh_sftp_group := env "OPENSSH_SFTPGROUP"}}
+{{$openssh_sftp_gid := env "OPENSSH_SFTPGID"}}
 {{$openssh_sftp_chroot := env "OPENSSH_SFTPCHROOT"}}
 {{$openssh_sftp_chroot_userdir := env "OPENSSH_SFTPCHROOTUSERDIR"}}
 
 OPENSSH_SFTPUSERS="{{$openssh_sftp_users}}"
 OPENSSH_SFTPGROUP="{{$openssh_sftp_group}}"
+OPENSSH_SFTPGID="{{$openssh_sftp_gid}}"
 OPENSSH_SFTPCHROOT="{{$openssh_sftp_chroot}}"
 OPENSSH_SFTPCHROOTUSERDIR="{{$openssh_sftp_chroot_userdir}}"
 
 if [ -z "${OPENSSH_SFTPGROUP}" ]; then
-    OPENSSH_SFTPGROUP="sftp"
+    OPENSSH_SFTPGROUP=sftp
+fi
+
+if [ -z "${OPENSSH_SFTPGID}" ]; then
+    OPENSSH_SFTPGID=101
 fi
 
 if [ -z "${OPENSSH_SFTPCHROOTUSERDIR}" ]; then
-    OPENSSH_SFTPGROUP="public_html"
+    OPENSSH_SFTPGROUP=public_html
 fi
 
 if [ -z "${OPENSSH_CONFIG}" ]; then
@@ -27,7 +33,7 @@ if [ -z "${OPENSSH_CONFIG}" ]; then
 
     grep -q "${OPENSSH_SFTPGROUP}" /etc/group
     if [ $? -ne 0 ]; then
-        groupadd -r "${OPENSSH_SFTPGROUP}"
+        groupadd -r -g "${OPENSSH_SFTPGID}" "${OPENSSH_SFTPGROUP}"
     fi
 
     if [ ! -z "${OPENSSH_SFTPUSERS}" ]; then
