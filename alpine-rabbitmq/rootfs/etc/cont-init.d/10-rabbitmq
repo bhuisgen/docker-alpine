@@ -36,10 +36,10 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
 
         if [ ! -z ${RABBITMQ_USERNAME} ] && [ ! -z ${RABBITMQ_PASSWORD} ]; then
             su -c " \
-            rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
-            rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
-            rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
-            " rabbitmq
+                rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
+                rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
+                rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
+                " rabbitmq
         fi
 
         su -c " \
@@ -59,15 +59,15 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             fi
 
             su -c " \
-            sleep 4; \
-            rabbitmqctl cluster_status; \
-            " rabbitmq
+                sleep 4; \
+                rabbitmqctl cluster_status; \
+                " rabbitmq
         fi
 
         su -c " \
-        rabbitmqctl stop; \
-        sleep 4; \
-        " rabbitmq
+            rabbitmqctl stop; \
+            sleep 4; \
+            " rabbitmq
     else
         echo "==> Configuring rabbitmq from script"
 
