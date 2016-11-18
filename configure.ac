@@ -71,6 +71,7 @@ AC_CONFIG_FILES([
     alpine-rabbitmq/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
+    alpine-ruby/Makefile
     alpine-strongswan/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
