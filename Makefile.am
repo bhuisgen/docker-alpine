@@ -33,6 +33,7 @@ SUBDIRS = \
     alpine-rabbitmq \
     alpine-redis \
     alpine-registry \
+    alpine-ruby \
     alpine-strongswan \
     alpine-terraform \
     alpine-tomcat \

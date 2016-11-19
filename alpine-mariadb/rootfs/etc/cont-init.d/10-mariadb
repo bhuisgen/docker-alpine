@@ -13,6 +13,15 @@ if [ -z ${MARIADB_CONFIG} ]; then
             exit 1
         fi
 
+        if [ -z ${MARIADB_ROOTPASSWORD} ]; then
+            echo "MARIADB_ROOTPASSWORD is not set, aborting" >&2
+            exit 2
+        fi
+
+        if [ ! -z ${MARIADB_ROOTHOSTMASK} ]; then
+            MARIADB_ROOTHOSTMASK=%
+        fi
+
         cp "/usr/share/mysql/${MARIADB_PROFILE}.cnf" /etc/mysql/my.cnf
         echo "" >> /etc/mysql/my.cnf
         echo "!includedir /etc/mysql/conf.d/" >> /etc/mysql/my.cnf
@@ -22,45 +31,48 @@ if [ -z ${MARIADB_CONFIG} ]; then
         mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --console
 
         /usr/bin/mysqld_safe --skip-networking &
-        sleep 4
 
-        if [ -z ${MARIADB_ROOTPASSWORD} ]; then
-            echo "MARIADB_ROOTPASSWORD is not set, aborting" >&2
-            exit 2
+        for i in {30..0}; do
+            mysql --protocol=socket -u root --protocol=socket -e "SELECT 1" > /dev/null 2>&1
+            if [ $! -eq 0 ]; then
+                break
+            fi
+
+            sleep 1
+        done
+
+        if [ "$i" = 0 ]; then
+            echo "Failed to initialize server, aborting" >&2
+            exit 3
         fi
 
-        mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
-        DROP DATABASE test; \
-        DELETE FROM mysql.user WHERE User=''; \
-        UPDATE user SET password=PASSWORD('${MARIADB_ROOTPASSWORD}') WHERE User='root'; \
-        FLUSH PRIVILEGES; \
-        " mysql
-
-        if [ ! -z ${MARIADB_ROOTHOSTMASK} ]; then
-            mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
-            GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION; \
+        mysql -u root --protocol=socket -e " \
+            SET @@SESSION.SQL_LOG_BIN=0; \
+            DELETE FROM mysql.user; \
+            CREATE USER 'root'@'%' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}'; \
+            GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' WITH GRANT OPTION; \
+            DROP DATABASE IF EXISTS test; \
             FLUSH PRIVILEGES; \
-            " mysql
-        fi
+            "
 
         if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ] && [ ! -z ${MARIADB_HOSTMASK} ]; then
-            mysql -u root -p"${MARIADB_ROOTPASSWORD}" -e " \
-            CREATE DATABASE \`${MARIADB_DATABASE}\`; \
-            CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
-            GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}'; \
-            FLUSH PRIVILEGES; \
-            " mysql
+            mysql -u root -p"${MARIADB_ROOTPASSWORD}" --protocol=socket -e " \
+                SET @@SESSION.SQL_LOG_BIN=0; \
+                CREATE DATABASE \`${MARIADB_DATABASE}\`; \
+                CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
+                GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}'; \
+                FLUSH PRIVILEGES; \
+                "
         fi
 
         mysqladmin -u root -p"${MARIADB_ROOTPASSWORD}" shutdown
-        sleep 4
     else
         echo "==> Configuring mariadb from script"
 
         /bin/sh ${MARIADB_CONFIGSCRIPT} ${MARIADB_ROOTPASSWORD}
         if [ $? -ne 0 ]; then
             echo "Failed to configure from script, aborting" >&2
-            exit 3
+            exit 4
         fi
     fi
 
