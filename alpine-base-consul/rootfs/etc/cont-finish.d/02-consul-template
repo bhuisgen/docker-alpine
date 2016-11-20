@@ -5,8 +5,3 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
     rm -f /etc/cont-consul/services.d/container.json
     rm -f /etc/cont-consul/checks.d/container-*.json
 fi
-
-if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
-    echo "==> Disabling services configuration"
-    touch /etc/services.d/consul-template/down
-fi
