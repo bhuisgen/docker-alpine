@@ -38,6 +38,7 @@ services:
             #- HAPROXY_BALANCE=roundrobin                               # balance mode
             #- HAPROXY_RETRIES=3                                        # number of connection retries
             #- HAPROXY_REDISPATCH=0                                     # allow redispatch of cookie sticked connections
+            #- HAPROXY_CLITCPKA=0                                       # send TCP keepalive packets to client
             #- HAPROXY_STATS=0                                          # enable statistics
             #- HAPROXY_STATSPORT=1936                                   # statistics port
             #- HAPROXY_STATSURI=/haproxy?stats                          # statistics URI
