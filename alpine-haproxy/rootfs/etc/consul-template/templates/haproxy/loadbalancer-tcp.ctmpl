@@ -9,6 +9,7 @@
 {{- $haproxy_balance := env "HAPROXY_BALANCE" -}}
 {{- $haproxy_retries := env "HAPROXY_RETRIES" -}}
 {{- $haproxy_redispatch := env "HAPROXY_REDISPATCH" -}}
+{{- $haproxy_clitcpka := env "HAPROXY_CLITCPKA" -}}
 {{- $haproxy_stats := env "HAPROXY_STATS" -}}
 {{- $haproxy_stats_username := env "HAPROXY_STATSUSERNAME" -}}
 {{- $haproxy_stats_password := env "HAPROXY_STATSPASSWORD" -}}
@@ -48,6 +49,7 @@ defaults
     balance {{if $haproxy_balance}}{{$haproxy_balance}}{{else}}roundrobin{{end}}
     retries {{if $haproxy_retries}}{{$haproxy_retries}}{{else}}3{{end}}
     {{if eq $haproxy_redispatch "1"}}option redispatch{{end}}
+    {{if eq $haproxy_clitcpka "1"}}option clitcpka{{end}}
     log global
     option tcplog
     option dontlognull
