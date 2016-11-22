@@ -29,8 +29,8 @@
 {{- $name := env "NGINX_TEMPLATE_PHP_SERVICENAME" -}}
 {{- $tag := env "NGINX_TEMPLATE_PHP_SERVICETAG" -}}
 {{- $nginx_server_name := env "NGINX_TEMPLATE_PHP_SERVERNAME" -}}
-{{- $nginx_server_root := env "NGINX_TEMPLATE_PHP_SERVERROOT" -}}
-{{- $nginx_server_index := env "NGINX_TEMPLATE_PHP_SERVERINDEX" -}}
+{{- $nginx_root := env "NGINX_TEMPLATE_PHP_ROOT" -}}
+{{- $nginx_index := env "NGINX_TEMPLATE_PHP_INDEX" -}}
 {{- $nginx_php_status := env "NGINX_TEMPLATE_PHP_PHPSTATUS" -}}
 {{- $nginx_php_status_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION" -}}
 {{- $nginx_php_status_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSALLOW" -}}
@@ -133,8 +133,8 @@ http {
         {{end}}
 
         server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}"";
-        root {{if $nginx_server_root}}{{$nginx_server_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_server_index}}{{$nginx_server_index}}{{else}}index.html index.php{{end}};
+        root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
+        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html index.php{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {

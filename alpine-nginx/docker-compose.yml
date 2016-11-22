@@ -86,8 +86,8 @@ services:
             NGINX_TEMPLATE_PHP_SERVICENAME=php                                  # service name of PHP backends
             NGINX_TEMPLATE_PHP_SERVICETAG=dev                                   # service tag of PHP backends
             #- NGINX_TEMPLATE_PHP_SERVERNAME=""                                 # server names
-            #- NGINX_TEMPLATE_PHP_SERVERROOT=/var/www                           # root directory
-            #- NGINX_TEMPLATE_PHP_SERVERINDEX=index.html index.php              # index pages
+            #- NGINX_TEMPLATE_PHP_ROOT=/var/www                                 # root directory
+            #- NGINX_TEMPLATE_PHP_INDEX=index.html index.php                    # index pages
             #- NGINX_TEMPLATE_PHP_PHPSTATUS=0                                   # php status page
             #- NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION=/php-fpm_status             # php status page location
             #- NGINX_TEMPLATE_PHP_PHPSTATUSALLOW=127.0.0.1                      # IP/CIDR allowed to access to php status page (comma separated list)
@@ -98,16 +98,16 @@ services:
             # template static
             #
             #- NGINX_TEMPLATE_STATIC_SERVERNAME=""                              # server names
-            #- NGINX_TEMPLATE_STATIC_SERVERROOT=/var/www                        # root directory
-            #- NGINX_TEMPLATE_STATIC_SERVERINDEX=index.html                     # index pages
+            #- NGINX_TEMPLATE_STATIC_ROOT=/var/www                              # root directory
+            #- NGINX_TEMPLATE_STATIC_INDEX=index.html                           # index pages
             #
             # template upstream
             #
             - NGINX_TEMPLATE_UPSTREAM_SERVICENAME=myservice                     # service name to proxify
             - NGINX_TEMPLATE_UPSTREAM_SERVICETAG=dev                            # service tag to proxify
             #- NGINX_TEMPLATE_UPSTREAM_SERVERNAME=""                            # server names
-            #- NGINX_TEMPLATE_UPSTREAM_SERVERROOT=/var/www                      # root directory
-            #- NGINX_TEMPLATE_UPSTREAM_SERVERINDEX=index.html                   # index pages
+            #- NGINX_TEMPLATE_UPSTREAM_ROOT=/var/www                            # root directory
+            #- NGINX_TEMPLATE_UPSTREAM_INDEX=index.html                         # index pages
             #- NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING=on                        # enable proxy buffering
             #- NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT=60s                  # proxy connect timeout
             #- NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT=60s                     # proxy read timeout
