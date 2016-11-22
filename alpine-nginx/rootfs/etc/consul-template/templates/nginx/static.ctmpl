@@ -27,8 +27,8 @@
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
 {{- $nginx_server_name := env "NGINX_TEMPLATE_STATIC_SERVERNAME" -}}
-{{- $nginx_server_root := env "NGINX_TEMPLATE_STATIC_SERVERROOT" -}}
-{{- $nginx_server_index := env "NGINX_TEMPLATE_STATIC_SERVERINDEX" -}}
+{{- $nginx_root := env "NGINX_TEMPLATE_STATIC_ROOT" -}}
+{{- $nginx_index := env "NGINX_TEMPLATE_STATIC_INDEX" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -117,8 +117,8 @@ http {
         {{end}}
 
         server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
-        root {{if $nginx_server_root}}{{$nginx_server_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_server_index}}{{$nginx_server_index}}{{else}}index.html{{end}};
+        root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
+        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
