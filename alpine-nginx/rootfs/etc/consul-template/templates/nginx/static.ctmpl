@@ -146,7 +146,7 @@ http {
         {{end}}
 
         {{if eq $nginx_expire "1"}}
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+        location ~* \.(woff|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";

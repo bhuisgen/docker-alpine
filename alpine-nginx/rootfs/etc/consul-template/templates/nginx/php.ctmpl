@@ -26,6 +26,8 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
+{{- $name := env "NGINX_TEMPLATE_PHP_SERVICENAME" -}}
+{{- $tag := env "NGINX_TEMPLATE_PHP_SERVICETAG" -}}
 {{- $nginx_server_name := env "NGINX_TEMPLATE_PHP_SERVERNAME" -}}
 {{- $nginx_server_root := env "NGINX_TEMPLATE_PHP_SERVERROOT" -}}
 {{- $nginx_server_index := env "NGINX_TEMPLATE_PHP_SERVERINDEX" -}}
@@ -86,6 +88,14 @@ http {
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
+    upstream php {
+        {{range service (print $tag "." $name)}}
+        server {{.Address}}:{{.Port}};
+        {{else}}
+        server 127.0.0.1:9000 down;
+        {{end}}
+    }
+
     server {
         listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
         listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
@@ -143,7 +153,7 @@ http {
 
         {{if eq $nginx_php_status "1"}}
         location {{if $nginx_php_status_location}}{{$nginx_php_status_location}}{{else}}/php-fpm_status{{end}} {
-            fastcgi_pass php:9000;
+            fastcgi_pass php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
             access_log off;
@@ -160,7 +170,7 @@ http {
 
         {{if eq $nginx_php_status_ping "1"}}
         location {{if $nginx_php_status_ping_location}}{{$nginx_php_status_ping_location}}{{else}}/php-fpm_ping{{end}} {
-            fastcgi_pass php:9000;
+            fastcgi_pass php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
             access_log off;
@@ -186,7 +196,7 @@ http {
         {{end}}
 
         {{if eq $nginx_expire "1"}}
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+        location ~* \.(woff|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";
@@ -203,7 +213,7 @@ http {
 
             fastcgi_index index.php;
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass php:9000;
+            fastcgi_pass php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
         }
