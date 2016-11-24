@@ -7,7 +7,6 @@ RUN mkdir -p /var/www && \
     chown -R www-data:www-data /var/www
 
 RUN apk add --update php5 \
-        php5-apcu \
         php5-bcmath \
         php5-cli \
         php5-ctype \
@@ -18,6 +17,7 @@ RUN apk add --update php5 \
         php5-iconv \
         php5-json \
         php5-mysql \
+        php5-opcache \
         php5-openssl \
         php5-pdo \
         php5-pdo_mysql \
