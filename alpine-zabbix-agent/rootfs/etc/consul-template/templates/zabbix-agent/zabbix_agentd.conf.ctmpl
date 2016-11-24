@@ -1,4 +1,3 @@
-{{- $machineid := file "/rootfs/etc/machine-id" -}}
 {{- $zabbix_enableremotecommands := env "ZABBIX_ENABLEREMOTECOMMANDS" -}}
 {{- $zabbix_logremotecommands := env "ZABBIX_LOGREMOTECOMMANDS" -}}
 {{- $zabbix_server := env "ZABBIX_SERVER" -}}
@@ -10,7 +9,7 @@
 {{- $zabbix_buffersize := env "ZABBIX_BUFFERSIZE" -}}
 {{- $zabbix_maxlinespersecond := env "ZABBIX_MAXLINESPERSECOND" -}}
 {{- $zabbix_timeout := env "ZABBIX_TIMEOUT" -}}
-{{- $zabbix_rootfilsystem := env "ZABBIX_ROOTFILESYSTEM" -}}
+{{- $zabbix_rootfilesystem := env "ZABBIX_ROOTFILESYSTEM" -}}
 {{- $zabbix_unsafeuserparameters := env "ZABBIX_UNSAFEUSERPARAMETERS" -}}
 # This is a configuration file for Zabbix agent daemon (Unix)
 # To get more information about Zabbix, visit http://www.zabbix.com
@@ -162,11 +161,7 @@ ServerActive={{$zabbix_server}}
 # Default:
 # Hostname=
 
-{{if $zabbix_hostname}}
-Hostname={{$zabbix_hostname}}
-{{else}}
-Hostname={{ print ($zabbix_hostmetadata "-" $machineid) }}
-{{end}}
+{{if $zabbix_hostname}}Hostname={{$zabbix_hostname}}{{end}}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -187,7 +182,7 @@ Hostname={{ print ($zabbix_hostmetadata "-" $machineid) }}
 # Default:
 # HostMetadata=
 
-HostMetadata={{$zabbix_hostmetadata}}
+{{if $zabbix_hostmetadata}}HostMetadata={{$zabbix_hostmetadata}}{{end}}
 
 ### Option: HostMetadataItem
 #	Optional parameter that defines an item used for getting host metadata.
@@ -298,7 +293,7 @@ HostMetadata={{$zabbix_hostmetadata}}
 # Default:
 # RootFilesystem=/
 
-{{if $zabbix_rootfilsystem}}RootFilesystem={{$zabbix_rootfilsystem}}{{end}}
+{{if $zabbix_rootfilesystem}}RootFilesystem={{$zabbix_rootfilesystem}}{{end}}
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.
@@ -328,6 +323,8 @@ Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf
 # Range: 0-1
 # Default:
 # UnsafeUserParameters=0
+
+{{if $zabbix_unsafeuserparameters}}UnsafeUserParameters={{$zabbix_unsafeuserparameters}}{{end}}
 
 ### Option: UserParameter
 #	User-defined parameter to monitor. There can be several user-defined parameters.
