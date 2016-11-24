@@ -27,6 +27,9 @@
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
 {{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
 {{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
+{{- $nginx_server_name := env "NGINX_TEMPLATE_UPSTREAM_SERVERNAME" -}}
+{{- $nginx_root := env "NGINX_TEMPLATE_UPSTREAM_ROOT" -}}
+{{- $nginx_index := env "NGINX_TEMPLATE_UPSTREAM_INDEX" -}}
 {{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING" -}}
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
@@ -134,6 +137,10 @@ http {
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
         {{end}}
 
+        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}"";
+        root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
+        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html{{end}};
+
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
             stub_status on;
@@ -160,7 +167,7 @@ http {
         {{end}}
 
         {{if eq $nginx_expire "1"}}
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+        location ~* \.(woff|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
             add_header Pragma public;
             add_header Cache-Control "public";
