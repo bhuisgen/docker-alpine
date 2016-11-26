@@ -15,12 +15,7 @@ services:
         network_mode: host
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /etc:/rootfs/etc:ro
-            - /dev:/rootfs/dev
-            - /proc:/rootfs/proc:ro
-            - /sys:/rootfs/sys:ro
-            - /var/log:/rootfs/var/log
-            - /var/run:/rootfs/var/run
+            - /:/rootfs:ro
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port
