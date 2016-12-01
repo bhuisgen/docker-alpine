@@ -1,0 +1,48 @@
+{{- $rsyslog_maxdiskspace := env "RSYSLOG_MAXDISKSPACE" -}}
+{{- $rsyslog_retrycount := env "RSYSLOG_RETRYCOUNT" -}}
+{{- $rsyslog_interval := env "RSYSLOG_INTERVAL" -}}
+{{- $rsyslog_remotehost := env "RSYSLOG_REMOTEHOST" -}}
+{{- $rsyslog_ssl := env "RSYSLOG_SSL" -}}
+{{- $rsyslog_sslcafile := env "RSYSLOG_SSLCAFILE" -}}
+{{- $rsyslog_sslcertfile := env "RSYSLOG_SSLCERTFILE" -}}
+{{- $rsyslog_sslkeyfile := env "RSYSLOG_SSLKEYFILE" -}}
+{{- $rsyslog_sslpermittedpeer := env "RSYSLOG_SSLPERMITTEDPEER" -}}
+{{- $rsyslog_sslmode := env "RSYSLOG_SSLMODE" -}}
+# rsyslog.conf
+
+$ModLoad imudp
+$UDPServerRun 514
+
+$ModLoad imtcp
+$InputTCPServerRun 514
+
+$FileOwner root
+$FileGroup adm
+$FileCreateMode 0640
+$DirCreateMode 0755
+$Umask 0022
+
+$IncludeConfig /etc/rsyslog.d/*
+
+$AbortOnUncleanConfig on
+#$RepeatedMsgReduction on
+
+$WorkDirectory /var/spool/rsyslog
+$ActionQueueFileName uniqName
+$ActionQueueMaxDiskSpace {{if $rsyslog_maxdiskspace}}{{$rsyslog_maxdiskspace}}{{else}}1g{{end}}
+$ActionQueueSaveOnShutdown on
+$ActionQueueType LinkedList
+$ActionResumeRetryCount {{if $rsyslog_retrycount}}{{$rsyslog_retrycount}}{{else}}-1{{end}}
+$ActionResumeInterval {{if $rsyslog_interval}}{{$rsyslog_interval}}{{else}}30{{end}}
+
+{{if eq $rsyslog_ssl "1"}}
+$DefaultNetstreamDriver gtls
+$DefaultNetstreamDriverCAFile {{$rsyslog_sslcafile}}
+$DefaultNetstreamDriverCertFile {{$rsyslog_sslcertfile}}
+$DefaultNetstreamDriverKeyFile {{$rsyslog_sslkeyfile}}
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer {{$rsyslog_sslpermittedpeer}}
+$ActionSendStreamDriverMode {{$rsyslog_sslmode}}
+{{end}}
+
+*.* @@{{$rsyslog_remotehost}}

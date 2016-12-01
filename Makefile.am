@@ -29,13 +29,14 @@ SUBDIRS = \
     alpine-perl \
     alpine-php \
     alpine-phpmyadmin \
-    alpine-python \
     alpine-postfix \
     alpine-postgresql \
+    alpine-python \
     alpine-rabbitmq \
     alpine-rabbitmqadmin \
     alpine-redis \
     alpine-registry \
+    alpine-rsyslog \
     alpine-ruby \
     alpine-spark \
     alpine-strongswan \

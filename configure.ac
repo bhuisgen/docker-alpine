@@ -68,12 +68,13 @@ AC_CONFIG_FILES([
     alpine-php/Makefile
     alpine-phpmyadmin/Makefile
     alpine-postfix/Makefile
-    alpine-python/Makefile
     alpine-postgresql/Makefile
+    alpine-python/Makefile
     alpine-rabbitmq/Makefile
     alpine-rabbitmqadmin/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
+    alpine-rsyslog/Makefile
     alpine-ruby/Makefile
     alpine-spark/Makefile
     alpine-strongswan/Makefile
