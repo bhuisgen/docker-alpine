@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+    phpmyadmin:
+        image: bhuisgen/alpine-phpmyadmin
+        entrypoint: /bin/sh
+        volumes:
+            - /var/www

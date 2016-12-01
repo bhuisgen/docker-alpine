@@ -66,6 +66,7 @@ AC_CONFIG_FILES([
     alpine-openssh/Makefile
     alpine-perl/Makefile
     alpine-php/Makefile
+    alpine-phpmyadmin/Makefile
     alpine-python/Makefile
     alpine-postgresql/Makefile
     alpine-rabbitmq/Makefile
