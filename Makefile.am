@@ -28,6 +28,7 @@ SUBDIRS = \
     alpine-openssh \
     alpine-perl \
     alpine-php \
+    alpine-phpmyadmin \
     alpine-python \
     alpine-postgresql \
     alpine-rabbitmq \
