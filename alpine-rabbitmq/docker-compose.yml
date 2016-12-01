@@ -25,9 +25,10 @@ services:
             - CONSUL_SERVICEPORT=5672                                       # consul service port
             - CONSUL_CHECKTYPE=tcp                                          # consul health check type
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
-            - RABBITMQ_MQTT=1                                               # enable MQTT
-            - RABBITMQ_STOMP=1                                              # enable STOMP
-            - RABBITMQ_PLUGINS=rabbitmq_event_exchange,rabbitmq_management  # enable plugins
+            - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
+            - RABBITMQ_MQTT=1                                               # enable MQTT plugin
+            - RABBITMQ_STOMP=1                                              # enable STOMP plugin
+            #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
             - RABBITMQ_SSL=0                                                # enable TLS

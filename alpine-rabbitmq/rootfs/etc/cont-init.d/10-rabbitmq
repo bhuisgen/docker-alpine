@@ -10,12 +10,9 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             chmod 400 /var/lib/rabbitmq/.erlang.cookie
         fi
 
-        su -c " \
-            rabbitmq-server -detached; \
-            sleep 8; \
-            rabbitmqctl start_app; \
-            sleep 4; \
-        " rabbitmq
+        if [ ! -z ${RABBITMQ_MANAGEMENT} ] && [ ${RABBITMQ_MANAGEMENT} -eq 1 ]; then
+            rabbitmq-plugins enable --offline rabbitmq_management
+        fi
 
         if [ ! -z ${RABBITMQ_MQTT} ] && [ ${RABBITMQ_MQTT} -eq 1 ]; then
             rabbitmq-plugins enable --offline rabbitmq_mqtt
@@ -29,6 +26,13 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
             rabbitmq-plugins enable --offline ${PLUGINS}
         fi
+
+        su -c " \
+            rabbitmq-server -detached; \
+            sleep 8; \
+            rabbitmqctl start_app; \
+            sleep 4; \
+        " rabbitmq
 
         if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
             su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
