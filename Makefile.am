@@ -46,4 +46,5 @@ SUBDIRS = \
     alpine-zabbix-proxy-pgsql \
     alpine-zabbix-proxy-sqlite3 \
     alpine-zabbix-server-mysql \
-    alpine-zabbix-server-pgsql
+    alpine-zabbix-server-pgsql \
+    alpine-zabbix-server-sqlite3
