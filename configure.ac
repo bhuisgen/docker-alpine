@@ -85,6 +85,7 @@ AC_CONFIG_FILES([
     alpine-zabbix-proxy-sqlite3/Makefile
     alpine-zabbix-server-mysql/Makefile
     alpine-zabbix-server-pgsql/Makefile
+    alpine-zabbix-server-sqlite3/Makefile
 ])
 
 AC_OUTPUT
