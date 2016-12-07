@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "$CONSULTEMPLATE_CONTAINER" ]; then
+if [ -z $CONSULTEMPLATE_CONTAINER ]; then
     export CONSULTEMPLATE_CONTAINER=1
     printf "%s" "${CONSULTEMPLATE_CONTAINER}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONTAINER
 fi
 
-if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
+if [ -z $CONSULTEMPLATE_SERVICES ]; then
     export CONSULTEMPLATE_SERVICES=1
     printf "%s" "${CONSULTEMPLATE_SERVICES}" > /var/run/s6/container_environment/CONSULTEMPLATE_SERVICES
 fi
