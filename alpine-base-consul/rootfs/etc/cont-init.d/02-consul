@@ -25,7 +25,7 @@ if [ -z ${CONSUL_KEYPREFIX} ]; then
     printf "%s" "${CONSUL_KEYPREFIX}" > /var/run/s6/container_environment/CONSUL_KEYPREFIX
 fi
 
-if [ ! -z ${CONSUL_SERVICENAME} ] && [ -z ${CONSUL_SERVICEADDR} ]; then
+if [ ! -z ${CONSUL_SERVICENAME} ]; then
     if [ -z ${CONSUL_RESOLVER} ]; then
         CONSUL_RESOLVER=container
     fi

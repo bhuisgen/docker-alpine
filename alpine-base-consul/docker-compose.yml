@@ -21,7 +21,6 @@ services:
             #- CONSUL_RESOLVER_INTERFACETYPE=inet               # network interface type for IP resolver (inet/inet6, default: inet)
             - CONSUL_SERVICENAME=foo                            # service name to register
             #- CONSUL_SERVICETAGS=local,foo                     # service tags (optional)
-            #- CONSUL_SERVICEADDR=172.31.1.1                    # service address (optional, resolved by consul IP resolver)
             - CONSUL_SERVICEPORT=1234                           # service port
             #- CONSUL_CHECKTYPE=tcp                             # health check type (none/http/script/tcp/ttl, default: none)
             #- CONSUL_CHECKINTERVAL=15s                         # health check interval
