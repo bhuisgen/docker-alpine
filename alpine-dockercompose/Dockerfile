@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV DOCKERCOMPOSE_VERSION=1.8.1
+ENV DOCKERCOMPOSE_VERSION=1.9.0
 
 RUN apk add --update py-pip && \
     pip install docker-compose==${DOCKERCOMPOSE_VERSION} && \
