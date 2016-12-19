@@ -2,5 +2,6 @@
 
 if [ ! -z ${CONSUL_AGENT} ]; then
     echo "==> Registering container"
+
     /etc/cont-consul/register
 fi
