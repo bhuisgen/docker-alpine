@@ -3,8 +3,9 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV DOCKERCOMPOSE_VERSION=1.9.0
 
-RUN apk add --update py-pip && \
-    pip install docker-compose==${DOCKERCOMPOSE_VERSION} && \
+RUN apk add --update python3 && \
+    python3 -m ensurepip --upgrade && \
+    pip3 install docker-compose==${DOCKERCOMPOSE_VERSION} && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["docker-compose"]
