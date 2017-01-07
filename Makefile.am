@@ -35,6 +35,7 @@ SUBDIRS = \
     alpine-redis \
     alpine-registry \
     alpine-ruby \
+    alpine-spark \
     alpine-strongswan \
     alpine-terraform \
     alpine-tomcat \

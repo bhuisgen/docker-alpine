@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd "${SPARK_HOME}" || exit 1
+exec s6-setuidgid spark bin/spark-class ${SPARK_OPTIONS}

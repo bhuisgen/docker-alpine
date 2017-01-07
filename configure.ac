@@ -73,6 +73,7 @@ AC_CONFIG_FILES([
     alpine-redis/Makefile
     alpine-registry/Makefile
     alpine-ruby/Makefile
+    alpine-spark/Makefile
     alpine-strongswan/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
