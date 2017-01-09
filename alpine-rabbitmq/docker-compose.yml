@@ -27,6 +27,7 @@ services:
             #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
             - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
+            - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin only
             - RABBITMQ_MQTT=1                                               # enable MQTT plugin
             - RABBITMQ_STOMP=1                                              # enable STOMP plugin
             #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
@@ -59,7 +60,6 @@ services:
     #         - /host/data1:/var/lib/rabbitmq
     #     environment:
     #         - CONSUL_AGENT=consul
-    #         #- CONSUL_PORT=8500
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
@@ -79,7 +79,6 @@ services:
     #         - /host/data2:/var/lib/rabbitmq
     #     environment:
     #         - CONSUL_AGENT=consul
-    #         #- CONSUL_PORT=8500
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
