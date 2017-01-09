@@ -24,6 +24,7 @@ services:
             - CONSUL_SERVICETAGS=dev                                        # consul service tag
             - CONSUL_SERVICEPORT=5672                                       # consul service port
             - CONSUL_CHECKTYPE=tcp                                          # consul health check type
+            #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
             - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
             - RABBITMQ_MQTT=1                                               # enable MQTT plugin
