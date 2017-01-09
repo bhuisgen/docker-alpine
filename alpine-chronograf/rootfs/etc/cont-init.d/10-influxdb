@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${INFLUXDB_CONFIG}" ]; then
+    if [ -z "${INFLUXDB_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring influxdb from environment"
+
+        echo "TODO"
+    else
+        echo "==> Configuring influxdb from script"
+
+        /bin/sh "${INFLUXDB_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
+    fi
+
+    export INFLUXDB_CONFIG=1
+    printf "%s" "${INFLUXDB_CONFIG}" > /var/run/s6/container_environment/INFLUXDB_CONFIG
+fi

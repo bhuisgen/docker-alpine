@@ -28,6 +28,7 @@ SUBDIRS = \
     alpine-gogs \
     alpine-haproxy \
     alpine-hostapd \
+    alpine-influxdb \
     alpine-java \
     alpine-jenkins \
     alpine-jenkins-slave \

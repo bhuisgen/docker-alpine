@@ -66,6 +66,7 @@ AC_CONFIG_FILES([
     alpine-gogs/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
+    alpine-influxdb/Makefile
     alpine-java/Makefile
     alpine-jenkins/Makefile
     alpine-jenkins-slave/Makefile
