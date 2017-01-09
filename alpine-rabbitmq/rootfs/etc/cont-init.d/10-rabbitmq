@@ -1,5 +1,13 @@
 #!/usr/bin/with-contenv sh
 
+if [ ! -z ${RABBITMQ_RESCUE} ]; then
+    echo "==> Disabling rabbitmq service startup (rescue mode)"
+
+    touch /etc/services.d/rabbitmq/down
+
+    exit 0
+fi
+
 if [ -z ${RABBITMQ_CONFIG} ]; then
     if [ -z ${RABBITMQ_CONFIGSCRIPT} ]; then
         echo "==> Configuring rabbitmq from environment"
