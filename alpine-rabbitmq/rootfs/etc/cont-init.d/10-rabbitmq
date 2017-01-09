@@ -20,6 +20,8 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
 
         if [ ! -z ${RABBITMQ_MANAGEMENT} ] && [ ${RABBITMQ_MANAGEMENT} -eq 1 ]; then
             rabbitmq-plugins enable --offline rabbitmq_management
+        elif [ ! -z ${RABBITMQ_MANAGEMENTAGENT} ] && [ ${RABBITMQ_MANAGEMENTAGENT} -eq 1 ]; then
+            rabbitmq-plugins enable --offline rabbitmq_management_agent
         fi
 
         if [ ! -z ${RABBITMQ_MQTT} ] && [ ${RABBITMQ_MQTT} -eq 1 ]; then
