@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv sh
 
+if [ -z ${CONSUL_AGENT} ]; then
+    exit 0
+fi
+
 options=""
 url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
 params=""
@@ -13,15 +17,18 @@ if [ ! -z ${CONSUL_TOKEN} ]; then
     params="?token=${CONSUL_TOKEN}"
 fi
 
+status=0
+
 if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
-        [ -f $file ] || continue
+        [ -f "$file" ] || continue
 
-        id=`jq -r '.ID' $file`
-        name=`jq -r '.Name' $file`
+        id=$(jq -r '.ID' "$file")
+        name=$(jq -r '.Name' "$file")
 
         health=$(curl -sSL ${options} -X GET "${url}/v1/health/service/${name}${params}&passing=true")
         service_ids=$(echo "$health"|jq -r '.[].Service.ID')
+
         check=0
         for service_id in $service_ids; do
             if [ "$service_id" == "$id" ]; then
@@ -32,11 +39,9 @@ if [ -d /etc/cont-consul/services.d/ ]; then
         done
 
         if [ $check -eq 0 ]; then
-            echo "KO"
-
-            exit 0
+            status=1
         fi
     done
 fi
 
-echo "OK"
+exit $status

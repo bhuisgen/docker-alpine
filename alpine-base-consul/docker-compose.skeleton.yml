@@ -24,6 +24,7 @@ version: '2'
 #             - CONSUL_SERVICEPORT=1234                           # service port
 #             #- CONSUL_CHECKTYPE=tcp                             # health check type (none/http/script/tcp/ttl, default: none)
 #             #- CONSUL_CHECKINTERVAL=15s                         # health check interval
+#             #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0          # delay after which the service will be deregistered if this check remains critical (0 to disable)
 #
 #             #
 #             # HTTP health check
@@ -31,7 +32,9 @@ version: '2'
 #             #- CONSUL_CHECKTYPE=http
 #             #- CONSUL_CHECKHTTPURL=http://foo:1234              # HTTP custom URL
 #             #- CONSUL_CHECKHTTPPATH=/                           # HTTP path for auto-generated URL (http://<container_ip>:<service_port><path>)
+#             #- CONSUL_CHECKHTTPTLSSKIPVERIFY=0                  # skip TLS certificate verification
 #             #- CONSUL_CHECKINTERVAL=15s                         # check interval
+#             #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0          # delay after which the service will be deregistered if this check remains critical (0 to disable)
 #
 #             #
 #             # Script health check
@@ -41,6 +44,7 @@ version: '2'
 #             #- CONSUL_CHECKDOCKERCONTAINERID=                   # docker container id
 #             #- CONSUL_CHECKSHELL=/bin/bash                      # custom shell
 #             #- CONSUL_CHECKINTERVAL=15s                         # check interval
+#             #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0          # delay after which the service will be deregistered if this check remains critical (0 to disable)
 #
 #             #
 #             # TCP health check
@@ -49,9 +53,11 @@ version: '2'
 #             #- CONSUL_CHECKADDR=static                          # custom TCP address if different from service registration
 #             #- CONSUL_CHECKPORT=5678                            # custom TCP port if different from service registration
 #             #- CONSUL_CHECKINTERVAL=15s                         # check interval
+#             #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0          # delay after which the service will be deregistered if this check remains critical (0 to disable)
 #
 #             #
 #             # TTL health check
 #             #
 #             #- CONSUL_CHECKTYPE=ttl
 #             #- CONSUL_CHECKTTL=15s                              # TTL update
+#             #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0          # delay after which the service will be deregistered if this check remains critical (0 to disable)
