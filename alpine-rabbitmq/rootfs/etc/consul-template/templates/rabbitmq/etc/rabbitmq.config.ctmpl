@@ -1,5 +1,4 @@
-{{- $rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT" -}}
-{{- $rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT" -}}
+{{- $rabbitmq_netticktime := env "RABBITMQ_NETTICKTIME" -}}
 {{- $rabbitmq_ssl := env "RABBITMQ_SSL" -}}
 {{- $rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE" -}}
 {{- $rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE" -}}
@@ -9,8 +8,18 @@
 {{- $rabbitmq_sslfailifnopeercert := env "RABBITMQ_SSLFAILIFNOPEERCERT" -}}
 {{- $rabbitmq_mqtt := env "RABBITMQ_MQTT" -}}
 {{- $rabbitmq_stomp := env "RABBITMQ_STOMP" -}}
+{{- $rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT" -}}
+{{- $rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT" -}}
+{{- $rabbitmq_clusterpartitionhandling := env "RABBITMQ_CLUSTERPARTITIONHANDLING" -}}
+{{- $rabbitmq_clusterkeepaliveinterval := env "RABBITMQ_CLUSTERKEEPALIVEINTERVAL" -}}
+{{- $rabbitmq_collectstatistics := env "RABBITMQ_COLLECTSTATISTICS" -}}
+{{- $rabbitmq_collectstatisticsinterval := env "RABBITMQ_COLLECTSTATISTICSINTERVAL" -}}
+{{- $rabbitmq_hipecompile := env "RABBITMQ_HIPECOMPILE" }}
 [
     {kernel, [
+        {{if $rabbitmq_netticktime}}
+        {net_ticktime, {{$rabbitmq_netticktime}}},
+        {{end}}
         {inet_default_connect_options, [{nodelay, true}]},
         {inet_default_listen_options, [{nodelay, true}]}
     ]},
@@ -40,13 +49,28 @@
         {auth_mechanisms, ['EXTERNAL', 'PLAIN']},
         {ssl_cert_login_from, common_name},
         {{end}}
-        {{if $rabbitmq_ramlimit}}
-        {vm_memory_high_watermark, {{$rabbitmq_ramlimit}}},
-        {{end}}
-        {{if $rabbitmq_disklimit}}
-        {disk_free_limit, {{$rabbitmq_disklimit}}},
-        {{end}}
         {auth_backends, [rabbit_auth_backend_internal]}
+        {{if $rabbitmq_ramlimit}},
+        {vm_memory_high_watermark, {{$rabbitmq_ramlimit}}}
+        {{end}}
+        {{if $rabbitmq_disklimit}},
+        {disk_free_limit, {{$rabbitmq_disklimit}}}
+        {{end}}
+        {{if $rabbitmq_clusterpartitionhandling}},
+        {cluster_partition_handling, {{$rabbitmq_clusterpartitionhandling}}}
+        {{end}}
+        {{if $rabbitmq_clusterkeepaliveinterval}},
+        {cluster_keepalive_interval, {{$rabbitmq_clusterkeepaliveinterval}}}
+        {{end}}
+        {{if $rabbitmq_collectstatistics}},
+        {collect_statistics, {{$rabbitmq_collectstatistics}}}
+        {{end}}
+        {{if $rabbitmq_collectstatisticsinterval}},
+        {collect_statistics_interval, {{$rabbitmq_collectstatisticsinterval}}}
+        {{end}}
+        {{if $rabbitmq_hipecompile}},
+        {hipe_compile, {{$rabbitmq_hipecompile}}}
+        {{end}}
     ]}
     {{if eq $rabbitmq_mqtt "1"}},
     {rabbitmq_mqtt, [
