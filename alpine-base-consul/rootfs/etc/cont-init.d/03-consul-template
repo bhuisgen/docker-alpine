@@ -29,9 +29,17 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
     fi
 
-    consul-template ${options}
-    if [ $? -ne 0 ]; then
-        echo "Failed to render templates, aborting" >&2
+    retry=0
+    while true; do
+        consul-template ${options} && break
+        retry=$((retry+1))
+        if [ $retry -lt 3 ]; then
+            echo "Failed to create container configuration, retrying in few seconds" >&2
+            sleep 15
+            continue
+        fi
+
+        echo "Failed to create container configuration, aborting" >&2
         exit 1
-    fi
+    done
 fi
