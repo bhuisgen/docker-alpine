@@ -6,7 +6,7 @@ services:
         ports:
             - "8500:8500"
         environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     logstash:
         depends_on:
