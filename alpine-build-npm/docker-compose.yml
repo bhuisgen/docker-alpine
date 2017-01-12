@@ -4,7 +4,7 @@ services:
     consul:
         image: bhuisgen/alpine-consul
         environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     build-npm:
         depends_on:

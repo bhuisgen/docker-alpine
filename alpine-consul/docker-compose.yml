@@ -14,7 +14,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/consul                                           # volume for data
         environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
             - CONSUL_DATACENTER=local                                           # datacenter
             - CONSUL_DOMAIN=test                                                # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
