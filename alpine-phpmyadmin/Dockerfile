@@ -9,8 +9,6 @@ RUN apk add --update tar && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
-COPY rootfs/ /
-
 ENTRYPOINT ["/bin/sh"]
 CMD []
 VOLUME ["/var/www"]
