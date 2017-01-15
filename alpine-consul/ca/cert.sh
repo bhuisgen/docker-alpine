@@ -16,7 +16,7 @@ if [ -f "keys/$NAME-priv-key.pem" ] || [ -f "keys/$NAME-priv-key.pem" ]; then
     exit 3
 fi
 
-openssl genrsa -out keys/$NAME-priv-key.pem 2048
-openssl req -new -key keys/$NAME-priv-key.pem -out keys/$NAME.csr
+openssl genrsa -out keys/${NAME}-priv-key.pem 2048
+openssl req -new -key keys/${NAME}-priv-key.pem -out keys/${NAME}.csr
 
-openssl ca -batch -config ca.cnf -notext -in keys/$NAME.csr -out keys/$NAME.pem
+openssl ca -batch -config ca.cnf -notext -in keys/${NAME}.csr -out keys/${NAME}.pem
