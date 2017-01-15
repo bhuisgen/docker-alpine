@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV PHPMYADMIN_VERSION=4.6.5.1
+ENV PHPMYADMIN_VERSION=4.6.5.2
 
 RUN apk add --update tar && \
     mkdir -p /var/www && \
