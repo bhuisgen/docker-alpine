@@ -16,23 +16,32 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /:/rootfs:ro
+            - /var/run/docker.sock:/var/run/docker.sock
         environment:
-            - CONSUL_AGENT=consul               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
-            - CONSUL_SERVICENAME=zabbix-agent   # consul service name
-            - CONSUL_SERVICETAGS=dev            # consul service tag
-            - CONSUL_SERVICEPORT=10050          # consul service port
-            - CONSUL_CHECKTYPE=tcp              # consul health check type
-            #- ZABBIX_ENABLEREMOTECOMMANDS=0    # enable remote commands execution
-            #- ZABBIX_LOGREMOTECOMMANDS=0       # log remote commands
-            - ZABBIX_SERVER=172.16.0.1          # zabbix server IP/host
-            - ZABBIX_HOSTNAME=zabbix-agent      # zabbix agent hostname
-            #- ZABBIX_HOSTMETADATA=             # zabbix agent host metadata
-            - ZABBIX_STARTAGENTS=1              # number of processes for passive checks
-            #- ZABBIX_REFRESHACTIVECHECKS=120   # time between active checks refresh
-            #- ZABBIX_BUFFERSEND=5              # time to keep data in buffer
-            #- ZABBIX_BUFFERSIZE=100            # maximum number of values in buffer before sending
-            #- ZABBIX_MAXLINESPERSECOND=20      # maximum number of new lines to send per second
-            #- ZABBIX_TIMEOUT=3                 # timeout of processing
-            #- ZABBIX_UNSAFEUSERPARAMETERS=
+            - CONSUL_AGENT=consul                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-agent           # consul service name
+            - CONSUL_SERVICETAGS=dev                    # consul service tag
+            - CONSUL_SERVICEPORT=10050                  # consul service port
+            - CONSUL_CHECKTYPE=tcp                      # consul health check type
+            #- ZABBIX_ENABLEREMOTECOMMANDS=0            # enable remote commands execution
+            #- ZABBIX_LOGREMOTECOMMANDS=0               # log remote commands
+            - ZABBIX_SERVER=172.16.0.1                  # zabbix server IP/host
+            - ZABBIX_HOSTNAME=zabbix-agent              # zabbix agent hostname
+            #- ZABBIX_HOSTMETADATA=                     # zabbix agent host metadata
+            - ZABBIX_STARTAGENTS=1                      # number of processes for passive checks
+            #- ZABBIX_REFRESHACTIVECHECKS=120           # time between active checks refresh
+            #- ZABBIX_BUFFERSEND=5                      # time to keep data in buffer
+            #- ZABBIX_BUFFERSIZE=100                    # maximum number of values in buffer before sending
+            #- ZABBIX_MAXLINESPERSECOND=20              # maximum number of new lines to send per second
+            #- ZABBIX_TIMEOUT=3                         # timeout of processing
+            #- ZABBIX_UNSAFEUSERPARAMETERS=             # enable unsafe user parameters
+            - ZABBIXDOCKER=1                            # enable docker monitoring
+            - ZABBIXDOCKER_CONTAINERSSTATS=1            # monitor containers statistics
+            #- ZABBIXDOCKER_CONTAINERSSTATSCPUS=0       # monitor containers cpus statistics
+            - ZABBIXDOCKER_CONTAINERSSTATSMEMORY=1      # monitor containers memory statistics
+            - ZABBIXDOCKER_CONTAINERSSTATSNETWORKS=1    # monitor containers networks statistics
+            - ZABBIXDOCKER_CONTAINERSSTATSDEVICES=1     # monitor containers devices statistics
+            #- ZABBIXDOCKER_CONTAINERSTOP=0             # monitor containers processes
+            - ZABBIXDOCKER_EVENTS=1                     # monitor events

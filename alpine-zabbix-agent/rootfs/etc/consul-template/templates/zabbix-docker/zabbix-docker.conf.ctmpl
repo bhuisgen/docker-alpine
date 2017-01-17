@@ -1,0 +1,54 @@
+{{- $zabbixdocker_containers_stats := env "ZABBIXDOCKER_CONTAINERSSTATS" -}}
+{{- $zabbixdocker_containers_stats_cpus := env "ZABBIXDOCKER_CONTAINERSSTATSCPUS" -}}
+{{- $zabbixdocker_containers_stats_memory := env "ZABBIXDOCKER_CONTAINERSSTATSMEMORY" -}}
+{{- $zabbixdocker_containers_stats_networks := env "ZABBIXDOCKER_CONTAINERSSTATSNETWORKS" -}}
+{{- $zabbixdocker_containers_stats_devices := env "ZABBIXDOCKER_CONTAINERSSTATSDEVICES" -}}
+{{- $zabbixdocker_containers_top := env "ZABBIXDOCKER_CONTAINERSTOP" -}}
+{{- $zabbixdocker_events := env "ZABBIXDOCKER_EVENTS" -}}
+# zabbix-docker.conf
+
+[main]
+rootfs = /rootfs
+#debug = no
+containers = yes
+containers_stats = {{if eq $zabbixdocker_containers_stats "1"}}yes{{else}}no{{end}}
+containers_top = {{if eq $zabbixdocker_containers_top "1"}}yes{{else}}no{{end}}
+events = yes
+
+[docker]
+#base_url = unix:///var/run/docker.sock
+#timeout = 5
+
+[zabbix]
+#host =
+
+[discovery]
+#startup = 15
+#interval = 300
+#poll_events = yes
+#poll_events_interval = 15
+
+[containers]
+#startup = 15
+#interval = 60
+
+[containers_stats]
+#startup = 30
+#interval = 60
+#workers = 10
+stats_cpus = {{if eq $zabbixdocker_containers_stats_cpus "1"}}yes{{else}}no{{end}}
+stats_memory = {{if eq $zabbixdocker_containers_stats_memory "1"}}yes{{else}}no{{end}}
+stats_networks = {{if eq $zabbixdocker_containers_stats_networks "1"}}yes{{else}}no{{end}}
+stats_devices = {{if eq $zabbixdocker_containers_stats_devices "1"}}yes{{else}}no{{end}}
+
+[containers_top]
+#startup = 30
+#interval = 60
+#workers = 10
+
+[events]
+#startup = 5
+#interval = 60
+#containers = yes
+#containers_discovery = yes
+#containers_discovery_poll = 15
