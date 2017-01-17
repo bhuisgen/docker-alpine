@@ -1,0 +1,3 @@
+rootfs/etc/zabbix/scripts/.gitkeep
+rootfs/etc/zabbix/scripts/discovery/.gitkeep
+rootfs/etc/zabbix/zabbix_agentd.conf.d/.gitkeep

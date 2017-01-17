@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /usr/local/zabbix-docker/bin/zabbix-docker
