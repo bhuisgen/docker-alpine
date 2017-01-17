@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-cd /usr/local/kibana
+cd /usr/local/kibana || exit 1
 exec s6-setuidgid kibana /usr/local/kibana/bin/kibana

@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "$CONSULTEMPLATE_CONTAINER" ]; then
+if [ -z $CONSULTEMPLATE_CONTAINER ]; then
     export CONSULTEMPLATE_CONTAINER=1
     printf "%s" "${CONSULTEMPLATE_CONTAINER}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONTAINER
 fi
 
-if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
+if [ -z $CONSULTEMPLATE_SERVICES ]; then
     export CONSULTEMPLATE_SERVICES=1
     printf "%s" "${CONSULTEMPLATE_SERVICES}" > /var/run/s6/container_environment/CONSULTEMPLATE_SERVICES
 fi
@@ -29,9 +29,17 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
     fi
 
-    consul-template ${options}
-    if [ $? -ne 0 ]; then
-        echo "Failed to render templates, aborting" >&2
+    retry=0
+    while true; do
+        consul-template ${options} && break
+        retry=$((retry+1))
+        if [ $retry -lt 3 ]; then
+            echo "Failed to create container configuration, retrying in few seconds" >&2
+            sleep 15
+            continue
+        fi
+
+        echo "Failed to create container configuration, aborting" >&2
         exit 1
-    fi
+    done
 fi

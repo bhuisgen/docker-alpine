@@ -28,12 +28,14 @@ SUBDIRS = \
     alpine-openssh \
     alpine-perl \
     alpine-php \
+    alpine-phpmyadmin \
     alpine-python \
     alpine-postgresql \
     alpine-rabbitmq \
     alpine-redis \
     alpine-registry \
     alpine-ruby \
+    alpine-spark \
     alpine-strongswan \
     alpine-terraform \
     alpine-tomcat \
@@ -45,4 +47,5 @@ SUBDIRS = \
     alpine-zabbix-proxy-pgsql \
     alpine-zabbix-proxy-sqlite3 \
     alpine-zabbix-server-mysql \
-    alpine-zabbix-server-pgsql
+    alpine-zabbix-server-pgsql \
+    alpine-zabbix-server-sqlite3

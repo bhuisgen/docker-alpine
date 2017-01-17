@@ -66,12 +66,14 @@ AC_CONFIG_FILES([
     alpine-openssh/Makefile
     alpine-perl/Makefile
     alpine-php/Makefile
+    alpine-phpmyadmin/Makefile
     alpine-python/Makefile
     alpine-postgresql/Makefile
     alpine-rabbitmq/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
     alpine-ruby/Makefile
+    alpine-spark/Makefile
     alpine-strongswan/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
@@ -84,6 +86,7 @@ AC_CONFIG_FILES([
     alpine-zabbix-proxy-sqlite3/Makefile
     alpine-zabbix-server-mysql/Makefile
     alpine-zabbix-server-pgsql/Makefile
+    alpine-zabbix-server-sqlite3/Makefile
 ])
 
 AC_OUTPUT

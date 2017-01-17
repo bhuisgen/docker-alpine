@@ -6,7 +6,7 @@ services:
         ports:
             - "8500:8500"
         environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     rabbitmq:
         depends_on:
@@ -24,12 +24,16 @@ services:
             - CONSUL_SERVICETAGS=dev                                        # consul service tag
             - CONSUL_SERVICEPORT=5672                                       # consul service port
             - CONSUL_CHECKTYPE=tcp                                          # consul health check type
+            #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
-            - RABBITMQ_MQTT=1                                               # enable MQTT
-            - RABBITMQ_STOMP=1                                              # enable STOMP
-            - RABBITMQ_PLUGINS=rabbitmq_event_exchange,rabbitmq_management  # enable plugins
+            - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
+            - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin only
+            - RABBITMQ_MQTT=1                                               # enable MQTT plugin
+            - RABBITMQ_STOMP=1                                              # enable STOMP plugin
+            #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
+            #- RABBITMQ_NETTICKTIME=10                                      # network tick time frequency
             - RABBITMQ_SSL=0                                                # enable TLS
             #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificates
             #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
@@ -39,9 +43,14 @@ services:
             - RABBITMQ_SSLFAILIFNOPEERCERT=false                            # TLS fail if client has no certificate
             - RABBITMQ_RAMLIMIT=0.4                                         # RAM limit
             - RABBITMQ_DISKLIMIT=1000000000                                 # disk limit
+            #- RABBITMQ_COLLECTSTATISTICS=none                              # collect statistics mode
+            #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000                      # collect statistics interval
+            #- RABBITMQ_HIPECOMPILE=false                                   # enable hipe compilation
             #- RABBITMQ_CLUSTER=rabbit@abbitmq-master                       # cluster to join
             #- RABBITMQ_CLUSTERRAM=1                                        # cluster RAM node
             #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
+            #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
+            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=30000                      # keepalive messages interval between nodes
             #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
 
     #
@@ -57,7 +66,6 @@ services:
     #         - /host/data1:/var/lib/rabbitmq
     #     environment:
     #         - CONSUL_AGENT=consul
-    #         #- CONSUL_PORT=8500
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672
@@ -77,7 +85,6 @@ services:
     #         - /host/data2:/var/lib/rabbitmq
     #     environment:
     #         - CONSUL_AGENT=consul
-    #         #- CONSUL_PORT=8500
     #         - CONSUL_SERVICENAME=rabbitmq
     #         - CONSUL_SERVICETAGS=dev
     #         - CONSUL_SERVICEPORT=5672

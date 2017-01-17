@@ -16,3 +16,5 @@ RUN apk add --update zip && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
+
+HEALTHCHECK CMD /etc/cont-consul/check || exit 1

@@ -20,6 +20,7 @@ RUN apk add --update tar xz && \
         erlang-asn1 \
         erlang-crypto \
         erlang-eldap \
+        erlang-hipe \
         erlang-inets \
         erlang-mnesia \
         erlang-os-mon \
