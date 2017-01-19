@@ -371,7 +371,7 @@ class DockerContainersWorker(threading.Thread):
                                     "%d" % 1
                                 )
                             )
-                        else:
+                        elif container["Status"].find("(unhealthy)") != -1:
                             containers_unhealthy += 1
 
                             metrics.append(
