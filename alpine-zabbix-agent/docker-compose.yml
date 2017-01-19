@@ -37,11 +37,11 @@ services:
             #- ZABBIX_MAXLINESPERSECOND=20              # maximum number of new lines to send per second
             #- ZABBIX_TIMEOUT=3                         # timeout of processing
             #- ZABBIX_UNSAFEUSERPARAMETERS=             # enable unsafe user parameters
-            - ZABBIXDOCKER=1                            # enable docker monitoring
-            - ZABBIXDOCKER_CONTAINERSSTATS=1            # monitor containers statistics
+            #- ZABBIXDOCKER=0                           # enable docker monitoring
+            #- ZABBIXDOCKER_CONTAINERSSTATS=1           # monitor containers statistics
             #- ZABBIXDOCKER_CONTAINERSSTATSCPUS=0       # monitor containers cpus statistics
-            - ZABBIXDOCKER_CONTAINERSSTATSMEMORY=1      # monitor containers memory statistics
-            - ZABBIXDOCKER_CONTAINERSSTATSNETWORKS=1    # monitor containers networks statistics
-            - ZABBIXDOCKER_CONTAINERSSTATSDEVICES=1     # monitor containers devices statistics
+            #- ZABBIXDOCKER_CONTAINERSSTATSMEMORY=1     # monitor containers memory statistics
+            #- ZABBIXDOCKER_CONTAINERSSTATSNETWORKS=1   # monitor containers networks statistics
+            #- ZABBIXDOCKER_CONTAINERSSTATSDEVICES=1    # monitor containers devices statistics
             #- ZABBIXDOCKER_CONTAINERSTOP=0             # monitor containers processes
-            - ZABBIXDOCKER_EVENTS=1                     # monitor events
+            #- ZABBIXDOCKER_EVENTS=1                    # monitor events
