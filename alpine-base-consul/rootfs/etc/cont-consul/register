@@ -14,7 +14,7 @@ if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
 fi
 
 if [ ! -z ${CONSUL_TOKEN} ]; then
-    params="?token=${CONSUL_TOKEN}"
+    params="token=${CONSUL_TOKEN}"
 fi
 
 status=0
@@ -23,7 +23,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
         [ -f "$file" ] || continue
 
-        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/service/register${params}" || status=1
+        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/service/register?${params}" || status=1
     done
 fi
 
@@ -31,7 +31,7 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
         [ -f "$file" ] || continue
 
-        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/check/register${params}" || status=1
+        curl -sSL ${options} -X PUT -d "@${file}" "${url}/v1/agent/check/register?${params}" || status=1
     done
 fi
 
