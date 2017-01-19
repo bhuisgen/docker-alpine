@@ -772,14 +772,16 @@ class DockerContainersStatsService(threading.Thread):
                                 "%d" % (
                                     container_stats["memory_stats"]["usage"]),
                                 container_stats["clock"]))
-                        metrics.append(
-                            pyzabbix.ZabbixMetric(
-                                self._config.get("zabbix", "host"),
-                                "docker.containers.stats.memory_stats.failcnt[%s]" % (
-                                    container_name),
-                                "%d" % (
-                                    container_stats["memory_stats"]["failcnt"]),
-                                container_stats["clock"]))
+                        # Fix docker 1.13.0
+                        if "failcnt" in container_stats["memory_stats"]:
+                            metrics.append(
+                                pyzabbix.ZabbixMetric(
+                                    self._config.get("zabbix", "host"),
+                                    "docker.containers.stats.memory_stats.failcnt[%s]" % (
+                                        container_name),
+                                    "%d" % (
+                                        container_stats["memory_stats"]["failcnt"]),
+                                    container_stats["clock"]))
                         metrics.append(
                             pyzabbix.ZabbixMetric(
                                 self._config.get("zabbix", "host"),
