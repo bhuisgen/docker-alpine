@@ -14,7 +14,7 @@ if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
 fi
 
 if [ ! -z ${CONSUL_TOKEN} ]; then
-    params="?token=${CONSUL_TOKEN}"
+    params="token=${CONSUL_TOKEN}"
 fi
 
 status=0
@@ -26,7 +26,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
         id=$(jq -r '.ID' "$file")
         name=$(jq -r '.Name' "$file")
 
-        health=$(curl -sSL ${options} -X GET "${url}/v1/health/service/${name}${params}&passing=true")
+        health=$(curl -sSL ${options} -X GET "${url}/v1/health/service/${name}?${params}&passing=true")
         service_ids=$(echo "$health"|jq -r '.[].Service.ID')
 
         check=0

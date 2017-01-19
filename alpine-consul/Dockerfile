@@ -33,4 +33,4 @@ CMD []
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 8501 8600 8600/udp
 VOLUME ["/var/lib/consul"]
 
-HEALTHCHECK CMD curl http://localhost:8500/ || exit 1
+HEALTHCHECK CMD curl -sSL http://localhost:8500/ > /dev/null || exit 1

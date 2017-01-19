@@ -1,5 +1,3 @@
-{{- $host := env "CONTAINER_HOST" -}}
-{{- $prefix := env "CONSUL_KEYPREFIX" -}}
 {{- $openssh_password_authentication := env "OPENSSH_PASSWORDAUTHENTICATION" -}}
 {{- $openssh_sftp_chroot := env "OPENSSH_SFTPCHROOT" -}}
 {{- $openssh_sftp_group := env "OPENSSH_SFTPGROUP" -}}
