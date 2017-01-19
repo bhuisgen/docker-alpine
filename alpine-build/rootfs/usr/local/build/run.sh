@@ -13,7 +13,7 @@ function usage {
     echo -e "  -s, --script <FILE>\t\tthe build file script to run"
     echo -e "  -t, --timeout <DURATION>\tthe build execution timeout"
     echo -e ""
-    echo -e "  --help\t\t\tdisplay this help and exit"
+    echo -e "  -h, --help\t\t\tdisplay this help and exit"
 }
 
 while [[ $# -gt 0 ]]
@@ -70,7 +70,7 @@ do
         shift 2
         ;;
 
-        --help)
+        -h|-help)
         usage
         exit 0
         ;;
