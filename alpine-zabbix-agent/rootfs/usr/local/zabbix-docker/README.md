@@ -1,6 +1,6 @@
 # zabbix-docker
 
-Docker monitoring tool for Zabbix
+Docker monitoring agent for Zabbix
 
 Boris HUISGEN <bhuisgen@hbis.fr>
 
