@@ -1,6 +1,6 @@
 {{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
-{{- $haproxy_maxspreadchecks := env HAPROXY_MAXSPREADCHECKS" -}}
-{{- $haproxy_spreadchecks := env HAPROXY_SPREADCHECKS" -}}
+{{- $haproxy_maxspreadchecks := env "HAPROXY_MAXSPREADCHECKS" -}}
+{{- $haproxy_spreadchecks := env "HAPROXY_SPREADCHECKS" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
 {{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
