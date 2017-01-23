@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv sh
+set -e
+
+echo "==> reloading haproxy service"
+
+s6-svc -O /etc/services.reload.d/haproxy/active
+s6-svlisten1 -D /etc/services.reload.d/haproxy/active s6-svc -u /etc/services.reload.d/haproxy/passive
+
+active=$(readlink /etc/services.reload.d/haproxy/passive)
+passive=$(readlink /etc/services.reload.d/haproxy/active)
+ln -sfn "$active" /etc/services.reload.d/haproxy/active
+ln -sfn "$passive" /etc/services.reload.d/haproxy/passive
