@@ -23,7 +23,9 @@ if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
         [ -f "$file" ] || continue
 
-        serviceid=$(jq -r '.ID' "$file") && curl -sSL ${options} -X GET "${url}/v1/agent/service/deregister/${serviceid}?${params}" || status=1
+        serviceid=$(jq -r '.ID' "$file") && \
+            [ $(curl -s -w '%{http_code}' ${options} \
+                -X GET "${url}/v1/agent/service/deregister/${serviceid}?${params}") == "200" ] || status=1
     done
 fi
 
@@ -31,7 +33,9 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
         [ -f "$file" ] || continue
 
-        checkid=$(jq -r '.ID' "$file") && curl -sSL ${options} -X GET "${url}/v1/agent/check/deregister/${checkid}?${params}" || status=1
+        checkid=$(jq -r '.ID' "$file") && \
+            [ $(curl -s -w '%{http_code}' ${options} \
+                -X GET "${url}/v1/agent/check/deregister/${checkid}?${params}") == "200" ] || status=1
     done
 fi
 
