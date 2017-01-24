@@ -60,3 +60,28 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ! -z ${CONSUL_SERVICENAME} ]; then
     export CONSUL_SERVICEADDR
     printf "%s" "${CONSUL_SERVICEADDR}" > /var/run/s6/container_environment/CONSUL_SERVICEADDR
 fi
+
+if [ ! -z ${CONSUL_AGENT} ]; then
+    options=""
+    url="http://${CONSUL_AGENT}:${CONSUL_PORT}/v1/agent/self"
+
+    if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
+        options="${options} --insecure --cacert /etc/consul.d/ssl/ca.pem --cert /etc/consul.d/ssl/client.pem --key /etc/consul.d/ssl/client-priv-key.pem"
+        url="https://${CONSUL_AGENT}:${CONSUL_PORT}/v1/agent/self"
+    fi
+
+    retry=0
+    while true; do
+        [ $(curl -sI -w '%{http_code}' ${options} ${url}) == "200" ] && break
+        retry=$((retry+1))
+        if [ $retry -lt 3 ]; then
+            echo "Failed to check consul agent, retrying in few seconds" >&2
+
+            sleep 15
+            continue
+        fi
+
+        echo "Failed to check consul agent, aborting" >&2
+        exit 1
+    done
+fi
