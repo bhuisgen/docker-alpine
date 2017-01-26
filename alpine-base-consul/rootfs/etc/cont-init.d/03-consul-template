@@ -13,17 +13,15 @@ fi
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
     echo "==> Creating container configuration"
 
-    options="-consul ${CONSUL_AGENT}:${CONSUL_PORT}"
+    options="-config /etc/consul-template/conf-cont.d -once -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
 
     if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
-        options="${options} -ssl"
+        options="${options} -consul-ssl"
     fi
 
     if [ ! -z ${CONSUL_TOKEN} ]; then
-        options="${options} -token ${CONSUL_TOKEN}"
+        options="${options} -consul-token ${CONSUL_TOKEN}"
     fi
-
-    options="${options} -config /etc/consul-template/conf-cont.d -once"
 
     if [ ! -z ${CONSULTEMPLATE_OPTIONS} ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
