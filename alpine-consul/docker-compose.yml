@@ -8,7 +8,7 @@ services:
             - "8301:8301"   # serf LAN
             #- "8302:8302"  # serf WAN
             #- "8500:8500"  # HTTP
-            - "8500:8501"   # HTTPS
+            - "8501:8501"  # HTTPS
             #- "8600:8600"  # DNS
         volumes:
             - /etc/localtime:/etc/localtime:ro
@@ -18,7 +18,10 @@ services:
             - CONSUL_DATACENTER=local                                           # datacenter
             - CONSUL_DOMAIN=test                                                # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
-            - CONSUL_TLS=1                                                      # enable TLS (certificates must be installed in /etc/consul.d/ssl)
+            - CONSUL_TLS=1                                                      # enable TLS
+            - CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                          # TLS CA certificate file
+            - CONSUL_TLSCERTFILE=/etc/consul.d/ssl/server.pem                   # TLS server certificate file
+            - CONSUL_TLSKEYFILE=/etc/consul.d/ssl/server-priv-key.pem           # TLS server certificate key file
             - CONSUL_ACLDATACENTER=local                                        # ACL authoritative datacenter (server only)
             - CONSUL_ACLMASTERTOKEN=a29fc95f-2501-4fd1-902c-686151082fe9        # ACL master token (server only)
             - CONSUL_ACLDEFAULTPOLICY=deny                                      # ACL default policy (server only)
