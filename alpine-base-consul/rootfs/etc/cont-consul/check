@@ -39,7 +39,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
 
         id=$(jq -r '.ID' "$file") && \
             name=$(jq -r '.Name' "$file") && \
-            health=$(curl -s ${options} -X GET "${url}/v1/health/service/${name}"
+            health=$(curl -s ${options} -X GET "${url}/v1/health/service/${name}" \
                         -G --data-urlencode "passing=true") && \
             service_ids=$(echo "$health"|jq -r '.[].Service.ID') || break
 
