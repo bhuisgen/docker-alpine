@@ -126,8 +126,10 @@ backend http-out
     {{if $haproxy_backend_httpcheck_expect}}http-check expect {{$haproxy_backend_httpcheck_expect}}{{end}}
     http-check send-state
     {{end}}
+    {{if and $name tag}}
     {{range service (print $tag "." $name)}}
     server {{.Address}} {{.Address}}:{{.Port}} check
+    {{end}}
     {{end}}
     errorfile 503 /etc/haproxy/errors/503.http
     {{if eq $haproxy_backend_gzip "1"}}
