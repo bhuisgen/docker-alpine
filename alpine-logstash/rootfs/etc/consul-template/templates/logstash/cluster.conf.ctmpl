@@ -35,8 +35,10 @@ filter {
 output {
     elasticsearch {
         hosts => [
+            {{if and $name tag}}
             {{range $i, $e := service (print $tag "." $name)}}
             {{if ne $i 0}}, {{end}}"{{.Address}}:{{.Port}}"
+            {{end}}
             {{end}}
         ]
     }

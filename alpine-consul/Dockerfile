@@ -3,7 +3,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION=0.7.2 \
     CONSULUI_VERSION=0.7.2 \
-    CONSULTEMPLATE_VERSION=0.16.0 \
+    CONSULTEMPLATE_VERSION=0.18.0 \
     GOMAXPROCS=2
 
 RUN mkdir -p /var/lib/consul && \
@@ -33,4 +33,4 @@ CMD []
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 8501 8600 8600/udp
 VOLUME ["/var/lib/consul"]
 
-HEALTHCHECK CMD curl -sSL http://localhost:8500/ > /dev/null || exit 1
+HEALTHCHECK CMD [ $(curl -sI -w '%{http_code}' --out /dev/null http://localhost:8500/v1/agent/self) == "200" ] || exit 1

@@ -13,33 +13,43 @@ fi
 if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
     echo "==> Creating container configuration"
 
-    options="-consul ${CONSUL_AGENT}:${CONSUL_PORT}"
+    options="-config /etc/consul-template/conf-cont.d -once -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
 
     if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
-        options="${options} -ssl"
+        options="${options} -consul-ssl"
+
+        if [ ! -z ${CONSUL_TLSCAFILE} ]; then
+            options="${options} -consul-ssl-ca-cert ${CONSUL_TLSCAFILE}"
+        fi
+
+        if [ ! -z ${CONSUL_TLSCERTFILE} ]; then
+            options="${options} -consul-ssl-cert ${CONSUL_TLSCERTFILE}"
+        fi
+
+        if [ ! -z ${CONSUL_TLSKEYFILE} ]; then
+            options="${options} -consul-ssl-key ${CONSUL_TLSKEYFILE}"
+        fi
+
+        if [ ! -z ${CONSUL_TLSSERVERNAME} ]; then
+            options="${options} -consul-ssl-server-name ${CONSUL_TLSSERVERNAME}"
+        fi
+
+        if [ ! -z ${CONSUL_TLSVERIFY} ] && [ ${CONSUL_TLSVERIFY} -eq 1 ]; then
+            options="${options} -consul-ssl-verify"
+        fi
     fi
 
     if [ ! -z ${CONSUL_TOKEN} ]; then
-        options="${options} -token ${CONSUL_TOKEN}"
+        options="${options} -consul-token ${CONSUL_TOKEN}"
     fi
-
-    options="${options} -config /etc/consul-template/conf-cont.d -once"
 
     if [ ! -z ${CONSULTEMPLATE_OPTIONS} ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
     fi
 
-    retry=0
-    while true; do
-        consul-template ${options} && break
-        retry=$((retry+1))
-        if [ $retry -lt 3 ]; then
-            echo "Failed to create container configuration, retrying in few seconds" >&2
-            sleep 15
-            continue
-        fi
-
-        echo "Failed to create container configuration, aborting" >&2
+    consul-template ${options}
+    if [ $? -ne 0 ]; then
+        echo "Failed to render templates, aborting" >&2
         exit 1
-    done
+    fi
 fi

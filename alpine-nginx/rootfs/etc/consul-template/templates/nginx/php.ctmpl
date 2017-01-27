@@ -89,10 +89,12 @@ http {
     error_log /var/log/nginx/error.log warn;
 
     upstream php {
+        {{if and $name $tag}}
         {{range service (print $tag "." $name)}}
         server {{.Address}}:{{.Port}};
         {{else}}
         server 127.0.0.1:9000 down;
+        {{end}}
         {{end}}
     }
 
