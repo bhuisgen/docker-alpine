@@ -1,4 +1,7 @@
 {{- $rabbitmq_netticktime := env "RABBITMQ_NETTICKTIME" -}}
+{{- $rabbitmq_tcplistenoptionsbacklog := env "RABBITMQ_TCPLISTENOPTIONSBACKLOG" -}}
+{{- $rabbitmq_tcplistenoptionssndbuf := env "RABBITMQ_TCPLISTENOPTIONSSNDBUF" -}}
+{{- $rabbitmq_tcplistenoptionsrecbuf := env "RABBITMQ_TCPLISTENOPTIONSRECBUF" -}}
 {{- $rabbitmq_ssl := env "RABBITMQ_SSL" -}}
 {{- $rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE" -}}
 {{- $rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE" -}}
@@ -6,8 +9,6 @@
 {{- $rabbitmq_ssldepth := env "RABBITMQ_SSLDEPTH" -}}
 {{- $rabbitmq_sslverify := env "RABBITMQ_SSLVERIFY" -}}
 {{- $rabbitmq_sslfailifnopeercert := env "RABBITMQ_SSLFAILIFNOPEERCERT" -}}
-{{- $rabbitmq_mqtt := env "RABBITMQ_MQTT" -}}
-{{- $rabbitmq_stomp := env "RABBITMQ_STOMP" -}}
 {{- $rabbitmq_ramlimit := env "RABBITMQ_RAMLIMIT" -}}
 {{- $rabbitmq_disklimit := env "RABBITMQ_DISKLIMIT" -}}
 {{- $rabbitmq_clusterpartitionhandling := env "RABBITMQ_CLUSTERPARTITIONHANDLING" -}}
@@ -15,6 +16,14 @@
 {{- $rabbitmq_collectstatistics := env "RABBITMQ_COLLECTSTATISTICS" -}}
 {{- $rabbitmq_collectstatisticsinterval := env "RABBITMQ_COLLECTSTATISTICSINTERVAL" -}}
 {{- $rabbitmq_hipecompile := env "RABBITMQ_HIPECOMPILE" }}
+{{- $rabbitmq_mqtt := env "RABBITMQ_MQTT" -}}
+{{- $rabbitmq_mqtttcplistenoptionsbacklog := env "RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG" -}}
+{{- $rabbitmq_mqtttcplistenoptionssndbuf := env "RABBITMQ_MQTTTCPLISTENOPTIONSSNDBUF" -}}
+{{- $rabbitmq_mqtttcplistenoptionsrecbuf := env "RABBITMQ_MQTTTCPLISTENOPTIONSRECBUF" -}}
+{{- $rabbitmq_stomp := env "RABBITMQ_STOMP" -}}
+{{- $rabbitmq_stomptcplistenoptionsbacklog := env "RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG" -}}
+{{- $rabbitmq_stomptcplistenoptionssndbuf := env "RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF" -}}
+{{- $rabbitmq_stomptcplistenoptionsrecbuf := env "RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF" -}}
 [
     {kernel, [
         {{if $rabbitmq_netticktime}}
@@ -27,13 +36,14 @@
     {ssl, [{versions, ['tlsv1.2', 'tlsv1.1']}]},
     {{end}}
     {rabbit, [
-        {collect_statistics_interval, 30000},
         {tcp_listeners, [5672]},
         {tcp_listen_options, [
-            {backlog, 128},
+            {backlog, {{if $rabbitmq_tcplistenoptionsbacklog}}{{$rabbitmq_tcplistenoptionsbacklog}}{{else}}128{{end}}},
             {nodelay, true},
-            {sndbuf, 32768},
-            {recbuf, 32768}
+            {linger, {true, 0}},
+            {exit_on_close, false},
+            {sndbuf, {{if $rabbitmq_tcplistenoptionssndbuf}}{{$rabbitmq_tcplistenoptionssndbuf}}{{else}}32768{{end}}},
+            {recbuf, {{if $rabbitmq_tcplistenoptionsrecbuf}}{{$rabbitmq_tcplistenoptionsrecbuf}}{{else}}32768{{end}}}
         ]},
         {{if eq $rabbitmq_ssl "1"}}
         {ssl_listeners, [5671]},
@@ -81,10 +91,10 @@
         {prefetch, 10},
         {tcp_listeners, [1883]},
         {tcp_listen_options, [
-            {backlog, 4096},
+            {backlog, {{if $rabbitmq_mqtttcplistenoptionsbacklog}}{{$rabbitmq_mqtttcplistenoptionsbacklog}}{{else}}4096{{end}}},
             {nodelay, true},
-            {sndbuf, 32768},
-            {recbuf, 32768}
+            {sndbuf, {{if $rabbitmq_mqtttcplistenoptionssndbuf}}{{$rabbitmq_mqtttcplistenoptionssndbuf}}{{else}}32768{{end}}},
+            {recbuf, {{if $rabbitmq_mqtttcplistenoptionsrecbuf}}{{$rabbitmq_mqtttcplistenoptionsrecbuf}}{{else}}32768{{end}}}
         ]}
         {{if eq $rabbitmq_ssl "1"}},
         {ssl_listeners, [8883]}
@@ -95,10 +105,10 @@
     {rabbitmq_stomp, [
         {tcp_listeners, [61613]},
         {tcp_listen_options, [
-            {backlog, 4096},
+            {backlog, {{if $rabbitmq_mqtttcplistenoptionsbacklog}}{{$rabbitmq_stomptcplistenoptionsbacklog}}{{else}}4096{{end}}},
             {nodelay, true},
-            {sndbuf, 32768},
-            {recbuf, 32768}
+            {sndbuf, {{if $rabbitmq_stomptcplistenoptionssndbuf}}{{$rabbitmq_stomptcplistenoptionssndbuf}}{{else}}32768{{end}}},
+            {recbuf, {{if $rabbitmq_stomptcplistenoptionsrecbuf}}{{$rabbitmq_stomptcplistenoptionsrecbuf}}{{else}}32768{{end}}}
         ]}
         {{if eq $rabbitmq_ssl "1"}},
         {ssl_listeners, [61614]}

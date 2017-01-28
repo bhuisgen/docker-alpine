@@ -28,12 +28,13 @@ services:
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
             - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
             - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin only
-            - RABBITMQ_MQTT=1                                               # enable MQTT plugin
-            - RABBITMQ_STOMP=1                                              # enable STOMP plugin
             #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
-            #- RABBITMQ_NETTICKTIME=10                                      # network tick time frequency
+            #- RABBITMQ_NETTICKTIME=60                                      # network tick time frequency
+            #- RABBITMQ_TCPLISTENOPTIONSBACKLOG=128                         # TCP socket backlog
+            #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768                        # TCP socket send buffer size
+            #- RABBITMQ_TCPLISTENOPTIONSRECBUF=32768                        # TCP socket receive buffer size
             - RABBITMQ_SSL=0                                                # enable TLS
             #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificates
             #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
@@ -50,7 +51,15 @@ services:
             #- RABBITMQ_CLUSTERRAM=1                                        # cluster RAM node
             #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
             #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
-            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=30000                      # keepalive messages interval between nodes
+            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
+           - RABBITMQ_MQTT=1                                               # enable MQTT
+            #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096                    # MQTT TCP socket backlog
+            #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768                   # MQTT TCP socket send buffer size
+            #- RABBITMQ_MQTTTTCPLISTENOPTIONSRECBUF=32768                   # MQTT TCP socket receive buffer size
+            - RABBITMQ_STOMP=1                                              # enable STOMP
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG=4096                   # STOMP TCP socket backlog
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF=32768                   # STOMP TCP socket send buffer size
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF=32768                   # STOMP TCP socket receive buffer size
             #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
 
     #
