@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    postfix:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-postfix
+        ports:
+            - "25:25"
+            - "587:587"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/spool/postfix                                        # volume for data
+        environment:
+            - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
+            - CONSUL_SERVICENAME=postfix                                            # consul service name
+            - CONSUL_SERVICETAGS=dev                                                # consul service tag
+            - CONSUL_SERVICEPORT=25                                                 # consul service port
+            - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
+            #- POSTFIX_INETINTERFACES=all                                           # network interfaces
+            #- POSTFIX_INETPROTOCOLS=all                                            # internet protocols
+            #- POSTFIX_MYHOSTNAME=$$HOSTNAME                                        # mail hostname
+            #- POSTFIX_MYDOMAIN=                                                    # mail domain name
+            #- POSTFIX_MYORIGIN=$mydomain                                           # mail domain for origin
+            #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
+            #- POSTFIX_MYNETWORKS=                                                  # networks list
+            #- POSTFIX_RELAYHOST=                                                   # relay host
+            #- POSTFIX_RELAYDOMAINS=                                                # domains allowed to relay to
+            #- POSTFIX_SMTPDTLSCERTFILE=                                            # SMTP TLS certificate file
+            #- POSTFIX_SMTPDTLSKEYFILE=                                             # SMTP TLS certificate key
+            #- POSTFIX_SUBMISSION=0                                                 # enable submission port

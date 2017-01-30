@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /usr/bin/nodaemon /var/spool/postfix/pid/master.pid /usr/sbin/postfix start
