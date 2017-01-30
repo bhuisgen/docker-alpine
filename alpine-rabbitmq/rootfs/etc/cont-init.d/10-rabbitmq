@@ -66,10 +66,10 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
                 sleep ${RABBITMQ_CLUSTERWAIT}
             fi
 
-            if [ -z ${RABBITMQ_CLUSTERRAM} ]; then
-                su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
-            else
+            if [ ! -z ${RABBITMQ_CLUSTERRAM} ] && [ ${RABBITMQ_CLUSTERRAM} -eq 1]; then
                 su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
+            else
+                su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
             fi
 
             su -c " \

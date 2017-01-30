@@ -12,7 +12,6 @@ services:
         depends_on:
             - consul
         image: bhuisgen/alpine-rabbitmq
-        build: .
         volumes:
             - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/rabbitmq                                 # volume for data
@@ -47,12 +46,12 @@ services:
             #- RABBITMQ_COLLECTSTATISTICS=none                              # collect statistics mode
             #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000                      # collect statistics interval
             #- RABBITMQ_HIPECOMPILE=false                                   # enable hipe compilation
-            #- RABBITMQ_CLUSTER=rabbit@abbitmq-master                       # cluster to join
-            #- RABBITMQ_CLUSTERRAM=1                                        # cluster RAM node
+            #- RABBITMQ_CLUSTER=rabbit@rabbitmq-master                      # cluster to join
+            #- RABBITMQ_CLUSTERRAM=0                                        # cluster RAM node
             #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
             #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
             #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
-           - RABBITMQ_MQTT=1                                               # enable MQTT
+            - RABBITMQ_MQTT=1                                               # enable MQTT
             #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096                    # MQTT TCP socket backlog
             #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768                   # MQTT TCP socket send buffer size
             #- RABBITMQ_MQTTTTCPLISTENOPTIONSRECBUF=32768                   # MQTT TCP socket receive buffer size
