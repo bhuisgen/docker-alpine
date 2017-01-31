@@ -3,13 +3,17 @@ version: '2'
 services:
     consul:
         image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     build-make:
         depends_on:
             - consul
-        image: bhuisgen/alpine-build-make
+        image: bhuisgen/alpine-backup-make
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
@@ -18,10 +22,10 @@ services:
             #- CONSUL_PORT=8500                                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
             #- BUILD_GITURL=git@git.my.domain:your/project.git          # git repository URL
-            #- BUILD_GITREF=HEAD                                        # git tag/commit reference to build
+            #- BUILD_GITREF=HEAD                                        # git tag/commit reference to backup
             #- BUILD_PROJECT=                                           # project directory (empty for the root of sources)
-            #- BUILD_SCRIPT=/usr/local/build/build.sh                   # build script
-            #- BUILD_TIMEOUT=3600                                       # build timeout
+            #- BUILD_SCRIPT=/usr/local/backup/backup.sh                   # backup script
+            #- BUILD_TIMEOUT=3600                                       # backup timeout
             #- CONFIGURE=1                                              # enable configure script (executed only if found)
             #- CONFIGURE_OPTIONS=                                       # configure options
             #- MAKE_OPTIONS=                                            # make options
