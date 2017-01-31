@@ -42,7 +42,7 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
             sleep 8; \
             rabbitmqctl start_app; \
             sleep 4; \
-        " rabbitmq
+            " rabbitmq
 
         if [ ! -z ${RABBITMQ_GUESTPASSWORD} ]; then
             su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
@@ -57,8 +57,8 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
         fi
 
         su -c " \
-        rabbitmqctl stop_app; \
-        sleep 4; \
+            rabbitmqctl stop_app; \
+            sleep 4; \
         " rabbitmq
 
         if [ ! -z ${RABBITMQ_CLUSTER} ]; then
@@ -66,7 +66,7 @@ if [ -z ${RABBITMQ_CONFIG} ]; then
                 sleep ${RABBITMQ_CLUSTERWAIT}
             fi
 
-            if [ ! -z ${RABBITMQ_CLUSTERRAM} ] && [ ${RABBITMQ_CLUSTERRAM} -eq 1]; then
+            if [ ! -z ${RABBITMQ_CLUSTERRAM} ] && [ ${RABBITMQ_CLUSTERRAM} -eq 1 ]; then
                 su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
             else
                 su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
