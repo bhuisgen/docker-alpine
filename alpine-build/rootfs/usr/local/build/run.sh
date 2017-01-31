@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function usage {
     echo -e "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
