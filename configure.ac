@@ -70,6 +70,7 @@ AC_CONFIG_FILES([
     alpine-python/Makefile
     alpine-postgresql/Makefile
     alpine-rabbitmq/Makefile
+    alpine-rabbitmqadmin/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
     alpine-ruby/Makefile

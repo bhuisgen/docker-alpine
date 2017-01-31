@@ -32,6 +32,7 @@ SUBDIRS = \
     alpine-python \
     alpine-postgresql \
     alpine-rabbitmq \
+    alpine-rabbitmqadmin \
     alpine-redis \
     alpine-registry \
     alpine-ruby \
