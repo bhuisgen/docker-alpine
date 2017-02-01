@@ -1,32 +1,32 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${CONSUL_AGENT} ]; then
+if [ -z "${CONSUL_AGENT}" ]; then
     export CONSUL_AGENT=""
     printf "%s" "${CONSUL_AGENT}" > /var/run/s6/container_environment/CONSUL_AGENT
 fi
 
-if [ -z ${CONSUL_PORT} ]; then
+if [ -z "${CONSUL_PORT}" ]; then
     export CONSUL_PORT=8500
     printf "%s" "${CONSUL_PORT}" > /var/run/s6/container_environment/CONSUL_PORT
 fi
 
-if [ -z ${CONSUL_TLS} ]; then
+if [ -z "${CONSUL_TLS}" ]; then
     export CONSUL_TLS=""
     printf "%s" "${CONSUL_TLS}" > /var/run/s6/container_environment/CONSUL_TLS
 fi
 
-if [ -z ${CONSUL_TOKEN} ]; then
+if [ -z "${CONSUL_TOKEN}" ]; then
     export CONSUL_TOKEN=""
     printf "%s" "${CONSUL_TOKEN}" > /var/run/s6/container_environment/CONSUL_TOKEN
 fi
 
-if [ -z ${CONSUL_KEYPREFIX} ]; then
+if [ -z "${CONSUL_KEYPREFIX}" ]; then
     export CONSUL_KEYPREFIX=""
     printf "%s" "${CONSUL_KEYPREFIX}" > /var/run/s6/container_environment/CONSUL_KEYPREFIX
 fi
 
-if [ ! -z ${CONSUL_AGENT} ] && [ ! -z ${CONSUL_SERVICENAME} ]; then
-    if [ -z ${CONSUL_RESOLVER} ]; then
+if [ ! -z "${CONSUL_AGENT}" ] && [ ! -z "${CONSUL_SERVICENAME}" ]; then
+    if [ -z "${CONSUL_RESOLVER}" ]; then
         CONSUL_RESOLVER=container
     fi
 
@@ -36,11 +36,11 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ! -z ${CONSUL_SERVICENAME} ]; then
             ;;
 
         interface)
-            if [ -z ${CONTAINER_RESOLVER_INTERFACENAME} ]; then
+            if [ -z "${CONTAINER_RESOLVER_INTERFACENAME}" ]; then
                 CONSUL_RESOLVER_INTERFACENAME=eth0
             fi
 
-            if [ -z ${CONTAINER_RESOLVER_INTERFACETYPE} ]; then
+            if [ -z "${CONTAINER_RESOLVER_INTERFACETYPE}" ]; then
                 CONSUL_RESOLVER_INTERFACETYPE=inet
             fi
 
@@ -52,7 +52,7 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ! -z ${CONSUL_SERVICENAME} ]; then
             ;;
     esac
 
-    if [ -z ${CONSUL_SERVICEADDR} ]; then
+    if [ -z "${CONSUL_SERVICEADDR}" ]; then
         echo "Failed to resolve consul service address, aborting" >&2
         exit 1
     fi
@@ -61,26 +61,26 @@ if [ ! -z ${CONSUL_AGENT} ] && [ ! -z ${CONSUL_SERVICENAME} ]; then
     printf "%s" "${CONSUL_SERVICEADDR}" > /var/run/s6/container_environment/CONSUL_SERVICEADDR
 fi
 
-if [ ! -z ${CONSUL_AGENT} ]; then
+if [ ! -z "${CONSUL_AGENT}" ]; then
     options=""
     url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
 
-    if [ ! -z ${CONSUL_TLS} ] && [ ${CONSUL_TLS} -eq 1 ]; then
+    if [ ! -z "${CONSUL_TLS}" ] && [ ${CONSUL_TLS} -eq 1 ]; then
         url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
 
-        if [ ! -z ${CONSUL_TLSCAFILE} ]; then
+        if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
             options="${options} --cacert ${CONSUL_TLSCAFILE}"
         fi
 
-        if [ ! -z ${CONSUL_TLSCERTFILE} ]; then
+        if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
             options="${options} --cert ${CONSUL_TLSCERTFILE}"
         fi
 
-        if [ ! -z ${CONSUL_TLSKEYFILE} ]; then
+        if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
             options="${options} --key ${CONSUL_TLSKEYFILE}"
         fi
 
-        if [ -z ${CONSUL_TLSVERIFY} ] || [ ${CONSUL_TLSVERIFY} -ne 1 ]; then
+        if [ -z "${CONSUL_TLSVERIFY}" ] || [ "${CONSUL_TLSVERIFY}" -ne 1 ]; then
             options="${options} --insecure"
         fi
     fi
@@ -89,7 +89,7 @@ if [ ! -z ${CONSUL_AGENT} ]; then
     while true; do
         [ $(curl -sI -w '%{http_code}' --out /dev/null ${options} "${url}/v1/agent/self") == "200" ] && break
         retry=$((retry+1))
-        if [ $retry -lt 3 ]; then
+        if [ "$retry" -lt 3 ]; then
             echo "Failed to check consul agent, retrying in few seconds" >&2
 
             sleep 15
