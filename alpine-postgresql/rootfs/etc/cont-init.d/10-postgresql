@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${POSTGRESQL_CONFIG} ]; then
-    if [ -z ${POSTGRESQL_CONFIGSCRIPT} ]; then
+if [ -z "${POSTGRESQL_CONFIG}" ]; then
+    if [ -z "${POSTGRESQL_CONFIGSCRIPT}" ]; then
         echo "==> Configuring postgresql from environment"
 
         su -c "initdb /var/lib/postgresql/data" postgres
@@ -9,7 +9,7 @@ if [ -z ${POSTGRESQL_CONFIG} ]; then
         su -c "pg_ctl -D $PGDATA -o \"-c listen_addresses=''\" -w start" postgres
         sleep 4
 
-        if [ ! -z ${POSTGRESQL_DATABASE} ] && [ ! -z ${POSTGRESQL_USERNAME} ] && [ ! -z ${POSTGRESQL_PASSWORD} ] && [ ! -z ${POSTGRESQL_ADDRESS} ]; then
+        if [ ! -z "${POSTGRESQL_DATABASE}" ] && [ ! -z "${POSTGRESQL_USERNAME}" ] && [ ! -z "${POSTGRESQL_PASSWORD}" ] && [ ! -z "${POSTGRESQL_ADDRESS}" ]; then
             echo "==> Creating database and user"
             su -c "createuser ${POSTGRESQL_USERNAME}" postgres
             su -c "createdb -O${POSTGRESQL_USERNAME} ${POSTGRESQL_DATABASE}" postgres
@@ -26,7 +26,7 @@ if [ -z ${POSTGRESQL_CONFIG} ]; then
     else
         echo "==> Configuring postgresql from script"
 
-        /bin/sh ${POSTGRESQL_CONFIGSCRIPT}
+        /bin/sh "${POSTGRESQL_CONFIGSCRIPT}"
         if [ $? -ne 0 ]; then
             echo "Failed to configure from script, aborting" >&2
             exit 1

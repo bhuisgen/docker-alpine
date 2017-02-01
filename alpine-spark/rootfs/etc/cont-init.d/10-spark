@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${SPARK_MASTERURL} ]; then
+if [ -z "${SPARK_MASTERURL}" ]; then
     export SPARK_OPTIONS="org.apache.spark.deploy.master.Master"
     printf "%s" "${SPARK_OPTIONS}" > /var/run/s6/container_environment/SPARK_OPTIONS
 else
