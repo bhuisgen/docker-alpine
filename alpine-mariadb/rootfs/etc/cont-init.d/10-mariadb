@@ -1,10 +1,10 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${MARIADB_CONFIG} ]; then
-    if [ -z ${MARIADB_CONFIGSCRIPT} ]; then
+if [ -z "${MARIADB_CONFIG}" ]; then
+    if [ -z "${MARIADB_CONFIGSCRIPT}" ]; then
         echo "==> Configuring mariadb from environment"
 
-        if [ -z ${MARIADB_PROFILE} ]; then
+        if [ -z "${MARIADB_PROFILE}" ]; then
             MARIADB_PROFILE="my-small"
         fi
 
@@ -13,12 +13,12 @@ if [ -z ${MARIADB_CONFIG} ]; then
             exit 1
         fi
 
-        if [ -z ${MARIADB_ROOTPASSWORD} ]; then
+        if [ -z "${MARIADB_ROOTPASSWORD}" ]; then
             echo "MARIADB_ROOTPASSWORD is not set, aborting" >&2
             exit 2
         fi
 
-        if [ ! -z ${MARIADB_ROOTHOSTMASK} ]; then
+        if [ ! -z "${MARIADB_ROOTHOSTMASK}" ]; then
             MARIADB_ROOTHOSTMASK=%
         fi
 
@@ -55,7 +55,7 @@ if [ -z ${MARIADB_CONFIG} ]; then
             FLUSH PRIVILEGES; \
             "
 
-        if [ ! -z ${MARIADB_DATABASE} ] && [ ! -z ${MARIADB_USERNAME} ] && [ ! -z ${MARIADB_PASSWORD} ] && [ ! -z ${MARIADB_HOSTMASK} ]; then
+        if [ ! -z "${MARIADB_DATABASE}" ] && [ ! -z "${MARIADB_USERNAME}" ] && [ ! -z "${MARIADB_PASSWORD}" ] && [ ! -z "${MARIADB_HOSTMASK}" ]; then
             mysql -u root -p"${MARIADB_ROOTPASSWORD}" --protocol=socket -e " \
                 SET @@SESSION.SQL_LOG_BIN=0; \
                 CREATE DATABASE \`${MARIADB_DATABASE}\`; \
@@ -69,7 +69,7 @@ if [ -z ${MARIADB_CONFIG} ]; then
     else
         echo "==> Configuring mariadb from script"
 
-        /bin/sh ${MARIADB_CONFIGSCRIPT} ${MARIADB_ROOTPASSWORD}
+        /bin/sh "${MARIADB_CONFIGSCRIPT}" "${MARIADB_ROOTPASSWORD}"
         if [ $? -ne 0 ]; then
             echo "Failed to configure from script, aborting" >&2
             exit 4

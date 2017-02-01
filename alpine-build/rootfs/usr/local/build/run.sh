@@ -92,11 +92,11 @@ if [ -z "${BUILD_GITREF}" ]; then
     exit 1
 fi
 
-if [ -z ${BUILD_SCRIPT} ]; then
+if [ -z "${BUILD_SCRIPT}" ]; then
     BUILD_SCRIPT="/usr/local/build/build.sh"
 fi
 
-if [ -z ${BUILD_TIMEOUT} ]; then
+if [ -z "${BUILD_TIMEOUT}" ]; then
     BUILD_TIMEOUT=3600
 fi
 
@@ -109,7 +109,7 @@ if [ ! -d project ]; then
     retry=0
 
     while true; do
-        git clone ${BUILD_GITURL} project && status=1 || retry=$((retry+1))
+        git clone "${BUILD_GITURL}" project && status=1 || retry=$((retry+1))
 
         if [ $status -eq 1 ]; then
             break
@@ -123,13 +123,13 @@ if [ ! -d project ]; then
 
     cd project || exit 2
 
-    git checkout ${BUILD_GITREF}
+    git checkout "${BUILD_GITREF}"
 else
     cd project || exit 2
 
     git reset --hard
     git clean -fdx
-    git remote set-url origin ${BUILD_GITURL}
+    git remote set-url origin "${BUILD_GITURL}"
 
     status=0
     retry=0
@@ -147,11 +147,11 @@ else
         fi
     done
 
-    git checkout ${BUILD_GITREF}
+    git checkout "${BUILD_GITREF}"
 fi
 
 if [ ! -z "${BUILD_PROJECT}" ]; then
     cd ${BUILD_PROJECT} || exit 2
 fi
 
-timeout -t ${BUILD_TIMEOUT} bash ${BUILD_SCRIPT}
+timeout -t ${BUILD_TIMEOUT} bash "${BUILD_SCRIPT}"

@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z ${STRONGSWAN_CONFIG} ]; then
+if [ -z "${STRONGSWAN_CONFIG}" ]; then
     echo "==> Configuring strongswan"
 
     sysctl -w net.ipv4.ip_forward=1
