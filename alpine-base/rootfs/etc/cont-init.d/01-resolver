@@ -1,22 +1,22 @@
 #!/usr/bin/with-contenv sh
 
 CONTAINER_HOST=$(cat /etc/hostname)
-if [ -z ${CONTAINER_HOST} ]; then
+if [ -z "${CONTAINER_HOST}" ]; then
     echo "Failed to get hostname, aborting" >&2
     exit 1
 fi
 
-if [ -z ${CONTAINER_RESOLVER} ]; then
+if [ -z "${CONTAINER_RESOLVER}" ]; then
     CONTAINER_RESOLVER=route
 fi
 
-case ${CONTAINER_RESOLVER} in
+case "${CONTAINER_RESOLVER}" in
     interface)
-        if [ -z ${CONTAINER_RESOLVER_INTERFACENAME} ]; then
+        if [ -z "${CONTAINER_RESOLVER_INTERFACENAME}" ]; then
             CONTAINER_RESOLVER_INTERFACENAME=eth0
         fi
 
-        if [ -z ${CONTAINER_RESOLVER_INTERFACETYPE} ]; then
+        if [ -z "${CONTAINER_RESOLVER_INTERFACETYPE}" ]; then
             CONTAINER_RESOLVER_INTERFACETYPE=inet
         fi
 
@@ -28,7 +28,7 @@ case ${CONTAINER_RESOLVER} in
         ;;
 esac
 
-if [ -z ${CONTAINER_IP} ]; then
+if [ -z "${CONTAINER_IP}" ]; then
     echo "Failed to get IP address, aborting" >&2
     exit 2
 fi
