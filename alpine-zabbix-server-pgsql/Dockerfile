@@ -3,7 +3,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 COPY packages/*.apk /root/
 RUN apk add --update --allow-untrusted \
-        /root/zabbix-server-pgsql-3.2.1-r0.apk && \
+        /root/zabbix-server-pgsql-3.2.3-r0.apk && \
     rm -rf /var/cache/apk/* && \
     rm -f /root/*.apk
 
