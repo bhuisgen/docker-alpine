@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+newaliases
+postalias /etc/postfix/aliases
+postmap hash:/etc/postfix/sasl_password
