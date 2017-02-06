@@ -16,4 +16,5 @@ Boris HUISGEN <bhuisgen@hbis.fr>
 
 ## Running
 
-    # ./bin/docker-zabbix
+    # ./bin/zabbix-docker
+

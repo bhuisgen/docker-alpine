@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV JENKINS_VERSION=2.32.1 \
+ENV JENKINS_VERSION=2.32.2 \
     JENKINS_HOME=/home/jenkins
 
 RUN mkdir -p ${JENKINS_HOME} && \

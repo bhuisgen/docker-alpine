@@ -30,6 +30,7 @@ SUBDIRS = \
     alpine-php \
     alpine-phpmyadmin \
     alpine-python \
+    alpine-postfix \
     alpine-postgresql \
     alpine-rabbitmq \
     alpine-rabbitmqadmin \
