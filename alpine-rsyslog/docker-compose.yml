@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    rsyslog:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-rsyslog
+        ports:
+            - "514:514"
+            - "514:514/udp"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/log              # volume for data
+        environment:
+            - CONSUL_AGENT=consul               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
+            - CONSUL_SERVICENAME=rsyslog        # consul service name
+            - CONSUL_SERVICETAGS=dev            # consul service tag
+            - CONSUL_SERVICEPORT=541            # consul service port
+            - CONSUL_CHECKTYPE=tcp              # consul health check type
+            #- RSYSLOG_MAXDISKSPACE=1g          # max disk space for rsyslog spool queue
+            #- RSYSLOG_RETRYCOUNT=-1            # number of retries when remote host is down
+            #- RSYSLOG_INTERVAL=30              # retry interval
+            #- RSYSLOG_SSL=0                    # enable TLS
+            #- RSYSLOG_SSLCAFILE=               # SSL ca file
+            #- RSYSLOG_SSLCERTFILE=             # SSL certificate file
+            #- RSYSLOG_SSLKEYFILE=              # SSL key file
+            #- RSYSLOG_SSLPERMITTEDPEER=        # SSL permitted peer
+            #- RSYSLOG_SSLMODE=1                # SSL mode
+            - RSYSLOG_REMOTEHOST=1.2.3.4:514    # remote host (ip:port, port optional)
