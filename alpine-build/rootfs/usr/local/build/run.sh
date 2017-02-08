@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-echo "cmdline= $@"
-echo "params= $#"
-set -ex
-
-echo "env:"
-env
-
 function usage {
     echo -e "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
     echo -e ""
