@@ -7,7 +7,7 @@ RUN curl -sSL https://github.com/docker/machine/releases/download/v${DOCKERMACHI
     chmod +x /usr/local/bin/docker-machine
 
 ENTRYPOINT ["docker-machine"]
-CMD ["--help"]
+CMD [""]
 
 VOLUME ["/data"]
 WORKDIR /data
