@@ -7,6 +7,6 @@ RUN apk add --update make && \
 COPY rootfs/ /
 
 ENTRYPOINT ["/usr/local/build/run.sh"]
-CMD ["--help"]
+CMD [""]
 
 WORKDIR /usr/local/build

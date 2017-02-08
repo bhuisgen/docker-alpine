@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+echo "cmdline= $@"
+echo "params= $#"
+set -ex
+
+echo "env:"
+env
+
 function usage {
     echo -e "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
     echo -e ""
@@ -10,7 +17,7 @@ function usage {
     echo -e "  -r, --git-ref <COMMIT>\tthe git reference to build"
     echo -e "  -p, --project <DIR>\t\tthe project directory"
     echo -e ""
-    echo -e "  -s, --script <FILE>\t\tthe build file script to run"
+    echo -e "  -s, --script <FILE>\t\tthe build script file to run"
     echo -e "  -t, --timeout <DURATION>\tthe build execution timeout"
     echo -e ""
     echo -e "  -h, --help\t\t\tdisplay this help and exit"
