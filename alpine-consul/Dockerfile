@@ -3,7 +3,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION=0.7.4 \
     CONSULUI_VERSION=0.7.4 \
-    CONSULTEMPLATE_VERSION=0.18.0 \
+    CONSULTEMPLATE_VERSION=0.18.1 \
     GOMAXPROCS=2
 
 RUN mkdir -p /var/lib/consul && \
