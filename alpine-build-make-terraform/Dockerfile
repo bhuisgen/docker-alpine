@@ -9,8 +9,3 @@ RUN apk add --update zip && \
     rm /tmp/terraform.zip && \
     apk del zip && \
     rm -rf /var/cache/apk/*
-
-ENTRYPOINT ["/usr/local/build/run.sh"]
-CMD []
-
-WORKDIR /usr/local/build
