@@ -7,7 +7,7 @@ RUN apk add --update python3 && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["aws"]
-CMD [""]
+CMD []
 
 VOLUME ["/data"]
 WORKDIR /data
