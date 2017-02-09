@@ -10,7 +10,7 @@ RUN apk add --update python2 && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["rabbitmqadmin"]
-CMD [""]
+CMD []
 
 VOLUME ["/data"]
 WORKDIR /data

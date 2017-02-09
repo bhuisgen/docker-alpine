@@ -11,6 +11,6 @@ RUN apk add --update zip && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/usr/local/build/run.sh"]
-CMD [""]
+CMD []
 
 WORKDIR /usr/local/build

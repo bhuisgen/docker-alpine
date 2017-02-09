@@ -9,7 +9,6 @@ function usage {
     echo -e "  -u, --git-url <URL>\t\tthe git repository URL of the project"
     echo -e "  -r, --git-ref <COMMIT>\tthe git reference to build"
     echo -e "  -p, --project <DIR>\t\tthe project directory"
-    echo -e ""
     echo -e "  -s, --script <FILE>\t\tthe build script file to run"
     echo -e "  -t, --timeout <DURATION>\tthe build execution timeout"
     echo -e ""

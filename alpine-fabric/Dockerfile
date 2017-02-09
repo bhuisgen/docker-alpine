@@ -6,7 +6,7 @@ RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/testin
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["fab"]
-CMD [""]
+CMD []
 
 VOLUME ["/data"]
 WORKDIR /data
