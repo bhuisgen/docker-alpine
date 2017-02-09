@@ -1,9 +1,9 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV CONSUL_VERSION=0.7.3 \
-    CONSULUI_VERSION=0.7.3 \
-    CONSULTEMPLATE_VERSION=0.18.0 \
+ENV CONSUL_VERSION=0.7.4 \
+    CONSULUI_VERSION=0.7.4 \
+    CONSULTEMPLATE_VERSION=0.18.1 \
     GOMAXPROCS=2
 
 RUN mkdir -p /var/lib/consul && \

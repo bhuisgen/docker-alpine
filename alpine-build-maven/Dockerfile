@@ -9,8 +9,3 @@ RUN apk add --update openjdk8 && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
-
-ENTRYPOINT ["/usr/local/build/run.sh"]
-CMD ["--help"]
-
-WORKDIR /usr/local/build
