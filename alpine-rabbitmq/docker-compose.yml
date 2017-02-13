@@ -27,8 +27,6 @@ services:
             - CONSUL_CHECKTYPE=tcp                                          # consul health check type
             #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
-            - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
-            - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin only
             #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
@@ -48,11 +46,10 @@ services:
             #- RABBITMQ_COLLECTSTATISTICS=none                              # collect statistics mode
             #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000                      # collect statistics interval
             #- RABBITMQ_HIPECOMPILE=false                                   # enable hipe compilation
-            #- RABBITMQ_CLUSTER=rabbit@rabbitmq-master                      # cluster to join
-            #- RABBITMQ_CLUSTERRAM=0                                        # cluster RAM node
-            #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
-            #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
-            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
+            - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
+            #- RABBITMQ_MANAGEMENTRATESMODE=basic                           # management statistics rates mode
+            - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin
+            #- RABBITMQ_MANAGEMENTAGENTRATESMODE=basic                      # management agent statistics rates mode
             - RABBITMQ_MQTT=1                                               # enable MQTT
             #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096                    # MQTT TCP socket backlog
             #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768                   # MQTT TCP socket send buffer size
@@ -61,6 +58,11 @@ services:
             #- RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG=4096                   # STOMP TCP socket backlog
             #- RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF=32768                   # STOMP TCP socket send buffer size
             #- RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF=32768                   # STOMP TCP socket receive buffer size
+            #- RABBITMQ_CLUSTER=rabbit@rabbitmq-master                      # cluster to join
+            #- RABBITMQ_CLUSTERRAM=0                                        # cluster RAM node
+            #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
+            #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
+            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
             #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
 
     #
