@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-RUN apk add --update haproxy && \
+RUN apk add --update haproxy socat && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
