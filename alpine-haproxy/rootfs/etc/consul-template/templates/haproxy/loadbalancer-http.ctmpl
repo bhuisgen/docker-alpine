@@ -48,6 +48,8 @@
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
     log 127.0.0.1 format rfc5424 local0 info
+    stats socket /var/run/haproxy.sock mode 600 level admin
+    stats timeout 2m
     tune.ssl.default-dh-param 2048
     ssl-default-bind-options no-sslv3 no-tls-tickets force-tlsv12
     ssl-default-bind-ciphers AES128+EECDH:AES128+EDH
