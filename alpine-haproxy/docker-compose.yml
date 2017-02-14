@@ -52,6 +52,16 @@ services:
             #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
             #- HAPROXY_SSLREDIRECT=0                                    # redirect HTTP to HTTPS
             #- HAPROXY_GZIP=0                                           # enable gzip compression (frontend)
+            #- HAPROXY_FILTER=0                                         # enable filtering
+            #- HAPROXY_FILTERWHITELIST=                                 # file with whitelisted source IP
+            #- HAPROXY_FILTERBLACKLIST=                                 # file with blacklisted source IP
+            #- HAPROXY_FILTERTABLESIZE=100k                             # table size
+            #- HAPROXY_FILTERTABLEEXPIRE=30s                            # table expire time
+            #- HAPROXY_FILTERCONNLIMIT=0                                # enable connections limiting
+            #- HAPROXY_FILTERCONNMAX=10                                 # maximum established connections per source IP
+            #- HAPROXY_FILTERRATELIMIT=0                                # enable connection rate limiting
+            #- HAPROXY_FILTERRATEPERIOD=3s                              # rate period
+            #- HAPROXY_FILTERRATEMAX=10                                 # maximum new connections per rate period
             - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend

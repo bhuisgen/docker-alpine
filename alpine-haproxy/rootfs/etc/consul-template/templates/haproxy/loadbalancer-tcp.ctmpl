@@ -19,6 +19,16 @@
 {{- $haproxy_stats_allow := env "HAPROXY_STATSALLOW" -}}
 {{- $haproxy_ssl := env "HAPROXY_SSL" -}}
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
+{{- $haproxy_filter := env "HAPROXY_FILTER" -}}
+{{- $haproxy_filter_whitelist := env "HAPROXY_FILTERWHITELIST" -}}
+{{- $haproxy_filter_blacklist := env "HAPROXY_FILTERBLACKLIST" -}}
+{{- $haproxy_filter_table_size := env "HAPROXY_FILTERTABLESIZE" -}}
+{{- $haproxy_filter_table_expire := env "HAPROXY_FILTERTABLEEXPIRE" -}}
+{{- $haproxy_filter_conn_limit := env "HAPROXY_FILTERCONNLIMIT" -}}
+{{- $haproxy_filter_conn_max := env "HAPROXY_FILTERCONNMAX" -}}
+{{- $haproxy_filter_rate_limit := env "HAPROXY_FILTERRATELIMIT" -}}
+{{- $haproxy_filter_rate_period := env "HAPROXY_FILTERRATEPERIOD" -}}
+{{- $haproxy_filter_rate_max := env "HAPROXY_FILTERRATEMAX" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 {{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
@@ -76,6 +86,13 @@ listen stats
 frontend tcp-in-{{$listener}}
     bind *:{{$listener}}
     bind :::{{$listener}}
+    {{if eq $haproxy_filter "1"}}
+    {{if $haproxy_filter_whitelist}}tcp-request connection accept if { src -f {{$haproxy_filter_whitelist}} }{{end}}
+    {{if $haproxy_filter_blacklist}}tcp-request connection reject if { src -f {{$haproxy_filter_blacklist}} }{{end}}
+    {{if eq $haproxy_filter_conn_limit "1"}}tcp-request connection reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_rate_limit "1"}}tcp-request connection reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}10{{end}} }{{end}}
+    tcp-request connection track-sc1 src table filter
+    {{end}}
     default_backend tcp-out-{{$listener}}
 
 backend tcp-out-{{$listener}}
@@ -92,6 +109,13 @@ backend tcp-out-{{$listener}}
 frontend tcp-ssl-in-{{$ssl_listener}}
     bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
+    {{if eq $haproxy_filter "1"}}
+    {{if $haproxy_filter_whitelist}}tcp-request connection accept if { src -f {{$haproxy_filter_whitelist}} }{{end}}
+    {{if $haproxy_filter_blacklist}}tcp-request connection reject if { src -f {{$haproxy_filter_blacklist}} }{{end}}
+    {{if eq $haproxy_filter_conn_limit "1"}}tcp-request connection reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_rate_limit "1"}}tcp-request connection reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}10{{end}} }{{end}}
+    tcp-request connection track-sc1 src table filter
+    {{end}}
     default_backend tcp-ssl-out-{{$ssl_listener}}
 
 backend tcp-ssl-out-{{$ssl_listener}}
@@ -102,4 +126,9 @@ backend tcp-ssl-out-{{$ssl_listener}}
     server {{.Key}} {{.Key}} check
     {{end}}
 {{end}}
+{{end}}
+
+{{if eq $haproxy_filter "1"}}
+backend filter
+    stick-table type ip size {{if $haproxy_filter_table_size}}{{$haproxy_filter_table_size}}{{else}}100k{{end}} expire {{if $haproxy_filter_table_expire}}{{$haproxy_filter_table_expire}}{{else}}30s{{end}} store conn_cur,conn_rate({{if $haproxy_filter_rate_period}}{{$haproxy_filter_rate_period}}{{else}}3s{{end}})
 {{end}}
