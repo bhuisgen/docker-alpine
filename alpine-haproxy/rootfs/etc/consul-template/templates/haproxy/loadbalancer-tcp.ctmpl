@@ -1,4 +1,11 @@
+
 {{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
+{{- $haproxy_log := env "HAPROXY_LOG" -}}
+{{- $haproxy_logaddress := env "HAPROXY_LOGADDRESS" -}}
+{{- $haproxy_loglength := env "HAPROXY_LOGLENGTH" -}}
+{{- $haproxy_logformat := env "HAPROXY_LOGFORMAT" -}}
+{{- $haproxy_logfacility := env "HAPROXY_LOGFACILITY" -}}
+{{- $haproxy_loglevel := env "HAPROXY_LOGLEVEL" -}}
 {{- $haproxy_maxspreadchecks := env "HAPROXY_MAXSPREADCHECKS" -}}
 {{- $haproxy_spreadchecks := env "HAPROXY_SPREADCHECKS" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
@@ -6,10 +13,14 @@
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
 {{- $haproxy_timeout_queue := env "HAPROXY_TIMEOUTQUEUE" -}}
 {{- $haproxy_timeout_tunnel := env "HAPROXY_TIMEOUTTUNNEL" -}}
+{{- $haproxy_timeout_http_request := env "HAPROXY_TIMEOUTHTTPREQUEST" -}}
+{{- $haproxy_timeout_http_keepalive := env "HAPROXY_TIMEOUTHTTPKEEPALIVE" -}}
 {{- $haproxy_balance := env "HAPROXY_BALANCE" -}}
 {{- $haproxy_retries := env "HAPROXY_RETRIES" -}}
 {{- $haproxy_redispatch := env "HAPROXY_REDISPATCH" -}}
 {{- $haproxy_clitcpka := env "HAPROXY_CLITCPKA" -}}
+{{- $haproxy_dontlognormal := env "HAPROXY_DONTLOGNORMAL" -}}
+{{- $haproxy_dontlognull := env "HAPROXY_DONTLOGNULL" -}}
 {{- $haproxy_stats := env "HAPROXY_STATS" -}}
 {{- $haproxy_stats_username := env "HAPROXY_STATSUSERNAME" -}}
 {{- $haproxy_stats_password := env "HAPROXY_STATSPASSWORD" -}}
@@ -20,15 +31,21 @@
 {{- $haproxy_ssl := env "HAPROXY_SSL" -}}
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
 {{- $haproxy_filter := env "HAPROXY_FILTER" -}}
-{{- $haproxy_filter_whitelist := env "HAPROXY_FILTERWHITELIST" -}}
-{{- $haproxy_filter_blacklist := env "HAPROXY_FILTERBLACKLIST" -}}
 {{- $haproxy_filter_table_size := env "HAPROXY_FILTERTABLESIZE" -}}
 {{- $haproxy_filter_table_expire := env "HAPROXY_FILTERTABLEEXPIRE" -}}
-{{- $haproxy_filter_conn_limit := env "HAPROXY_FILTERCONNLIMIT" -}}
+{{- $haproxy_filter_whitelist := env "HAPROXY_FILTERWHITELIST" -}}
+{{- $haproxy_filter_whitelist_file := env "HAPROXY_FILTERWHITELISTFILE" -}}
+{{- $haproxy_filter_whitelist_log := env "HAPROXY_FILTERWHITELISTLOG" -}}
+{{- $haproxy_filter_blacklist := env "HAPROXY_FILTERBLACKLIST" -}}
+{{- $haproxy_filter_blacklist_file := env "HAPROXY_FILTERBLACKLISTFILE" -}}
+{{- $haproxy_filter_blacklist_log := env "HAPROXY_FILTERBLACKLISTLOG" -}}
+{{- $haproxy_filter_conn := env "HAPROXY_FILTERCONN" -}}
 {{- $haproxy_filter_conn_max := env "HAPROXY_FILTERCONNMAX" -}}
-{{- $haproxy_filter_rate_limit := env "HAPROXY_FILTERRATELIMIT" -}}
+{{- $haproxy_filter_conn_log := env "HAPROXY_FILTERCONNLOG" -}}
+{{- $haproxy_filter_rate := env "HAPROXY_FILTERRATE" -}}
 {{- $haproxy_filter_rate_period := env "HAPROXY_FILTERRATEPERIOD" -}}
 {{- $haproxy_filter_rate_max := env "HAPROXY_FILTERRATEMAX" -}}
+{{- $haproxy_filter_rate_log := env "HAPROXY_FILTERRATELOG" -}}
 {{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
 {{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
@@ -41,7 +58,9 @@
 {{- $haproxy_backend_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDTCPCHECK" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}1024{{end}}
-    log 127.0.0.1 format rfc5424 local0 info
+    {{if eq $haproxy_log "1"}}
+    log {{if $haproxy_logaddress}}{{$haproxy_logaddress}}{{else}}127.0.0.1{{end}}{{if $haproxy_loglength}} len {{$haproxy_loglength}}{{end}} {{if $haproxy_logformat}} format {{$haproxy_logformat}}{{end}}{{if $haproxy_logfacility}} {{$haproxy_logfacility}} {{else}} local0 {{end}}{{if $haproxy_loglevel}} {{$haproxy_loglevel}}{{end}}
+    {{end}}
     stats socket /var/run/haproxy.sock mode 600 level admin
     stats timeout 2m
     tune.ssl.default-dh-param 2048
@@ -64,7 +83,8 @@ defaults
     {{if eq $haproxy_clitcpka "1"}}option clitcpka{{end}}
     log global
     option tcplog
-    option dontlognull
+    {{if eq $haproxy_dontlognormal "1"}}option dontlog-normal{{end}}
+    {{if eq $haproxy_dontlognull "1"}}option dontlognull{{end}}
 
 {{if eq $haproxy_stats "1"}}
 listen stats
@@ -89,10 +109,10 @@ frontend tcp-in-{{$listener}}
     bind *:{{$listener}}
     bind :::{{$listener}}
     {{if eq $haproxy_filter "1"}}
-    {{if $haproxy_filter_whitelist}}tcp-request connection accept if { src -f {{$haproxy_filter_whitelist}} }{{end}}
-    {{if $haproxy_filter_blacklist}}tcp-request connection reject if { src -f {{$haproxy_filter_blacklist}} }{{end}}
-    {{if eq $haproxy_filter_conn_limit "1"}}tcp-request connection reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
-    {{if eq $haproxy_filter_rate_limit "1"}}tcp-request connection reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_whitelist "1"}}tcp-request {{if eq $haproxy_filter_whitelist_log "1"}}content{{else}}connection{{end}} accept if { src -f {{$haproxy_filter_whitelist_file}} }{{end}}
+    {{if eq $haproxy_filter_blacklist "1"}}tcp-request {{if eq $haproxy_filter_blacklist_log "1"}}content{{else}}connection{{end}} reject if { src -f {{$haproxy_filter_blacklist_file}} }{{end}}
+    {{if eq $haproxy_filter_conn "1"}}tcp-request {{if eq $haproxy_filter_conn_log "1"}}content{{else}}connection{{end}} reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_rate "1"}}tcp-request {{if eq $haproxy_filter_rate_log "1"}}content{{else}}connection{{end}} reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}100{{end}} }{{end}}
     tcp-request connection track-sc1 src table filter
     {{end}}
     default_backend tcp-out-{{$listener}}
@@ -112,10 +132,10 @@ frontend tcp-ssl-in-{{$ssl_listener}}
     bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     {{if eq $haproxy_filter "1"}}
-    {{if $haproxy_filter_whitelist}}tcp-request connection accept if { src -f {{$haproxy_filter_whitelist}} }{{end}}
-    {{if $haproxy_filter_blacklist}}tcp-request connection reject if { src -f {{$haproxy_filter_blacklist}} }{{end}}
-    {{if eq $haproxy_filter_conn_limit "1"}}tcp-request connection reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
-    {{if eq $haproxy_filter_rate_limit "1"}}tcp-request connection reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_whitelist "1"}}tcp-request {{if eq $haproxy_filter_whitelist_log "1"}}content{{else}}connection{{end}} accept if { src -f {{$haproxy_filter_whitelist_file}} }{{end}}
+    {{if eq $haproxy_filter_blacklist "1"}}tcp-request {{if eq $haproxy_filter_blacklist_log "1"}}content{{else}}connection{{end}} reject if { src -f {{$haproxy_filter_blacklist_file}} }{{end}}
+    {{if eq $haproxy_filter_conn "1"}}tcp-request {{if eq $haproxy_filter_conn_log "1"}}content{{else}}connection{{end}} reject if { src_conn_cur(filter) ge {{if $haproxy_filter_conn_max}}{{$haproxy_filter_conn_max}}{{else}}10{{end}} }{{end}}
+    {{if eq $haproxy_filter_rate "1"}}tcp-request {{if eq $haproxy_filter_rate_log "1"}}content{{else}}connection{{end}} reject if { src_conn_rate(filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}100{{end}} }{{end}}
     tcp-request connection track-sc1 src table filter
     {{end}}
     default_backend tcp-ssl-out-{{$ssl_listener}}
