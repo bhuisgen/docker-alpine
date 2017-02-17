@@ -81,7 +81,8 @@ services:
             #- HAPROXY_FILTERRATEPERIOD=3s                              # rate period
             #- HAPROXY_FILTERRATEMAX=100                                # maximum new connections per rate period
             #- HAPROXY_FILTERRATELOG=0                                  # log blocked connections
-            #- HAPROXY_FRONTENDMAXCONN=2000                             # maximum of connections allowed per frontend
+            #- HAPROXY_FRONTENDMAXCONN=                                 # maximum of connections allowed per frontend
+            #- HAPROXY_FRONTENDBACKLOG=                                 # backlog queue length per frontend
             - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend
