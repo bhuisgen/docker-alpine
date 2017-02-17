@@ -1,6 +1,10 @@
 #!/usr/bin/with-contenv sh
 set -e
 
+echo "==> checking haproxy configuration"
+
+haproxy -c -q -f /etc/haproxy/haproxy.cfg
+
 echo "==> reloading haproxy service"
 
 s6-svc -O /etc/haproxy/services/active

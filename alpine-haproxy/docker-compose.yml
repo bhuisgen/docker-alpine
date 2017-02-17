@@ -40,9 +40,9 @@ services:
             #- HAPROXY_LOGLEVEL=                                        # log level
             #- HAPROXY_MAXSPREADCHECKS=                                 # delay of first check at startup
             #- HAPROXY_SPREADCHECKS=0                                   # randomness on the interval delay between checks
-            #- HAPROXY_TIMEOUTCONNECT=5s                                # connect timeout
-            #- HAPROXY_TIMEOUTCLIENT=15s                                # client timeout
-            #- HAPROXY_TIMEOUTSERVER=15s                                # server timeout
+            #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
+            #- HAPROXY_TIMEOUTCONNECT=15s                               # connect timeout
+            #- HAPROXY_TIMEOUTSERVER=30s                                # server timeout
             #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
             #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
             #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout (http mode only)
