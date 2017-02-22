@@ -7,6 +7,7 @@
 {{- $haproxy_loglevel := env "HAPROXY_LOGLEVEL" -}}
 {{- $haproxy_maxspreadchecks := env "HAPROXY_MAXSPREADCHECKS" -}}
 {{- $haproxy_spreadchecks := env "HAPROXY_SPREADCHECKS" -}}
+{{- $haproxy_serverstatefile := env "HAPROXY_SERVERSTATEFILE" -}}
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
 {{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
@@ -76,6 +77,7 @@ global
     ssl-default-bind-ciphers AES128+EECDH:AES128+EDH
     {{if $haproxy_maxspreadchecks}}max-spread-checks {{$haproxy_maxspreadchecks}}{{end}}
     spread-checks {{if $haproxy_spreadchecks}}{{$haproxy_spreadchecks}}{{else}}0{{end}}
+    server-state-file {{if $haproxy_serverstatefile}}{{$haproxy_serverstatefile}}{{else}}/var/lib/haproxy/servers_state{{end}}
 
 defaults
     mode http
@@ -97,6 +99,7 @@ defaults
     option httplog
     {{if eq $haproxy_dontlognormal "1"}}option dontlog-normal{{end}}
     {{if eq $haproxy_dontlognull "1"}}option dontlognull{{end}}
+    load-server-state-from-file global
 
 {{if eq $haproxy_stats "1"}}
 listen stats
