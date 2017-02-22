@@ -40,6 +40,7 @@ services:
             #- HAPROXY_LOGLEVEL=                                        # log level
             #- HAPROXY_MAXSPREADCHECKS=                                 # delay of first check at startup
             #- HAPROXY_SPREADCHECKS=0                                   # randomness on the interval delay between checks
+            #- HAPROXY_SERVERSTATEFILE=/var/lib/haproxy/servers_state   # file containing servers state
             #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
             #- HAPROXY_TIMEOUTCONNECT=15s                               # connect timeout
             #- HAPROXY_TIMEOUTSERVER=30s                                # server timeout
