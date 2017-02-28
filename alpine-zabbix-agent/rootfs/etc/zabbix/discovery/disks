@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+set -e
+
+get_vmname_by_id () {
+    vmname=$(cat "/rootfs/etc/qemu-server/$1.conf"|grep name|cut -d ":" -f 2|sed -e "s/^[ \t]*//;s/[ \t]$//")
+
+    return $vmname
+}
+
+OLDIFS=$IFS
+IFS='
+'
+for line in $(cat /proc/diskstats); do
+    major=$(echo "$line"|awk "{ print \$1; }")
+    minor=$(echo "$line"|awk "{ print \$2; }")
+    disk=$(echo "$line"|awk "{ print \$3; }")
+
+    dmnamefile="/rootfs/sys/dev/block/$major:$minor/dm/name"
+    vmid=""
+    vmname=""
+    diskdev="/dev/$disk"
+    diskname="$disk"
+
+    if [ -e $dmnamefile ]; then
+        diskdev="/dev/mapper/$dmname"
+        diskname=$(cat $dmnamefile)
+    fi
+
+    DATA="$DATA,"'{"{#DISK}":"'$disk'","{#DISKDEV}":"'$diskdev'","{#DISKNAME}":"'$diskname'"}'
+done
+IFS=$OLDIFS
+
+echo '{"data":['"${DATA#,}"']}'
