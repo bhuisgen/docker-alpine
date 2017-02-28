@@ -8,6 +8,7 @@ SUBDIRS = \
     alpine-build-maven \
     alpine-build-npm \
     alpine-awscli \
+    alpine-cli53 \
     alpine-consul \
     alpine-dnsmasq \
     alpine-dockercompose \
