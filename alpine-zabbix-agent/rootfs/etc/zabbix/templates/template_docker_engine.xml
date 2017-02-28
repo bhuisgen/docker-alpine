@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-01-17T14:31:06Z</date>
+    <date>2017-02-28T15:01:06Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -3016,7 +3016,14 @@
                     <filter>
                         <evaltype>0</evaltype>
                         <formula/>
-                        <conditions/>
+                        <conditions>
+                            <condition>
+                                <macro>{#NAME}</macro>
+                                <value>@Docker container names for discovery</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
                     </filter>
                     <lifetime>7</lifetime>
                     <description/>
@@ -3131,7 +3138,14 @@
                     <filter>
                         <evaltype>0</evaltype>
                         <formula/>
-                        <conditions/>
+                        <conditions>
+                            <condition>
+                                <macro>{#NAME}</macro>
+                                <value>@Docker container names for discovery</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
                     </filter>
                     <lifetime>7</lifetime>
                     <description/>
@@ -3702,7 +3716,14 @@
                     <filter>
                         <evaltype>0</evaltype>
                         <formula/>
-                        <conditions/>
+                        <conditions>
+                            <condition>
+                                <macro>{#NAME}</macro>
+                                <value>@Docker container names for discovery</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
                     </filter>
                     <lifetime>7</lifetime>
                     <description/>
@@ -4267,9 +4288,15 @@
                     <privatekey/>
                     <port/>
                     <filter>
-                        <evaltype>0</evaltype>
+                        <evaltype>1</evaltype>
                         <formula/>
                         <conditions>
+                            <condition>
+                                <macro>{#NAME}</macro>
+                                <value>@Docker container names for discovery</value>
+                                <operator>8</operator>
+                                <formulaid>B</formulaid>
+                            </condition>
                             <condition>
                                 <macro>{#CMD}</macro>
                                 <value>@Docker container process names for discovery</value>
@@ -4628,6 +4655,40 @@
             <screens/>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <expression>{Custom Template Docker Engine:docker.containers.unhealthy.avg(5m)}&gt;0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Docker containers are not healthy on {HOST.NAME}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Custom Template Docker Engine:docker.containers.stopped.avg(5m)}&gt;0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Docker containers are not running on {HOST.NAME}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+    </triggers>
     <graphs>
         <graph>
             <name>Docker events</name>
