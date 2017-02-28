@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+set -e
+
+if [ -z "${ZABBIX_SENDER}" ]; then
+    ZABBIX_SENDER=/usr/bin/zabbix_sender
+fi
+
+if [ -z "${ZABBIX_CONF}" ]; then
+    ZABBIX_CONF=/etc/zabbix/zabbix_agentd.conf
+fi
+
+if [ -z "${ZABBIX_HOST}" ]; then
+    ZABBIX_HOST=
+fi
+
+if [ -z "${CONFIG_FILE}" ]; then
+    CONFIG_FILE=/etc/zabbix/scripts/trapper/$(basename "$0").conf
+fi
+
+[ -r "${CONFIG_FILE}" ] && . "${CONFIG_FILE}"
+
+script=/etc/zabbix/discovery/$(basename "$0")
+
+if [ -x "${ZABBIX_SENDER}" ]; then
+    if [ ! -z "$ZABBIX_HOST" ]; then
+        ${script}|"${ZABBIX_SENDER}" -c "${ZABBIX_CONF}" -s "${ZABBIX_HOST}" -r -i - > /dev/null 2>&1
+    else
+        ${script}|"${ZABBIX_SENDER}" -c "${ZABBIX_CONF}" -r -i - > /dev/null 2>&1
+    fi
+else
+    ${script}
+fi
