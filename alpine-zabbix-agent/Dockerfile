@@ -3,12 +3,15 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 COPY packages/*.apk /root/
 RUN apk add --update --allow-untrusted \
-        python3 \
+        git python3 \
         /root/zabbix-agent-3.2.3-r0.apk && \
     python3 -m ensurepip --upgrade && \
-    pip3 install docker-py py-zabbix && \
-    rm -rf /var/cache/apk/* && \
-    rm -f /root/*.apk
+    git clone https://github.com/bhuisgen/zabbix-docker.git /usr/local/zabbix-docker && \
+    cd /usr/local/zabbix-docker && \
+    python3 setup.py install && \
+    apk del git && \
+    rm -f /root/*.apk && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 
