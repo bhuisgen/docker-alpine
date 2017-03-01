@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-BINPATH=`dirname $0`
-exec python3 "$BINPATH/../zabbix-docker/main.py" $@
