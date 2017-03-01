@@ -42,12 +42,8 @@ services:
             #- ZABBIXDOCKER=0                                                   # enable docker monitoring
             #- ZABBIXDOCKERLOG=0                                                # enable logging
             #- ZABBIXDOCKERLOGLEVEL=error                                       # log level
-            #- ZABBIXDOCKER_CONTAINERS=1                                        # enable containers metrics
-            #- ZABBIXDOCKER_CONTAINERSSTATS=1                                   # enable containers statistics metrics
-            #- ZABBIXDOCKER_CONTAINERSSTATSCPUS=0                               # query cpus statistics
-            #- ZABBIXDOCKER_CONTAINERSSTATSMEMORY=1                             # query memory statistics
-            #- ZABBIXDOCKER_CONTAINERSSTATSNETWORKS=1                           # query networks statistics
-            #- ZABBIXDOCKER_CONTAINERSSTATSDEVICES=1                            # query devices statistics
+            #- ZABBIXDOCKER_CONTAINERS=0                                        # enable containers metrics
+            #- ZABBIXDOCKER_CONTAINERSSTATS=0                                   # enable containers statistics metrics
             #- ZABBIXDOCKER_CONTAINERSTOP=0                                     # enable containers processes metrics
             #- ZABBIXDOCKER_CONTAINERSREMOTE=0                                  # enable containers remote command execution
             #- ZABBIXDOCKER_CONTAINERSREMOTEPATH=/etc/zabbix/scripts/trapper    # remote commands path

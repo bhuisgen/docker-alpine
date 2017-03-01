@@ -2,10 +2,6 @@
 {{- $zabbixdocker_log_level := env "ZABBIXDOCKER_LOGLEVEL" -}}
 {{- $zabbixdocker_containers := env "ZABBIXDOCKER_CONTAINERS" -}}
 {{- $zabbixdocker_containers_stats := env "ZABBIXDOCKER_CONTAINERSSTATS" -}}
-{{- $zabbixdocker_containers_stats_cpus := env "ZABBIXDOCKER_CONTAINERSSTATSCPUS" -}}
-{{- $zabbixdocker_containers_stats_memory := env "ZABBIXDOCKER_CONTAINERSSTATSMEMORY" -}}
-{{- $zabbixdocker_containers_stats_networks := env "ZABBIXDOCKER_CONTAINERSSTATSNETWORKS" -}}
-{{- $zabbixdocker_containers_stats_devices := env "ZABBIXDOCKER_CONTAINERSSTATSDEVICES" -}}
 {{- $zabbixdocker_containers_top := env "ZABBIXDOCKER_CONTAINERSTOP" -}}
 {{- $zabbixdocker_containers_remote := env "ZABBIXDOCKER_CONTAINERSREMOTE" -}}
 {{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTEPATH" -}}
@@ -44,10 +40,6 @@ events = {{if eq $zabbixdocker_events "1"}}yes{{else}}no{{end}}
 #startup = 30
 #interval = 60
 #workers = 10
-stats_cpus = {{if eq $zabbixdocker_containers_stats_cpus "1"}}yes{{else}}no{{end}}
-stats_memory = {{if eq $zabbixdocker_containers_stats_memory "1"}}yes{{else}}no{{end}}
-stats_networks = {{if eq $zabbixdocker_containers_stats_networks "1"}}yes{{else}}no{{end}}
-stats_devices = {{if eq $zabbixdocker_containers_stats_devices "1"}}yes{{else}}no{{end}}
 
 [containers_top]
 #startup = 30
