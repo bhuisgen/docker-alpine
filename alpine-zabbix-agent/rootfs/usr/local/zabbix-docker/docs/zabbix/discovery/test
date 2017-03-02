@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-for i in $(seq 0 4); do
-   DATA="$DATA,"'{\"{#NAME}\":\"'$i'\"}'
-done
-
-echo "- test.discovery \"{\\\"data\\\":[${DATA#,}]}\""

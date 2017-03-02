@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+    cli53:
+        image: bhuisgen/alpine-cli53
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./:/data
+            - $HOME/.aws:/root/.aws
