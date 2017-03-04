@@ -18,7 +18,7 @@ if [ -z ${JETTY_CONFIG} ]; then
         cd "${JETTY_BASE}" || exit 1
         java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES}
     else
-        echo "==> Configuring rabbitmq from script"
+        echo "==> Configuring jetty from script"
 
         /bin/sh "${JETTY_CONFIGSCRIPT}"
         if [ $? -ne 0 ]; then
