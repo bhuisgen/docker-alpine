@@ -7,6 +7,7 @@ SUBDIRS = \
     alpine-build-make-terraform \
     alpine-build-maven \
     alpine-build-npm \
+    alpine-archiva \
     alpine-awscli \
     alpine-cli53 \
     alpine-consul \
