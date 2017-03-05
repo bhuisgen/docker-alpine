@@ -26,6 +26,3 @@ services:
             - CONSUL_SERVICETAGS=dev                    # consul service tag
             - CONSUL_SERVICEPORT=8080                   # consul service port
             - CONSUL_CHECKTYPE=tcp                      # consul health check type
-            #- JETTY_BASE=/usr/local/jetty/base         # jetty base directory
-            #- JETTY_MODULES=http,deployer              # jetty modules to enable
-            #- JETTY_CONFIGSCRIPT=/root/jetty/config.sh # custom configuration script
