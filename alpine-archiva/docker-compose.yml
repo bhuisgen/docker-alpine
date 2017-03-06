@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    archiva:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-archiva
+        ports:
+            - "8080:8080"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /srv/data:/var/lib/archiva
+        environment:
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=archiva                    # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=8080                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
