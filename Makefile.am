@@ -17,6 +17,7 @@ SUBDIRS = \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \
+    alpine-git \
     alpine-haproxy \
     alpine-hostapd \
     alpine-java \

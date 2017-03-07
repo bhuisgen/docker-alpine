@@ -55,6 +55,7 @@ AC_CONFIG_FILES([
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile
+    alpine-git/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-java/Makefile
