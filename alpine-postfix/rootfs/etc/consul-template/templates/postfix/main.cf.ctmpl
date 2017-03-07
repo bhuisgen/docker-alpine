@@ -1,0 +1,46 @@
+{{- $postfix_inetinterfaces := env "POSTFIX_INETINTERFACES" -}}
+{{- $postfix_inetprotocols := env "POSTFIX_INETPROTOCOLS" -}}
+{{- $postfix_myhostname := env "POSTFIX_MYHOSTNAME" -}}
+{{- $postfix_mydomain := env "POSTFIX_MYDOMAIN" -}}
+{{- $postfix_myorigin := env "POSTFIX_MYORIGIN" -}}
+{{- $postfix_mydestination := env "POSTFIX_MYDESTINATION" -}}
+{{- $postfix_mynetworks := env "POSTFIX_MYNETWORKS" -}}
+{{- $postfix_relayhost := env "POSTFIX_RELAYHOST" -}}
+{{- $postfix_relaydomains := env "POSTFIX_RELAYDOMAINS" -}}
+{{- $postfix_smtpdtlscertfile := env "POSTFIX_SMTPDTLSCERTFILE" -}}
+{{- $postfix_smtpdtlskeyfile := env "POSTFIX_SMTPDTLSKEYFILE" -}}
+
+smtputf8_enable = no
+meta_directory = /etc/postfix
+shlib_directory = /usr/lib/postfix
+
+{{if $postfix_inetinterfaces}}inet_interfaces = {{$postfix_inetinterfaces}}{{end}}
+{{if $postfix_inetprotocols}}inet_protocols = {{$postfix_inetprotocols}}{{end}}
+
+{{if $postfix_myhostname}}myhostname = {{$postfix_myhostname}}{{end}}
+{{if $postfix_mydomain}}mydomain = {{$postfix_mydomain}}{{end}}
+{{if $postfix_myorigin}}myorigin = {{$postfix_myorigin}}{{end}}
+{{if $postfix_mydestination}}mydestination = {{$postfix_mydestination}}{{end}}
+{{if $postfix_mynetworks}}mynetworks = {{$postfix_mynetworks}}{{end}}
+{{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
+{{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+sender_canonical_maps = regexp:/etc/postfix/sender_canonical
+recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
+
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
+smtp_sasl_security_options = nonanonymous, noplaintext
+smtp_sasl_tls_security_options = nonanonymous, noplaintext
+smtp_tls_security_level = may
+smtpd_tls_security_level = may
+{{if and $postfix_smtpdtlscertfile $postfix_smtpdtlskeyfile}}
+smtpd_tls_cert_file = {{$postfix_smtpdtlscertfile}}
+smtpd_tls_key_file = {{$postfix_smtpdtlskeyfile}}
+{{end}}
+
+smtpd_delay_reject = yes
+smtpd_helo_required = yes
+smtpd_helo_restrictions = permit_mynetworks,reject_invalid_helo_hostname,permit
