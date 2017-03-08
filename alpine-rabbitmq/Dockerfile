@@ -9,7 +9,7 @@ ENV RABBITMQ_VERSION=3.6.6 \
     RABBITMQ_SASL_LOGS=- \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
-RUN mkdir -p /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitmq/logs /var/run/rabbitmq && \
+RUN mkdir -p /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitmq/logs /var/run/rabbitmq && \
     addgroup rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
     chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
