@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${ARCHIVA_CONFIG}" ]; then
+    echo "==> Configuring archiva"
+
+    mkdir -p /var/lib/archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp
+    chown archiva:archiva /var/lib/archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp
+
+    export ARCHIVA_CONFIG=1
+    printf "%s" "${ARCHIVA_CONFIG}" > /var/run/s6/container_environment/ARCHIVA_CONFIG
+fi

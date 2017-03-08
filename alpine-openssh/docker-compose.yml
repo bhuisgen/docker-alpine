@@ -14,7 +14,8 @@ services:
         depends_on:
             - consul
         image: bhuisgen/alpine-openssh
-        network_mode: host
+        ports:
+            - "2222:22"
         volumes:
             - /etc/localtime:/etc/localtime:ro
             #- /srv/data:/home
