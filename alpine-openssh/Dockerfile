@@ -12,3 +12,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 22
+VOLUME ["/home"]
