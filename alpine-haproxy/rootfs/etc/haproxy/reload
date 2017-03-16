@@ -5,8 +5,8 @@ echo "==> checking haproxy configuration"
 
 haproxy -c -q -f /etc/haproxy/haproxy.cfg
 
-stats_socket=$(grep "stats socket" /etc/haproxy/haproxy.cfg|awk '{ print $3;}')
-state_file=$(grep "server-state-file" /etc/haproxy/haproxy.cfg|awk '{ print $2;}')
+stats_socket=$(grep "stats socket" /etc/haproxy/haproxy.cfg|awk '{ print $3; }')
+state_file=$(grep "server-state-file" /etc/haproxy/haproxy.cfg|awk '{ print $2; }')
 
 if [ -e "${stats_socket}" ] && [ ! -z "${state_file}" ]; then
     echo "==> saving servers state"
