@@ -27,9 +27,9 @@ services:
             - CONSUL_SERVICETAGS=dev                                            # consul service tag
             - CONSUL_SERVICEPORT=10050                                          # consul service port
             - CONSUL_CHECKTYPE=tcp                                              # consul health check type
-            #- ZABBIX_ENABLEREMOTECOMMANDS=0                                    # enable remote commands execution
-            #- ZABBIX_LOGREMOTECOMMANDS=0                                       # log remote commands
-            - ZABBIX_SERVER=172.16.0.1                                          # zabbix server IP/host
+            - ZABBIX_ENABLEREMOTECOMMANDS=1                                     # enable remote commands execution
+            - ZABBIX_LOGREMOTECOMMANDS=1                                        # log remote commands
+            - ZABBIX_SERVER=80.81.82.83                                         # zabbix server IP/host
             - ZABBIX_HOSTNAME=zabbix-agent                                      # zabbix agent hostname
             #- ZABBIX_HOSTMETADATA=                                             # zabbix agent host metadata
             - ZABBIX_STARTAGENTS=1                                              # number of processes for passive checks

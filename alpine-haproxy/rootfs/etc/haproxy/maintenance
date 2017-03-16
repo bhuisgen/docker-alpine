@@ -1,0 +1,33 @@
+#!/usr/bin/with-contenv sh
+set -e
+
+echo "==> checking haproxy configuration"
+
+haproxy -c -q -f /etc/haproxy/haproxy.cfg
+
+stats_socket=$(grep "stats socket" /etc/haproxy/haproxy.cfg|awk '{ print $3; }')
+if [ ! -e "${stats_socket}" ]; then
+   exit 1
+fi
+
+echo "==> retrieving haproxy frontends"
+
+stat=$(echo "show stat"|socat "${stats_socket}" stdio|awk 'NR>1 && /,FRONTEND/ && !/stats/')
+frontends=$(echo "${stat}"|awk -F ',' '{ print $1; }')
+
+if [ ! -z "$1" ] && [ "$1" == "--enable" ]; then
+    echo "==> enabling haproxy maintenance mode"
+
+    for frontend in ${frontends}; do
+        echo "disable frontend ${frontend}"|socat "${stats_socket}" stdio > /dev/null
+    done
+elif [ ! -z "$1" ] && [ "$1" == "--disable" ]; then
+    echo "==> disabling haproxy maintenance mode"
+
+    for frontend in ${frontends}; do
+        echo "enable frontend ${frontend}"|socat "${stats_socket}" stdio > /dev/null
+    done
+else
+    echo "==> checking haproxy status"
+    echo "${stat}"
+fi
