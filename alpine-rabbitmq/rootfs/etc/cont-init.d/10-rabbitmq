@@ -44,6 +44,10 @@ if [ -z "${RABBITMQ_CONFIG}" ]; then
             sleep 4; \
             " rabbitmq
 
+        if [ ! -z "${RABBITMQ_CLUSTERNAME}" ]; then
+            su -c "rabbitmqctl set_cluster_name ${RABBITMQ_CLUSTERNAME}" rabbitmq
+        fi
+
         if [ ! -z "${RABBITMQ_GUESTPASSWORD}" ]; then
             su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
         fi

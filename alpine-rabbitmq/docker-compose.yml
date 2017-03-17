@@ -28,6 +28,7 @@ services:
             #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
             #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
+            #- RABBITMQ_CLUSTERNAME=cluster                                 # cluster name
             - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
             #- RABBITMQ_NETTICKTIME=60                                      # network tick time frequency
@@ -84,6 +85,7 @@ services:
     #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=/path/prefix
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
+    #         - RABBITMQ_CLUSTERNAME=cluster                     # set the cluster name
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
     #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2               # uncomment to rejoin a existing cluster if this node has crashed
