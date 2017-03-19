@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV RABBITMQ_VERSION=3.6.6 \
+ENV RABBITMQ_VERSION=3.6.8 \
     RABBITMQ_HOME=/var/lib/rabbitmq \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
