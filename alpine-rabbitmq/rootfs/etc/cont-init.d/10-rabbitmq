@@ -13,9 +13,9 @@ if [ -z "${RABBITMQ_CONFIG}" ]; then
         echo "==> Configuring rabbitmq from environment"
 
         if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
-            echo "${RABBITMQ_ERLANGCOOKIE}" > /var/lib/rabbitmq/.erlang.cookie
-            chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
-            chmod 400 /var/lib/rabbitmq/.erlang.cookie
+            echo "${RABBITMQ_ERLANGCOOKIE}" > "${RABBITMQ_HOME}/.erlang.cookie"
+            chown rabbitmq:rabbitmq "${RABBITMQ_HOME}/.erlang.cookie"
+            chmod 400 "${RABBITMQ_HOME}/.erlang.cookie"
         fi
 
         if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
