@@ -5,19 +5,19 @@ ENV RABBITMQ_VERSION=3.6.8 \
     RABBITMQ_HOME=/var/lib/rabbitmq \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
+    RABBITMQ_SERVER_CODE_PATH=/usr/local/rabbitmq/hipe/ebin \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
     RABBITMQ_LOGS=- \
     RABBITMQ_SASL_LOGS=- \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
-RUN mkdir -p /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins /var/lib/rabbitmq/logs /var/run/rabbitmq && \
+RUN mkdir -p ${RABBITMQ_HOME} ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} /var/run/rabbitmq && \
     addgroup rabbitmq && \
-    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
-    chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
+    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h ${RABBITMQ_HOME} rabbitmq && \
+    chown -R rabbitmq:rabbitmq ${RABBITMQ_HOME} /var/run/rabbitmq
 
 COPY packages/*.apk /root/
 RUN apk add --update tar xz && \
-    mkdir -p /usr/local/rabbitmq && \
     apk add --update --allow-untrusted \
         /root/erlang-19.3.0-r0.apk \
         /root/erlang-asn1-19.3.0-r0.apk \
@@ -35,7 +35,9 @@ RUN apk add --update tar xz && \
         /root/erlang-stdlib-19.3.0-r0.apk \
         /root/erlang-syntax-tools-19.3.0-r0.apk \
         /root/erlang-xmerl-19.3.0-r0.apk && \
+    mkdir -p /usr/local/rabbitmq ${RABBITMQ_SERVER_CODE_PATH} && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
+    rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH} && \
     apk del --purge tar xz \
     rm -f /root/*.apk && \
     rm -rf /var/cache/apk/*
