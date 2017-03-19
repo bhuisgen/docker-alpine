@@ -15,24 +15,29 @@ RUN mkdir -p /var/lib/rabbitmq /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugin
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
     chown -R rabbitmq:rabbitmq /var/lib/rabbitmq /var/run/rabbitmq
 
+COPY packages/*.apk /root/
 RUN apk add --update tar xz && \
-    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
-        erlang \
-        erlang-asn1 \
-        erlang-crypto \
-        erlang-eldap \
-        erlang-hipe \
-        erlang-inets \
-        erlang-mnesia \
-        erlang-os-mon \
-        erlang-public-key \
-        erlang-sasl \
-        erlang-ssl \
-        erlang-syntax-tools \
-        erlang-xmerl && \
     mkdir -p /usr/local/rabbitmq && \
+    apk add --update --allow-untrusted \
+        /root/erlang-19.3.0-r0.apk \
+        /root/erlang-asn1-19.3.0-r0.apk \
+        /root/erlang-compiler-19.3.0-r0.apk \
+        /root/erlang-crypto-19.3.0-r0.apk \
+        /root/erlang-eldap-19.3.0-r0.apk \
+        /root/erlang-hipe-19.3.0-r0.apk \
+        /root/erlang-inets-19.3.0-r0.apk \
+        /root/erlang-kernel-19.3.0-r0.apk \
+        /root/erlang-mnesia-19.3.0-r0.apk \
+        /root/erlang-os-mon-19.3.0-r0.apk \
+        /root/erlang-public-key-19.3.0-r0.apk \
+        /root/erlang-sasl-19.3.0-r0.apk \
+        /root/erlang-ssl-19.3.0-r0.apk \
+        /root/erlang-stdlib-19.3.0-r0.apk \
+        /root/erlang-syntax-tools-19.3.0-r0.apk \
+        /root/erlang-xmerl-19.3.0-r0.apk && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
-    apk del --purge tar xz && \
+    apk del --purge tar xz \
+    rm -f /root/*.apk && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
