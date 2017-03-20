@@ -37,7 +37,6 @@ RUN apk add --update tar xz && \
         /root/erlang-xmerl-19.3.0-r0.apk && \
     mkdir -p /usr/local/rabbitmq ${RABBITMQ_SERVER_CODE_PATH} && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
-    rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH} && \
     apk del --purge tar xz && \
     rm -f /root/*.apk && \
     rm -rf /var/cache/apk/*
