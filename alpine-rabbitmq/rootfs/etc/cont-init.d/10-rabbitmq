@@ -20,6 +20,10 @@ if [ -z "${RABBITMQ_CONFIG}" ]; then
             chmod 400 "${RABBITMQ_HOME}/.erlang.cookie"
         fi
 
+        if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
+            rabbitmqctl hipe_compile "${RABBITMQ_SERVER_CODE_PATH}"
+        fi
+
         if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
             rabbitmq-plugins enable --offline rabbitmq_management
         elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
