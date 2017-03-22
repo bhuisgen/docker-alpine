@@ -40,8 +40,8 @@ services:
             #- ZABBIX_TIMEOUT=3                                                 # timeout of processing
             #- ZABBIX_UNSAFEUSERPARAMETERS=                                     # enable unsafe user parameters
             #- ZABBIXDOCKER=0                                                   # enable docker monitoring
-            #- ZABBIXDOCKERLOG=0                                                # enable logging
-            #- ZABBIXDOCKERLOGLEVEL=error                                       # log level
+            #- ZABBIXDOCKER_LOG=0                                               # enable logging
+            #- ZABBIXDOCKER_LOGLEVEL=error                                      # log level
             #- ZABBIXDOCKER_CONTAINERS=0                                        # enable containers metrics
             #- ZABBIXDOCKER_CONTAINERSSTATS=0                                   # enable containers statistics metrics
             #- ZABBIXDOCKER_CONTAINERSTOP=0                                     # enable containers processes metrics
