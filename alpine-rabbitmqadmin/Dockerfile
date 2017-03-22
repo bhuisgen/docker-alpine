@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV RABBITMQ_VERSION=3.6.6
+ENV RABBITMQ_VERSION=3.6.8
 
 RUN apk add --update python2 && \
     python -m ensurepip --upgrade && \
