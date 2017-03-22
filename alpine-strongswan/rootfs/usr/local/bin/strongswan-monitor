@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+function usage {
+    echo -e "Usage: $(basename "$0") [-c <FILE>] [-s <SECS>] [-i <SECS>]"
+    echo -e ""
+    echo -e "Monitor strongswan ipsec connections."
+    echo -e ""
+    echo -e "Options:"
+    echo -e "  -c, --config <FILE>\t\tipsec configuration file"
+    echo -e "  -s, --startup <SECS>\t\tstartup delay in seconds"
+    echo -e "  -i, --interval <SECS>\t\tcheck interval in seconds"
+    echo -e ""
+    echo -e "  -h, --help\t\t\tdisplay this help and exit"
+}
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -c|--config)
+        if [ -z "$2" ]; then
+            usage
+            exit 1
+        fi
+
+        STRONGSWAN_CONFIG=$2
+        shift 2
+        ;;
+
+        -s|--startup)
+        if [ -z "$2" ]; then
+            usage
+            exit 1
+        fi
+
+        STRONGSWAN_STARTUP=$2
+        shift 2
+        ;;
+
+        -i|--interval)
+        if [ -z "$2" ]; then
+            usage
+            exit 1
+        fi
+
+        STRONGSWAN_INTERVAL=$2
+        shift 2
+        ;;
+
+        -h|-help)
+        usage
+        exit 0
+        ;;
+
+        *)
+        usage
+        exit 1
+        ;;
+    esac
+done
+
+if [ -z ${STRONGSWAN_CONFIG} ]; then
+    STRONGSWAN_CONFIG=/etc/ipsec.conf
+fi
+
+if [ -z ${STRONGSWAN_STARTUP} ]; then
+    STRONGSWAN_STARTUP=60
+fi
+
+if [ -z ${STRONGSWAN_INTERVAL} ]; then
+    STRONGSWAN_INTERVAL=60
+fi
+
+if [ ! -e ${STRONGSWAN_CONFIG} ]; then
+    exit 1
+fi
+
+trap 'exit 1' ERR INT TERM
+
+sleep ${STRONGSWAN_STARTUP}
+
+while true; do
+    conns=$(awk '/^conn (\w)/ { print $2; }' "${STRONGSWAN_CONFIG}")
+
+    for conn in $conns; do
+        (status=$(ipsec status $conn|grep -c 'ESTABLISHED') && [ "$status" -eq 1 ]) || ( \
+            echo "Starting connection ${conn} ..."
+            ipsec up ${conn} \
+            )
+    done
+
+    sleep ${STRONGSWAN_INTERVAL}
+done

@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+echo "==> Cleaning iptables"
+
+iptables -D INPUT -p udp --dport 500 --j ACCEPT
+iptables -D INPUT -p udp --dport 4500 --j ACCEPT
+iptables -D INPUT -p esp -j ACCEPT
+iptables -t nat -D POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -m policy --dir out --pol ipsec -j ACCEPT
+iptables -t nat -D POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -j MASQUERADE
