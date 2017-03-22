@@ -1,19 +1,20 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${STRONGSWAN_CONFIG}" ]; then
-    echo "==> Configuring strongswan"
+echo "==> Configuring iptables"
 
-    sysctl -w net.ipv4.ip_forward=1
-    sysctl -w net.ipv4.conf.all.accept_redirects=0
-    sysctl -w net.ipv4.conf.all.send_redirects=0
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv4.conf.all.accept_redirects=0
+sysctl -w net.ipv4.conf.all.send_redirects=0
 
-    iptables -A INPUT -p udp --dport 500 --j ACCEPT
-    iptables -A INPUT -p udp --dport 4500 --j ACCEPT
-    iptables -A INPUT -p esp -j ACCEPT
-    iptables -t nat -A POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -m policy --dir out --pol ipsec -j ACCEPT
-    iptables -t nat -A POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -j MASQUERADE
+iptables -A INPUT -p udp --dport 500 --j ACCEPT
+iptables -A INPUT -p udp --dport 4500 --j ACCEPT
+iptables -A INPUT -p esp -j ACCEPT
+iptables -t nat -A POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -m policy --dir out --pol ipsec -j ACCEPT
+iptables -t nat -A POSTROUTING -s "${STRONGSWAN_LEFTSUBNET}" -o "${STRONGSWAN_INTERFACE}" -j MASQUERADE
 
-    cat > /etc/ipsec.conf <<EOF
+echo "==> Configuring strongswan"
+
+cat > /etc/ipsec.conf <<EOF
 # ipsec.conf
 
 config setup
@@ -43,15 +44,12 @@ conn ipsec-ikev2
 # end
 EOF
 
-    cat > /etc/ipsec.secrets <<EOF
+cat > /etc/ipsec.secrets <<EOF
 # ipsec.secrets
 
 : RSA "$STRONGSWAN_LEFTKEY"
 
 # end
 EOF
-    chmod 640 ipsec.conf ipsec.secrets
+chmod 640 ipsec.conf ipsec.secrets
 
-    export STRONGSWAN_CONFIG=1
-    printf "%s" "${STRONGSWAN_CONFIG}" > /var/run/s6/container_environment/STRONGSWAN_CONFIG
-fi
