@@ -25,7 +25,7 @@ if [ -z "${RABBITMQ_CONFIG}" ]; then
         fi
 
         if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
-            rabbitmq-plugins enable --offline rabbitmq_management
+            su -c "rabbitmq-plugins enable --offline rabbitmq_management" rabbitmq
         elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
             su -c "rabbitmq-plugins enable --offline rabbitmq_management_agent" rabbitmq
         fi
