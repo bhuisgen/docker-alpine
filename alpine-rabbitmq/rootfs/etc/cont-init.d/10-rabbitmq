@@ -21,26 +21,26 @@ if [ -z "${RABBITMQ_CONFIG}" ]; then
         fi
 
         if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
-            rabbitmqctl hipe_compile "${RABBITMQ_SERVER_CODE_PATH}"
+            su -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
             rabbitmq-plugins enable --offline rabbitmq_management
         elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
-            rabbitmq-plugins enable --offline rabbitmq_management_agent
+            su -c "rabbitmq-plugins enable --offline rabbitmq_management_agent" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_MQTT}" ] && [ "${RABBITMQ_MQTT}" -eq 1 ]; then
-            rabbitmq-plugins enable --offline rabbitmq_mqtt
+            su -c "rabbitmq-plugins enable --offline rabbitmq_mqtt" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_STOMP}" ] && [ "${RABBITMQ_STOMP}" -eq 1 ]; then
-            rabbitmq-plugins enable --offline rabbitmq_stomp
+            su -c "rabbitmq-plugins enable --offline rabbitmq_stomp" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_PLUGINS}" ]; then
             PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
-            rabbitmq-plugins enable --offline ${PLUGINS}
+            su -c "rabbitmq-plugins enable --offline ${PLUGINS}" rabbitmq
         fi
 
         su -c " \
