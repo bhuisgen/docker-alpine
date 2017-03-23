@@ -5,13 +5,14 @@ ENV RABBITMQ_VERSION=3.6.8 \
     RABBITMQ_HOME=/var/lib/rabbitmq \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
-    RABBITMQ_SERVER_CODE_PATH=/usr/local/rabbitmq/hipe/ebin \
+    RABBITMQ_SERVER_CODE_PATH=/var/lib/rabbitmq/hipe/ebin \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
     RABBITMQ_LOGS=- \
     RABBITMQ_SASL_LOGS=- \
     PATH=/usr/local/rabbitmq/sbin:$PATH
 
-RUN mkdir -p ${RABBITMQ_HOME} ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} /var/run/rabbitmq && \
+RUN mkdir -p ${RABBITMQ_HOME} ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} \
+        /var/run/rabbitmq && \
     addgroup rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h ${RABBITMQ_HOME} rabbitmq && \
     chown -R rabbitmq:rabbitmq ${RABBITMQ_HOME} /var/run/rabbitmq
@@ -35,7 +36,7 @@ RUN apk add --update tar xz && \
         /root/erlang-stdlib-19.3.0-r0.apk \
         /root/erlang-syntax-tools-19.3.0-r0.apk \
         /root/erlang-xmerl-19.3.0-r0.apk && \
-    mkdir -p /usr/local/rabbitmq ${RABBITMQ_SERVER_CODE_PATH} && \
+    mkdir -p /usr/local/rabbitmq && \
     curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -f /root/*.apk && \
