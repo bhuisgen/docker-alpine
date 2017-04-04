@@ -39,8 +39,8 @@
 {{- $nginx_php_status_ping_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW" -}}
 daemon off;
 user nginx;
-worker_processes {{$nginx_worker_processes}};
-worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};
+worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
+{{if $nginx_worker_rlimit_nofile}}worker_rlimit_nofile {{$nginx_worker_rlimit_nofile}};{{end}}
 pid  /var/run/nginx.pid;
 pcre_jit on;
 include /etc/nginx/modules/*.conf;
@@ -134,7 +134,7 @@ http {
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
         {{end}}
 
-        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}"";
+        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
         root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
         index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html index.php{{end}};
 
