@@ -13,3 +13,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 10051
+VOLUME ["/var/lib/zabbix"]
