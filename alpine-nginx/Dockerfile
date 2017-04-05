@@ -3,8 +3,7 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 RUN mkdir -p /var/www && \
     addgroup -g 82 -S www-data && \
-    adduser -u 82 -S -D -g "" -G www-data www-data && \
-    chown www-data:www-data /var/www
+    adduser -u 82 -S -D -g "" -G www-data www-data
 
 # RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted \
 #         nginx nginx-mod-stream && \
