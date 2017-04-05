@@ -16,6 +16,7 @@ services:
         image: bhuisgen/alpine-zabbix-proxy-sqlite3
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/zabbix       # volume for data
         environment:
             - CONSUL_AGENT=consul               # consul agent hostname/IP
             #- CONSUL_PORT=8500                 # consul agent port
