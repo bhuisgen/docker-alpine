@@ -85,8 +85,8 @@ services:
             #
             # template php
             #
-            NGINX_TEMPLATE_PHP_SERVICENAME=php                                  # service name of PHP backends
-            NGINX_TEMPLATE_PHP_SERVICETAG=dev                                   # service tag of PHP backends
+            - NGINX_TEMPLATE_PHP_SERVICENAME=php                                  # service name of PHP backends
+            - NGINX_TEMPLATE_PHP_SERVICETAG=dev                                   # service tag of PHP backends
             #- NGINX_TEMPLATE_PHP_SERVERNAME=""                                 # server names
             #- NGINX_TEMPLATE_PHP_ROOT=/var/www                                 # root directory
             #- NGINX_TEMPLATE_PHP_INDEX=index.html index.php                    # index pages
