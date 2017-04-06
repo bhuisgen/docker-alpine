@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base-consul:latest
+FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV RABBITMQ_VERSION=3.6.8
