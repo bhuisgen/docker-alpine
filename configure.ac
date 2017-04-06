@@ -87,6 +87,7 @@ AC_CONFIG_FILES([
     alpine-zabbix-agent/Makefile
     alpine-zabbix-frontend-php/Makefile
     alpine-zabbix-java-gateway/Makefile
+    alpine-zabbix-monitor/Makefile
     alpine-zabbix-proxy-mysql/Makefile
     alpine-zabbix-proxy-pgsql/Makefile
     alpine-zabbix-proxy-sqlite3/Makefile
