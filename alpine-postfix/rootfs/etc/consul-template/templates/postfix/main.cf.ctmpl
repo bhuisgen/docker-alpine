@@ -32,8 +32,8 @@ recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
 
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
-smtp_sasl_security_options = nonanonymous, noplaintext
-smtp_sasl_tls_security_options = nonanonymous, noplaintext
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
 smtp_tls_security_level = may
 smtpd_tls_security_level = may
 {{if and $postfix_smtpdtlscertfile $postfix_smtpdtlskeyfile}}

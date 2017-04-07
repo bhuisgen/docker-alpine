@@ -49,6 +49,7 @@ SUBDIRS = \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
     alpine-zabbix-java-gateway \
+    alpine-zabbix-monitor \
     alpine-zabbix-proxy-mysql \
     alpine-zabbix-proxy-pgsql \
     alpine-zabbix-proxy-sqlite3 \
