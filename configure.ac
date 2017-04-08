@@ -77,6 +77,7 @@ AC_CONFIG_FILES([
     alpine-rabbitmqadmin/Makefile
     alpine-redis/Makefile
     alpine-registry/Makefile
+    alpine-rng/Makefile
     alpine-rsyslog/Makefile
     alpine-ruby/Makefile
     alpine-spark/Makefile
