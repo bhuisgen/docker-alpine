@@ -123,11 +123,28 @@ if [ ! -d project ]; then
     cd project || exit 2
 
     git checkout "${BUILD_GITREF}"
+
+    if [ -x git-lfs ]; then
+        while true; do
+            git lfs checkout && status=1 || retry=$((retry+1))
+
+            if [ $status -eq 1 ]; then
+                break
+            fi
+
+            if [ $retry -ge 3 ]; then
+                echo "Failed to checkout LFS content, aborting" >&2
+                exit 4
+            fi
+        done
+    fi
 else
     cd project || exit 2
 
     git reset --hard
     git clean -fdx
+    [ -x git-lfs ] && git lfs clean
+
     git remote set-url origin "${BUILD_GITURL}"
 
     status=0
@@ -142,15 +159,30 @@ else
 
         if [ $retry -ge 3 ]; then
             echo "Failed to fetch repository, aborting" >&2
-            exit 4
+            exit 5
         fi
     done
 
     git checkout "${BUILD_GITREF}"
+
+    if [ -x git-lfs ]; then
+        while true; do
+            git lfs checkout && status=1 || retry=$((retry+1))
+
+            if [ $status -eq 1 ]; then
+                break
+            fi
+
+            if [ $retry -ge 3 ]; then
+                echo "Failed to checkout LFS content, aborting" >&2
+                exit 6
+            fi
+        done
+    fi
 fi
 
 if [ ! -z "${BUILD_PROJECT}" ]; then
-    cd ${BUILD_PROJECT} || exit 2
+    cd ${BUILD_PROJECT} || exit 7
 fi
 
 timeout -t ${BUILD_TIMEOUT} bash "${BUILD_SCRIPT}"
