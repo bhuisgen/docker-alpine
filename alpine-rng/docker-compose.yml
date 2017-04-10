@@ -8,4 +8,4 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - RNG_OPTIONS=--no-tpm=1 -W 4096
+            - RNG_OPTIONS=--no-tpm=1
