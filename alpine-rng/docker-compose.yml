@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+    rng:
+        image: bhuisgen/alpine-rng
+        privileged: true
+        network_mode: none
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - RNG_OPTIONS=--no-tpm=1

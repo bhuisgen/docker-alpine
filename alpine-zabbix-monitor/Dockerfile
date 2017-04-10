@@ -12,7 +12,6 @@ RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ 
     npm install && \
     npm run build && \
     mv dist /var/www && \
-    chown -R www-data:www-data /var/www && \
     cd /var/www && \
     rm -rf /usr/local/zabbix-monitor && \
     npm cache clean && \
