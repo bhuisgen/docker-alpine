@@ -3,29 +3,46 @@
 function usage {
     echo -e "Usage: $(basename "$0") <PID_FILE> <COMMAND>"
     echo -e ""
-    echo -e "Execute a daemon process and waits for his end execution."
+    echo -e "Execute a process and waits the end of his execution."
     echo -e ""
     echo -e "Options:"
-    echo -e "  --help\t\t\tdisplay this help and exit"
+    echo -e "  --help\tdisplay this help and exit"
 }
 
-trap 'exit 1' ERR INT TERM
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -h|--help)
+        usage
+        exit 0
+        ;;
 
-pidfile="$1"
-shift
-command=$@
+        *)
+        pidfile="$1"
+        shift
+        command=$@
+        break
+        ;;
+    esac
+done
+
+if [ -z ${pidfile} ] || [ -z ${command} ]; then
+    usage
+    exit 2
+fi
 
 function cleanup() {
-    trap - ERR SIGINT SIGTERM
+    trap - ERR INT TERM
 
-    kill $(cat $pidfile)
+    kill $(cat "${pidfile}")
 }
 
-trap 'cleanup; exit 0' ERR SIGINT SIGTERM
+trap 'cleanup; exit 1' ERR INT TERM
 
 $command
-sleep 4
-while [ -f "$pidfile" ] && kill -0 $(cat "$pidfile") ; do
+
+while [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") ; do
     sleep 4
 done
 

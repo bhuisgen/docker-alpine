@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/env bash
 
 if [ -z ${CONSUL_AGENT} ]; then
     exit 0

@@ -1,5 +1,6 @@
-#!/usr/bin/with-contenv sh
-set -e
+#!/usr/bin/env bash
+
+trap 'exit 2' ERR INT TERM
 
 echo "==> checking haproxy configuration"
 
