@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+function usage {
+    echo -e "Usage: $(basename "$0") <PID_FILE> <COMMAND>"
+    echo -e ""
+    echo -e "Execute a process and waits the end of his execution."
+    echo -e ""
+    echo -e "Options:"
+    echo -e "  --help\tdisplay this help and exit"
+}
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -h|--help)
+        usage
+        exit 0
+        ;;
+
+        *)
+        pidfile="$1"
+        shift
+        command=$@
+        ;;
+    esac
+done
+
+if [ -z ${pidfile} ] || [ -z ${command} ]; then
+    usage
+    exit 2
+fi
+
+function cleanup() {
+    trap - ERR INT TERM
+
+    kill $(cat "${pidfile}")
+}
+
+trap 'cleanup; exit 1' ERR INT TERM
+
+$command
+
+while [ -f "${pidfile}" ] && kill -0 $(cat "${pidfile}") ; do
+    sleep 4
+done
+
+exit 0
