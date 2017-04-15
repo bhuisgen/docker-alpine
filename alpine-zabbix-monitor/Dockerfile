@@ -11,8 +11,8 @@ RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ 
     cp app/scripts/config.js.dist app/scripts/config.js && \
     npm install && \
     npm run build && \
-    mv dist /var/www && \
     cd /var/www && \
+    cp -r /usr/local/zabbix-monitor/dist/* /var/www/ && \
     rm -rf /usr/local/zabbix-monitor && \
     npm cache clean && \
     apk del autoconf automake build-base git nodejs nodejs-npm && \
