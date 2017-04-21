@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    rslsync:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-rslsync
+        ports:
+            - "8888:8888"
+            - "55555:55555"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /srv/data:/var/lib/rslsync
+        environment:
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=rslsync                       # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=8888                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type

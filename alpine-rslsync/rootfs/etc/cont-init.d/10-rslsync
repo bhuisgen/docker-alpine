@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -e ${RSLSYNC_DATA}/rslsync.conf ]; then
+    echo "==> Copy default configuration file"
+
+    cp /etc/default/rslsync.conf ${RSLSYNC_DATA}/rslsync.conf
+    chown rslsync:rslsync ${RSLSYNC_DATA}/rslsync.conf
+fi
