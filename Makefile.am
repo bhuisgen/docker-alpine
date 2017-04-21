@@ -39,6 +39,7 @@ SUBDIRS = \
     alpine-rabbitmqadmin \
     alpine-redis \
     alpine-registry \
+    alpine-rslsync \
     alpine-rng \
     alpine-rsyslog \
     alpine-ruby \
