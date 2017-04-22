@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+exec s6-setuidgid syncthing /usr/local/bin/syncthing -no-restart \
+    -home=/var/lib/syncthing --gui-address="0.0.0.0:8384"
