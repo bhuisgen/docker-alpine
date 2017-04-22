@@ -10,5 +10,5 @@ COPY rootfs/ /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 8384 22222 21027/udp
+EXPOSE 8384 22000 21027/udp
 VOLUME ["/var/lib/syncthing", "/data"]
