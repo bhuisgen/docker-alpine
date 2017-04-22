@@ -15,7 +15,7 @@ services:
             - consul
         image: bhuisgen/alpine-syncthing
         ports:
-            - "22222:22222"
+            - "22000:22000"
             - "21027:21027/udp"
             - "8384:8384"
         volumes:
