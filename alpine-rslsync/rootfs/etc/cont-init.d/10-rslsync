@@ -4,6 +4,19 @@ if [ -z "${RSLSYNC_CONFIG}" ]; then
     if [ -z "${RSLSYNC_CONFIG}" ]; then
         echo "==> Configuring rslsync from environment"
 
+        if [ -z "${RSLSYNC_UID}" ]; then
+            RSLSYNC_UID=1000
+        fi
+
+        if [ -z "${RSLSYNC_GID}" ]; then
+            RSLSYNC_GID=1000
+        fi
+
+        mkdir -p /var/lib/rslsync /var/run/rslsync
+        addgroup -g ${RSLSYNC_GID} -S rslsync
+        adduser -u ${RSLSYNC_UID} -S -D -g "" -G rslsync -s /bin/sh -h /var/lib/rslsync rslsync
+        chown rslsync:rslsync /var/lib/rslsync /var/run/rslsync
+
         if [ -z "${RSLSYNC_NAME}" ]; then
             RSLSYNC_NAME=$(hostname)
         fi
@@ -15,7 +28,7 @@ if [ -z "${RSLSYNC_CONFIG}" ]; then
     "use_upnp": false,
     "vendor": "docker",
     "device_name": "${RSLSYNC_NAME}",
-    "pid_file": "/var/run/rslsync.pid",
+    "pid_file": "/var/run/rslsync/rslsync.pid",
     "storage_path": "/var/lib/rslsync",
     "directory_root": "/data",
     "directory_root_policy": "belowroot",
