@@ -1,8 +1,35 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -e ${RSLSYNC_DATA}/rslsync.conf ]; then
-    echo "==> Copy default configuration file"
+if [ -z "${RSLSYNC_CONFIG}" ]; then
+    if [ -z "${RSLSYNC_CONFIG}" ]; then
+        echo "==> Configuring rslsync from environment"
 
-    cp /etc/default/rslsync.conf ${RSLSYNC_DATA}/rslsync.conf
-    chown rslsync:rslsync ${RSLSYNC_DATA}/rslsync.conf
+        cat > /etc/rslsync.conf <<EOF
+{
+    "listening_port": 55555,
+    "storage_path": "/var/lib/rslsync",
+    "directory_root": "/data",
+    "directory_root_policy": "belowroot",
+    "display_new_version": false,
+    "webui": {
+        "listen": "0.0.0.0:8888",
+        "allow_empty_password": false,
+        "dir_whitelist": [
+            "/data"
+        ]
+    }
+}
+EOF
+    else
+        echo "==> Configuring rslsync from script"
+
+        /bin/sh "${RSLSYNC_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 4
+        fi
+    fi
+
+    export RSLSYNC_CONFIG=1
+    printf "%s" "${RSLSYNC_CONFIG}" > /var/run/s6/container_environment/RSLSYNC_CONFIG
 fi
