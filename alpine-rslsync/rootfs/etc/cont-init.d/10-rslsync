@@ -4,13 +4,26 @@ if [ -z "${RSLSYNC_CONFIG}" ]; then
     if [ -z "${RSLSYNC_CONFIG}" ]; then
         echo "==> Configuring rslsync from environment"
 
-        cat > /etc/rslsync.conf <<EOF
+        if [ -z "${RSLSYNC_NAME}" ]; then
+            RSLSYNC_NAME=$(hostname)
+        fi
+
+        mkdir -p /etc/rslsync
+        cat > /etc/rslsync/rslsync.conf <<EOF
 {
     "listening_port": 55555,
+    "use_upnp": false,
+    "vendor": "docker",
+    "device_name": "${RSLSYNC_NAME}",
+    "pid_file": "/var/run/rslsync.pid",
     "storage_path": "/var/lib/rslsync",
     "directory_root": "/data",
     "directory_root_policy": "belowroot",
     "display_new_version": false,
+EOF
+
+        if [ -z "${RSLSYNC_SECRET}" ]; then
+            cat >> /etc/rslsync/rslsync.conf <<EOF
     "webui": {
         "listen": "0.0.0.0:8888",
         "allow_empty_password": false,
@@ -20,6 +33,22 @@ if [ -z "${RSLSYNC_CONFIG}" ]; then
     }
 }
 EOF
+        else
+            cat >> /etc/rslsync/rslsync.conf <<EOF
+    "shared_folders": [
+        {
+            "secret": "${RSLSYNC_SECRET}",
+            "dir": "/data",
+            "use_relay_server" : false,
+            "use_tracker" : true,
+            "search_lan" : true,
+            "use_sync_trash": false,
+            "overwrite_changes" : false
+        }
+    ]
+}
+EOF
+        fi
     else
         echo "==> Configuring rslsync from script"
 

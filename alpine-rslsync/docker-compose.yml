@@ -29,4 +29,6 @@ services:
             - CONSUL_SERVICETAGS=dev                        # consul service tag
             - CONSUL_SERVICEPORT=8888                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            #- RSLSYNC_DEVICE=                              # sync device name
+            #- RSLSYNC_SECRET=                              # enable shared folder or web UI
             #- RSLSYNC_CONFIGSCRIPT=/root/rslsync/config.sh # custom configuration script
