@@ -45,6 +45,7 @@ SUBDIRS = \
     alpine-ruby \
     alpine-spark \
     alpine-strongswan \
+    alpine-syncthing \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \

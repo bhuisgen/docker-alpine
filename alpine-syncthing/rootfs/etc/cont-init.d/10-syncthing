@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${SYNCTHING_CONFIG}" ]; then
+    if [ -z "${SYNCTHING_CONFIG}" ]; then
+        echo "==> Configuring syncthing from environment"
+
+        if [ -z "${SYNCTHING_UID}" ]; then
+            SYNCTHING_UID=1000
+        fi
+
+        if [ -z "${SYNCTHING_GID}" ]; then
+            SYNCTHING_GID=1000
+        fi
+
+        mkdir -p /var/lib/syncthing /var/run/syncthing
+        addgroup -g ${SYNCTHING_GID} -S syncthing
+        adduser -u ${SYNCTHING_UID} -S -D -g "" -G syncthing -s /bin/sh -h /var/lib/syncthing syncthing
+        chown syncthing:syncthing /var/lib/syncthing /var/run/syncthing
+    else
+        echo "==> Configuring syncthing from script"
+
+        /bin/sh "${SYNCTHING_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 4
+        fi
+    fi
+
+    export SYNCTHING_CONFIG=1
+    printf "%s" "${SYNCTHING_CONFIG}" > /var/run/s6/container_environment/SYNCTHING_CONFIG
+fi

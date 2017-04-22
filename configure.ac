@@ -83,6 +83,7 @@ AC_CONFIG_FILES([
     alpine-ruby/Makefile
     alpine-spark/Makefile
     alpine-strongswan/Makefile
+    alpine-syncthing/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
