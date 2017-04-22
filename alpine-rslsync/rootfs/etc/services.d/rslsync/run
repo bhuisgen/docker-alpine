@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid rslsync /usr/local/bin/rslsync --nodaemon --config /var/lib/rslsync/rslsync.conf
+exec /usr/local/bin/rslsync --nodaemon --config /etc/rslsync.conf
