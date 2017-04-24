@@ -13,7 +13,7 @@ ENV RABBITMQ_VERSION=3.6.8 \
 
 RUN mkdir -p ${RABBITMQ_HOME} ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} \
         /var/run/rabbitmq && \
-    addgroup rabbitmq && \
+    addgroup -S rabbitmq && \
     adduser -S -D -g "" -G rabbitmq -s /bin/sh -h ${RABBITMQ_HOME} rabbitmq && \
     chown -R rabbitmq:rabbitmq ${RABBITMQ_HOME} /var/run/rabbitmq
 

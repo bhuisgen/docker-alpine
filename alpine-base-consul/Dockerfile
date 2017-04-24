@@ -1,10 +1,10 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV CONSULTEMPLATE_VERSION=0.18.1
+ENV CONSULTEMPLATE_VERSION=0.18.2
 
 RUN mkdir -p /var/lib/consul && \
-    addgroup consul && \
+    addgroup -S consul && \
     adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     chown -R consul:consul /var/lib/consul
 

@@ -39,11 +39,13 @@ SUBDIRS = \
     alpine-rabbitmqadmin \
     alpine-redis \
     alpine-registry \
+    alpine-rslsync \
     alpine-rng \
     alpine-rsyslog \
     alpine-ruby \
     alpine-spark \
     alpine-strongswan \
+    alpine-syncthing \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \
