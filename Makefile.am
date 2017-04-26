@@ -32,6 +32,7 @@ SUBDIRS = \
     alpine-perl \
     alpine-php \
     alpine-phpmyadmin \
+    alpine-portainer \
     alpine-postfix \
     alpine-postgresql \
     alpine-python \
