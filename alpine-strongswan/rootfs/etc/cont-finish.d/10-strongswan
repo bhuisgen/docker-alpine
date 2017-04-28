@@ -2,9 +2,10 @@
 
 echo "==> Cleaning iptables"
 
-iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 500 --j ACCEPT
-iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 --j ACCEPT
-iptables -D OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 500 --j ACCEPT
-iptables -D OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 --j ACCEPT
-iptables -D FORWARD -i "${STRONGSWAN_INTERFACE}" -o "${STRONGSWAN_INTERFACE}" -s "${STRONGSWAN_LEFTSUBNET}" -m policy --dir in --pol ipsec --proto esp -j ACCEPT
-iptables -D FORWARD -i "${STRONGSWAN_INTERFACE}" -o "${STRONGSWAN_INTERFACE}" -d "${STRONGSWAN_LEFTSUBNET}" -m policy --dir out --pol ipsec --proto esp -j ACCEPT
+sysctl -w net.ipv4.ip_forward=0
+
+iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
+iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT
+iptables -D FORWARD -j ACCEPT
+iptables -D OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
+iptables -D OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT
