@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-ENV DOCKERCOMPOSE_VERSION=1.11.0
+ENV DOCKERCOMPOSE_VERSION=1.13.0
 
 RUN apk add --update python3 && \
     python3 -m ensurepip --upgrade && \
