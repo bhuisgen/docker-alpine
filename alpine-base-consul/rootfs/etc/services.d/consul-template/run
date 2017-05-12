@@ -30,6 +30,8 @@ if [ ! -z "${CONSUL_TOKEN}" ]; then
     options="${options} -consul-token ${CONSUL_TOKEN}"
 fi
 
+options="${options} -kill-signal SIGTERM"
+
 if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
     options="${options} ${CONSULTEMPLATE_OPTIONS}"
 fi
