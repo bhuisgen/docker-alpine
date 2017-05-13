@@ -8,7 +8,7 @@ RUN apk add --update --allow-untrusted \
         git python3 \
         /root/zabbix-agent-${ZABBIX_VERSION}-*.apk && \
     python3 -m ensurepip --upgrade && \
-    git clone --progress https://github.com/bhuisgen/zabbix-docker.git /usr/local/zabbix-docker && \
+    git clone --depth 1 --progress https://github.com/bhuisgen/zabbix-docker.git /usr/local/zabbix-docker && \
     cd /usr/local/zabbix-docker && \
     python3 setup.py install && \
     apk del git && \
