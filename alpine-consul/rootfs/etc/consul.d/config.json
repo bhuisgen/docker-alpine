@@ -1,7 +1,6 @@
 {
     "datacenter": "local",
     "data_dir": "/var/lib/consul",
-    "ui_dir": "/var/lib/consului",
     "log_level": "INFO",
     "disable_anonymous_signature": true,
     "disable_update_check": true,
