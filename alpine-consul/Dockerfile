@@ -2,7 +2,6 @@ FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION=0.7.5 \
-    CONSULUI_VERSION=0.7.5 \
     CONSULTEMPLATE_VERSION=0.18.2 \
     GOMAXPROCS=2
 
@@ -15,10 +14,6 @@ RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip -o /tmp/consul.zip && \
     unzip /tmp/consul.zip -d /bin && \
     rm /tmp/consul.zip && \
-    mkdir -p /var/lib/consului && \
-    curl -sSL https://releases.hashicorp.com/consul/${CONSULUI_VERSION}/consul_${CONSULUI_VERSION}_web_ui.zip -o /tmp/consului.zip && \
-    unzip /tmp/consului.zip -d /var/lib/consului && \
-    rm /tmp/consului.zip && \
     curl -sSL https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /tmp/consul-template.zip && \
     unzip /tmp/consul-template.zip -d /bin && \
     rm /tmp/consul-template.zip && \
