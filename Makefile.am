@@ -18,6 +18,7 @@ SUBDIRS = \
     alpine-elasticsearch \
     alpine-fabric \
     alpine-git \
+    alpine-gogs \
     alpine-haproxy \
     alpine-hostapd \
     alpine-java \

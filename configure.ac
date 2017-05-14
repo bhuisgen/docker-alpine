@@ -56,6 +56,7 @@ AC_CONFIG_FILES([
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile
     alpine-git/Makefile
+    alpine-gogs/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-java/Makefile

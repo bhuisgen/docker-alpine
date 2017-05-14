@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+export USER=git
+export HOME=${GIT_HOME}
+
+cd /usr/local/gogs || exit 1
+exec s6-setuidgid git ./gogs web
