@@ -88,6 +88,7 @@ AC_CONFIG_FILES([
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
+    alpine-xvfb/Makefile
     alpine-zabbix-agent/Makefile
     alpine-zabbix-frontend-php/Makefile
     alpine-zabbix-java-gateway/Makefile

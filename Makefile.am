@@ -50,6 +50,7 @@ SUBDIRS = \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \
+    alpine-xvfb \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
     alpine-zabbix-java-gateway \
