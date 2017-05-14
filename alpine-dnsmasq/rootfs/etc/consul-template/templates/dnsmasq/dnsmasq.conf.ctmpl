@@ -1,6 +1,8 @@
 {{- $dnsmasq_noresolv := env "DNSMASQ_NORESOLV" -}}
 {{- $dnsmasq_interface := env "DNSMASQ_INTERFACE" -}}
+{{- $dnsmasq_exceptinterface := env "DNSMASQ_EXCEPTINTERFACE" -}}
 {{- $dnsmasq_listenaddress := env "DNSMASQ_LISTENADDRESS" -}}
+{{- $dnsmasq_bindinterfaces := env "DNSMASQ_BINDINTERFACES" -}}
 {{- $dnsmasq_nohosts := env "DNSMASQ_NOHOSTS" -}}
 {{- $dnsmasq_addhosts := env "DNSMASQ_ADDHOSTS" -}}
 {{- $dnsmasq_domain := env "DNSMASQ_DOMAIN" -}}
@@ -14,8 +16,16 @@ domain-needed
 bogus-priv
 filterwin2k
 {{if eq $dnsmasq_noresolv "1"}}no-resolv{{end}}
-{{if $dnsmasq_interface}}interface={{$dnsmasq_interface}}{{end}}
-{{if $dnsmasq_listenaddress}}listen-address={{$dnsmasq_listenaddress}}{{end}}
+{{range $interface := $dnsmasq_interface | split ","}}
+interface={{$interface}}
+{{end}}
+{{range $interface := $dnsmasq_exceptinterface | split ","}}
+except-interface={{$interface}}
+{{end}}
+{{range $address := $dnsmasq_listenaddress | split ","}}
+listen-address={{$address}}
+{{end}}
+{{if eq $dnsmasq_bindinterfaces "1"}}bind-interfaces{{end}}
 {{if eq $dnsmasq_nohosts "1"}}no-hosts{{end}}
 {{if $dnsmasq_addhosts}}addn-hosts={{$dnsmasq_addhosts}}{{end}}
 {{if $dnsmasq_domain}}

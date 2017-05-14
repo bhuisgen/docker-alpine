@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${DNSMASQ_TEMPLATE} ]; then
+    echo "==> Enabling dnsmasq template '${DNSMASQ_TEMPLATE}'"
+
+    cp "/etc/consul-template/templates/dnsmasq/${DNSMASQ_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-dnsmasq.conf
+fi

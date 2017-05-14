@@ -29,16 +29,19 @@ services:
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
             - DNSMASQ_NORESOLV=1                    # read /etc/resolv.conf
             - DNSMASQ_INTERFACE=wlan0               # listen interface
+            #- DNSMASQ_EXCEPTINTERFACE=             # interface to not listen
             - DNSMASQ_LISTENADDRESS=192.168.100.1   # listen IP
+            #- DNSMASQ_BINDINTERFACES=0             # bind only on these interfaces
             #- DNSMASQ_NOHOSTS=1                    # disable hosts file
             #- DNSMASQ_ADDHOSTS=/etc/hosts.dnsmasq  # custom hosts file
             - DNSMASQ_DOMAIN=my.domain              # domain
             #- DNSMASQ_LOG=1                        # enable log
             #
-            # Options to enable DHCP server (capability NET_ADMIN is required)
+            # Options to enable DHCP server (capability NET_ADMIN required)
             #
-            #- DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,12h    # DHCP addresses range
-            #- DNSMASQ_DHCPNETMASK=255.255.255.0                                    # DHCP network mask
-            #- DNSMASQ_DHCPROUTER=192.168.100.1                                     # DHCP gateway to push to clients
-            #- DNSMASQ_DHCPDNSSERVER=192.168.100.1                                  # DHCP DNS server to push to clients
-            #- DNSMASQ_DHCPNTPSERVER=192.168.100.1                                  # DHCP NTP server to push to clients
+            #- DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,1h # DHCP addresses range
+            #- DNSMASQ_DHCPNETMASK=255.255.255.0                                # DHCP network mask
+            #- DNSMASQ_DHCPROUTER=192.168.100.1                                 # DHCP gateway to push to clients
+            #- DNSMASQ_DHCPDNSSERVER=192.168.100.1                              # DHCP DNS server to push to clients
+            #- DNSMASQ_DHCPNTPSERVER=192.168.100.1                              # DHCP NTP server to push to clients
+            #- DNSMASQ_TEMPLATE=                     # configuration template
