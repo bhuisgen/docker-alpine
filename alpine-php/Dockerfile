@@ -27,6 +27,7 @@ RUN apk add --update php5 \
         php5-sqlite3 \
         php5-xml \
         php5-xmlreader \
+        php5-zip && \
         php5-zlib && \
     rm -rf /var/cache/apk/*
 
