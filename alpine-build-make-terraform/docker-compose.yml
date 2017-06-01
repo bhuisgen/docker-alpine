@@ -13,7 +13,7 @@ services:
     build-make-terraform:
         depends_on:
             - consul
-        image: bhuisgen/alpine-backup-make-terraform
+        image: bhuisgen/alpine-build-make-terraform
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
@@ -22,10 +22,10 @@ services:
             #- CONSUL_PORT=8500                                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
             #- BUILD_GITURL=git@git.my.domain:your/project.git          # git repository URL
-            #- BUILD_GITREF=HEAD                                        # git tag/commit reference to backup
+            #- BUILD_GITREF=HEAD                                        # git tag/commit reference to build
             #- BUILD_PROJECT=                                           # project directory (empty for the root of sources)
-            #- BUILD_SCRIPT=/usr/local/backup/backup.sh                   # backup script
-            #- BUILD_TIMEOUT=3600                                       # backup timeout
+            #- BUILD_SCRIPT=/usr/local/build/build.sh                   # build script
+            #- BUILD_TIMEOUT=3600                                       # build timeout
             #- CONFIGURE=1                                              # enable configure script (executed only if found)
             #- CONFIGURE_OPTIONS=                                       # configure options
             #- MAKE_OPTIONS=                                            # make options
