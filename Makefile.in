@@ -286,6 +286,7 @@ SUBDIRS = \
     alpine-build-make-terraform \
     alpine-build-maven \
     alpine-build-npm \
+    alpine-build-rpi \
     alpine-archiva \
     alpine-awscli \
     alpine-cli53 \
