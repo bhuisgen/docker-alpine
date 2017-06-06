@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/sbin/dnsmasq --no-daemon ${DNSMASQ_OPTIONS}
+exec /usr/sbin/dnsmasq -d ${DNSMASQ_OPTIONS}

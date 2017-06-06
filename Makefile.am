@@ -7,6 +7,7 @@ SUBDIRS = \
     alpine-build-make-terraform \
     alpine-build-maven \
     alpine-build-npm \
+    alpine-build-rpi \
     alpine-archiva \
     alpine-awscli \
     alpine-cli53 \
@@ -18,6 +19,7 @@ SUBDIRS = \
     alpine-elasticsearch \
     alpine-fabric \
     alpine-git \
+    alpine-gogs \
     alpine-haproxy \
     alpine-hostapd \
     alpine-java \
@@ -50,6 +52,7 @@ SUBDIRS = \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \
+    alpine-xvfb \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
     alpine-zabbix-java-gateway \

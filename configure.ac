@@ -45,6 +45,7 @@ AC_CONFIG_FILES([
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
     alpine-build-npm/Makefile
+    alpine-build-rpi/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile
     alpine-cli53/Makefile
@@ -56,6 +57,7 @@ AC_CONFIG_FILES([
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile
     alpine-git/Makefile
+    alpine-gogs/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-java/Makefile
@@ -88,6 +90,7 @@ AC_CONFIG_FILES([
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
+    alpine-xvfb/Makefile
     alpine-zabbix-agent/Makefile
     alpine-zabbix-frontend-php/Makefile
     alpine-zabbix-java-gateway/Makefile

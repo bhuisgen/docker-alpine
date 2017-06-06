@@ -43,6 +43,8 @@ if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_CONTAINER}" -eq 1 ]; then
         options="${options} -consul-token ${CONSUL_TOKEN}"
     fi
 
+    options="${options} -kill-signal SIGTERM"
+
     if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
     fi

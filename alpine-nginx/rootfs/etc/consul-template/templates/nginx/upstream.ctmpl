@@ -101,7 +101,7 @@ http {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
 
-        {{if and $name tag}}
+        {{if and $name $tag}}
         {{range service (print $tag "." $name)}}
         server {{.Address}}:{{.Port}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
         {{else}}
