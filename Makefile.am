@@ -8,6 +8,7 @@ SUBDIRS = \
     alpine-build-maven \
     alpine-build-npm \
     alpine-build-rpi \
+    alpine-build-rpi-make \
     alpine-archiva \
     alpine-awscli \
     alpine-cli53 \

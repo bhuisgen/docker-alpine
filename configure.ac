@@ -46,6 +46,7 @@ AC_CONFIG_FILES([
     alpine-build-maven/Makefile
     alpine-build-npm/Makefile
     alpine-build-rpi/Makefile
+    alpine-build-rpi-make/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile
     alpine-cli53/Makefile
