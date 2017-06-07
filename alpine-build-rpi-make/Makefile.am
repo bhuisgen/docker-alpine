@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-rpi-build-make
+IMAGE = bhuisgen/alpine-build-rpi-make
 
 clean-local:
 	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true
