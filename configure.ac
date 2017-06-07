@@ -44,9 +44,11 @@ AC_CONFIG_FILES([
     alpine-build-make-gcc/Makefile
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
+    alpine-build-python/Makefile
     alpine-build-npm/Makefile
     alpine-build-rpi/Makefile
     alpine-build-rpi-make/Makefile
+    alpine-build-rpi-python/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile
     alpine-cli53/Makefile
