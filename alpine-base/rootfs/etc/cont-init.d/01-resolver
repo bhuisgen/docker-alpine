@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${CONTAINER_RESOLVER}" ] || [ "${CONTAINER_RESOLVER}" -eq "disable" ]; then
+if [ -z "${CONTAINER_RESOLVER}" ] || [ "${CONTAINER_RESOLVER}" == "disable" ]; then
     exit 0
 fi
 
