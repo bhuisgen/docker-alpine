@@ -2,6 +2,9 @@
 {{- $hostapd_ssid := env "HOSTAPD_SSID" -}}
 {{- $hostapd_countrycode := env "HOSTAPD_COUNTRYCODE" -}}
 {{- $hostapd_wpapassphrase := env "HOSTAPD_WPAPASSPHRASE" -}}
+{{- $hostapd_wpakeymgmt := env "HOSTAPD_WPAKEYMGMT" -}}
+{{- $hostapd_wpapairwise := env "HOSTAPD_WPAPAIRWISE" -}}
+{{- $hostapd_rsnpairwise := env "HOSTAPD_RSNPAIRWISE" -}}
 ctrl_interface=/var/run/hostapd
 ctrl_interface_group=0
 
@@ -20,6 +23,6 @@ ignore_broadcast_ssid=0
 
 wpa=2
 wpa_passphrase={{$hostapd_wpapassphrase}}
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
+wpa_key_mgmt={{if $hostapd_wpakeymgmt}}{{$hostapd_wpakeymgmt}}{{else}}WPA-PSK{{end}}
+wpa_pairwise={{if $hostapd_wpapairwise}}{{$hostapd_wpapairwise}}{{else}}TKIP{{end}}
+rsn_pairwise={{if $hostapd_rsnpairwise}}{{$hostapd_rsnpairwise}}{{else}}CCMP{{end}}
