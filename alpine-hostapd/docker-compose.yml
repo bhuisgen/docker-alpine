@@ -29,3 +29,6 @@ services:
             - HOSTAPD_SSID=${USERNAME}             # AP network SSID
             - HOSTAPD_COUNTRYCODE=FR               # AP country code
             - HOSTAPD_WPAPASSPHRASE=1234567890     # AP WPA passphrase
+            #- HOSTAPD_WPAKEYMGMT=WPA-PSK          # AP WPA key management
+            #- HOSTAPD_WPAPAIRWISE=TKIP            # AP WPA pairwise
+            #- HOSTAPD_RSNPAIRWISE=CCMP            # AP RNS pairwise
