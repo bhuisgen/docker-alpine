@@ -22,18 +22,23 @@ if [ ${links} -gt 1 ]; then
                 CONTAINER_RESOLVER_INTERFACETYPE=inet
             fi
 
-            CONTAINER_IP=$(ip -o addr show ${CONTAINER_RESOLVER_INTERFACENAME}|grep "${CONTAINER_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+            CONTAINER_IP=$(ip -o addr show "${CONTAINER_RESOLVER_INTERFACENAME}"|grep "${CONTAINER_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+
+            if [ -z "${CONTAINER_IP}" ]; then
+                echo "Failed to get IP address, aborting" >&2
+                exit 2
+            fi
             ;;
 
         route)
             CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit; }')
+
+            if [ -z "${CONTAINER_IP}" ]; then
+                echo "Failed to get IP address, aborting" >&2
+                exit 2
+            fi
             ;;
     esac
-
-    if [ -z "${CONTAINER_IP}" ]; then
-        echo "Failed to get IP address, aborting" >&2
-        exit 2
-    fi
 
     export CONTAINER_HOST
     export CONTAINER_IP
