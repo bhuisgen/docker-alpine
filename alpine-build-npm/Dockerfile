@@ -1,7 +1,8 @@
 FROM bhuisgen/alpine-build:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted nodejs nodejs-npm && \
+RUN apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted \
+        nodejs nodejs-npm && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /

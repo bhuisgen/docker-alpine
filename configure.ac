@@ -41,7 +41,6 @@ AC_CONFIG_FILES([
     alpine-base-consul/Makefile
     alpine-build/Makefile
     alpine-build-make/Makefile
-    alpine-build-make-gcc/Makefile
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
     alpine-build-python/Makefile
