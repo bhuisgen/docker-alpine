@@ -19,7 +19,7 @@ services:
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
             - CONSUL_DATACENTER=local                                           # datacenter
-            - CONSUL_DOMAIN=test                                                # domain name
+            - CONSUL_DOMAIN=consul                                              # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
             - CONSUL_TLS=1                                                      # enable TLS
             - CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                         # TLS CA certificate file
