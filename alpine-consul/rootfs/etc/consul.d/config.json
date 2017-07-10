@@ -4,7 +4,6 @@
     "log_level": "INFO",
     "disable_anonymous_signature": true,
     "disable_update_check": true,
-    "disable_remote_exec": true,
     "dns_config": {
         "max_stale": "1s"
     }
