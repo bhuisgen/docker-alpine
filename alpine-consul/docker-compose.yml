@@ -28,8 +28,8 @@ services:
             #- CONSUL_ACLDATACENTER=                                            # ACL authoritative datacenter
             #- CONSUL_ACLMASTERTOKEN=                                           # ACL master token (server only)
             #- CONSUL_ACLTOKEN=                                                 # ACL token
-            #- CONSUL_ACLAGENTMASTERTOKEN=                                      # ACL token during server outage (agent only)
-            #- CONSUL_ACLAGENTTOKEN=                                            # ACL token for internal operations (agent only, ACL token by default)
+            #- CONSUL_ACLAGENTMASTERTOKEN=                                      # ACL token during server outage (client only)
+            #- CONSUL_ACLAGENTTOKEN=                                            # ACL token for internal operations (client only, ACL token by default)
             #- CONSUL_ACLREPLICATIONTOKEN=                                      # ACL token for replication outside of datacenter (server only)
             #- CONSUL_ACLDEFAULTPOLICY=extend-cache                             # ACL default policy (server only)
             #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy
