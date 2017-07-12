@@ -34,5 +34,5 @@ services:
             #- CONSUL_ACLDEFAULTPOLICY=extend-cache                             # ACL default policy (server only)
             #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy
             #- CONSUL_ACLTTL=30                                                 # ACL TTL (server only)
-            #- CONSUL_ACLENFORCEVERSION8=false                                  # Enforce ACL version 8
+            #- CONSUL_ACLENFORCEVERSION8=true                                   # Enforce ACL version 8
             #- CONSUL_RAFTMULTIPLIER=0                                          # Raft mutliplier

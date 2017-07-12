@@ -18,5 +18,5 @@
     {{if $acl_default_policy}}"acl_default_policy": "{{$acl_default_policy}}",{{end}}
     {{if $acl_down_policy}}"acl_down_policy": "{{$acl_down_policy}}",{{end}}
     {{if $acl_ttl}}"acl_ttl": "{{$acl_ttl}}",{{end}}
-    "acl_enforce_version_8": {{if $acl_enforce_version_8}}{{$acl_enforce_version_8}}{{else}}false{{end}}
+    "acl_enforce_version_8": {{if $acl_enforce_version_8}}{{$acl_enforce_version_8}}{{else}}true{{end}}
 }
