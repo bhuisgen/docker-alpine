@@ -1,3 +1,4 @@
+{{- $zabbixdocker_zabbix_host := env "ZABBIXDOCKER_ZABBIXHOST" -}}
 {{- $zabbixdocker_log := env "ZABBIXDOCKER_LOG" -}}
 {{- $zabbixdocker_log_level := env "ZABBIXDOCKER_LOGLEVEL" -}}
 {{- $zabbixdocker_containers := env "ZABBIXDOCKER_CONTAINERS" -}}
@@ -24,7 +25,7 @@ events = {{if eq $zabbixdocker_events "1"}}yes{{else}}no{{end}}
 #timeout = 5
 
 [zabbix]
-#host =
+{{if $zabbixdocker_zabbix_host}}host = {{$zabbixdocker_zabbix_host}}{{else}}#host ={{end}}
 
 [discovery]
 #startup = 15
