@@ -85,6 +85,10 @@ if [ ! -z "${CONSUL_AGENT}" ]; then
         fi
     fi
 
+    if [ ! -z "${CONSUL_TOKEN}" ]; then
+        options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
+    fi
+
     retry=0
     while true; do
         [ $(curl -sI -w '%{http_code}' --out /dev/null ${options} "${url}/v1/agent/self") == "200" ] && break
