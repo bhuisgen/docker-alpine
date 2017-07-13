@@ -2,7 +2,10 @@
 
 links=$(ip -o link show|wc -l)
 if [ ${links} -gt 1 ]; then
-    CONTAINER_HOST=$(cat /etc/hostname)
+    if [ -z "${CONTAINER_HOST}" ]; then
+        CONTAINER_HOST=$(cat /etc/hostname)
+    fi
+
     if [ -z "${CONTAINER_HOST}" ]; then
         echo "Failed to get hostname, aborting" >&2
         exit 1
