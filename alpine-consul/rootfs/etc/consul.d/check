@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ ! -z "${CONSUL_TOKEN}" ]; then
+    token="-token ${CONSUL_TOKEN}"
+elif [ ! -z "${CONSUL_ACLMASTERTOKEN}" ]; then
+    token="-token ${CONSUL_ACLMASTERTOKEN}"
+elif [ ! -z "${CONSUL_ACLAGENTMASTERTOKEN}" ]; then
+    token="-token ${CONSUL_ACLAGENTMASTERTOKEN}"
+fi
+
+consul info ${token}|awk '/health_score/{if ($3 >= 1) exit 1; else exit 0}'
