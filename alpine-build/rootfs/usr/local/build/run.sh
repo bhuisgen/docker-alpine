@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 function usage {
     echo -e "Usage: $(basename "$0") [-u <URL>] [-r <COMMIT>] [-p <DIR>] [-s <FILE>] [-t <DURATION>]"
@@ -99,7 +99,7 @@ if [ -z "${BUILD_TIMEOUT}" ]; then
     BUILD_TIMEOUT=3600
 fi
 
-trap 'exit 2' ERR INT TERM
+trap 'exit 2' INT TERM
 
 cd "${0%/*}" || exit 2
 
@@ -122,14 +122,14 @@ if [ ! -d project ]; then
 
     cd project || exit 2
 
-    git checkout "${BUILD_GITREF}"
+    git checkout "${BUILD_GITREF}" || exit 2
 else
     cd project || exit 2
 
-    git reset --hard
-    git clean -fdx
+    git reset --hard || exit 2
+    git clean -fdx || exit 2
 
-    git remote set-url origin "${BUILD_GITURL}"
+    git remote set-url origin "${BUILD_GITURL}" || exit 2
 
     status=0
     retry=0
@@ -143,15 +143,15 @@ else
 
         if [ $retry -ge 3 ]; then
             echo "Failed to fetch repository, aborting" >&2
-            exit 5
+            exit 3
         fi
     done
 
-    git checkout "${BUILD_GITREF}"
+    git checkout "${BUILD_GITREF}" || exit 2
 fi
 
 if [ ! -z "${BUILD_PROJECT}" ]; then
-    cd ${BUILD_PROJECT} || exit 7
+    cd ${BUILD_PROJECT} || exit 2
 fi
 
-timeout -t ${BUILD_TIMEOUT} bash "${BUILD_SCRIPT}"
+timeout -t ${BUILD_TIMEOUT} /bin/bash "${BUILD_SCRIPT}" || exit 4
