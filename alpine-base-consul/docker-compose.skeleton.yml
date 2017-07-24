@@ -18,7 +18,7 @@ services:
             #- CONSUL_TLSKEYFILE=/etc/consul.d/ssl/client-priv-key.pem    # TLS client certificate key file
             #- CONSUL_TLSSERVERNAME=                                      # SNI server name for validation
             #- CONSUL_TLSVERIFY=0                                         # enable TLS peer verification
-            #- CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985          # ACL token
+            #- CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985          # API token
             #- CONSUL_KEYPREFIX=path/prefix/                              # keystore prefix path
             #- CONSUL_RESOLVER=container                                  # IP resolver method for consul service registration (container/route/interface, by default container)
             #- CONSUL_RESOLVER_INTERFACENAME=eth0                         # network interface name for IP resolver (default: eth0)
