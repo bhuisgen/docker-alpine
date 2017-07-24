@@ -2,8 +2,7 @@ FROM bhuisgen/alpine-base:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
 ENV CONSUL_VERSION=0.8.5 \
-    CONSULTEMPLATE_VERSION=0.19.0 \
-    GOMAXPROCS=2
+    CONSULTEMPLATE_VERSION=0.19.0
 
 RUN mkdir -p /var/lib/consul && \
     addgroup -S consul && \
