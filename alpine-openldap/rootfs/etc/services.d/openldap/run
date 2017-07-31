@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /usr/sbin/slapd -u ldap -g ldap -h "ldap:///" -d0
