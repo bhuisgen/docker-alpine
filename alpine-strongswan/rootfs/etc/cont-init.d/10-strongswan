@@ -1,10 +1,14 @@
 #!/usr/bin/with-contenv sh
 
-echo "==> Configuring iptables"
+echo "==> Configuring kernel parameters"
 
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv4.conf.all.accept_redirects=0
 sysctl -w net.ipv4.conf.all.send_redirects=0
+sysctl -w net.ipv6.conf.all.forwarding=1
+sysctl -w net.ipv6.conf.all.proxy_ndp=1
+
+echo "==> Configuring iptables"
 
 iptables -A INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
 iptables -A INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT
