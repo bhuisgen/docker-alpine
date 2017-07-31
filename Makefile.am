@@ -32,6 +32,7 @@ SUBDIRS = \
     alpine-mariadb \
     alpine-nginx \
     alpine-nodejs \
+    alpine-openldap \
     alpine-openssh \
     alpine-perl \
     alpine-php \
