@@ -1,0 +1,7 @@
+{{- $openldap_password := env "OPENLDAP_PASSWORD" -}}
+pidfile		/var/run/openldap/slapd.pid
+argsfile	/var/run/openldap/slapd.args
+
+database    config
+rootdn      "cn=admin,cn=config"
+rootpw      {{$openldap_password}}
