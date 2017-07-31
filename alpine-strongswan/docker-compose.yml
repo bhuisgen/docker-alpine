@@ -15,6 +15,7 @@ services:
             - consul
         image: bhuisgen/alpine-strongswan
         cap_add:
+            - SYS_MODULE
             - NET_ADMIN
         network_mode: host
         volumes:
