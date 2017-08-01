@@ -17,6 +17,7 @@ services:
         cap_add:
             - SYS_MODULE
             - NET_ADMIN
+            - NET_RAW
         network_mode: host
         volumes:
             - /etc/localtime:/etc/localtime:ro
