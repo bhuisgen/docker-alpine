@@ -9,10 +9,10 @@
 {{- $haproxy_spreadchecks := env "HAPROXY_SPREADCHECKS" -}}
 {{- $haproxy_serverstatefile := env "HAPROXY_SERVERSTATEFILE" -}}
 {{- $haproxy_timeout_client := env "HAPROXY_TIMEOUTCLIENT" -}}
-{{- $haproxy_timeout_clientfin := env "HAPROXY_TIMEOUTCLIENTFIN" -}}
+{{- $haproxy_timeout_client_fin := env "HAPROXY_TIMEOUTCLIENTFIN" -}}
 {{- $haproxy_timeout_connect := env "HAPROXY_TIMEOUTCONNECT" -}}
 {{- $haproxy_timeout_server := env "HAPROXY_TIMEOUTSERVER" -}}
-{{- $haproxy_timeout_serverfin := env "HAPROXY_TIMEOUTSERVERFIN" -}}
+{{- $haproxy_timeout_server_fin := env "HAPROXY_TIMEOUTSERVERFIN" -}}
 {{- $haproxy_timeout_queue := env "HAPROXY_TIMEOUTQUEUE" -}}
 {{- $haproxy_timeout_tunnel := env "HAPROXY_TIMEOUTTUNNEL" -}}
 {{- $haproxy_timeout_http_request := env "HAPROXY_TIMEOUTHTTPREQUEST" -}}
@@ -85,10 +85,10 @@ defaults
     option httpclose
     option abortonclose
     timeout client {{if $haproxy_timeout_client}}{{$haproxy_timeout_client}}{{else}}30s{{end}}
-    {{if $haproxy_timeout_clientfin}}timeout client-fin {{$haproxy_timeout_clientfin}}{{end}}
+    {{if $haproxy_timeout_client_fin}}timeout client-fin {{$haproxy_timeout_client_fin}}{{end}}
     timeout connect {{if $haproxy_timeout_connect}}{{$haproxy_timeout_connect}}{{else}}15s{{end}}
     timeout server {{if $haproxy_timeout_server}}{{$haproxy_timeout_server}}{{else}}30s{{end}}
-    {{if $haproxy_timeout_serverfin}}timeout server-fin {{$haproxy_timeout_serverfin}}{{end}}
+    {{if $haproxy_timeout_server_fin}}timeout server-fin {{$haproxy_timeout_server_fin}}{{end}}
     timeout queue {{if $haproxy_timeout_queue}}{{$haproxy_timeout_queue}}{{else}}30s{{end}}
     timeout tunnel {{if $haproxy_timeout_tunnel}}{{$haproxy_timeout_tunnel}}{{else}}1h{{end}}
     timeout http-request {{if $haproxy_timeout_http_request}}{{$haproxy_timeout_http_request}}{{else}}5s{{end}}
