@@ -42,8 +42,10 @@ services:
             #- HAPROXY_SPREADCHECKS=0                                   # randomness on the interval delay between checks
             #- HAPROXY_SERVERSTATEFILE=/var/lib/haproxy/servers_state   # file containing servers state
             #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
+            #- HAPROXY_TIMEOUTCLIENTFIN=                                # client timeout for half-closed connections (default timeout client or timeout tunnel)
             #- HAPROXY_TIMEOUTCONNECT=15s                               # connect timeout
             #- HAPROXY_TIMEOUTSERVER=30s                                # server timeout
+            #- HAPROXY_TIMEOUTSERVERFIN=                                # server timeout for half-closed connections (default timeout server or timeout tunnel)
             #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
             #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
             #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout (http mode only)
