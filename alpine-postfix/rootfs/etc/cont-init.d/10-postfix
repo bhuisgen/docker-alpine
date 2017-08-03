@@ -1,14 +1,19 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${POSTFIX_TEMPLATE} ]; then
-    echo "==> Enabling postfix template '${POSTFIX_TEMPLATE}'"
+if [ -z "${POSTFIX_CONFIG}" ]; then
+    if [ ! -z ${POSTFIX_TEMPLATE} ]; then
+        echo "==> Enabling postfix template '${POSTFIX_TEMPLATE}'"
 
-    cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-haproxy.conf
+        cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}/postfix.conf" /etc/consul-template/conf-services.d/10-postfix.conf
+    fi
+
+    postconf -e smtputf8_enable=no
+    postalias /etc/postfix/aliases
+    postmap hash:/etc/postfix/sasl_password
+
+    /usr/sbin/postfix start
+    /usr/sbin/postfix stop
+
+    export POSTFIX_CONFIG=1
+    printf "%s" "${POSTFIX_CONFIG}" > /var/run/s6/container_environment/POSTFIX_CONFIG
 fi
-
-newaliases
-postalias /etc/postfix/aliases
-postmap hash:/etc/postfix/sasl_password
-
-/etc/init.d/postfix start
-/etc/init.d/postfix abort

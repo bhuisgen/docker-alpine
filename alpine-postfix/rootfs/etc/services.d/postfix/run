@@ -1,6 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-/etc/init.d/postfix start
-/etc/init.d/postfix stop
-
 exec /usr/lib/postfix/master -c /etc/postfix -d 2>&1
