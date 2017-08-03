@@ -1,3 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/local/bin/nodaemon --pid-file /var/spool/postfix/pid/master.pid /usr/sbin/postfix start
+/etc/init.d/postfix start
+/etc/init.d/postfix stop
+
+exec /usr/lib/postfix/master -c /etc/postfix -d 2>&1
