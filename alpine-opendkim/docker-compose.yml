@@ -1,0 +1,31 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    opendkim:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-opendkim
+        ports:
+            - "12345:12345"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/opendkim                                         # volume for data
+        environment:
+            - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
+            - CONSUL_SERVICENAME=opendkim                                           # consul service name
+            - CONSUL_SERVICETAGS=dev                                                # consul service tag
+            - CONSUL_SERVICEPORT=12345                                              # consul service port
+            - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
+            #- OPENDKIM_KEYTABLE=                                                   # opendkim key table file of signing keys
+            #- OPENDKIM_SIGNINGTABLE=                                               # opendkim table file for selecting signatures
+            #- OPENDKIM_EXTERNALIGNORELIST=                                         # opendkim ignore list file
+            #- OPENDKIM_INTERNALHOSTS=                                              # opendkim internal hosts file

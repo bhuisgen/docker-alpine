@@ -1,0 +1,29 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    opendmarc:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-opendmarc
+        ports:
+            - "8893:8893"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
+            - CONSUL_SERVICENAME=opendmarc                                          # consul service name
+            - CONSUL_SERVICETAGS=dev                                                # consul service tag
+            - CONSUL_SERVICEPORT=8893                                               # consul service port
+            - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
+            #- OPENDMARC_AUTHSERVID=                                                # auth server id
+            #- OPENDMARC_IGNOREMAILFROM=                                            # list of domaines names ignore by the filter
+            #- OPENDMARC_REJECTFAILURES=false                                       # reject messages if DMARC evaluation failed

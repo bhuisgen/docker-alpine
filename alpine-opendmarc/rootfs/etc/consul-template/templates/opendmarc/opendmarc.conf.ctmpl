@@ -1,0 +1,6 @@
+{{- $opendmarc_authservid := env "OPENDMARC_AUTHSERVID" -}}
+{{- $opendmarc_ignoremailfrom := env "OPENDMARC_IGNOREMAILFROM" -}}
+{{- $opendmarc_rejectfailures := env "OPENDMARC_REJECTFAILURES" -}}
+{{if $opendmarc_authservid}}AuthservID {{$opendmarc_authservid}}{{end}}
+{{if $opendmarc_ignoremailfrom}}IgnoreMailFrom {{$opendmarc_ignoremailfrom}}{{end}}
+{{if $opendmarc_rejectfailures}}RejectFailures {{$opendmarc_rejectfailures}}{{end}}
