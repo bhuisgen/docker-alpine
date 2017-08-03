@@ -63,6 +63,7 @@
 {{- $haproxy_backend_sticky_table_size := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_STICKYTABLESIZE" -}}
 {{- $haproxy_backend_sticky_table_expire := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_STICKYTABLEEXPIRE" -}}
 {{- $haproxy_backend_server_maxconn := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDSERVERMAXCONN" -}}
+{{- $haproxy_backend_server_onmarkeddown_shutdownsessions := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDSERVERONMARKEDDOWNSHUTDOWNSESSIONS" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}4096{{end}}
     {{if eq $haproxy_log "1"}}
@@ -137,7 +138,7 @@ backend tcp-out-{{$listener}}
     {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{if eq $haproxy_backend_sticky "1"}}stick match src table dummy-sticky{{end}}
     {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
-    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}
+    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}{{if eq $haproxy_backend_server_onmarkeddown_shutdownsessions "1"}} on-marked-down shutdown-sessions{{end}}
     {{end}}
 {{end}}
 
@@ -163,7 +164,7 @@ backend tcp-ssl-out-{{$ssl_listener}}
     {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
     {{if eq $haproxy_backend_sticky "1"}}stick match src table dummy-sticky{{end}}
     {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
-    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}
+    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}{{if eq $haproxy_backend_server_onmarkeddown_shutdownsessions "1"}} on-marked-down shutdown-sessions{{end}}
     {{end}}
 {{end}}
 {{end}}
