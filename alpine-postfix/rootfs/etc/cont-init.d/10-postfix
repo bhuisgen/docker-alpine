@@ -1,5 +1,14 @@
 #!/usr/bin/with-contenv sh
 
+if [ ! -z ${POSTFIX_TEMPLATE} ]; then
+    echo "==> Enabling postfix template '${POSTFIX_TEMPLATE}'"
+
+    cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-haproxy.conf
+fi
+
 newaliases
 postalias /etc/postfix/aliases
 postmap hash:/etc/postfix/sasl_password
+
+/etc/init.d/postfix start
+/etc/init.d/postfix abort

@@ -7,16 +7,17 @@
 {{- $postfix_mynetworks := env "POSTFIX_MYNETWORKS" -}}
 {{- $postfix_relayhost := env "POSTFIX_RELAYHOST" -}}
 {{- $postfix_relaydomains := env "POSTFIX_RELAYDOMAINS" -}}
+{{- $postfix_smtpdtlscafile := env "POSTFIX_SMTPDTLSCERTFILE" -}}
 {{- $postfix_smtpdtlscertfile := env "POSTFIX_SMTPDTLSCERTFILE" -}}
 {{- $postfix_smtpdtlskeyfile := env "POSTFIX_SMTPDTLSKEYFILE" -}}
-
+{{- $postfix_smtpdtlsdh1024paramfile := env "POSTFIX_SMTPDTLSDH1024PARAMFILE" -}}
 smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
 
 {{if $postfix_inetinterfaces}}inet_interfaces = {{$postfix_inetinterfaces}}{{end}}
 {{if $postfix_inetprotocols}}inet_protocols = {{$postfix_inetprotocols}}{{end}}
-
+smtpd_banner = $myhostname ESMTP
 {{if $postfix_myhostname}}myhostname = {{$postfix_myhostname}}{{end}}
 {{if $postfix_mydomain}}mydomain = {{$postfix_mydomain}}{{end}}
 {{if $postfix_myorigin}}myorigin = {{$postfix_myorigin}}{{end}}
@@ -25,6 +26,8 @@ shlib_directory = /usr/lib/postfix
 {{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
 {{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
 
+#relay_domains = hash:/etc/postfix/relay_domains
+#transport_maps = hash:/etc/postfix/transport
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 sender_canonical_maps = regexp:/etc/postfix/sender_canonical
@@ -36,10 +39,10 @@ smtp_sasl_security_options = noanonymous
 smtp_sasl_tls_security_options = noanonymous
 smtp_tls_security_level = may
 smtpd_tls_security_level = may
-{{if and $postfix_smtpdtlscertfile $postfix_smtpdtlskeyfile}}
-smtpd_tls_cert_file = {{$postfix_smtpdtlscertfile}}
-smtpd_tls_key_file = {{$postfix_smtpdtlskeyfile}}
-{{end}}
+{{if $postfix_smtpdtlscafile}}smtpd_tls_CA_file = {{$postfix_smtpdtlscafile}}{{end}}
+{{if $postfix_smtpdtlscertfile}}smtpd_tls_cert_file = {{$postfix_smtpdtlscertfile}}{{end}}
+{{if $postfix_smtpdtlskeyfile}}smtpd_tls_key_file = {{$postfix_smtpdtlskeyfile}}{{end}}
+{{if $postfix_smtpdtlsdh1024paramfile}}smtpd_tls_dh1024_param_file = {{$postfix_smtpdtlsdh1024paramfile}}{{end}}
 
 smtpd_delay_reject = yes
 smtpd_helo_required = yes
