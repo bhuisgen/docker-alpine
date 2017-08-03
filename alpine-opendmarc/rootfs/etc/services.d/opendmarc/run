@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+exec /usr/sbin/opendmarc -f -c /etc/opendmarc/opendmarc.conf -u opendmarc -P /var/run/opendmarc/opendmarc.pid \
+    -p inet:8893
