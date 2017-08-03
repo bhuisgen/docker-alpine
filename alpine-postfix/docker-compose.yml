@@ -39,3 +39,7 @@ services:
             #- POSTFIX_SMTPDTLSCERTFILE=                                            # SMTP TLS certificate file
             #- POSTFIX_SMTPDTLSKEYFILE=                                             # SMTP TLS certificate key
             #- POSTFIX_SUBMISSION=0                                                 # enable submission port
+            - POSTFIX_TEMPLATE=relay                                                # configuration template
+            #
+            # template relay
+            #
