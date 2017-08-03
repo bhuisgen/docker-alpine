@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 
-RUN apk add --update postfix postfix-pcre && \
+RUN apk add --update postfix postfix-ldap postfix-mysql postfix-pcre postfix-pgsql postfix-sqlite && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
