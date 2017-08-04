@@ -1,0 +1,8 @@
+{{- $opendkim_keytable := env "OPENDKIM_KEYTABLE" -}}
+{{- $opendkim_signingtable := env "OPENDKIM_SIGNINGTABLE" -}}
+{{- $opendkim_externalignorelist := env "OPENDKIM_EXTERNALIGNORELIST" -}}
+{{- $opendkim_internalhosts := env "OPENDKIM_INTERNALHOSTS" -}}
+{{if $opendkim_keytable}}KeyTable{{$opendkim_keytable}}{end}}
+{{if $opendkim_signingtable}}SigningTable {{$opendkim_signingtable}}{{end}}
+{{if $opendkim_externalignorelist}}ExternalIgnoreList {{$opendkim_externalignorelist}}{{end}}
+{{if $opendkim_internalhosts}}InternalHosts {{$opendkim_internalhosts}}{{end}}
