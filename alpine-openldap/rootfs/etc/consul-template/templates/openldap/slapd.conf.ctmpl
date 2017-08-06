@@ -1,7 +1,8 @@
-{{- $openldap_password := env "OPENLDAP_PASSWORD" -}}
-pidfile		/var/run/openldap/slapd.pid
-argsfile	/var/run/openldap/slapd.args
+{{- $openldap_olc_rootdn := env "OPENLDAP_OLCROOTDN" -}}
+{{- $openldap_olc_rootpw := env "OPENLDAP_OLCROOTPW" -}}
+pidfile     /var/run/openldap/slapd.pid
+argsfile    /var/run/openldap/slapd.args
 
 database    config
-rootdn      "cn=admin,cn=config"
-rootpw      {{$openldap_password}}
+rootdn      "{{$openldap_olc_rootdn}}"
+rootpw      {{$openldap_olc_rootpw}}
