@@ -1,1 +1,2 @@
-/etc/openldap/slapd.d true ldap:ldap 0640 0750
+/etc/openldap true root:ldap 0640 0750
+/var/lib/openldap false ldap:ldap 0600 0700
