@@ -16,7 +16,8 @@ services:
             - "389:389"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /host/data:/var/lib/openldap                                         # volume for database
+            #- /host/data:/var/lib/openldap                                         # volume for data
+
         environment:
             - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                     # consul agent port
@@ -25,4 +26,6 @@ services:
             - CONSUL_SERVICETAGS=dev                                                # consul service tag
             - CONSUL_SERVICEPORT=389                                                # consul service port
             - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
-            - OPENLDAP_PASSWORD={SSHA}p12w1DrMOFl6TwXVrRlfLOa6Qwsa0avD              # openldap password for OLC config
+            - OPENLDAP_OLCROOTDN=cn=admin,cn=config                                 # OLC root DN
+            - OPENLDAP_OLCROOTPW={SSHA}p12w1DrMOFl6TwXVrRlfLOa6Qwsa0avD             # OLC root password
+            #- OPENLDAP_CONFIGSCRIPT=/root/openldap/config.sh                       # custom configuration script
