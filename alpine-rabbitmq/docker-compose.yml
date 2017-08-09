@@ -35,6 +35,7 @@ services:
             #- RABBITMQ_TCPLISTENOPTIONSBACKLOG=128                         # TCP socket backlog
             #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768                        # TCP socket send buffer size
             #- RABBITMQ_TCPLISTENOPTIONSRECBUF=32768                        # TCP socket receive buffer size
+            #- RABBITMQ_TCPLISTENOPTIONSKEEPALIVE=0                         # enable TCP keepalive
             - RABBITMQ_SSL=0                                                # enable TLS
             #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificates
             #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
