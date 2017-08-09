@@ -26,12 +26,12 @@ smtpd_banner = $myhostname ESMTP
 {{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
 {{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
 
-#relay_domains = hash:/etc/postfix/relay_domains
-#transport_maps = hash:/etc/postfix/transport
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 sender_canonical_maps = regexp:/etc/postfix/sender_canonical
 recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
+relay_domains = hash:/etc/postfix/relay_domains
+transport_maps = hash:/etc/postfix/transport
 
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
