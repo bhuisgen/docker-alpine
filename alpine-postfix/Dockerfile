@@ -9,5 +9,5 @@ COPY rootfs/ /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 25 567
-VOLUME ["/var/spool/postfix"]
+EXPOSE 25 587
+VOLUME ["/var/spool/postfix", "/var/mail"]

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-trap 'exit 2' ERR INT TERM
+trap 'exit 2' INT TERM
 
 echo "==> checking haproxy configuration"
 
-haproxy -c -q -f /etc/haproxy/haproxy.cfg
+haproxy -c -q -f /etc/haproxy/haproxy.cfg || exit 1
 
 stats_socket=$(grep "stats socket" /etc/haproxy/haproxy.cfg|awk '{ print $3; }')
 if [ ! -e "${stats_socket}" ]; then

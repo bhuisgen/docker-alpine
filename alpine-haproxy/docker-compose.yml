@@ -32,6 +32,10 @@ services:
             - CONSUL_SERVICEPORT=80                                                             # consul service port
             - CONSUL_CHECKTYPE=tcp                                                              # consul health check type
             #- HAPROXY_MAXCONN=1024                                                             # maximum of connections allowed
+            #- HAPROXY_MAXCONNRATE=                                                             # maximum of connections per second allowed
+            #- HAPROXY_MAXSESSRATE=                                                             # maximum of sessions per second allowed
+            #- HAPROXY_MAXSSLCONN=                                                              # maximum of SSL connections allowed
+            #- HAPROXY_MAXSSLRATE=                                                              # maximum of SSL connections per second allowed
             #- HAPROXY_LOG=0                                                                    # enable logging
             #- HAPROXY_LOGADDRESS=127.0.0.1                                                     # server address/socket file
             #- HAPROXY_LOGLENGTH=1024                                                           # maximum log line length
@@ -82,10 +86,11 @@ services:
             #- HAPROXY_FILTERCONNLOG=0                                                          # log blocked connections
             #- HAPROXY_FILTERRATE=0                                                             # enable connection rate filter
             #- HAPROXY_FILTERRATEPERIOD=3s                                                      # rate period
-            #- HAPROXY_FILTERRATEMAX=100                                                        # maximum new connections per rate period
+            #- HAPROXY_FILTERRATEMAX=100                                                        # connections rate limit per source IP
             #- HAPROXY_FILTERRATELOG=0                                                          # log blocked connections
             #- HAPROXY_FRONTENDMAXCONN=                                                         # maximum of connections allowed per frontend
             #- HAPROXY_FRONTENDBACKLOG=                                                         # backlog queue length per frontend
+            #- HAPROXY_FRONTENDRATELIMITSESSIONS=                                               # sessions rate limit per frontend
             - HAPROXY_TEMPLATE=backend                                                          # configuration template
             #
             # template backend

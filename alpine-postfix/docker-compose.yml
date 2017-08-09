@@ -17,7 +17,8 @@ services:
             - "587:587"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /host/data:/var/spool/postfix                                        # volume for data
+            #- /host/postfix:/var/spool/postfix                                     # volume for spool
+            #- /host/mail:/var/mail                                                 # volume for mail
         environment:
             - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                     # consul agent port
