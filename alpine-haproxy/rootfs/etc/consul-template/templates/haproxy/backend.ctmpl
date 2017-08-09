@@ -1,4 +1,6 @@
 {{- $haproxy_maxconn := env "HAPROXY_MAXCONN" -}}
+{{- $haproxy_maxconnrate := env "HAPROXY_MAXCONNRATE" -}}
+{{- $haproxy_maxsessrate := env "HAPROXY_MAXSESSRATE" -}}
 {{- $haproxy_log := env "HAPROXY_LOG" -}}
 {{- $haproxy_logaddress := env "HAPROXY_LOGADDRESS" -}}
 {{- $haproxy_loglength := env "HAPROXY_LOGLENGTH" -}}
@@ -53,6 +55,7 @@
 {{- $haproxy_filter_rate_log := env "HAPROXY_FILTERRATELOG" -}}
 {{- $haproxy_frontend_maxconn := env "HAPROXY_FRONTENDMAXCONN" -}}
 {{- $haproxy_frontend_backlog := env "HAPROXY_FRONTENDBACKLOG" -}}
+{{- $haproxy_frontend_ratelimitsessions := env "HAPROXY_FRONTENDRATELIMITSESSIONS" -}}
 {{- $name := env "HAPROXY_TEMPLATE_BACKEND_SERVICENAME" -}}
 {{- $tag := env "HAPROXY_TEMPLATE_BACKEND_SERVICETAG" -}}
 {{- $haproxy_backend_check_inter := env "HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKINTER" -}}
@@ -69,6 +72,8 @@
 {{- $haproxy_backend_gzip := env "HAPROXY_TEMPLATE_BACKEND_BACKENDGZIP" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}4096{{end}}
+    {{if $haproxy_maxconnrate}}maxconnrate {{$haproxy_maxconnrate}}{{end}}
+    {{if $haproxy_maxsessrate}}maxsessrate {{$haproxy_maxsessrate}}{{end}}
     {{if eq $haproxy_log "1"}}
     log {{if $haproxy_logaddress}}{{$haproxy_logaddress}}{{else}}127.0.0.1{{end}}{{if $haproxy_loglength}} len {{$haproxy_loglength}}{{end}} {{if $haproxy_logformat}} format {{$haproxy_logformat}}{{end}}{{if $haproxy_logfacility}} {{$haproxy_logfacility}}{{else}} local0{{end}}{{if $haproxy_loglevel}} {{$haproxy_loglevel}}{{end}}
     {{end}}
@@ -128,6 +133,7 @@ frontend http-in
     bind :::80
     {{if $haproxy_frontend_maxconn}}maxconn {{$haproxy_frontend_maxconn}}{{end}}
     {{if $haproxy_frontend_backlog}}backlog {{$haproxy_frontend_backlog}}{{end}}
+    {{if $haproxy_frontend_ratelimitsessions}}rate-limit sessions {{$haproxy_frontend_ratelimitsessions}}{{end}}
     {{if eq $haproxy_filter "1"}}
     {{if eq $haproxy_filter_whitelist "1"}}tcp-request {{if eq $haproxy_filter_whitelist_log "1"}}content{{else}}connection{{end}} accept if { src -f {{$haproxy_filter_whitelist_file}} }{{end}}
     {{if eq $haproxy_filter_blacklist "1"}}tcp-request {{if eq $haproxy_filter_blacklist_log "1"}}content{{else}}connection{{end}} reject if { src -f {{$haproxy_filter_blacklist_file}} }{{end}}
@@ -154,6 +160,7 @@ frontend https-in
     bind :::443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     {{if $haproxy_frontend_maxconn}}maxconn {{$haproxy_frontend_maxconn}}{{end}}
     {{if $haproxy_frontend_backlog}}backlog {{$haproxy_frontend_backlog}}{{end}}
+    {{if $haproxy_frontend_ratelimitsessions}}rate-limit sessions {{$haproxy_frontend_ratelimitsessions}}{{end}}
     {{if eq $haproxy_filter "1"}}
     {{if eq $haproxy_filter_whitelist "1"}}tcp-request {{if eq $haproxy_filter_whitelist_log "1"}}content{{else}}connection{{end}} accept if { src -f {{$haproxy_filter_whitelist_file}} }{{end}}
     {{if eq $haproxy_filter_blacklist "1"}}tcp-request {{if eq $haproxy_filter_blacklist_log "1"}}content{{else}}connection{{end}} reject if { src -f {{$haproxy_filter_blacklist_file}} }{{end}}
