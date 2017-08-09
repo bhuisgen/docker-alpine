@@ -2,6 +2,7 @@
 {{- $rabbitmq_tcplistenoptionsbacklog := env "RABBITMQ_TCPLISTENOPTIONSBACKLOG" -}}
 {{- $rabbitmq_tcplistenoptionssndbuf := env "RABBITMQ_TCPLISTENOPTIONSSNDBUF" -}}
 {{- $rabbitmq_tcplistenoptionsrecbuf := env "RABBITMQ_TCPLISTENOPTIONSRECBUF" -}}
+{{- $rabbitmq_tcplistenoptionskeepalive :- env "RABBITMQ_TCPLISTENOPTIONSKEEPALIVE" -}}
 {{- $rabbitmq_ssl := env "RABBITMQ_SSL" -}}
 {{- $rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE" -}}
 {{- $rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE" -}}
@@ -47,7 +48,8 @@
             {linger, {true, 0}},
             {exit_on_close, false},
             {sndbuf, {{if $rabbitmq_tcplistenoptionssndbuf}}{{$rabbitmq_tcplistenoptionssndbuf}}{{else}}32768{{end}}},
-            {recbuf, {{if $rabbitmq_tcplistenoptionsrecbuf}}{{$rabbitmq_tcplistenoptionsrecbuf}}{{else}}32768{{end}}}
+            {recbuf, {{if $rabbitmq_tcplistenoptionsrecbuf}}{{$rabbitmq_tcplistenoptionsrecbuf}}{{else}}32768{{end}}},
+            {keepalive, {{if eq $rabbitmq_tcplistenoptionskeepalive "1"}}true{{else}}false{{end}}}
         ]},
         {{if eq $rabbitmq_ssl "1"}}
         {ssl_listeners, [5671]},
