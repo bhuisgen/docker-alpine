@@ -49,7 +49,7 @@
             {exit_on_close, false},
             {sndbuf, {{if $rabbitmq_tcplistenoptionssndbuf}}{{$rabbitmq_tcplistenoptionssndbuf}}{{else}}32768{{end}}},
             {recbuf, {{if $rabbitmq_tcplistenoptionsrecbuf}}{{$rabbitmq_tcplistenoptionsrecbuf}}{{else}}32768{{end}}},
-            {keepalive, {{if $rabbitmq_tcplistenoptionskeepalive}}true{{else}}false{{end}}}
+            {keepalive, {{if eq $rabbitmq_tcplistenoptionskeepalive "1"}}true{{else}}false{{end}}}
         ]},
         {{if eq $rabbitmq_ssl "1"}}
         {ssl_listeners, [5671]},
