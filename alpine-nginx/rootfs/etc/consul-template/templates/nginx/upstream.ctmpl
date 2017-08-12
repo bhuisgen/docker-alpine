@@ -97,6 +97,8 @@ http {
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
+	include /etc/nginx/conf.d/*.conf;
+
     upstream app {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}

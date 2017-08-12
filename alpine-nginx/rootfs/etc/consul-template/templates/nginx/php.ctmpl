@@ -88,6 +88,8 @@ http {
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
+	include /etc/nginx/conf.d/*.conf;
+
     upstream php {
         {{if and $name $tag}}
         {{range service (print $tag "." $name)}}

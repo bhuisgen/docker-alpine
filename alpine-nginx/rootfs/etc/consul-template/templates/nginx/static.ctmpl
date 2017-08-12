@@ -80,6 +80,8 @@ http {
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
+	include /etc/nginx/conf.d/*.conf;
+
     server {
         listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
         listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
