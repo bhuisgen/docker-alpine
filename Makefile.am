@@ -17,6 +17,7 @@ SUBDIRS = \
     alpine-dnsmasq \
     alpine-dockercompose \
     alpine-dockermachine \
+    alpine-dovecot \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \

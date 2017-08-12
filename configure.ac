@@ -53,6 +53,7 @@ AC_CONFIG_FILES([
     alpine-cli53/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
+    alpine-dovecot/Makefile
     alpine-dockercompose/Makefile
     alpine-dockermachine/Makefile
     alpine-dynamodb/Makefile
