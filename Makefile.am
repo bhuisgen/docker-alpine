@@ -12,6 +12,7 @@ SUBDIRS = \
     alpine-build-rpi-python \
     alpine-archiva \
     alpine-awscli \
+    alpine-certbot \
     alpine-cli53 \
     alpine-consul \
     alpine-dnsmasq \
