@@ -49,6 +49,7 @@ SUBDIRS = \
     alpine-redis \
     alpine-registry \
     alpine-rng \
+    alpine-roundcubemail \
     alpine-rsyslog \
     alpine-ruby \
     alpine-spark \
