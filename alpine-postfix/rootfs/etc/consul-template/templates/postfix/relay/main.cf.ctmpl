@@ -1,5 +1,3 @@
-{{- $postfix_inetinterfaces := env "POSTFIX_INETINTERFACES" -}}
-{{- $postfix_inetprotocols := env "POSTFIX_INETPROTOCOLS" -}}
 {{- $postfix_myhostname := env "POSTFIX_MYHOSTNAME" -}}
 {{- $postfix_mydomain := env "POSTFIX_MYDOMAIN" -}}
 {{- $postfix_myorigin := env "POSTFIX_MYORIGIN" -}}
@@ -15,8 +13,8 @@ smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
 
-{{if $postfix_inetinterfaces}}inet_interfaces = {{$postfix_inetinterfaces}}{{end}}
-{{if $postfix_inetprotocols}}inet_protocols = {{$postfix_inetprotocols}}{{end}}
+inet_interfaces = all
+inet_protocols = all
 smtpd_banner = $myhostname ESMTP
 {{if $postfix_myhostname}}myhostname = {{$postfix_myhostname}}{{end}}
 {{if $postfix_mydomain}}mydomain = {{$postfix_mydomain}}{{end}}
@@ -26,8 +24,8 @@ smtpd_banner = $myhostname ESMTP
 {{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
 {{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
 
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
+alias_database = /etc/aliases
+alias_maps = hash:/etc/postfix/aliases
 sender_canonical_maps = regexp:/etc/postfix/sender_canonical
 recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
 relay_domains = hash:/etc/postfix/relay_domains

@@ -27,8 +27,6 @@ services:
             - CONSUL_SERVICETAGS=dev                                                # consul service tag
             - CONSUL_SERVICEPORT=25                                                 # consul service port
             - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
-            #- POSTFIX_INETINTERFACES=all                                           # network interfaces
-            #- POSTFIX_INETPROTOCOLS=all                                            # internet protocols
             #- POSTFIX_MYHOSTNAME=$$HOSTNAME                                        # mail hostname
             #- POSTFIX_MYDOMAIN=                                                    # mail domain name
             #- POSTFIX_MYORIGIN=$mydomain                                           # mail domain for origin
