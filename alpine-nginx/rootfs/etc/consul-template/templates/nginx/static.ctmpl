@@ -83,12 +83,12 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 
     server {
-        listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
-        listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}} default_server;
+        listen 80{{if eq $nginx_reuseport "1"}} reuseport{{end}};
+        listen [::]:80{{if eq $nginx_reuseport "1"}} reuseport{{end}};
 
         {{if eq $nginx_ssl "1"}}
-        listen 443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
-        listen [::]:443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}} default_server;
+        listen 443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}};
+        listen [::]:443{{if eq $nginx_reuseport "1"}} reuseport{{end}} ssl{{if eq $nginx_ssl_http2 "1"}} http2{{end}};
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
