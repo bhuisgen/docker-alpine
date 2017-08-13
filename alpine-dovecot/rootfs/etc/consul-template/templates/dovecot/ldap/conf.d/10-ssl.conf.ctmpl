@@ -1,6 +1,8 @@
 {{- $dovecot_ssl := env "DOVECOT_SSL" -}}
 {{- $dovecot_ssl_cert := env "DOVECOT_SSLCERT" -}}
 {{- $dovecot_ssl_key := env "DOVECOT_SSLKEY" -}}
+{{- $dovecot_ssl_protocols := env "DOVECOT_SSLPROTOCOLS" -}}
+{{- $dovecot_ssl_cipher_list := env "DOVECOT_SSLCIPHERLIST" -}}
 ##
 ## SSL settings
 ##
@@ -49,10 +51,10 @@ ssl_key = {{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/se
 #ssl_dh_parameters_length = 1024
 
 # SSL protocols to use
-#ssl_protocols = !SSLv3
+{{if $dovecot_ssl_protocols}}ssl_protocols = {{$dovecot_ssl_protocols}}{{else}}#ssl_protocols = !SSLv3{{end}}
 
 # SSL ciphers to use
-#ssl_cipher_list = ALL:!LOW:!SSLv2:!EXP:!aNULL
+{{if $dovecot_ssl_cipher_list}}ssl_cipher_list = {{$dovecot_ssl_cipher_list}}{{else}}#ssl_cipher_list = ALL:!LOW:!SSLv2:!EXP:!aNULL{{end}}
 
 # Prefer the server's order of ciphers over client's.
 #ssl_prefer_server_ciphers = no
@@ -63,3 +65,8 @@ ssl_key = {{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/se
 # SSL extra options. Currently supported options are:
 #   no_compression - Disable compression.
 #ssl_options =
+
+
+
+ssl_protocols = !SSLv2 !SSLv3
+ssl_cipher_list = AES128+EECDH:AES128+EDH

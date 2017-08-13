@@ -47,6 +47,8 @@ services:
             #- DOVECOT_SSL=yes                                                      # enable SSL/TLS (yes/no/required)
             #- DOVECOT_SSLCERT=                                                     # TLS certificate file
             #- DOVECOT_SSLKEY=                                                      # TLS key file
+            #- DOVECOT_SSLPROTOCOLS=!SSLv3                                          # TLS protocols
+            #- DOVECOT_SSLCIPHERLIST=ALL:!LOW:!SSLv2:!EXP:!aNULL                    # TLS cipher list
             #- DOVECOT_POSTMASTERADDRESS=                                           # postmaster address
             #- DOVECOT_TEMPLATE=                                                    # configuration template
             #
