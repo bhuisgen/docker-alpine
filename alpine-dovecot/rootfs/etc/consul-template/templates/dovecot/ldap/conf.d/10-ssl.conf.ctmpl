@@ -14,8 +14,8 @@
 # dropping root privileges, so keep the key file unreadable by anyone but
 # root. Included doc/mkcert.sh can be used to easily generate self-signed
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
-ssl_cert = {{if $dovecot_ssl_cert}}{{$dovecot_ssl_cert}}{{else}}/etc/ssl/dovecot/server.pem{{end}}
-ssl_key = {{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/server.key{{end}}
+ssl_cert = <{{if $dovecot_ssl_cert}}{{$dovecot_ssl_cert}}{{else}}/etc/ssl/dovecot/server.pem{{end}}
+ssl_key = <{{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/server.key{{end}}
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often
@@ -65,8 +65,3 @@ ssl_key = {{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/se
 # SSL extra options. Currently supported options are:
 #   no_compression - Disable compression.
 #ssl_options =
-
-
-
-ssl_protocols = !SSLv2 !SSLv3
-ssl_cipher_list = AES128+EECDH:AES128+EDH
