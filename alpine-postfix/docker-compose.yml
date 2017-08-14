@@ -34,10 +34,32 @@ services:
             #- POSTFIX_MYNETWORKS=                                                  # networks list
             #- POSTFIX_RELAYHOST=                                                   # relay host
             #- POSTFIX_RELAYDOMAINS=                                                # domains allowed to relay to
-            #- POSTFIX_SMTPDTLSCERTFILE=                                            # SMTP TLS certificate file
-            #- POSTFIX_SMTPDTLSKEYFILE=                                             # SMTP TLS certificate key
+            #- POSTFIX_SMTPTLSCERTFILE=                                             # SMTP client TLS certificate file
+            #- POSTFIX_SMTPTLSKEYFILE=                                              # SMTP client TLS certificate key
+            #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=                                   # SMTP client TLS mandatory protocols
+            #- POSTFIX_SMTPTLSPROTOCOLS=                                            # SMTP client TLS protocols
+            #- POSTFIX_SMTPTLSMANDATORYCIPHERS=                                     # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCERTFILE=                                            # SMTP server TLS certificate file
+            #- POSTFIX_SMTPDTLSKEYFILE=                                             # SMTP server TLS certificate key
+            #- POSTFIX_SMTPDTLSDH1024PARAMFILE=                                     # SMTP server TLS diffie-hellman parameters file
+            #- POSTFIX_SMTPDTLSMANDATORYPROTOCOLS=                                  # SMTP server TLS mandatory protocols
+            #- POSTFIX_SMTPDTLSPROTOCOLS=                                           # SMTP server TLS protocols
+            #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=                                    # SMTP server TLS mandatory ciphers
+            #- POSTFIX_TLSMEDIUMCIPHERLIST=                                         # TLS medium cipher list
             #- POSTFIX_SUBMISSION=0                                                 # enable submission port
+            #- POSTFIX_OPENDKIMSERVICENAME=                                         # opendkim service name
+            #- POSTFIX_OPENDKIMSERVICETAG=                                          # opendkim service tag
+            #- POSTFIX_OPENDMARCSERVICENAME=                                        # opendmarc service name
+            #- POSTFIX_OPENDMARCSERVICETAG=                                         # opendmarc service tag
             - POSTFIX_TEMPLATE=relay                                                # configuration template
             #
             # template relay
             #
+            #
+            # template dovecot
+            #
+            #- POSTFIX_TEMPLATE_DOVECOT_SASLSERVICENAME=                            # dovecot SASL service name
+            #- POSTFIX_TEMPLATE_DOVECOT_SASLSERVICETAG=                             # dovecot SASL service tag
+            #- POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICENAME=                            # dovecot LMTP service name
+            #- POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICETAG=                             # dovecot LMTP service tag
+            #- POSTFIX_TEMPLATE_DOVECOT_VIRTUALMAILBOXDOMAINS=                      # virtual mailbox domains list
