@@ -46,7 +46,7 @@ services:
             #- NGINX_SSLHTTP2=0                                                 # enable HTTP2 support
             #- NGINX_SSLCERTIFICATE=                                            # SSL certificate file
             #- NGINX_SSLCERTIFICATEKEY=                                         # SSL private key file
-            #- NGINX_SSLDHPARAM=/etc/nginx/ssl/dhparam.pem                      # SSL Diffie-Hellmann key file
+            #- NGINX_SSLDHPARAM=/etc/nginx/ssl/dhparam.pem                      # SSL diffie-hellman parameters file
             #- NGINX_SSLPROTOCOLS=TLSv1 TLSv1.1 TLSv1.2                         # SSL protocols
             #- NGINX_SSLCIPHERS=EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH # SSL ciphers
             #- NGINX_SSLREDIRECT=0                                              # redirect HTTP to HTTPS
@@ -77,19 +77,19 @@ services:
             # #
             # # template loadbalancer-tcp
             # #
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567                # listening ports
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999             # listening secured ports
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/          # key prefix for dynamic configuration
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                   # load balancing method (set empty for default round-robin)
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                  # weight of the server
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS=0                # maximum connections by upstream server (0 to disable)
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1                # number of unsuccessful attempts before marking upstream server as unavailable
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s           # time before marking upstream server as unavailable and period of unavailability
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999           # listening secured ports
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for dynamic configuration
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                 # load balancing method (set empty for default round-robin)
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                # weight of the server
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS=0              # maximum connections by upstream server (0 to disable)
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1              # number of unsuccessful attempts before marking upstream server as unavailable
+            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s         # time before marking upstream server as unavailable and period of unavailability
             #
             # template php
             #
-            - NGINX_TEMPLATE_PHP_SERVICENAME=php                                  # service name of PHP backends
-            - NGINX_TEMPLATE_PHP_SERVICETAG=dev                                   # service tag of PHP backends
+            - NGINX_TEMPLATE_PHP_SERVICENAME=php                                # service name of PHP backends
+            - NGINX_TEMPLATE_PHP_SERVICETAG=dev                                 # service tag of PHP backends
             #- NGINX_TEMPLATE_PHP_SERVERNAME=""                                 # server names
             #- NGINX_TEMPLATE_PHP_ROOT=/var/www                                 # root directory
             #- NGINX_TEMPLATE_PHP_INDEX=index.html index.php                    # index pages
