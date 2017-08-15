@@ -16,6 +16,7 @@ services:
             - "8891:8891"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            - /dev/log:/dev/log
             #- /host/data:/var/lib/opendkim                                         # volume for data
         environment:
             - CONSUL_AGENT=consul                                                   # consul agent hostname/IP

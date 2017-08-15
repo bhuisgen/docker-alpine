@@ -17,6 +17,7 @@ services:
             - "587:587"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            - /dev/log:/dev/log
             #- /host/postfix:/var/spool/postfix                                     # volume for spool
             #- /host/mail:/var/mail                                                 # volume for mail
         environment:

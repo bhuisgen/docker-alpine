@@ -16,6 +16,7 @@ services:
             - "8893:8893"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            - /dev/log:/dev/log
         environment:
             - CONSUL_AGENT=consul                                               # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                 # consul agent port
