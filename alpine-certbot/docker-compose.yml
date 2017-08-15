@@ -1,0 +1,8 @@
+version: '3.2'
+
+services:
+    certbot:
+        image: bhuisgen/alpine-certbot
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./data:/data

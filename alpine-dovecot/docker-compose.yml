@@ -1,0 +1,78 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    dovecot:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-dovecot
+        ports:
+            #- "110:110"        # POP3
+            #- "143:143"        # IMAP
+            - "993:993"         # IMAPS
+            - "995:995"         # POP3S
+            #- "24:24"          # LMTP
+            #- "12345:12345"    # SASL AUTH
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/mail:/var/mail                                                 # volume for mail
+            #- /host/postfix:/var/spool/postfix                                     # volume of postfix spool
+        environment:
+            - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
+            - CONSUL_SERVICENAME=dovecot                                            # consul service name
+            - CONSUL_SERVICETAGS=dev                                                # consul service tag
+            - CONSUL_SERVICEPORT=143                                                # consul service port
+            - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
+            #- DOVECOT_PROTOCOLS=imap pop3 lmtp                                     # protocols to serve
+            #- DOVECOT_INSTANCENAME=dovecot                                         # instance name
+            #- DOVECOT_LOGINGREETING=Dovecot ready.                                 # login greeting
+            #- DOVECOT_LOGINTRUSTEDNETWORKS=                                        # trusted networks list
+            #- DOVECOT_DICTQUOTA=                                                   # dict quota
+            #- DOVECOT_DICTEXPIRE=                                                  # dict expire
+            #- DOVECOT_DICTACL=                                                     # dict ACL
+            #- DOVECOT_MAILLOCATION=                                                # mail location
+            #- DOVECOT_DEFAULTPROCESSLIMIT=                                         # default connections limit
+            #- DOVECOT_DEFAULTCLIENTLIMIT=                                          # default clients limit
+            #- DOVECOT_IMAPLOGINPROCESSMINAVAIL=                                    # number of processes to keep waiting for imap login connections
+            #- DOVECOT_IMAPPROCESSLIMIT=                                            # imap connections limit
+            #- DOVECOT_POP3PROCESSLIMIT=                                            # pop3 connections limit
+            #- DOVECOT_SSL=yes                                                      # enable SSL/TLS (yes/no/required)
+            #- DOVECOT_SSLCERT=                                                     # TLS certificate file
+            #- DOVECOT_SSLKEY=                                                      # TLS key file
+            #- DOVECOT_SSLPROTOCOLS=!SSLv3                                          # TLS protocols
+            #- DOVECOT_SSLCIPHERLIST=ALL:!LOW:!SSLv2:!EXP:!aNULL                    # TLS cipher list
+            #- DOVECOT_POSTMASTERADDRESS=                                           # postmaster address
+            #- DOVECOT_TEMPLATE=                                                    # configuration template
+            #
+            # template LDAP
+            #
+            #- DOVECOT_TEMPLATE_LDAP_SERVICENAME=openldap                           # service name of LDAP backend
+            #- DOVECOT_TEMPLATE_LDAP_SERVICETAG=dev                                 # service tag of LDAP backend
+            #- DOVECOT_TEMPLATE_LDAP_DN=                                            # LDAP DN
+            #- DOVECOT_TEMPLATE_LDAP_DNPASS=                                        # LDAP password
+            #- DOVECOT_TEMPLATE_LDAP_TLS=0                                          # enable LDAP TLS
+            #- DOVECOT_TEMPLATE_LDAP_TLSCACERTFILE=                                 # TLS CA certificate file
+            #- DOVECOT_TEMPLATE_LDAP_TLSCACERTDIR=                                  # TLS CA certificates directory
+            #- DOVECOT_TEMPLATE_LDAP_TLSCIPHERSUITE=                                # TLS cipher suite
+            #- DOVECOT_TEMPLATE_LDAP_TLSCERTFILE=                                   # TLS client certificate file
+            #- DOVECOT_TEMPLATE_LDAP_TLSKEYFILE=                                    # TLS client key file
+            #- DOVECOT_TEMPLATE_LDAP_TLSREQUIRECERT=                                # TLS require certificate
+            #- DOVECOT_TEMPLATE_LDAP_AUTHBIND=                                      # LDAP auth bind
+            #- DOVECOT_TEMPLATE_LDAP_AUTHBINDUSERDN=                                # LDAP auth bind user DN
+            #- DOVECOT_TEMPLATE_LDAP_BASE=                                          # LDAP base
+            #- DOVECOT_TEMPLATE_LDAP_SCOPE=                                         # LDAP scope
+            #- DOVECOT_TEMPLATE_LDAP_USERATTRS=                                     # LDAP user attributes
+            #- DOVECOT_TEMPLATE_LDAP_USERFILTER=                                    # LDAP user filter
+            #- DOVECOT_TEMPLATE_LDAP_PASSATTRS=                                     # LDAP pass attributes
+            #- DOVECOT_TEMPLATE_LDAP_PASSFILTER=                                    # LDAP pass filter
+            #- DOVECOT_TEMPLATE_LDAP_ITERATEATTRS=                                  # LDAP iterate attributes
+            #- DOVECOT_TEMPLATE_LDAP_ITERATEFILTER=                                 # LDAP iterate filter
+            #- DOVECOT_TEMPLATE_LDAP_DEFAULTPASSSCHEME=                             # LDAP default pass scheme

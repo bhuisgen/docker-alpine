@@ -13,9 +13,10 @@ services:
             - consul
         image: bhuisgen/alpine-opendkim
         ports:
-            - "12345:12345"
+            - "8891:8891"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            - /dev/log:/dev/log
             #- /host/data:/var/lib/opendkim                                         # volume for data
         environment:
             - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
@@ -23,7 +24,7 @@ services:
             #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
             - CONSUL_SERVICENAME=opendkim                                           # consul service name
             - CONSUL_SERVICETAGS=dev                                                # consul service tag
-            - CONSUL_SERVICEPORT=12345                                              # consul service port
+            - CONSUL_SERVICEPORT=8891                                              # consul service port
             - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
             #- OPENDKIM_KEYTABLE=                                                   # opendkim key table file of signing keys
             #- OPENDKIM_SIGNINGTABLE=                                               # opendkim table file for selecting signatures

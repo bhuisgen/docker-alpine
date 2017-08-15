@@ -50,9 +50,11 @@ AC_CONFIG_FILES([
     alpine-build-rpi-python/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile
+    alpine-certbot/Makefile
     alpine-cli53/Makefile
     alpine-consul/Makefile
     alpine-dnsmasq/Makefile
+    alpine-dovecot/Makefile
     alpine-dockercompose/Makefile
     alpine-dockermachine/Makefile
     alpine-dynamodb/Makefile
@@ -86,6 +88,7 @@ AC_CONFIG_FILES([
     alpine-redis/Makefile
     alpine-registry/Makefile
     alpine-rng/Makefile
+    alpine-roundcubemail/Makefile
     alpine-rsyslog/Makefile
     alpine-ruby/Makefile
     alpine-spark/Makefile

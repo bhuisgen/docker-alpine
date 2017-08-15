@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${DOVECOT_TEMPLATE} ]; then
+    echo "==> Enabling dovecot template '${DOVECOT_TEMPLATE}'"
+
+    cp "/etc/consul-template/templates/dovecot/${DOVECOT_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-dovecot.conf
+fi

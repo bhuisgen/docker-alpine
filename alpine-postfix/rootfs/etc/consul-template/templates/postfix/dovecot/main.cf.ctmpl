@@ -1,0 +1,167 @@
+{{- $postfix_myhostname := env "POSTFIX_MYHOSTNAME" -}}
+{{- $postfix_mydomain := env "POSTFIX_MYDOMAIN" -}}
+{{- $postfix_myorigin := env "POSTFIX_MYORIGIN" -}}
+{{- $postfix_mydestination := env "POSTFIX_MYDESTINATION" -}}
+{{- $postfix_mynetworks := env "POSTFIX_MYNETWORKS" -}}
+{{- $postfix_relayhost := env "POSTFIX_RELAYHOST" -}}
+{{- $postfix_relaydomains := env "POSTFIX_RELAYDOMAINS" -}}
+{{- $postfix_smtp_tls_CAfile := env "POSTFIX_SMTPTLSCAFILE" -}}
+{{- $postfix_smtp_tls_cert_file := env "POSTFIX_SMTPTLSCERTFILE" -}}
+{{- $postfix_smtp_tls_key_file := env "POSTFIX_SMTPTLSKEYFILE" -}}
+{{- $postfix_smtp_tls_mandatory_protocols := env "POSTFIX_SMTPTLSMANDATORYPROTOCOLS" -}}
+{{- $postfix_smtp_tls_protocols := env "POSTFIX_SMTPTLSPROTOCOLS" -}}
+{{- $postfix_smtp_tls_mandatory_ciphers := env "POSTFIX_SMTPTLSMANDATORYCIPHERS" -}}
+{{- $postfix_smtpd_tls_CAfile := env "POSTFIX_SMTPDTLSCAFILE" -}}
+{{- $postfix_smtpd_tls_cert_file := env "POSTFIX_SMTPDTLSCERTFILE" -}}
+{{- $postfix_smtpd_tls_key_file := env "POSTFIX_SMTPDTLSKEYFILE" -}}
+{{- $postfix_smtpd_tls_dh1024_param_file := env "POSTFIX_SMTPDTLSDH1024PARAMFILE" -}}
+{{- $postfix_smtpd_tls_mandatory_protocols := env "POSTFIX_SMTPDTLSMANDATORYPROTOCOLS" -}}
+{{- $postfix_smtpd_tls_protocols := env "POSTFIX_SMTPDTLSPROTOCOLS" -}}
+{{- $postfix_smtpd_tls_mandatory_ciphers := env "POSTFIX_SMTPDTLSMANDATORYCIPHERS" -}}
+{{- $postfix_tls_medium_cipherlist := env "POSTFIX_TLSMEDIUMCIPHERLIST" -}}
+{{- $postfix_opendkim_service_name := env "POSTFIX_OPENDKIMSERVICENAME" -}}
+{{- $postfix_opendkim_service_tag := env "POSTFIX_OPENDKIMSERVICETAG" -}}
+{{- $postfix_opendmarc_service_name := env "POSTFIX_OPENDMARCSERVICENAME" -}}
+{{- $postfix_opendmarc_service_tag := env "POSTFIX_OPENDMARCSERVICETAG" -}}
+{{- $postfix_sasl_service_name := env "POSTFIX_TEMPLATE_DOVECOT_SASLSERVICENAME" -}}
+{{- $postfix_sasl_service_tag := env "POSTFIX_TEMPLATE_DOVECOT_SASLSERVICETAG" -}}
+{{- $postfix_lmtp_service_name := env "POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICENAME" -}}
+{{- $postfix_lmtp_service_tag := env "POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICETAG" -}}
+{{- $postfix_virtual_mailbox_domains := env "POSTFIX_TEMPLATE_DOVECOT_VIRTUALMAILBOXDOMAINS" -}}
+smtputf8_enable = no
+meta_directory = /etc/postfix
+shlib_directory = /usr/lib/postfix
+
+inet_interfaces = all
+inet_protocols = all
+smtpd_banner = $myhostname ESMTP
+{{if $postfix_myhostname}}myhostname = {{$postfix_myhostname}}{{end}}
+{{if $postfix_mydomain}}mydomain = {{$postfix_mydomain}}{{end}}
+{{if $postfix_myorigin}}myorigin = {{$postfix_myorigin}}{{end}}
+{{if $postfix_mydestination}}mydestination = {{$postfix_mydestination}}{{end}}
+{{if $postfix_mynetworks}}mynetworks = {{$postfix_mynetworks}}{{end}}
+{{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
+{{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
+
+alias_database = /etc/aliases
+alias_maps = hash:/etc/postfix/aliases
+sender_canonical_maps = regexp:/etc/postfix/sender_canonical
+recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
+relay_domains = hash:/etc/postfix/relay_domains
+transport_maps = hash:/etc/postfix/transport
+
+smtp_tls_security_level = may
+{{if $postfix_smtp_tls_CAfile}}smtp_tls_CAfile = {{$postfix_smtp_tls_CAfile}}{{end}}
+{{if $postfix_smtp_tls_cert_file}}smtp_tls_cert_file = {{$postfix_smtp_tls_cert_file}}{{end}}
+{{if $postfix_smtp_tls_key_file}}smtp_tls_key_file = {{$postfix_smtp_tls_key_file}}{{end}}
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_tls_session_cache
+smtp_tls_session_cache_timeout = 3600s
+{{if $postfix_smtp_tls_mandatory_protocols}}smtp_tls_mandatory_protocols = {{$postfix_smtp_tls_mandatory_protocols}}{{else}}smtp_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtp_tls_protocols}}smtp_tls_protocols = {{$postfix_smtp_tls_protocols}}{{else}}smtp_tls_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtp_tls_mandatory_ciphers}}smtp_tls_mandatory_ciphers = {{$postfix_smtp_tls_mandatory_ciphers}}{{else}}smtp_tls_mandatory_ciphers = medium{{end}}
+smtp_tls_loglevel = 1
+
+smtpd_tls_security_level = may
+{{if $postfix_smtpd_tls_CAfile}}smtpd_tls_CAfile = {{$postfix_smtpd_tls_CAfile}}{{end}}
+{{if $postfix_smtpd_tls_cert_file}}smtpd_tls_cert_file = {{$postfix_smtpd_tls_cert_file}}{{end}}
+{{if $postfix_smtpd_tls_key_file}}smtpd_tls_key_file = {{$postfix_smtpd_tls_key_file}}{{end}}
+{{if $postfix_smtpd_tls_dh1024_param_file}}smtpd_tls_dh1024_param_file = {{$postfix_smtpd_tls_dh1024_param_file}}{{end}}
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_session_cache_timeout = 3600s
+{{if $postfix_smtpd_tls_mandatory_protocols}}smtpd_tls_mandatory_protocols = {{$postfix_smtpd_tls_mandatory_protocols}}{{else}}smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtpd_tls_protocols}}smtpd_tls_protocols = {{$postfix_smtpd_tls_protocols}}{{else}}smtpd_tls_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtpd_tls_mandatory_ciphers}}smtpd_tls_mandatory_ciphers = {{$postfix_smtpd_tls_mandatory_ciphers}}{{else}}smtpd_tls_mandatory_ciphers = medium{{end}}
+smtpd_tls_loglevel = 1
+
+{{if $postfix_tls_medium_cipherlist}}tls_medium_cipherlist = {{$postfix_tls_medium_cipherlist}}{{else}}tls_medium_cipherlist = aNULL:-aNULL:HIGH:MEDIUM:+RC4:@STRENGTH{{end}}
+
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path =
+    {{if and $postfix_sasl_service_name $postfix_sasl_service_tag}}{{with service (print $postfix_sasl_service_tag "." $postfix_sasl_service_name)}}{{with index . 0}}inet:{{.Address}}:12345{{end}}{{end}}{{end}}
+smtpd_sasl_security_options = noanonymous
+
+smtpd_client_restrictions =
+        permit_mynetworks,
+        reject_unknown_reverse_client_hostname,
+        reject_rbl_client zen.spamhaus.org,
+        reject_rbl_client bl.spamcop.net,
+        reject_rbl_client cbl.abuseat.org,
+        permit
+
+smtpd_helo_restrictions =
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_invalid_hostname,
+        reject_unknown_hostname,
+        permit
+
+smtpd_sender_restrictions =
+        reject_non_fqdn_sender,
+        check_sender_access hash:/etc/postfix/sender_access,
+        permit_mynetworks,
+        reject_unknown_sender_domain,
+        permit
+
+smtpd_recipient_restrictions =
+        reject_non_fqdn_recipient,
+        reject_unverified_recipient,
+        check_recipient_access hash:/etc/postfix/recipient_access,
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_unknown_recipient_domain,
+        reject_unauth_destination,
+        permit
+
+smtpd_relay_restrictions =
+        reject_non_fqdn_recipient,
+        check_recipient_access hash:/etc/postfix/recipient_access,
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_unknown_recipient_domain,
+        reject_unauth_destination,
+        permit
+
+smtpd_data_restrictions =
+        reject_unauth_pipelining
+
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters =
+    {{if and $postfix_opendkim_service_name $postfix_opendkim_service_tag}}{{with service (print $postfix_opendkim_service_tag "." $postfix_opendkim_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
+    {{if and $postfix_opendmarc_service_name $postfix_opendmarc_service_tag}}{{with service (print $postfix_opendmarc_service_tag "." $postfix_opendmarc_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
+
+dovecot_destination_recipient_limit = 1
+virtual_transport =
+    {{if and $postfix_lmtp_service_name $postfix_lmtp_service_tag}}{{with service (print $postfix_lmtp_service_tag "." $postfix_lmtp_service_name)}}{{with index . 0}}lmtp:{{.Address}}:24{{end}}{{end}}{{end}}
+virtual_mailbox_domains = {{$postfix_virtual_mailbox_domains}}
+virtual_alias_maps = hash:/etc/postfix/virtual
+
+#
+
+biff = no
+recipient_delimiter = +
+append_dot_mydomain = no
+default_process_limit = 50
+local_destination_concurrency_limit = 2
+default_destination_concurrency_limit = 20
+smtpd_client_connection_count_limit = 50
+smtpd_client_message_rate_limit = 500
+smtpd_recipient_limit = 32
+mailbox_size_limit = 51200000
+message_size_limit = 20480000
+strict_rfc821_envelopes = yes
+minimal_backoff_time = 1000
+maximal_backoff_time = 4000
+smtp_connect_timeout = 10
+smtp_helo_timeout = 10
+smtpd_error_sleep_time = 0
+smtpd_helo_required = yes
+smtpd_delay_reject = yes
+smtpd_tls_auth_only = yes
+smtp_tls_note_starttls_offer = yes

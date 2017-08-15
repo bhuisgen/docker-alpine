@@ -6,6 +6,9 @@
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
 {{- $nginx_ssl_certificate_key := env "NGINX_SSLCERTIFICATEKEY" -}}
+{{- $nginx_ssl_dhparam := env "NGINX_SSLDHPARAM" -}}
+{{- $nginx_ssl_protocols := env "NGINX_SSLPROTOCOLS" -}}
+{{- $nginx_ssl_ciphers := env "NGINX_SSLCIPHERS" -}}
 {{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
 {{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
@@ -41,6 +44,8 @@ stream {
     #access_log off;
     #{{end}}
     error_log /var/log/nginx/error.log warn;
+
+    include /etc/nginx/conf.d/*.conf;
 
     {{range $listener := $loadbalancer_listeners | split ","}}
     upstream tcp-out-{{$listener}} {
@@ -79,9 +84,10 @@ stream {
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_dhparam {{$nginx_ssl_dhparam}};
+        ssl_protocols {{if $nginx_ssl_protocols}}{{$nginx_ssl_protocols}}{{else}}TLSv1 TLSv1.1 TLSv1.2{{end}};
         ssl_prefer_server_ciphers on;
-        ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+        ssl_ciphers {{if $nginx_ssl_ciphers}}{{$nginx_ssl_ciphers}}{{else}}EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH{{end}};
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;

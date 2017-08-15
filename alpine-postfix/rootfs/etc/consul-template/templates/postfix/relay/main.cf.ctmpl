@@ -1,0 +1,88 @@
+{{- $postfix_myhostname := env "POSTFIX_MYHOSTNAME" -}}
+{{- $postfix_mydomain := env "POSTFIX_MYDOMAIN" -}}
+{{- $postfix_myorigin := env "POSTFIX_MYORIGIN" -}}
+{{- $postfix_mydestination := env "POSTFIX_MYDESTINATION" -}}
+{{- $postfix_mynetworks := env "POSTFIX_MYNETWORKS" -}}
+{{- $postfix_relayhost := env "POSTFIX_RELAYHOST" -}}
+{{- $postfix_relaydomains := env "POSTFIX_RELAYDOMAINS" -}}
+{{- $postfix_smtp_tls_CAfile := env "POSTFIX_SMTPTLSCAFILE" -}}
+{{- $postfix_smtp_tls_cert_file := env "POSTFIX_SMTPTLSCERTFILE" -}}
+{{- $postfix_smtp_tls_key_file := env "POSTFIX_SMTPTLSKEYFILE" -}}
+{{- $postfix_smtp_tls_mandatory_protocols := env "POSTFIX_SMTPTLSMANDATORYPROTOCOLS" -}}
+{{- $postfix_smtp_tls_protocols := env "POSTFIX_SMTPTLSPROTOCOLS" -}}
+{{- $postfix_smtp_tls_mandatory_ciphers := env "POSTFIX_SMTPTLSMANDATORYCIPHERS" -}}
+{{- $postfix_smtpd_tls_CAfile := env "POSTFIX_SMTPDTLSCAFILE" -}}
+{{- $postfix_smtpd_tls_cert_file := env "POSTFIX_SMTPDTLSCERTFILE" -}}
+{{- $postfix_smtpd_tls_key_file := env "POSTFIX_SMTPDTLSKEYFILE" -}}
+{{- $postfix_smtpd_tls_dh1024_param_file := env "POSTFIX_SMTPDTLSDH1024PARAMFILE" -}}
+{{- $postfix_smtpd_tls_mandatory_protocols := env "POSTFIX_SMTPDTLSMANDATORYPROTOCOLS" -}}
+{{- $postfix_smtpd_tls_protocols := env "POSTFIX_SMTPDTLSPROTOCOLS" -}}
+{{- $postfix_smtpd_tls_mandatory_ciphers := env "POSTFIX_SMTPDTLSMANDATORYCIPHERS" -}}
+{{- $postfix_tls_medium_cipherlist := env "POSTFIX_TLSMEDIUMCIPHERLIST" -}}
+{{- $postfix_opendkim_service_name := env "POSTFIX_OPENDKIMSERVICENAME" -}}
+{{- $postfix_opendkim_service_tag := env "POSTFIX_OPENDKIMSERVICETAG" -}}
+{{- $postfix_opendmarc_service_name := env "POSTFIX_OPENDMARCSERVICENAME" -}}
+{{- $postfix_opendmarc_service_tag := env "POSTFIX_OPENDMARCSERVICETAG" -}}
+smtputf8_enable = no
+meta_directory = /etc/postfix
+shlib_directory = /usr/lib/postfix
+
+inet_interfaces = all
+inet_protocols = all
+smtpd_banner = $myhostname ESMTP
+{{if $postfix_myhostname}}myhostname = {{$postfix_myhostname}}{{end}}
+{{if $postfix_mydomain}}mydomain = {{$postfix_mydomain}}{{end}}
+{{if $postfix_myorigin}}myorigin = {{$postfix_myorigin}}{{end}}
+{{if $postfix_mydestination}}mydestination = {{$postfix_mydestination}}{{end}}
+{{if $postfix_mynetworks}}mynetworks = {{$postfix_mynetworks}}{{end}}
+{{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
+{{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
+
+alias_database = /etc/aliases
+alias_maps = hash:/etc/postfix/aliases
+sender_canonical_maps = regexp:/etc/postfix/sender_canonical
+recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
+relay_domains = hash:/etc/postfix/relay_domains
+transport_maps = hash:/etc/postfix/transport
+
+smtp_tls_security_level = may
+{{if $postfix_smtp_tls_CAfile}}smtp_tls_CAfile = {{$postfix_smtp_tls_CAfile}}{{end}}
+{{if $postfix_smtp_tls_cert_file}}smtp_tls_cert_file = {{$postfix_smtp_tls_cert_file}}{{end}}
+{{if $postfix_smtp_tls_key_file}}smtp_tls_key_file = {{$postfix_smtp_tls_key_file}}{{end}}
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_tls_session_cache
+smtp_tls_session_cache_timeout = 3600s
+{{if $postfix_smtp_tls_mandatory_protocols}}smtp_tls_mandatory_protocols = {{$postfix_smtp_tls_mandatory_protocols}}{{else}}smtp_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtp_tls_protocols}}smtp_tls_protocols = {{$postfix_smtp_tls_protocols}}{{else}}smtp_tls_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtp_tls_mandatory_ciphers}}smtp_tls_mandatory_ciphers = {{$postfix_smtp_tls_mandatory_ciphers}}{{else}}smtp_tls_mandatory_ciphers = medium{{end}}
+smtp_tls_loglevel = 1
+
+smtpd_tls_security_level = may
+{{if $postfix_smtpd_tls_CAfile}}smtpd_tls_CAfile = {{$postfix_smtpd_tls_CAfile}}{{end}}
+{{if $postfix_smtpd_tls_cert_file}}smtpd_tls_cert_file = {{$postfix_smtpd_tls_cert_file}}{{end}}
+{{if $postfix_smtpd_tls_key_file}}smtpd_tls_key_file = {{$postfix_smtpd_tls_key_file}}{{end}}
+{{if $postfix_smtpd_tls_dh1024_param_file}}smtpd_tls_dh1024_param_file = {{$postfix_smtpd_tls_dh1024_param_file}}{{end}}
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_session_cache_timeout = 3600s
+{{if $postfix_smtpd_tls_mandatory_protocols}}smtpd_tls_mandatory_protocols = {{$postfix_smtpd_tls_mandatory_protocols}}{{else}}smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtpd_tls_protocols}}smtpd_tls_protocols = {{$postfix_smtpd_tls_protocols}}{{else}}smtpd_tls_protocols = !SSLv2, !SSLv3{{end}}
+{{if $postfix_smtpd_tls_mandatory_ciphers}}smtpd_tls_mandatory_ciphers = {{$postfix_smtpd_tls_mandatory_ciphers}}{{else}}smtpd_tls_mandatory_ciphers = medium{{end}}
+{{if $postfix_tls_medium_cipherlist}}tls_medium_cipherlist = {{$postfix_tls_medium_cipherlist}}{{else}}tls_medium_cipherlist = aNULL:-aNULL:HIGH:MEDIUM:+RC4:@STRENGTH{{end}}
+smtpd_tls_loglevel = 1
+
+tls_medium_cipherlist = {{$postfix_tls_medium_cipherlist}}
+
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+
+smtpd_delay_reject = yes
+smtpd_helo_required = yes
+smtpd_helo_restrictions = permit_mynetworks,reject_invalid_helo_hostname,permit
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters =
+    {{if and $postfix_opendkim_service_name $postfix_opendkim_service_tag}}{{with service (print $postfix_opendkim_service_tag "." $postfix_opendkim_service_name)}}{{with index . 0}}{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
+    {{if and $postfix_opendmarc_service_name $postfix_opendmarc_service_tag}}{{with service (print $postfix_opendmarc_service_tag "." $postfix_opendmarc_service_name)}}{{with index . 0}}{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
