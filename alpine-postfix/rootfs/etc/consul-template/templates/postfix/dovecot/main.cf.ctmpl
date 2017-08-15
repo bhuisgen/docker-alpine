@@ -85,7 +85,6 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path =
     {{if and $postfix_sasl_service_name $postfix_sasl_service_tag}}{{with service (print $postfix_sasl_service_tag "." $postfix_sasl_service_name)}}{{with index . 0}}inet:{{.Address}}:12345{{end}}{{end}}{{end}}
 smtpd_sasl_security_options = noanonymous
-smtp_sasl_local_domain = $myhostname
 
 smtpd_client_restrictions =
         permit_mynetworks,
