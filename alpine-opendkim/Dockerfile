@@ -10,5 +10,5 @@ COPY rootfs/ /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 12345
+EXPOSE 8891
 VOLUME ["/var/lib/opendkim"]
