@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-dockercompose
+IMAGE = bhuisgen/alpine-docker-compose
 
 clean-local:
 	docker rmi $(IMAGE):$(TAG) $(CLEAN_OPTIONS) || true
