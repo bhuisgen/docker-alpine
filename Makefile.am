@@ -16,8 +16,8 @@ SUBDIRS = \
     alpine-cli53 \
     alpine-consul \
     alpine-dnsmasq \
-    alpine-dockercompose \
-    alpine-dockermachine \
+    alpine-docker-compose \
+    alpine-docker-machine \
     alpine-dovecot \
     alpine-dynamodb \
     alpine-elasticsearch \
