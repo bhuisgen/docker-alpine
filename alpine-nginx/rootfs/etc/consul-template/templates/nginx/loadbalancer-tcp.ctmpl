@@ -2,6 +2,7 @@
 {{- $nginx_worker_connections := env "NGINX_WORKERCONNECTIONS" -}}
 {{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
 {{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
+{{- $nginx_include_conf := env "NGINX_INCLUDECONF" -}}
 {{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
@@ -45,7 +46,9 @@ stream {
     #{{end}}
     error_log /var/log/nginx/error.log warn;
 
+    {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
+    {{end}}
 
     {{range $listener := $loadbalancer_listeners | split ","}}
     upstream tcp-out-{{$listener}} {
