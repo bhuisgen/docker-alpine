@@ -12,6 +12,7 @@
 {{- $nginx_client_body_buffer_size := env "NGINX_CLIENTBODYBUFFERSIZE" -}}
 {{- $nginx_client_max_body_size := env "NGINX_CLIENTMAXBODYSIZE" -}}
 {{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
+{{- $nginx_include_conf := env "NGINX_INCLUDECONF" -}}
 {{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_http2 := env "NGINX_SSLHTTP2" -}}
@@ -88,7 +89,9 @@ http {
     {{end}}
     error_log /var/log/nginx/error.log warn;
 
+    {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
+    {{end}}
 
     upstream app {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}

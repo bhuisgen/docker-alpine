@@ -41,6 +41,7 @@ services:
             #- NGINX_CLIENTBODYBUFFERSIZE=8k                                    # buffer size for reading client request body
             #- NGINX_CLIENTMAXBODYSIZE=1m                                       # maximum allowed size of the client request body
             #- NGINX_ACCESSLOG=0                                                # enable access logs
+            #- NGINX_INCLUDECONF=0                                              # include files from conf.d/ directory
             #- NGINX_REUSEPORT=0                                                # enable reuse port
             #- NGINX_SSL=0                                                      # enable SSL support
             #- NGINX_SSLHTTP2=0                                                 # enable HTTP2 support
