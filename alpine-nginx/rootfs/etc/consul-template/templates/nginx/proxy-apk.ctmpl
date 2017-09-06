@@ -113,9 +113,9 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    proxy_cache_path /var/cache/nginx levels={{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}} {{if $nginx_proxy_cache_path_max_size}}max_size={{$nginx_proxy_cache_path_max_size}}{{end}} {{if $nginx_proxy_cache_path_inactive}}inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
+    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}} {{if $nginx_proxy_cache_path_max_size}}max_size={{$nginx_proxy_cache_path_max_size}}{{end}} {{if $nginx_proxy_cache_path_inactive}}inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
 
-    upstream mirror {
+    upstream proxy {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
@@ -203,7 +203,7 @@ http {
         }
 
         location @proxy {
-            proxy_pass http://mirror;
+            proxy_pass http://proxy;
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
@@ -238,7 +238,7 @@ http {
         }
 
         location @proxy_cache {
-            proxy_pass http://mirror;
+            proxy_pass http://proxy;
             proxy_buffering {{$nginx_proxy_buffering}};
             proxy_connect_timeout {{$nginx_proxy_connect_timeout}};
             proxy_read_timeout {{$nginx_proxy_read_timeout}};

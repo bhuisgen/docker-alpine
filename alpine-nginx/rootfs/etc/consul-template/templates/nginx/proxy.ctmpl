@@ -113,7 +113,7 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    proxy_cache_path /var/cache/nginx levels={{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}} {{if $nginx_proxy_cache_path_max_size}}max_size={{$nginx_proxy_cache_path_max_size}}{{end}} {{if $nginx_proxy_cache_path_inactive}}inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
+    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}} {{if $nginx_proxy_cache_path_max_size}}max_size={{$nginx_proxy_cache_path_max_size}}{{end}} {{if $nginx_proxy_cache_path_inactive}}inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
 
     upstream proxy {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
