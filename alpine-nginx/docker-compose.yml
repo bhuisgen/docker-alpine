@@ -1,5 +1,9 @@
 version: '3.2'
 
+volumes:
+    #nginx:
+    #www:
+
 services:
     consul:
         image: bhuisgen/alpine-consul
@@ -19,6 +23,8 @@ services:
             - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            #- nginx:/var/cache/nginx                                           # volume for nginx cache
+            #- www:/var/www                                                     # volume for data
         environment:
             - CONSUL_AGENT=consul                                               # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                 # consul agent port
@@ -75,17 +81,17 @@ services:
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS=0               # maximum connections by upstream server (0 to disable)
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS=1               # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT=10s          # time before marking upstream server as unavailable and period of unavailability
-            # #
-            # # template loadbalancer-tcp
-            # #
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567              # listening ports
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999           # listening secured ports
-            # - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/        # key prefix for dynamic configuration
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                 # load balancing method (set empty for default round-robin)
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                # weight of the server
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS=0              # maximum connections by upstream server (0 to disable)
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1              # number of unsuccessful attempts before marking upstream server as unavailable
-            # #- NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s         # time before marking upstream server as unavailable and period of unavailability
+            #
+            # template loadbalancer-tcp
+            #
+            - NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS=1234,4567                # listening ports
+            - NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS=8888,9999             # listening secured ports
+            - NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX=myloadbalancer/          # key prefix for dynamic configuration
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMETHOD=                  # load balancing method (set empty for default round-robin)
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMWEIGHT=1                 # weight of the server
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXCONNS=0               # maximum connections by upstream server (0 to disable)
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMMAXFAILS=1               # number of unsuccessful attempts before marking upstream server as unavailable
+            # - NGINX_TEMPLATE_LOADBALANCERTCP_UPSTREAMFAILTIMEOUT=10s          # time before marking upstream server as unavailable and period of unavailability
             #
             # template php
             #
@@ -100,6 +106,87 @@ services:
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPING=0                               # php ping page
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION=/php-fpm_ping           # php ping page location
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW=127.0.0.1                  # IP/CIDR allowed to access to php ping page (comma separated list)
+            #
+            # template proxy
+            #
+            - NGINX_TEMPLATE_PROXY_KEYPREFIX=myproxy/                           # key prefix for dynamic configuration
+            #- NGINX_TEMPLATE_PROXY_SERVERNAME=""                               # server names
+            #- NGINX_TEMPLATE_PROXY_ROOT=/var/www                               # root directory
+            #- NGINX_TEMPLATE_PROXY_INDEX=index.html                            # index pages
+            #- NGINX_TEMPLATE_PROXY_PROXYBUFFERING=on                           # enable proxy buffering
+            #- NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT=60s                     # proxy connect timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT=60s                        # proxy read timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYSENDTIMEOUT=60s                        # proxy send timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYGZIP=0                                 # enable gzip compression for proxy
+            #- NGINX_TEMPLATE_PROXY_PROXYACCESSLOG=0                            # enable proxy requests logs
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEVALID=                            # proxy cache valid codes/delay
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEUSESTALE=                         # proxy cache use stale
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEREVALIDATE=0                      # enable proxy cache revalidate
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEMINUSES=1                         # proxy cache min uses before caching
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHLEVELS=1:2                    # proxy cache path levels
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHKEYSCACHESIZE=1m              # proxy cache path keys size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
+            #
+            # template proxy-apk
+            #
+            - NGINX_TEMPLATE_PROXY_KEYPREFIX=myapkproxy/                        # key prefix for dynamic configuration
+            #- NGINX_TEMPLATE_PROXY_SERVERNAME=""                               # server names
+            #- NGINX_TEMPLATE_PROXY_ROOT=/var/www                               # root directory
+            #- NGINX_TEMPLATE_PROXY_INDEX=index.html                            # index pages
+            #- NGINX_TEMPLATE_PROXY_PROXYBUFFERING=on                           # enable proxy buffering
+            #- NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT=60s                     # proxy connect timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT=60s                        # proxy read timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYSENDTIMEOUT=60s                        # proxy send timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYGZIP=0                                 # enable gzip compression for proxy
+            #- NGINX_TEMPLATE_PROXY_PROXYACCESSLOG=0                            # enable proxy requests logs
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEVALID=                            # proxy cache valid codes/delay
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEUSESTALE=                         # proxy cache use stale
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEREVALIDATE=0                      # enable proxy cache revalidate
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEMINUSES=1                         # proxy cache min uses before caching
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHLEVELS=1:2                    # proxy cache path levels
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHKEYSCACHESIZE=1m              # proxy cache path keys size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
+            #
+            # template proxy-apt
+            #
+            - NGINX_TEMPLATE_PROXY_KEYPREFIX=myaptproxy/                        # key prefix for dynamic configuration
+            #- NGINX_TEMPLATE_PROXY_SERVERNAME=""                               # server names
+            #- NGINX_TEMPLATE_PROXY_ROOT=/var/www                               # root directory
+            #- NGINX_TEMPLATE_PROXY_INDEX=index.html                            # index pages
+            #- NGINX_TEMPLATE_PROXY_PROXYBUFFERING=on                           # enable proxy buffering
+            #- NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT=60s                     # proxy connect timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT=60s                        # proxy read timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYSENDTIMEOUT=60s                        # proxy send timeout
+            #- NGINX_TEMPLATE_PROXY_PROXYGZIP=0                                 # enable gzip compression for proxy
+            #- NGINX_TEMPLATE_PROXY_PROXYACCESSLOG=0                            # enable proxy requests logs
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEVALID=                            # proxy cache valid codes/delay
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEUSESTALE=                         # proxy cache use stale
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEREVALIDATE=0                      # enable proxy cache revalidate
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEMINUSES=1                         # proxy cache min uses before caching
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHLEVELS=1:2                    # proxy cache path levels
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHKEYSCACHESIZE=1m              # proxy cache path keys size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
+            #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
             #
             # template static
             #
