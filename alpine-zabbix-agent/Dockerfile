@@ -4,8 +4,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 ENV ZABBIX_VERSION=3.2.4
 
 COPY packages/*.apk /root/
-RUN apk add --update --allow-untrusted \
-        git python3 \
+RUN apk add --update git python3 && \
+    apk add --allow-untrusted \
         /root/zabbix-agent-${ZABBIX_VERSION}-*.apk && \
     python3 -m ensurepip --upgrade && \
     git clone --depth 1 --progress https://github.com/bhuisgen/zabbix-docker.git /usr/local/zabbix-docker && \
