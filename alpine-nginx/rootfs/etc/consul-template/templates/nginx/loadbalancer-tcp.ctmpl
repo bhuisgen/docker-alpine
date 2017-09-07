@@ -40,11 +40,11 @@ stream {
     #                    '$session_time';
     #
     #{{if eq $nginx_access_log "1"}}
-    #access_log /var/log/nginx/access.log basic buffer=1m flush=10s;
+    #access_log /dev/stdout main buffer=1m flush=10s;
     #{{else}}
     #access_log off;
     #{{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
@@ -54,8 +54,8 @@ stream {
     upstream tcp-out-{{$listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
-        {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:{{$listener}} down;
         {{end}}
@@ -75,7 +75,7 @@ stream {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
         {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:{{$ssl_listener}} down;
         {{end}}

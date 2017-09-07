@@ -76,9 +76,9 @@ services:
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYSENDTIMEOUT=60s             # proxy send timeout
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYGZIP=0                      # enable gzip compression for proxy
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD=                  # load balancing method (set empty for default round-robin)
-            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE=0              # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE=0              # number of upstream minimal keepalive connections
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT=1                 # weight of the server
-            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS=0               # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXCONNS=0               # maximum connections to upstream server
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMAXFAILS=1               # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMFAILTIMEOUT=10s          # time before marking upstream server as unavailable and period of unavailability
             #
@@ -106,6 +106,13 @@ services:
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPING=0                               # php ping page
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION=/php-fpm_ping           # php ping page location
             #- NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW=127.0.0.1                  # IP/CIDR allowed to access to php ping page (comma separated list)
+            #- NGINX_TEMPLATE_PHP_UPSTREAMMETHOD=                               # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_PHP_UPSTREAMKEEPALIVE=0                           # number of upstream minimal keepalive connections
+            #- NGINX_TEMPLATE_PHP_UPSTREAMWEIGHT=1                              # weight of the server
+            #- NGINX_TEMPLATE_PHP_UPSTREAMMAXCONNS=0                            # maximum connections to upstream server
+            #- NGINX_TEMPLATE_PHP_UPSTREAMMAXFAILS=1                            # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_PHP_UPSTREAMFAILTIMEOUT=10s                       # time before marking upstream server as unavailable and period of unavailability
+            #- NGINX_TEMPLATE_PHP_UPSTREAMFAILTIMEOUT=10s                       # time before marking upstream server as unavailable and period of unavailability
             #
             # template proxy
             #
@@ -128,9 +135,9 @@ services:
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections
             #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections to upstream server
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
             #
@@ -155,9 +162,9 @@ services:
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections
             #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections to upstream server
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
             #
@@ -182,9 +189,9 @@ services:
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE=1g                    # proxy cache path max size
             #- NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE=1d                   # proxy cache path inactive period
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD=                             # load balancing method (set empty for default round-robin)
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE=0                         # number of upstream minimal keepalive connections
             #- NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT=1                            # weight of the server
-            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS=0                          # maximum connections to upstream server
             #- NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS=1                          # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT=10s                     # time before marking upstream server as unavailable and period of unavailability
             #
@@ -208,8 +215,8 @@ services:
             #- NGINX_TEMPLATE_UPSTREAM_PROXYGZIP=0                              # enable gzip compression for proxy
             #- NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG=0                         # enable proxy requests logs
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD=                          # load balancing method (set empty for default round-robin)
-            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE=0                      # number of upstream minimal keepalive connections (0 to disable)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE=0                      # number of upstream minimal keepalive connections
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT=1                         # weight of the server
-            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS=0                       # maximum connections by upstream server (0 to disable)
+            #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS=0                       # maximum connections to upstream server
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS=1                       # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT=10s                  # time before marking upstream server as unavailable and period of unavailability

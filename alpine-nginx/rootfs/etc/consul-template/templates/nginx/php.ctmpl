@@ -41,6 +41,12 @@
 {{- $nginx_php_status_ping := env "NGINX_TEMPLATE_PHP_PHPSTATUSPING" -}}
 {{- $nginx_php_status_ping_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION" -}}
 {{- $nginx_php_status_ping_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW" -}}
+{{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -86,23 +92,24 @@ http {
                     '"$http_user_agent" "$http_x_forwarded_for"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /dev/stdout main;
     {{else}}
     access_log off;
     {{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
     upstream php {
-        {{if and $name $tag}}
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+        {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
+
         {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}};
+        server {{.Address}}:{{.Port}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:9000 down;
-        {{end}}
         {{end}}
     }
 

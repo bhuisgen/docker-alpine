@@ -22,6 +22,7 @@
 {{- $nginx_ssl_protocols := env "NGINX_SSLPROTOCOLS" -}}
 {{- $nginx_ssl_ciphers := env "NGINX_SSLCIPHERS" -}}
 {{- $nginx_ssl_redirect := env "NGINX_SSLREDIRECT" -}}
+{{- $nginx_open_file_cache := env "NGINX_OPENFILECACHE" -}}
 {{- $nginx_gzip := env "NGINX_GZIP" -}}
 {{- $nginx_expire := env "NGINX_EXPIRE" -}}
 {{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
@@ -89,17 +90,17 @@ http {
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
-                                '"$request" $status $body_bytes_sent '
-                                '"$http_referer" "$http_user_agent"'
-                                'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+    log_format upstream '$remote_addr - $remote_user [$time_local] '
+                            '"$request" $status $body_bytes_sent '
+                            '"$http_referer" "$http_user_agent" '
+                            'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /dev/stdout main;
     {{else}}
     access_log off;
     {{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
@@ -107,14 +108,12 @@ http {
 
     upstream app {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
-        {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
+        {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
-        {{if and $name $tag}}
         {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        server {{.Address}}:{{.Port}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:80 down;
-        {{end}}
         {{end}}
     }
 
@@ -135,6 +134,13 @@ http {
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
+        {{end}}
+
+        {{if eq $nginx_open_file_cache "1"}}
+        open_file_cache max=1000 inactive=20s;
+        open_file_cache_valid 30s;
+        open_file_cache_min_uses 2;
+        open_file_cache_errors on;
         {{end}}
 
         {{if eq $nginx_gzip "1"}}
@@ -187,6 +193,10 @@ http {
         {{end}}
 
         location / {
+            try_files $uri @upstream
+        }
+
+        location @upstream {
             proxy_pass http://app;
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
@@ -211,7 +221,7 @@ http {
             {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream_time;
+            access_log /dev/stdout upstream;
             {{else}}
             access_log off;
             {{end}}
