@@ -22,6 +22,7 @@
 {{- $nginx_ssl_protocols := env "NGINX_SSLPROTOCOLS" -}}
 {{- $nginx_ssl_ciphers := env "NGINX_SSLCIPHERS" -}}
 {{- $nginx_ssl_redirect := env "NGINX_SSLREDIRECT" -}}
+{{- $nginx_open_file_cache := env "NGINX_OPENFILECACHE" -}}
 {{- $nginx_gzip := env "NGINX_GZIP" -}}
 {{- $nginx_expire := env "NGINX_EXPIRE" -}}
 {{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
@@ -97,32 +98,32 @@ http {
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
-                                '"$request" $status $body_bytes_sent '
-                                '"$http_referer" "$http_user_agent"'
-                                'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+    log_format upstream '$remote_addr - $remote_user [$time_local] '
+                            '"$request" $status $body_bytes_sent '
+                            '"$http_referer" "$http_user_agent" '
+                            'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /dev/stdout main;
     {{else}}
     access_log off;
     {{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}} {{if $nginx_proxy_cache_path_max_size}}max_size={{$nginx_proxy_cache_path_max_size}}{{end}} {{if $nginx_proxy_cache_path_inactive}}inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
+    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}}{{if $nginx_proxy_cache_path_max_size}} max_size={{$nginx_proxy_cache_path_max_size}}{{end}}{{if $nginx_proxy_cache_path_inactive}} inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
 
     upstream proxy {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
         {{range ls (print $proxy_keyprefix "targets")}}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
-        server dl-cdn.alpinelinux.org:80
+        server dl-cdn.alpinelinux.org:80;
         {{end}}
     }
 
@@ -143,6 +144,13 @@ http {
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
+        {{end}}
+
+        {{if eq $nginx_open_file_cache "1"}}
+        open_file_cache max=1000 inactive=20s;
+        open_file_cache_valid 30s;
+        open_file_cache_min_uses 2;
+        open_file_cache_errors on;
         {{end}}
 
         {{if eq $nginx_gzip "1"}}
@@ -231,7 +239,7 @@ http {
             {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream_time;
+            access_log /dev/stdout upstream;
             {{else}}
             access_log off;
             {{end}}
@@ -256,10 +264,10 @@ http {
 
             proxy_cache proxy;
             {{if $nginx_proxy_cache_valid}}proxy_cache_valid {{$nginx_proxy_cache_valid}};{{end}}
-            {{if $nginx_proxy_cache_use_stale}}proxy_cache_use_stale {{$nginx_proxy_cache_use_stale}}{{end}};
-            {{if eq $nginx_proxy_cache_revalidate "1"}}proxy_cache_revalidate on{{end}};
-            {{if $nginx_proxy_cache_min_uses}}proxy_cache_min_uses {{$nginx_proxy_cache_min_uses}};
-            {{if eq $nginx_proxy_cache_lock "1"}}proxy_cache_lock on{{end}};
+            {{if $nginx_proxy_cache_use_stale}}proxy_cache_use_stale {{$nginx_proxy_cache_use_stale}};{{end}}
+            {{if eq $nginx_proxy_cache_revalidate "1"}}proxy_cache_revalidate on;{{end}}
+            {{if $nginx_proxy_cache_min_uses}}proxy_cache_min_uses {{$nginx_proxy_cache_min_uses}};{{end}}
+            {{if eq $nginx_proxy_cache_lock "1"}}proxy_cache_lock on;{{end}}
 
             {{if eq $nginx_proxy_gzip "1"}}
             gzip on;
@@ -273,7 +281,7 @@ http {
             {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream_time;
+            access_log /dev/stdout upstream;
             {{else}}
             access_log off;
             {{end}}

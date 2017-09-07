@@ -31,6 +31,7 @@
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYREADTIMEOUT" -}}
 {{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYSENDTIMEOUT" -}}
 {{- $nginx_proxy_gzip := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYGZIP" -}}
+{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_LOADBALANCERHTTP_PROXYACCESSLOG" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMKEEPALIVE" -}}
 {{- $nginx_upstream_weight := env "NGINX_TEMPLATE_LOADBALANCERHTTP_UPSTREAMWEIGHT" -}}
@@ -77,17 +78,20 @@ http {
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    log_format basic '$remote_addr - $remote_user [$time_local] '
-                        '"$request" $status $body_bytes_sent '
-                        '"$http_referer" "$http_user_agent"'
-                        'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format upstream '$remote_addr - $remote_user [$time_local] '
+                            '"$request" $status $body_bytes_sent '
+                            '"$http_referer" "$http_user_agent" '
+                            'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log basic buffer=1m flush=10s;
+    access_log /dev/stdout main buffer=1m flush=10s;
     {{else}}
     access_log off;
     {{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
@@ -98,7 +102,7 @@ http {
         {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
 
         {{range ls (print $loadbalancer_keyprefix "targets")}}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:80 down;
         {{end}}
@@ -170,6 +174,12 @@ http {
             gzip_buffers 16 8k;
             gzip_http_version 1.1;
             gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+            {{end}}
+
+            {{if eq $nginx_proxy_access_log "1"}}
+            access_log /dev/stdout upstream buffer=1m flush=10s;
+            {{else}}
+            access_log off;
             {{end}}
         }
     }

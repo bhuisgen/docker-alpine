@@ -78,11 +78,11 @@ http {
                     '"$http_user_agent" "$http_x_forwarded_for"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /dev/stdout main;
     {{else}}
     access_log off;
     {{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
