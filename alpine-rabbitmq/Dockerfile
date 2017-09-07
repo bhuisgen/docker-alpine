@@ -19,7 +19,7 @@ RUN mkdir -p ${RABBITMQ_HOME} ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_D
 
 COPY packages/*.apk /root/
 RUN apk add --update tar xz && \
-    apk add --update --allow-untrusted \
+    apk add --allow-untrusted \
         /root/erlang-19.3.0-r0.apk \
         /root/erlang-asn1-19.3.0-r0.apk \
         /root/erlang-compiler-19.3.0-r0.apk \

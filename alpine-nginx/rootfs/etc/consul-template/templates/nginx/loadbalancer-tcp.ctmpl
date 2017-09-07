@@ -2,10 +2,14 @@
 {{- $nginx_worker_connections := env "NGINX_WORKERCONNECTIONS" -}}
 {{- $nginx_worker_rlimit_nofile := env "NGINX_WORKERRLIMITNOFILE" -}}
 {{- $nginx_access_log := env "NGINX_ACCESSLOG" -}}
+{{- $nginx_include_conf := env "NGINX_INCLUDECONF" -}}
 {{- $nginx_reuseport := env "NGINX_REUSEPORT" -}}
 {{- $nginx_ssl := env "NGINX_SSL" -}}
 {{- $nginx_ssl_certificate := env "NGINX_SSLCERTIFICATE" -}}
 {{- $nginx_ssl_certificate_key := env "NGINX_SSLCERTIFICATEKEY" -}}
+{{- $nginx_ssl_dhparam := env "NGINX_SSLDHPARAM" -}}
+{{- $nginx_ssl_protocols := env "NGINX_SSLPROTOCOLS" -}}
+{{- $nginx_ssl_ciphers := env "NGINX_SSLCIPHERS" -}}
 {{- $loadbalancer_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
 {{- $loadbalancer_ssl_listeners := env "NGINX_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
 {{- $loadbalancer_keyprefix := env "NGINX_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
@@ -36,18 +40,22 @@ stream {
     #                    '$session_time';
     #
     #{{if eq $nginx_access_log "1"}}
-    #access_log /var/log/nginx/access.log basic buffer=1m flush=10s;
+    #access_log /dev/stdout main buffer=1m flush=10s;
     #{{else}}
     #access_log off;
     #{{end}}
-    error_log /var/log/nginx/error.log warn;
+    error_log stderr warn;
+
+    {{if eq $nginx_include_conf "1"}}
+    include /etc/nginx/conf.d/*.conf;
+    {{end}}
 
     {{range $listener := $loadbalancer_listeners | split ","}}
     upstream tcp-out-{{$listener}} {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
-        {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:{{$listener}} down;
         {{end}}
@@ -67,7 +75,7 @@ stream {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
 
         {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
-        server {{.Key}} weight={{if $nginx_upstream_weight}}{{$nginx_upstream_weight}}{{else}}1{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}} max_fails={{if $nginx_upstream_max_fails}}{{$nginx_upstream_max_fails}}{{else}}1{{end}} fail_timeout={{if $nginx_upstream_fail_timeout}}{{$nginx_upstream_fail_timeout}}{{else}}10s{{end}};
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
         server 127.0.0.1:{{$ssl_listener}} down;
         {{end}}
@@ -79,9 +87,10 @@ stream {
 
         ssl_certificate {{$nginx_ssl_certificate}};
         ssl_certificate_key {{$nginx_ssl_certificate_key}};
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_dhparam {{$nginx_ssl_dhparam}};
+        ssl_protocols {{if $nginx_ssl_protocols}}{{$nginx_ssl_protocols}}{{else}}TLSv1 TLSv1.1 TLSv1.2{{end}};
         ssl_prefer_server_ciphers on;
-        ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+        ssl_ciphers {{if $nginx_ssl_ciphers}}{{$nginx_ssl_ciphers}}{{else}}EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH{{end}};
         ssl_ecdh_curve secp384r1;
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;

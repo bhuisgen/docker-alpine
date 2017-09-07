@@ -12,11 +12,13 @@ SUBDIRS = \
     alpine-build-rpi-python \
     alpine-archiva \
     alpine-awscli \
+    alpine-certbot \
     alpine-cli53 \
     alpine-consul \
     alpine-dnsmasq \
-    alpine-dockercompose \
-    alpine-dockermachine \
+    alpine-docker-compose \
+    alpine-docker-machine \
+    alpine-dovecot \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \
@@ -48,6 +50,7 @@ SUBDIRS = \
     alpine-redis \
     alpine-registry \
     alpine-rng \
+    alpine-roundcubemail \
     alpine-rsyslog \
     alpine-ruby \
     alpine-spark \

@@ -1,0 +1,11 @@
+version: '3.2'
+
+services:
+    docker-compose:
+        image: bhuisgen/alpine-docker-compose
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./:/data
+        environment:
+            - COMPOSE_PROJECT_NAME=myproject
