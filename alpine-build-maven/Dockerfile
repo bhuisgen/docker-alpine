@@ -5,7 +5,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm \
     PATH=${PATH}:${JAVA_HOME}/bin
 
 RUN apk add --update openjdk8 && \
-    apk add --update --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted maven && \
+    apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ maven && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
