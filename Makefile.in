@@ -132,7 +132,8 @@ am__recursive_targets = \
   $(am__extra_recursive_targets)
 AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
 	cscope distdir dist dist-all distcheck
-am__extra_recursive_targets = build-recursive pull-recursive
+am__extra_recursive_targets = build-recursive pull-recursive \
+	push-recursive
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -422,6 +423,7 @@ $(am__recursive_targets):
 	fi; test -z "$$fail"
 build-local: 
 pull-local: 
+push-local: 
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -793,6 +795,10 @@ pull: pull-recursive
 
 pull-am: pull-local
 
+push: push-recursive
+
+push-am: push-local
+
 uninstall-am:
 
 .MAKE: $(am__recursive_targets) install-am install-strip
@@ -811,7 +817,8 @@ uninstall-am:
 	install-strip installcheck installcheck-am installdirs \
 	installdirs-am maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am pull-am \
-	pull-local tags tags-am uninstall uninstall-am
+	pull-local push-am push-local tags tags-am uninstall \
+	uninstall-am
 
 .PRECIOUS: Makefile
 
