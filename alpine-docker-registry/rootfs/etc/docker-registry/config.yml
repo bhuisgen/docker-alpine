@@ -1,12 +1,12 @@
 version: 0.1
 log:
     fields:
-        service: registry
+        service: docker-registry
 storage:
     cache:
         blobdescriptor: inmemory
     filesystem:
-        rootdirectory: /var/lib/registry
+        rootdirectory: /var/lib/docker-registry
 http:
     addr: :5000
     headers:

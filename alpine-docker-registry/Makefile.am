@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-registry
+IMAGE = bhuisgen/alpine-docker-registry
 
 clean-local:
 	docker rmi $(CLEAN_OPTIONS) $(IMAGE):$(TAG) || true

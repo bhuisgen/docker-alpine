@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-exec s6-setuidgid registry /usr/bin/docker-registry serve /etc/docker-registry/config.yml
