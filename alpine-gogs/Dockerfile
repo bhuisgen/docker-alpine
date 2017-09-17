@@ -14,8 +14,6 @@ RUN mkdir -p ${GIT_HOME} && \
 RUN apk add --update git libc6-compat linux-pam openssh tar && \
     mkdir -p /usr/local/gogs /usr/local/gogs/custom/conf /var/lib/gogs && \
     curl -sSL https://dl.gogs.io/${GOGS_VERSION}/linux_amd64.tar.gz | tar -xzo -C /usr/local/gogs --strip-components 1 && \
-    mkdir -p /lib64 && \
-    ln /lib/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2 && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
