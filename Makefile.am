@@ -18,6 +18,7 @@ SUBDIRS = \
     alpine-dnsmasq \
     alpine-docker-compose \
     alpine-docker-machine \
+    alpine-docker-registry \
     alpine-dovecot \
     alpine-dynamodb \
     alpine-elasticsearch \
@@ -48,7 +49,6 @@ SUBDIRS = \
     alpine-rabbitmq \
     alpine-rabbitmqadmin \
     alpine-redis \
-    alpine-registry \
     alpine-rng \
     alpine-roundcubemail \
     alpine-rsyslog \

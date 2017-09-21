@@ -57,6 +57,7 @@ AC_CONFIG_FILES([
     alpine-dovecot/Makefile
     alpine-docker-compose/Makefile
     alpine-docker-machine/Makefile
+    alpine-docker-registry/Makefile
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile
@@ -86,7 +87,6 @@ AC_CONFIG_FILES([
     alpine-rabbitmq/Makefile
     alpine-rabbitmqadmin/Makefile
     alpine-redis/Makefile
-    alpine-registry/Makefile
     alpine-rng/Makefile
     alpine-roundcubemail/Makefile
     alpine-rsyslog/Makefile
