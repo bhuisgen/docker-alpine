@@ -5,8 +5,8 @@ ENV CONSUL_VERSION=0.9.3 \
     CONSULTEMPLATE_VERSION=0.19.3
 
 RUN mkdir -p /var/lib/consul && \
-    addgroup -S consul && \
-    adduser -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
+    addgroup -g 500 -S consul && \
+    adduser -u 500 -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     chown -R consul:consul /var/lib/consul
 
 RUN apk add --update zip && \
