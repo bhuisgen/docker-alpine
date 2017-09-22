@@ -4,8 +4,8 @@ MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
 ENV VMAIL_HOME=/var/mail/vhosts
 
 RUN mkdir -p ${VMAIL_HOME} && \
-    addgroup -S -g 5000 vmail && \
-    adduser -S -D -g "" -G vmail -s /bin/sh -h ${VMAIL_HOME} -u 5000 vmail && \
+    addgroup -g 5000 -S vmail && \
+    adduser -u 5000 -S -D -g "" -G vmail -s /bin/sh -h ${VMAIL_HOME} vmail && \
     chown -R vmail:vmail ${VMAIL_HOME}
 
 RUN apk add --update dovecot dovecot-ldap dovecot-mysql dovecot-pigeonhole-plugin dovecot-pgsql dovecot-sqlite && \
