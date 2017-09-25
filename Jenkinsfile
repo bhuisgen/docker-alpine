@@ -1,16 +1,14 @@
-node {
-    stage "Prepare environment"
-        checkout scm
+pipeline {
+    agent {
+        dockerfile true
+    }
 
-        def environment = docker.build "jenkins-build:${env.BUILD_ID}"
-        environment.inside {
-            stage "Running configure"
-            sh "./configure"
-
-            stage "Running build"
-            sh "make build"
+    stages {
+        stage("Build") {
+            steps {
+                sh "./configure"
+                sh "make build"
+            }
         }
-
-    stage "Cleanup"
-        deleteDir()
+    }
 }
