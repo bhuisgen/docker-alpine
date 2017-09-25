@@ -29,6 +29,7 @@ SUBDIRS = \
     alpine-hostapd \
     alpine-java \
     alpine-jenkins \
+    alpine-jenkins-slave \
     alpine-jetty \
     alpine-kibana \
     alpine-logstash \

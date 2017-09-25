@@ -67,6 +67,7 @@ AC_CONFIG_FILES([
     alpine-hostapd/Makefile
     alpine-java/Makefile
     alpine-jenkins/Makefile
+    alpine-jenkins-slave/Makefile
     alpine-jetty/Makefile
     alpine-kibana/Makefile
     alpine-logstash/Makefile
