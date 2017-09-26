@@ -193,7 +193,7 @@ http {
         {{end}}
 
         location / {
-            try_files $uri @upstream
+            try_files $uri @upstream;
         }
 
         location @upstream {
