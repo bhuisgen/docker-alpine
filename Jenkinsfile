@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        dockerfile true
+        dockerfile {
+            label "x86_64"
+        }
     }
 
     stages {
@@ -26,18 +28,12 @@ pipeline {
                 sh "make push"
             }
         }
-
-        stage("Cleanup") {
-            steps {
-                sh "make clean"
-            }
-        }
     }
 
     post {
         always {
+            sh "make clean"
             deleteDir()
         }
     }
-
 }
