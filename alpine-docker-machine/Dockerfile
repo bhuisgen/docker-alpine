@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV DOCKERMACHINE_VERSION=0.12.2
 
