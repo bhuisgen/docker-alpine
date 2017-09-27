@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV SYNCTHING_VERSION=0.14.37
 

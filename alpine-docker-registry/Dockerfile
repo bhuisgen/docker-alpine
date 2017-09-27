@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 COPY packages/*.apk /root/
 RUN apk add --update --allow-untrusted \

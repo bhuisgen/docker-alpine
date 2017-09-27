@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ARCHIVA_VERSION=2.2.1 \
     ARCHIVA_BASE=/var/lib/archiva \

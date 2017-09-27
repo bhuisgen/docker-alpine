@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV TOMCAT_MAJOR=8 \
     TOMCAT_VERSION=8.0.44

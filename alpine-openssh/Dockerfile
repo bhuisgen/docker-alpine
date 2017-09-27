@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update openssh && \
     apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.6/community/ shadow && \

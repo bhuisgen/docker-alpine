@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-build-make:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV TERRAFORM_VERSION=0.10.5
 

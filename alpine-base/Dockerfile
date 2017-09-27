@@ -1,5 +1,5 @@
 FROM alpine:3.6
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV S6OVERLAY_VERSION=v1.20.0.0 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1 \

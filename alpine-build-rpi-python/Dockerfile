@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-build-rpi:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN [ "cross-build-start" ]
 

@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ZABBIX_VERSION=3.2.4
 

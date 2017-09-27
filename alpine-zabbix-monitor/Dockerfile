@@ -1,5 +1,5 @@
 FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN mkdir -p /var/www && \
     addgroup -g 82 -S www-data && \
