@@ -4,8 +4,8 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 ENV GIT_HOME=/home/git
 
 RUN mkdir -p ${GIT_HOME} && \
-    addgroup -S git && \
-    adduser -S -D -g "" -G git -s /usr/bin/git-shell -h ${GIT_HOME} git && \
+    addgroup git && \
+    adduser -D -g "" -G git -s /usr/bin/git-shell -h ${GIT_HOME} git && \
     chown -R git:git ${GIT_HOME} && \
     mkdir -p ${GIT_HOME}/git-shell-commands && \
     chmod 755 ${GIT_HOME}/git-shell-commands
