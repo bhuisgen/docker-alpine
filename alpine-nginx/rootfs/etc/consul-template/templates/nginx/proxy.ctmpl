@@ -104,11 +104,11 @@ http {
                             'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /dev/stdout main;
+    access_log /var/log/nginx/access.log main;
     {{else}}
     access_log off;
     {{end}}
-    error_log stderr warn;
+    error_log /var/log/nginx/error.log warn;
 
     {{if eq $nginx_include_conf "1"}}
     include /etc/nginx/conf.d/*.conf;
@@ -238,7 +238,7 @@ http {
             {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
-            access_log /dev/stdout upstream;
+            access_log /var/log/nginx/access.log upstream;
             {{else}}
             access_log off;
             {{end}}
