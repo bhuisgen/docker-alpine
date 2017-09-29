@@ -1,0 +1,8 @@
+version: '3.2'
+
+services:
+    passbolt:
+        image: bhuisgen/alpine-passbolt
+        entrypoint: /bin/sh
+        volumes:
+            - /var/www
