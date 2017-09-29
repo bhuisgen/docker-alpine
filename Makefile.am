@@ -40,6 +40,7 @@ SUBDIRS = \
     alpine-opendmarc \
     alpine-openldap \
     alpine-openssh \
+    alpine-passbolt \
     alpine-perl \
     alpine-php \
     alpine-phpmyadmin \

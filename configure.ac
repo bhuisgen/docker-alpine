@@ -78,6 +78,7 @@ AC_CONFIG_FILES([
     alpine-opendmarc/Makefile
     alpine-openldap/Makefile
     alpine-openssh/Makefile
+    alpine-passbolt/Makefile
     alpine-perl/Makefile
     alpine-php/Makefile
     alpine-phpmyadmin/Makefile
