@@ -1,12 +1,12 @@
-FROM bhuisgen/alpine-base:latest
+FROM alpine:3.6
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV PHPMYADMIN_VERSION=4.6.5.2
 
-RUN apk add --update tar && \
+RUN apk add --update curl tar && \
     mkdir -p /var/www && \
     curl -sSL https://files.phpmyadmin.net/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.gz | tar -xzo -C /var/www --strip-components 1 && \
-    apk del tar && \
+    apk del curl tar && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/bin/sh"]

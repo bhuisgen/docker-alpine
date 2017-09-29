@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base:latest
+FROM alpine:3.6
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV DOCKERCOMPOSE_VERSION=1.15.0
