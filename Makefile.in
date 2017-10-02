@@ -290,6 +290,7 @@ SUBDIRS = \
     alpine-build-rpi \
     alpine-build-rpi-make \
     alpine-build-rpi-python \
+    alpine-ansible \
     alpine-archiva \
     alpine-awscli \
     alpine-certbot \
