@@ -1,0 +1,33 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    nomad:
+        image: bhuisgen/alpine-nomad
+        ports:
+            - "4646:4646"       # HTTP
+            - "4647:4647"       # RPC
+            - "4648:4648"       # SERF
+            - "4648:4648/udp"   # SERF (UDP)
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/nomad                                        # volume for data
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - CONSUL_AGENT=consul                                               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/pref                                       # consul key prefix path
+            - CONSUL_SERVICENAME=nomad                                          # consul service name
+            - CONSUL_SERVICETAGS=dev                                            # consul service tag
+            - CONSUL_SERVICEPORT=4646                                           # consul service port
+            - CONSUL_CHECKTYPE=tcp                                              # consul health check type
+            - NOMAD_OPTIONS=-dev                                                # minimal cluster options
+            - NOMAD_DATACENTER=local                                            # datacenter

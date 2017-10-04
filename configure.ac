@@ -75,6 +75,7 @@ AC_CONFIG_FILES([
     alpine-mariadb/Makefile
     alpine-nginx/Makefile
     alpine-nodejs/Makefile
+    alpine-nomad/Makefile
     alpine-opendkim/Makefile
     alpine-opendmarc/Makefile
     alpine-openldap/Makefile

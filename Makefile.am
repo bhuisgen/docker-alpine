@@ -37,6 +37,7 @@ SUBDIRS = \
     alpine-mariadb \
     alpine-nginx \
     alpine-nodejs \
+    alpine-nomad \
     alpine-opendkim \
     alpine-opendmarc \
     alpine-openldap \
