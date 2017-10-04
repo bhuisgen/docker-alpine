@@ -15,7 +15,7 @@ services:
             - "8600:8600/udp"   # DNS (UDP)
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /host/data:/var/consul                                           # volume for data
+            #- /host/data:/var/lib/consul                                       # volume for data
         environment:
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
             - CONSUL_DATACENTER=local                                           # datacenter
