@@ -21,6 +21,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/nomad                                        # volume for data
             - /var/run/docker.sock:/var/run/docker.sock
+            - /tmp:/tmp
         environment:
             - CONSUL_AGENT=consul                                               # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                 # consul agent port
@@ -30,4 +31,3 @@ services:
             - CONSUL_SERVICEPORT=4646                                           # consul service port
             - CONSUL_CHECKTYPE=tcp                                              # consul health check type
             - NOMAD_OPTIONS=-dev                                                # minimal cluster options
-            - NOMAD_DATACENTER=local                                            # datacenter
