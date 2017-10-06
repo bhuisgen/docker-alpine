@@ -1,8 +1,20 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${CONSUL_CONFIG}" ]; then
-    if [ -z "${CONSUL_CONFIGSCRIPT}" ]; then
-        echo "==> Configuring consul from environment"
+if [ -z "${NOMAD_CONFIG}" ]; then
+    if [ -z "${NOMAD_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring nomad from environment"
+
+        if [ -S /var/run/docker.sock ]; then
+            GID=$(stat -c "%g" /var/run/docker.sock)
+            GROUP=$(getent group ${GID}|cut -d ':' -f 1)
+
+            if [ ! -z "${GROUP}" ]; then
+                adduser nomad "${GROUP}"
+            else
+                addgroup -g "${GID}" -S docker
+                adduser nomad docker
+            fi
+        fi
 
         consul-template -config /etc/consul-template/conf-env.d -once
         if [ $? -ne 0 ]; then
@@ -10,15 +22,15 @@ if [ -z "${CONSUL_CONFIG}" ]; then
             exit 1
         fi
     else
-        echo "==> Configuring consul from script"
+        echo "==> Configuring nomad from script"
 
-        /bin/sh "${CONSUL_CONFIGSCRIPT}"
+        /bin/sh "${NOMAD_CONFIGSCRIPT}"
         if [ $? -ne 0 ]; then
             echo "Failed to configure from script, aborting" >&2
             exit 2
         fi
     fi
 
-    export CONSUL_CONFIG=1
-    printf "%s" "${CONSUL_CONFIG}" > /var/run/s6/container_environment/CONSUL_CONFIG
+    export NOMAD_CONFIG=1
+    printf "%s" "${NOMAD_CONFIG}" > /var/run/s6/container_environment/NOMAD_CONFIG
 fi
