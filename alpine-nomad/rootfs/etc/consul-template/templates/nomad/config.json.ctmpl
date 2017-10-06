@@ -1,5 +1,6 @@
+{{- $datacenter := env "NOMAD_DATACENTER" -}}
 {
-    "datacenter": "local",
+    {{if $datacenter}}"datacenter": "{{$datacenter}}",{{end}}
     "data_dir": "/var/lib/nomad",
     "log_level": "INFO",
     "disable_anonymous_signature": true,
