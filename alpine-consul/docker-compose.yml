@@ -21,10 +21,10 @@ services:
             - CONSUL_DATACENTER=local                                           # datacenter
             - CONSUL_DOMAIN=consul                                              # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
-            - CONSUL_TLS=1                                                      # enable TLS
-            - CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                         # TLS CA certificate file
-            - CONSUL_TLSCERTFILE=/etc/consul.d/ssl/server.pem                   # TLS server certificate file
-            - CONSUL_TLSKEYFILE=/etc/consul.d/ssl/server-priv-key.pem           # TLS server certificate key file
+            #- CONSUL_TLS=0                                                     # enable TLS
+            #- CONSUL_TLSCAFILE=                                                # TLS CA certificate file
+            #- CONSUL_TLSCERTFILE=                                              # TLS server certificate file (server)
+            #- CONSUL_TLSKEYFILE=                                               # TLS server certificate key file (server)
             #- CONSUL_ACLDATACENTER=                                            # ACL authoritative datacenter
             #- CONSUL_ACLMASTERTOKEN=                                           # ACL master token (server only)
             #- CONSUL_ACLTOKEN=                                                 # ACL token
