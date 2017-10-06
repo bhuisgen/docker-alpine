@@ -13,9 +13,9 @@ services:
             - CONSUL_AGENT=172.16.0.1                                     # agent hostname
             - CONSUL_PORT=8500                                            # agent port
             - CONSUL_TLS=0                                                # enable TLS
-            #- CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                  # TLS CA certificate file
-            #- CONSUL_TLSCERTFILE=/etc/consul.d/ssl/client.pem            # TLS client certificate file
-            #- CONSUL_TLSKEYFILE=/etc/consul.d/ssl/client-priv-key.pem    # TLS client certificate key file
+            #- CONSUL_TLSCAFILE=                                          # TLS CA certificate file
+            #- CONSUL_TLSCERTFILE=                                        # TLS client certificate file (client)
+            #- CONSUL_TLSKEYFILE=                                         # TLS client certificate key file (client)
             #- CONSUL_TLSSERVERNAME=                                      # SNI server name for validation
             #- CONSUL_TLSVERIFY=0                                         # enable TLS peer verification
             #- CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985          # API token
