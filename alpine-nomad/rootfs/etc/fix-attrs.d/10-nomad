@@ -1,0 +1,2 @@
+/etc/nomad.d true root:nomad 0640 0750
+/var/lib/nomad false nomad:nomad 0640 0750
