@@ -44,7 +44,8 @@ if [ ! -z "${CONSUL_AGENT}" ] && [ ! -z "${CONSUL_SERVICENAME}" ]; then
                 CONSUL_RESOLVER_INTERFACETYPE=inet
             fi
 
-            CONSUL_SERVICEADDR=$(ip -o addr show ${CONSUL_RESOLVER_INTERFACENAME}|grep "${CONSUL_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+            CONSUL_SERVICEADDR=$(ip -o addr show ${CONSUL_RESOLVER_INTERFACENAME}| \
+                grep "${CONSUL_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
             ;;
 
         route)
@@ -89,18 +90,23 @@ if [ ! -z "${CONSUL_AGENT}" ]; then
         options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
     fi
 
-    retry=0
     while true; do
         [ $(curl -sI -w '%{http_code}' --out /dev/null ${options} "${url}/v1/agent/self") == "200" ] && break
-        retry=$((retry+1))
-        if [ "$retry" -lt 3 ]; then
-            echo "Failed to check consul agent, retrying in few seconds" >&2
 
-            sleep 15
-            continue
-        fi
-
-        echo "Failed to check consul agent, aborting" >&2
-        exit 1
+        echo "Failed to connect to consul agent, retrying in few seconds" >&2
+        sleep 15
     done
+
+    if [ ! -z "${CONSUL_WAITFOR_SERVICENAME}" ] && [ ! -z "${CONSUL_WAITFOR_SERVICETAG}" ]; then
+        while true; do
+            health=$(curl -s ${options} \
+                -X GET "${url}/v1/health/service/${CONSUL_WAITFOR_SERVICENAME}?tag=${CONSUL_WAITFOR_SERVICETAG}" \
+                -G --data-urlencode "passing=true")
+            count=$(echo "$health"|jq -r 'length')
+            [ $count -gt 0 ] && break
+
+            echo "Failed to get healthy consul service, retrying in few seconds" >&2
+            sleep 15
+        done
+    fi
 fi
