@@ -4,7 +4,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 RUN apk add --update ansible && \
     rm -rf var/cache/apk/*
 
-#ENTRYPOINT ["/usr/bin/ansible-playbook"]
+ENTRYPOINT []
 CMD []
 
 VOLUME ["/data"]
