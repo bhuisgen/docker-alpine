@@ -1,0 +1,55 @@
+{{- $datacenter := env "CONSUL_DATACENTER" -}}
+{{- $domain := env "CONSUL_DOMAIN" -}}
+{{- $encrypt := env "CONSUL_ENCRYPT" -}}
+{{- $raft_multiplier := env "CONSUL_RAFTMULTIPLIER" -}}
+{{- $tls := env "CONSUL_TLS" -}}
+{{- $ca_file := env "CONSUL_TLSCAFILE" -}}
+{{- $cert_file := env "CONSUL_TLSCERTFILE" -}}
+{{- $key_file := env "CONSUL_TLSKEYFILE" -}}
+{{- $acl_datacenter := env "CONSUL_ACLDATACENTER" -}}
+{{- $acl_master_token := env "CONSUL_ACLMASTERTOKEN" -}}
+{{- $acl_token := env "CONSUL_ACLTOKEN" -}}
+{{- $acl_agent_master_token := env "CONSUL_ACLAGENTMASTERTOKEN" -}}
+{{- $acl_agent_token := env "CONSUL_ACLAGENTTOKEN" -}}
+{{- $acl_replication_token := env "CONSUL_ACLREPLICATIONTOKEN" -}}
+{{- $acl_default_policy := env "CONSUL_ACLDEFAULTPOLICY" -}}
+{{- $acl_down_policy := env "CONSUL_ACLDOWNPOLICY" -}}
+{{- $acl_ttl := env "CONSUL_ACLTTL" -}}
+{{- $acl_enforce_version_8 := env "CONSUL_ACLENFORCEVERSION8" -}}
+{{if $datacenter}}datacenter = "{{$datacenter}}"{{end}}
+{{if $domain}}domain = "{{$domain}}"{{end}}
+{{if $encrypt}}encrypt = "{{$encrypt}}"{{end}}
+data_dir = "/var/lib/consul"
+log_level = "INFO"
+disable_anonymous_signature = true
+disable_update_check = true
+
+{{if $raft_multiplier}}
+performance {
+    raft_multiplier = {{$raft_multiplier}}
+}
+{{end}}
+
+{{if eq $tls "1"}}
+ca_file = {{$ca_file}}
+cert_file = {{$cert_file}}
+key_file = {{$key_file}}
+verify_server_hostname = true
+verify_incoming = true
+verify_outgoing = true
+
+ports {
+    https = 8501
+}
+{{end}}
+
+{{if $acl_datacenter}}acl_datacenter = "{{$acl_datacenter}}"{{end}}
+{{if $acl_master_token}}acl_master_token = "{{$acl_master_token}}"{{end}}
+{{if $acl_token}}acl_token = "{{$acl_token}}"{{end}}
+{{if $acl_agent_master_token}}acl_agent_master_token = "{{$acl_agent_master_token}}"{{end}}
+{{if $acl_agent_token}}acl_agent_token = "{{$acl_agent_token}}"{{end}}
+{{if $acl_replication_token}}acl_replication_token = "{{$acl_replication_token}}"{{end}}
+{{if $acl_default_policy}}acl_default_policy = "{{$acl_default_policy}}"{{end}}
+{{if $acl_down_policy}}acl_down_policy = "{{$acl_down_policy}}"{{end}}
+{{if $acl_ttl}}acl_ttl = "{{$acl_ttl}}"{{end}}
+{{if $acl_enforce_version_8}}acl_enforce_version_8 = {{$acl_enforce_version_8}}{{end}}
