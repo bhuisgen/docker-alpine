@@ -102,6 +102,7 @@ AC_CONFIG_FILES([
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
     alpine-xvfb/Makefile
+    alpine-vault/Makefile
     alpine-zabbix-agent/Makefile
     alpine-zabbix-frontend-php/Makefile
     alpine-zabbix-java-gateway/Makefile
