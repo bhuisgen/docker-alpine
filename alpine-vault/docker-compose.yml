@@ -11,8 +11,8 @@ services:
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     vault:
-        image: bhuisgen/alpine-nomad
-        cap-add:
+        image: bhuisgen/alpine-vault
+        cap_add:
             - IPC_LOCK
         ports:
             - "8200:8200"
@@ -27,3 +27,38 @@ services:
             - CONSUL_SERVICETAGS=dev                                            # consul service tag
             - CONSUL_SERVICEPORT=8200                                           # consul service port
             - CONSUL_CHECKTYPE=tcp                                              # consul health check type
+            #- VAULT_CLUSTERNAME=                                               # vault cluster name
+            - VAULT_LISTENERTLSDISABLE=1                                        # disable TLS for listener
+            #- VAULT_LISTENERTLSCERTFILE=                                       # TLS certificate file
+            #- VAULT_LISTENERTLSKEYFILE=                                        # TLS key file
+            #- VAULT_LISTENERTLSMINVERSION=                                     # TLS minimum version allowed
+            #- VAULT_LISTENERTLSCIPHERSUITES=                                   # TLS supported cipher suites
+            #- VAULT_LISTENERTLSPREFERSERVERCIPHERSUITES=                       # prefer server's cipher suites
+            #- VAULT_LISTENERTLSREQUIREANDVERIFYCLIENTCERT=                     # enable TLS client authentication
+            #- VAULT_LISTENERTLSCLIENTCAFILE=                                   # TLS client CA file
+            - VAULT_TEMPLATE=file                                               # configuration template
+            #
+            # template consul
+            #
+            #- VAULT_TEMPLATE_CONSUL_STORAGEADDRESS=                            # consul address
+            #- VAULT_TEMPLATE_CONSUL_STORAGEPATH=                               # consul path
+            #
+            # template file
+            #
+            - VAULT_TEMPLATE_FILE_STORAGEPATH=/var/lib/vault                    # filesystem path
+            #
+            # template mysql
+            #
+            #- VAULT_TEMPLATE_MYSQL_STORAGEUSERNAME=                            # database username
+            #- VAULT_TEMPLATE_MYSQL_STORAGEPASSWORD=                            # database password
+            #- VAULT_TEMPLATE_MYSQL_STORAGEDATABASE=                            # database name
+            #
+            # template postgresql
+            #
+            #- VAULT_TEMPLATE_POSTGRESQL_STORAGECONNECTIONURL=                  # database connection URL
+            #
+            # template s3
+            #
+            #- VAULT_TEMPLATE_S3_STORAGEACCESSKEY=                              # S3 accesss key
+            #- VAULT_TEMPLATE_S3_STORAGESECRETKEY=                              # S3 secret key
+            #- VAULT_TEMPLATE_S3_STORAGEBUCKET=                                 # S3 bucket

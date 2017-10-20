@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid vault /bin/vault server -config-dir /etc/vault.d ${VAULT_OPTIONS}
+exec /bin/vault server -config /etc/vault.d ${VAULT_OPTIONS}
