@@ -64,6 +64,7 @@ SUBDIRS = \
     alpine-tomcat \
     alpine-unbound \
     alpine-xvfb \
+    alpine-vault \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
     alpine-zabbix-java-gateway \

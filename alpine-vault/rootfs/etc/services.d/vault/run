@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec /bin/vault server -config /etc/vault.d ${VAULT_OPTIONS}
