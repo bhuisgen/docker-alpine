@@ -11,6 +11,8 @@ services:
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
 
     vault:
+        depends_on:
+            - consul
         image: bhuisgen/alpine-vault
         cap_add:
             - IPC_LOCK
@@ -36,16 +38,16 @@ services:
             #- VAULT_LISTENERTLSPREFERSERVERCIPHERSUITES=                       # prefer server's cipher suites
             #- VAULT_LISTENERTLSREQUIREANDVERIFYCLIENTCERT=                     # enable TLS client authentication
             #- VAULT_LISTENERTLSCLIENTCAFILE=                                   # TLS client CA file
-            - VAULT_TEMPLATE=file                                               # configuration template
+            - VAULT_TEMPLATE=consul                                             # configuration template
             #
             # template consul
             #
-            #- VAULT_TEMPLATE_CONSUL_STORAGEADDRESS=                            # consul address
+            - VAULT_TEMPLATE_CONSUL_STORAGEADDRESS=consul                       # consul address
             #- VAULT_TEMPLATE_CONSUL_STORAGEPATH=                               # consul path
             #
             # template file
             #
-            - VAULT_TEMPLATE_FILE_STORAGEPATH=/var/lib/vault                    # filesystem path
+            #- VAULT_TEMPLATE_FILE_STORAGEPATH=                                 # filesystem path
             #
             # template mysql
             #
