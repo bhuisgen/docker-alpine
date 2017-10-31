@@ -3,8 +3,6 @@
 if [ -z "${INFLUXDB_CONFIG}" ]; then
     if [ -z "${INFLUXDB_CONFIGSCRIPT}" ]; then
         echo "==> Configuring influxdb from environment"
-
-        echo "TODO"
     else
         echo "==> Configuring influxdb from script"
 
