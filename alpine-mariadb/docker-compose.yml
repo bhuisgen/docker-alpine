@@ -30,8 +30,8 @@ services:
             #- MARIADB_PROFILE=my-small                     # default configuration profile to use (my-small, my-medium ...)
             - MARIADB_ROOTPASSWORD=mariadb                  # root password
             #- MARIADB_ROOTHOSTMASK=172.30.0.%              # root user hostmask (optional)
-            - MARIADB_DATABASE=mydb                         # create database (optional)
-            - MARIADB_USERNAME=mariadb                      # grant user name (optional)
-            - MARIADB_PASSWORD=mariadb                      # grant user password (optional)
-            - MARIADB_HOSTMASK=172.%.%.%                    # grant user hostmask (optional)
+            #- MARIADB_DATABASE=                            # create database (optional)
+            #- MARIADB_USERNAME=                            # grant user name (optional)
+            #- MARIADB_PASSWORD=                            # grant user password (optional)
+            #- MARIADB_HOSTMASK=                            # grant user hostmask (optional)
             #- MARIADB_CONFIGSCRIPT=/root/mariadb/config.sh # custom configuration script
