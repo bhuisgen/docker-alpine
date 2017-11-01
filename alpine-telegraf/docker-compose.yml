@@ -1,0 +1,20 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect=1 -client 0.0.0.0 -ui    # minimal server options
+
+    telegraf:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-telegraf
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/telegraf                     # volume for data
+        environment:
+            - CONSUL_AGENT=consul                               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                    # consul key prefix path
+            #- TELEGRAF_CONFIGSCRIPT=/root/telegraf/config.sh   # custom configuration script
