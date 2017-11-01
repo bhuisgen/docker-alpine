@@ -1,0 +1,22 @@
+FROM bhuisgen/alpine-base-consul:latest
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+
+ENV KAPACITOR_VERSION=1.3.1
+
+RUN mkdir -p /var/lib/kapacitor /var/log/kapacitor && \
+    addgroup -S kapacitor && \
+    adduser -S -D -g "" -G kapacitor -s /sbin/nologin -h /var/lib/kapacitor kapacitor
+
+RUN apk add --update libc6-compat tar && \
+    mkdir -p /usr/local/kapacitor && \
+    curl -sSL https://dl.influxdata.com/kapacitor/releases/kapacitor-${KAPACITOR_VERSION}_linux_amd64.tar.gz | tar -xzo -C /usr/local/kapacitor --strip-components 2 && \
+    apk del tar && \
+    rm -rf /var/cache/apk/*
+
+COPY rootfs/ /
+
+ENTRYPOINT ["/init"]
+CMD []
+
+EXPOSE 9092
+VOLUME ["/var/lib/kapacitor"]
