@@ -65,6 +65,7 @@ AC_CONFIG_FILES([
     alpine-fabric/Makefile
     alpine-git/Makefile
     alpine-gogs/Makefile
+    alpine-grafana/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
     alpine-influxdb/Makefile

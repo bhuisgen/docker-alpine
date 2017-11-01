@@ -307,6 +307,7 @@ SUBDIRS = \
     alpine-fabric \
     alpine-git \
     alpine-gogs \
+    alpine-grafana \
     alpine-haproxy \
     alpine-hostapd \
     alpine-influxdb \
