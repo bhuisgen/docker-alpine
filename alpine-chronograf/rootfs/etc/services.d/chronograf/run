@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec s6-setuidgid chronograf /usr/local/chronograf/usr/bin/chronograf -b /var/lib/chronograf/chronograf-v1.db

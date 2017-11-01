@@ -1,0 +1,18 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${CHRONOGRAF_CONFIG}" ]; then
+    if [ -z "${CHRONOGRAF_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring chronograf from environment"
+    else
+        echo "==> Configuring chronograf from script"
+
+        /bin/sh "${CHRONOGRAF_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
+    fi
+
+    export CHRONOGRAF_CONFIG=1
+    printf "%s" "${CHRONOGRAF_CONFIG}" > /var/run/s6/container_environment/CHRONOGRAF_CONFIG
+fi
