@@ -19,3 +19,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 8888
+VOLUME ["/var/lib/chronograf"]
