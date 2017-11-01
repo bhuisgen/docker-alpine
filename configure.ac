@@ -54,6 +54,7 @@ AC_CONFIG_FILES([
     alpine-certbot/Makefile
     alpine-cli53/Makefile
     alpine-consul/Makefile
+    alpine-chronograf/Makefile \
     alpine-dnsmasq/Makefile
     alpine-dovecot/Makefile
     alpine-docker-compose/Makefile
@@ -71,6 +72,7 @@ AC_CONFIG_FILES([
     alpine-jenkins/Makefile
     alpine-jenkins-slave/Makefile
     alpine-jetty/Makefile
+    alpine-kapacitor/Makefile
     alpine-kibana/Makefile
     alpine-logstash/Makefile
     alpine-mariadb/Makefile
@@ -99,6 +101,7 @@ AC_CONFIG_FILES([
     alpine-spark/Makefile
     alpine-strongswan/Makefile
     alpine-syncthing/Makefile
+    alpine-telegraf/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
