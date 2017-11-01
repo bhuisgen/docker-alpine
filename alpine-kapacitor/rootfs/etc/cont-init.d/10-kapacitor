@@ -1,0 +1,18 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${KAPACITOR_CONFIG}" ]; then
+    if [ -z "${KAPACITOR_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring kapacitor from environment"
+    else
+        echo "==> Configuring kapacitor from script"
+
+        /bin/sh "${KAPACITOR_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 1
+        fi
+    fi
+
+    export KAPACITOR_CONFIG=1
+    printf "%s" "${KAPACITOR_CONFIG}" > /var/run/s6/container_environment/KAPACITOR_CONFIG
+fi

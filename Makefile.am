@@ -14,6 +14,7 @@ SUBDIRS = \
     alpine-archiva \
     alpine-awscli \
     alpine-certbot \
+    alpine-chronograf \
     alpine-cli53 \
     alpine-consul \
     alpine-dnsmasq \
@@ -26,12 +27,15 @@ SUBDIRS = \
     alpine-fabric \
     alpine-git \
     alpine-gogs \
+    alpine-grafana \
     alpine-haproxy \
     alpine-hostapd \
+    alpine-influxdb \
     alpine-java \
     alpine-jenkins \
     alpine-jenkins-slave \
     alpine-jetty \
+    alpine-kapacitor \
     alpine-kibana \
     alpine-logstash \
     alpine-mariadb \
@@ -60,6 +64,7 @@ SUBDIRS = \
     alpine-spark \
     alpine-strongswan \
     alpine-syncthing \
+    alpine-telegraf \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \
