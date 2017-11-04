@@ -70,6 +70,7 @@ SUBDIRS = \
     alpine-unbound \
     alpine-xvfb \
     alpine-vault \
+    alpine-wordpress \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
     alpine-zabbix-java-gateway \
