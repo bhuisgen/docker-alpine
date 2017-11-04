@@ -108,6 +108,7 @@ AC_CONFIG_FILES([
     alpine-unbound/Makefile
     alpine-xvfb/Makefile
     alpine-vault/Makefile
+    alpine-wordpress/Makefile
     alpine-zabbix-agent/Makefile
     alpine-zabbix-frontend-php/Makefile
     alpine-zabbix-java-gateway/Makefile
