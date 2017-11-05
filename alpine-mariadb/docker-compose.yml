@@ -34,4 +34,3 @@ services:
             #- MARIADB_USERNAME=                            # grant user name (optional)
             #- MARIADB_PASSWORD=                            # grant user password (optional)
             #- MARIADB_HOSTMASK=                            # grant user hostmask (optional)
-            #- MARIADB_CONFIGSCRIPT=/root/mariadb/config.sh # custom configuration script
