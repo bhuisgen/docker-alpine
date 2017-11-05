@@ -11,21 +11,11 @@ if [ -z ${JETTY_MODULES} ]; then
 fi
 
 if [ -z ${JETTY_CONFIG} ]; then
-    if [ -z "${JETTY_CONFIGSCRIPT}" ]; then
-        echo "==> Configuring jetty from environment"
+    echo "==> Configuring jetty from environment"
 
-        mkdir -p "${JETTY_BASE}"
-        cd "${JETTY_BASE}" || exit 1
-        java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES}
-    else
-        echo "==> Configuring jetty from script"
-
-        /bin/sh "${JETTY_CONFIGSCRIPT}"
-        if [ $? -ne 0 ]; then
-            echo "Failed to configure from script, aborting" >&2
-            exit 1
-        fi
-    fi
+    mkdir -p "${JETTY_BASE}"
+    cd "${JETTY_BASE}" || exit 1
+    java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES}
 
     export JETTY_CONFIG=1
     printf "%s" "${JETTY_CONFIG}" > /var/run/s6/container_environment/JETTY_CONFIG
