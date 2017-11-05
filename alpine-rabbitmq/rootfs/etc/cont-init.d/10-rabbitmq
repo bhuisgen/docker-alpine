@@ -10,96 +10,85 @@ else
     rm -f /etc/services.d/rabbitmq/down
 fi
 
-if [ -z "${RABBITMQ_CONFIG}" ]; then
-    if [ -z "${RABBITMQ_CONFIGSCRIPT}" ]; then
-        echo "==> Configuring rabbitmq from environment"
+if [ -z /var/lib/rabbitmq/config ]; then
+    echo "==> Configuring rabbitmq from environment"
 
-        if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
-            echo "${RABBITMQ_ERLANGCOOKIE}" > "${RABBITMQ_HOME}/.erlang.cookie"
-            chown rabbitmq:rabbitmq "${RABBITMQ_HOME}/.erlang.cookie"
-            chmod 400 "${RABBITMQ_HOME}/.erlang.cookie"
-        fi
-
-        if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
-            su -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
-        fi
-
-        if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
-            su -c "rabbitmq-plugins enable --offline rabbitmq_management" rabbitmq
-        elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
-            su -c "rabbitmq-plugins enable --offline rabbitmq_management_agent" rabbitmq
-        fi
-
-        if [ ! -z "${RABBITMQ_MQTT}" ] && [ "${RABBITMQ_MQTT}" -eq 1 ]; then
-            su -c "rabbitmq-plugins enable --offline rabbitmq_mqtt" rabbitmq
-        fi
-
-        if [ ! -z "${RABBITMQ_STOMP}" ] && [ "${RABBITMQ_STOMP}" -eq 1 ]; then
-            su -c "rabbitmq-plugins enable --offline rabbitmq_stomp" rabbitmq
-        fi
-
-        if [ ! -z "${RABBITMQ_PLUGINS}" ]; then
-            PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
-            su -c "rabbitmq-plugins enable --offline ${PLUGINS}" rabbitmq
-        fi
-
-        su -c " \
-            rabbitmq-server -detached; \
-            sleep 30; \
-            " rabbitmq
-
-        if [ -z "${RABBITMQ_CLUSTER}" ]; then
-            if [ ! -z "${RABBITMQ_CLUSTERNAME}" ]; then
-                su -c "rabbitmqctl set_cluster_name ${RABBITMQ_CLUSTERNAME}" rabbitmq
-            fi
-
-            if [ ! -z "${RABBITMQ_GUESTPASSWORD}" ]; then
-                su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
-            fi
-
-            if [ ! -z "${RABBITMQ_USERNAME}" ] && [ ! -z "${RABBITMQ_PASSWORD}" ]; then
-                su -c " \
-                    rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
-                    rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
-                    rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
-                    " rabbitmq
-            fi
-        else
-            su -c " \
-                rabbitmqctl stop_app; \
-                sleep 4; \
-                " rabbitmq
-
-            if [ ! -z "${RABBITMQ_CLUSTERWAIT}" ]; then
-                sleep "${RABBITMQ_CLUSTERWAIT}"
-            fi
-
-            if [ ! -z "${RABBITMQ_CLUSTERRAM}" ] && [ "${RABBITMQ_CLUSTERRAM}" -eq 1 ]; then
-                su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
-            else
-                su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
-            fi
-
-            su -c " \
-                sleep 4; \
-                rabbitmqctl cluster_status; \
-                " rabbitmq
-        fi
-
-        su -c " \
-            rabbitmqctl stop; \
-            sleep 4; \
-            " rabbitmq
-    else
-        echo "==> Configuring rabbitmq from script"
-
-        su -c "/bin/sh ${RABBITMQ_CONFIGSCRIPT}" rabbitmq
-        if [ $? -ne 0 ]; then
-            echo "Failed to configure from script, aborting" >&2
-            exit 1
-        fi
+    if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
+        echo "${RABBITMQ_ERLANGCOOKIE}" > "${RABBITMQ_HOME}/.erlang.cookie"
+        chown rabbitmq:rabbitmq "${RABBITMQ_HOME}/.erlang.cookie"
+        chmod 400 "${RABBITMQ_HOME}/.erlang.cookie"
     fi
 
-    export RABBITMQ_CONFIG=1
-    printf "%s" "${RABBITMQ_CONFIG}" > /var/run/s6/container_environment/RABBITMQ_CONFIG
+    if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
+        su -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
+    fi
+
+    if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
+        su -c "rabbitmq-plugins enable --offline rabbitmq_management" rabbitmq
+    elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
+        su -c "rabbitmq-plugins enable --offline rabbitmq_management_agent" rabbitmq
+    fi
+
+    if [ ! -z "${RABBITMQ_MQTT}" ] && [ "${RABBITMQ_MQTT}" -eq 1 ]; then
+        su -c "rabbitmq-plugins enable --offline rabbitmq_mqtt" rabbitmq
+    fi
+
+    if [ ! -z "${RABBITMQ_STOMP}" ] && [ "${RABBITMQ_STOMP}" -eq 1 ]; then
+        su -c "rabbitmq-plugins enable --offline rabbitmq_stomp" rabbitmq
+    fi
+
+    if [ ! -z "${RABBITMQ_PLUGINS}" ]; then
+        PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
+        su -c "rabbitmq-plugins enable --offline ${PLUGINS}" rabbitmq
+    fi
+
+    su -c " \
+        rabbitmq-server -detached; \
+        sleep 30; \
+        " rabbitmq
+
+    if [ -z "${RABBITMQ_CLUSTER}" ]; then
+        if [ ! -z "${RABBITMQ_CLUSTERNAME}" ]; then
+            su -c "rabbitmqctl set_cluster_name ${RABBITMQ_CLUSTERNAME}" rabbitmq
+        fi
+
+        if [ ! -z "${RABBITMQ_GUESTPASSWORD}" ]; then
+            su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
+        fi
+
+        if [ ! -z "${RABBITMQ_USERNAME}" ] && [ ! -z "${RABBITMQ_PASSWORD}" ]; then
+            su -c " \
+                rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
+                rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
+                rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
+                " rabbitmq
+        fi
+    else
+        su -c " \
+            rabbitmqctl stop_app; \
+            sleep 4; \
+            " rabbitmq
+
+        if [ ! -z "${RABBITMQ_CLUSTERWAIT}" ]; then
+            sleep "${RABBITMQ_CLUSTERWAIT}"
+        fi
+
+        if [ ! -z "${RABBITMQ_CLUSTERRAM}" ] && [ "${RABBITMQ_CLUSTERRAM}" -eq 1 ]; then
+            su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
+        else
+            su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
+        fi
+
+        su -c " \
+            sleep 4; \
+            rabbitmqctl cluster_status; \
+            " rabbitmq
+    fi
+
+    su -c " \
+        rabbitmqctl stop; \
+        sleep 4; \
+        " rabbitmq
+
+    touch /var/lib/rabbitmq/config
 fi
