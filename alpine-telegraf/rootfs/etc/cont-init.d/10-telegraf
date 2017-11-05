@@ -1,18 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${TELEGRAF_CONFIG}" ]; then
-    if [ -z "${TELEGRAF_CONFIGSCRIPT}" ]; then
-        echo "==> Configuring telegraf from environment"
-    else
-        echo "==> Configuring telegraf from script"
+if [ -z /var/lib/telegraf/config ]; then
+    echo "==> Configuring telegraf from environment"
 
-        /bin/sh "${TELEGRAF_CONFIGSCRIPT}"
-        if [ $? -ne 0 ]; then
-            echo "Failed to configure from script, aborting" >&2
-            exit 1
-        fi
-    fi
-
-    export TELEGRAF_CONFIG=1
-    printf "%s" "${TELEGRAF_CONFIG}" > /var/run/s6/container_environment/TELEGRAF_CONFIG
+    touch /var/lib/telegraf/config
 fi
