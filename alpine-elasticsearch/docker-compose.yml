@@ -29,4 +29,3 @@ services:
             - CONSUL_SERVICEPORT=9200                                   # consul service port
             - CONSUL_CHECKTYPE=tcp                                      # consul health check type
             #- ELASTICSEARCH_HEAPSIZE=256M                              # elasticsearch JVM heap size (optional)
-            #- ELASTICSEARCH_CONFIGSCRIPT=/root/elasticsearch/config.sh # custom configuration script
