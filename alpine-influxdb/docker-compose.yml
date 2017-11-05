@@ -24,4 +24,3 @@ services:
             - CONSUL_SERVICETAGS=dev                            # consul service tag
             - CONSUL_SERVICEPORT=8086                           # consul service port
             - CONSUL_CHECKTYPE=tcp                              # consul health check type
-            #- INFLUXDB_CONFIGSCRIPT=/root/influxdb/config.sh   # custom configuration script
