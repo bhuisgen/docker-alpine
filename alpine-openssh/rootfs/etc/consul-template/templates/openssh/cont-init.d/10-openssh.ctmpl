@@ -23,41 +23,36 @@ if [ -z "${OPENSSH_SFTPCHROOTUSERDIR}" ]; then
     OPENSSH_SFTPGROUP=public_html
 fi
 
-if [ -z "${OPENSSH_CONFIG}" ]; then
-    echo "==> Configuring openssh from environment"
+echo "==> Configuring openssh"
 
-    ssh-keygen -A
+ssh-keygen -A
 
-    grep -q "${OPENSSH_SFTPGROUP}" /etc/group
-    if [ $? -ne 0 ]; then
-        groupadd -r -g "${OPENSSH_SFTPGID}" "${OPENSSH_SFTPGROUP}"
-    fi
+grep -q "${OPENSSH_SFTPGROUP}" /etc/group
+if [ $? -ne 0 ]; then
+    groupadd -r -g "${OPENSSH_SFTPGID}" "${OPENSSH_SFTPGROUP}"
+fi
 
-    if [ ! -z "${OPENSSH_SFTPUSERS}" ]; then
-        for user in ${OPENSSH_SFTPUSERS//,/ }; do
-            grep -q "$user" /etc/passwd
-            if [ $? -eq 0 ]; then
-                continue
-            fi
+if [ ! -z "${OPENSSH_SFTPUSERS}" ]; then
+    for user in ${OPENSSH_SFTPUSERS//,/ }; do
+        grep -q "$user" /etc/passwd
+        if [ $? -eq 0 ]; then
+            continue
+        fi
 
-            useradd -s /bin/bash -g "${OPENSSH_SFTPGROUP}" "$user"
-            password=$(strings /dev/urandom|grep -o '[[:alnum:]]'|head -n 30|tr -d '\n'; echo)
-            echo "$user:$password" | chpasswd
-            homedir=$(getent passwd "$user"|cut -d: -f6)
+        useradd -s /bin/bash -g "${OPENSSH_SFTPGROUP}" "$user"
+        password=$(strings /dev/urandom|grep -o '[[:alnum:]]'|head -n 30|tr -d '\n'; echo)
+        echo "$user:$password" | chpasswd
+        homedir=$(getent passwd "$user"|cut -d: -f6)
 
-            if [ "${OPENSSH_SFTPCHROOT}" -eq 1 ]; then
-                chmod 755 "$homedir"
-                chown "root:root" "$homedir"
+        if [ "${OPENSSH_SFTPCHROOT}" -eq 1 ]; then
+            chmod 755 "$homedir"
+            chown "root:root" "$homedir"
 
-                mkdir -p "$homedir/${OPENSSH_SFTPCHROOTUSERDIR}"
-                chown "$user:" "$homedir/${OPENSSH_SFTPCHROOTUSERDIR}"
-            else
-                chmod 700 "$homedir"
-                chown "$userdir:${OPENSSH_SFTPGROUP}" "$homedir"
-            fi
-        done
-    fi
-
-    export OPENSSH_CONFIG=1
-    printf "%s" "${OPENSSH_CONFIG}" > /var/run/s6/container_environment/OPENSSH_CONFIG
+            mkdir -p "$homedir/${OPENSSH_SFTPCHROOTUSERDIR}"
+            chown "$user:" "$homedir/${OPENSSH_SFTPCHROOTUSERDIR}"
+        else
+            chmod 700 "$homedir"
+            chown "$userdir:${OPENSSH_SFTPGROUP}" "$homedir"
+        fi
+    done
 fi
