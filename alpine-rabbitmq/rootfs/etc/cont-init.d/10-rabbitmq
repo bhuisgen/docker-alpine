@@ -11,7 +11,7 @@ else
 fi
 
 if [ -z /var/lib/rabbitmq/config ]; then
-    echo "==> Configuring rabbitmq from environment"
+    echo "==> Configuring rabbitmq"
 
     if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
         echo "${RABBITMQ_ERLANGCOOKIE}" > "${RABBITMQ_HOME}/.erlang.cookie"

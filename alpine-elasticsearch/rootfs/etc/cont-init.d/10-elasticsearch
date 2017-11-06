@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/lib/elasticsearch/config ]; then
-    echo "==> Configuring elasticsearch from environment"
+    echo "==> Configuring elasticsearch"
 
     if [ -z "${ELASTICSEARCH_HEAPSIZE}" ]; then
         ELASTICSEARCH_HEAPSIZE=256M

@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z /var/lib/syncthing/config ]; then
-    echo "==> Configuring syncthing from environment"
+    echo "==> Configuring syncthing"
 
     if [ -z "${SYNCTHING_UID}" ]; then
         SYNCTHING_UID=1000

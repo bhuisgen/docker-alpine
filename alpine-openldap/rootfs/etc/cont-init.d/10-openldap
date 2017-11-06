@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/lib/openldap/config ]; then
-    echo "==> Configuring openldap from environment"
+    echo "==> Configuring openldap"
 
     mkdir -p "${OPENLDAP_CONFIGDIR}"
     slaptest -f /etc/openldap/slapd.conf -F "${OPENLDAP_CONFIGDIR}" > /dev/null 2>&1

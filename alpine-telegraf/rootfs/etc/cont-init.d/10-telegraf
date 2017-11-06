@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z /var/lib/telegraf/config ]; then
-    echo "==> Configuring telegraf from environment"
+    echo "==> Configuring telegraf"
 
     touch /var/lib/telegraf/config
 fi

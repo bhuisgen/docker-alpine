@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ -z /var/lib/postgresql/config ]; then
-    echo "==> Configuring postgresql from environment"
+    echo "==> Configuring postgresql"
 
     su -c "initdb /var/lib/postgresql/data" postgres
 
@@ -10,10 +10,12 @@ if [ -z /var/lib/postgresql/config ]; then
 
     if [ ! -z "${POSTGRESQL_DATABASE}" ] && [ ! -z "${POSTGRESQL_USERNAME}" ] && [ ! -z "${POSTGRESQL_PASSWORD}" ] && [ ! -z "${POSTGRESQL_ADDRESS}" ]; then
         echo "==> Creating database and user"
+
         su -c "createuser ${POSTGRESQL_USERNAME}" postgres
         su -c "createdb -O${POSTGRESQL_USERNAME} ${POSTGRESQL_DATABASE}" postgres
         su -c "psql -c \"ALTER USER ${POSTGRESQL_USERNAME} WITH PASSWORD '${POSTGRESQL_PASSWORD}';\"" postgres
         echo "host ${POSTGRESQL_DATABASE} ${POSTGRESQL_USERNAME} ${POSTGRESQL_ADDRESS} md5" >> "/var/lib/postgresql/data/pg_hba.conf"
+
         su -c "pg_ctl reload" postgres
         sleep 4
     fi

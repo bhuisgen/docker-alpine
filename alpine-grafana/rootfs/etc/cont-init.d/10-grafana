@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/lib/grafana/config ]; then
-    echo "==> Configuring grafana from environment"
+    echo "==> Configuring grafana"
 
     touch /var/lib/grafana/config
 fi

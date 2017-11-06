@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/lib/chronograf/config ]; then
-    echo "==> Configuring chronograf from environment"
+    echo "==> Configuring chronograf"
 
     touch /var/lib/chronograf/config
 fi

@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/lib/mysql/config ]; then
-    echo "==> Configuring mariadb from environment"
+    echo "==> Configuring mariadb"
 
     if [ -z "${MARIADB_PROFILE}" ]; then
         MARIADB_PROFILE="my-small"
@@ -55,6 +55,8 @@ if [ ! -f /var/lib/mysql/config ]; then
         "
 
     if [ ! -z "${MARIADB_DATABASE}" ] && [ ! -z "${MARIADB_USERNAME}" ] && [ ! -z "${MARIADB_PASSWORD}" ] && [ ! -z "${MARIADB_HOSTMASK}" ]; then
+        echo "==> Creating database and user"
+
         mysql -u root -p"${MARIADB_ROOTPASSWORD}" --protocol=socket -e " \
             SET @@SESSION.SQL_LOG_BIN=0; \
             CREATE DATABASE \`${MARIADB_DATABASE}\`; \
