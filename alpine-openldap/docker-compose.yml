@@ -28,4 +28,3 @@ services:
             - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
             - OPENLDAP_OLCROOTDN=cn=admin,cn=config                                 # OLC root DN
             - OPENLDAP_OLCROOTPW={SSHA}p12w1DrMOFl6TwXVrRlfLOa6Qwsa0avD             # OLC root password
-            #- OPENLDAP_CONFIGSCRIPT=/root/openldap/config.sh                       # custom configuration script

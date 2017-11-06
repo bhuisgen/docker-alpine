@@ -65,7 +65,6 @@ services:
             #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
             #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
             #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
-            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
 
     #
     # CLUSTER

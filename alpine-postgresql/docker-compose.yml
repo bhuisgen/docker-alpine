@@ -31,4 +31,3 @@ services:
             #- POSTGRESQL_USERNAME=                                 # grant user name (optional)
             #- POSTGRESQL_PASSWORD=                                 # grant user password (optional)
             #- POSTGRESQL_ADDRESS=                                  # grant user address (optional)
-            #- POSTGRESQL_CONFIGSCRIPT=/root/postgresql/config.sh   # custom configuration script

@@ -17,4 +17,3 @@ services:
             - CONSUL_AGENT=consul                               # consul agent hostname/IP
             #- CONSUL_PORT=8500                                 # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                    # consul key prefix path
-            #- TELEGRAF_CONFIGSCRIPT=/root/telegraf/config.sh   # custom configuration script

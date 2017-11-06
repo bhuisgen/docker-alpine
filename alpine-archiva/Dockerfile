@@ -2,16 +2,15 @@ FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ARCHIVA_VERSION=2.2.1 \
-    ARCHIVA_BASE=/var/lib/archiva \
     JETTY_VERSION=9.4.2.v20170220 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/usr/local/jetty-base \
     JETTY_MODULES=ext,plus,http,deploy
 
-RUN mkdir -p ${ARCHIVA_BASE}/conf ${ARCHIVA_BASE}/data ${ARCHIVA_BASE}/logs ${ARCHIVA_BASE}/temp && \
+RUN mkdir -p /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
     addgroup -S archiva && \
-    adduser -S -D -g "" -G archiva -s /bin/sh -h ${ARCHIVA_BASE} archiva && \
-    chown -R archiva:archiva ${ARCHIVA_BASE}
+    adduser -S -D -g "" -G archiva -s /bin/sh -h /var/lib/archiva archiva && \
+    chown -R archiva:archiva /var/lib/archiva
 
 RUN apk add --update openjdk8-jre unzip && \
     mkdir -p ${JETTY_HOME} ${JETTY_BASE} && \

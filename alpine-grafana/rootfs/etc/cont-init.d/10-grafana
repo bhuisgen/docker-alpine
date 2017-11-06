@@ -1,18 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "${GRAFANA_CONFIG}" ]; then
-    if [ -z "${GRAFANA_CONFIGSCRIPT}" ]; then
-        echo "==> Configuring grafana from environment"
-    else
-        echo "==> Configuring grafana from script"
+if [ ! -f /var/lib/grafana/config ]; then
+    echo "==> Configuring grafana"
 
-        /bin/sh "${GRAFANA_CONFIGSCRIPT}"
-        if [ $? -ne 0 ]; then
-            echo "Failed to configure from script, aborting" >&2
-            exit 1
-        fi
-    fi
-
-    export GRAFANA_CONFIG=1
-    printf "%s" "${GRAFANA_CONFIG}" > /var/run/s6/container_environment/GRAFANA_CONFIG
+    touch /var/lib/grafana/config
 fi

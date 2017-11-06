@@ -23,4 +23,3 @@ services:
             - CONSUL_SERVICETAGS=dev                                # consul service tag
             - CONSUL_SERVICEPORT=9092                               # consul service port
             - CONSUL_CHECKTYPE=tcp                                  # consul health check type
-            #- KAPACITOR_CONFIGSCRIPT=/root/kapacitor/config.sh     # custom configuration script

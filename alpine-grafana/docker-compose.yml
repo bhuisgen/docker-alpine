@@ -25,4 +25,3 @@ services:
             - CONSUL_SERVICETAGS=dev                            # consul service tag
             - CONSUL_SERVICEPORT=3000                           # consul service port
             - CONSUL_CHECKTYPE=tcp                              # consul health check type
-            #- GRAFANA_CONFIGSCRIPT=/root/grafana/config.sh     # custom configuration script

@@ -23,4 +23,3 @@ services:
             - CONSUL_SERVICETAGS=dev                                # consul service tag
             - CONSUL_SERVICEPORT=8888                               # consul service port
             - CONSUL_CHECKTYPE=tcp                                  # consul health check type
-            #- CHRONOGRAF_CONFIGSCRIPT=/root/chronograf/config.sh   # custom configuration script
