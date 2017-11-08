@@ -10,4 +10,4 @@ if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
 
-python setup.py ${SETUP_COMMANDS}
+eval python setup.py ${SETUP_COMMANDS}

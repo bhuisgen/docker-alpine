@@ -7,4 +7,5 @@ if [ -z "${NPM_COMMAND}" ]; then
 fi
 
 npm install
-npm run ${NPM_COMMAND}
+
+eval npm run ${NPM_COMMAND}
