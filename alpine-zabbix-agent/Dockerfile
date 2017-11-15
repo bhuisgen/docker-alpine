@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ZABBIX_VERSION=3.2.4 \
-    ZABBIXDOCKER_VERSION=0.2.3
+    ZABBIXDOCKER_VERSION=0.2.5
 
 COPY packages/*.apk /root/
 RUN apk add --update git python3 && \
@@ -11,7 +11,6 @@ RUN apk add --update git python3 && \
     python3 -m ensurepip --upgrade && \
     git clone -b ${ZABBIXDOCKER_VERSION} https://github.com/bhuisgen/zabbix-docker.git /tmp/zabbix-docker && \
     cd /tmp/zabbix-docker && \
-    pip3 install -r requirements.txt && \
     python3 setup.py install && \
     rm -fr /tmp/zabbix-docker && \
     apk del git && \
