@@ -1,7 +1,7 @@
 FROM alpine:3.6
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV TERRAFORM_VERSION=0.10.8
+ENV TERRAFORM_VERSION=0.11.0
 
 RUN apk add --update curl zip && \
     curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
