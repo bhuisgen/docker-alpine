@@ -39,6 +39,7 @@ SUBDIRS = \
     alpine-kibana \
     alpine-logstash \
     alpine-mariadb \
+    alpine-mongodb \
     alpine-nginx \
     alpine-nodejs \
     alpine-nomad \
