@@ -77,6 +77,7 @@ AC_CONFIG_FILES([
     alpine-kibana/Makefile
     alpine-logstash/Makefile
     alpine-mariadb/Makefile
+    alpine-mongodb/Makefile
     alpine-nginx/Makefile
     alpine-nodejs/Makefile
     alpine-nomad/Makefile
