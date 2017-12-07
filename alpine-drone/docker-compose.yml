@@ -1,0 +1,55 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    drone-server:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-drone
+        ports:
+            - "8000:8000"
+            - "9000:9000"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /srv/data:/var/lib/drone
+        environment:
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=drone-server               # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=8000                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - DRONE_HOST=0.0.0.0
+            - DRONE_OPEN=true
+            - DRONE_SECRET=my$ecret
+            - DRONE_DATABASE_DRIVER=sqlite3
+            - DRONE_DATABASE_DATASOURCE=/var/lib/drone/drone.sqlite
+            - DRONE_GOGS=true
+            - DRONE_GOGS_URL=http://gogs.my.domain:3000
+
+    drone-agent:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-drone
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=drone-agent                # consul service name
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICEPORT=8000                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - DRONE_SERVER=drone-server:9000
+            - DRONE_SECRET=my$ecret
