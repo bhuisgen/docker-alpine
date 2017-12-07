@@ -25,6 +25,6 @@ services:
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=gogs                       # consul service name
-            - CONSUL_SERVICETAGS=gogs                       # consul service tag
+            - CONSUL_SERVICETAGS=dev                        # consul service tag
             - CONSUL_SERVICEPORT=3000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
