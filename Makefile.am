@@ -3,6 +3,7 @@ SUBDIRS = \
     alpine-base-consul \
     alpine-build \
     alpine-build-make \
+    alpine-build-make-packer \
     alpine-build-make-terraform \
     alpine-build-maven \
     alpine-build-npm \
