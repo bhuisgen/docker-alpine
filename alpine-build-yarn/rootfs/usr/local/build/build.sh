@@ -3,7 +3,7 @@
 trap 'exit 2' ERR INT TERM
 
 if [ -z "${YARN_COMMAND}" ]; then
-    NPM_COMMAND="test"
+    YARN_COMMAND="test"
 fi
 
 yarn install
