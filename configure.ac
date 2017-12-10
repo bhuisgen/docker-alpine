@@ -54,12 +54,13 @@ AC_CONFIG_FILES([
     alpine-certbot/Makefile
     alpine-cli53/Makefile
     alpine-consul/Makefile
-    alpine-chronograf/Makefile \
+    alpine-chronograf/Makefile
     alpine-dnsmasq/Makefile
     alpine-dovecot/Makefile
     alpine-docker-compose/Makefile
     alpine-docker-machine/Makefile
     alpine-docker-registry/Makefile
+    alpine-drone/Makefile
     alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile

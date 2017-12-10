@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV GOGS_VERSION=0.11.4 \
+ENV GOGS_VERSION=0.11.29 \
     GIT_HOME=/home/git
 
 RUN mkdir -p ${GIT_HOME} && \

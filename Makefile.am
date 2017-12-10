@@ -22,6 +22,7 @@ SUBDIRS = \
     alpine-docker-machine \
     alpine-docker-registry \
     alpine-dovecot \
+    alpine-drone \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \
