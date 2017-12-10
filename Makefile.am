@@ -10,6 +10,7 @@ SUBDIRS = \
     alpine-build-rpi \
     alpine-build-rpi-make \
     alpine-build-rpi-python \
+    alpine-build-yarn \
     alpine-ansible \
     alpine-archiva \
     alpine-awscli \

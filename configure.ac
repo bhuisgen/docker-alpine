@@ -48,6 +48,7 @@ AC_CONFIG_FILES([
     alpine-build-rpi/Makefile
     alpine-build-rpi-make/Makefile
     alpine-build-rpi-python/Makefile
+    alpine-build-yarn/Makefile
     alpine-ansible/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile

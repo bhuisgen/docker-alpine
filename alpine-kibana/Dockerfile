@@ -9,7 +9,7 @@ RUN mkdir -p /var/lib/kibana && \
     chown -R kibana:kibana /var/lib/kibana
 
 RUN apk add --update tar && \
-    apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ nodejs && \
+    apk add --no-cache nodejs && \
     mkdir -p /usr/local/kibana && \
     curl -sSL https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz | tar -xzo -C /usr/local/kibana --strip-components 1 && \
     rm -rf /usr/share/kibana/node && \
