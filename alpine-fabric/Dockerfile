@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update build-base ca-certificates libffi libffi-dev openssl openssl-dev python2 python2-dev py2-pip && \
