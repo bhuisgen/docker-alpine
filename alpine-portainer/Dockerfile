@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV PORTAINER_VERSION=1.12.4 \
+ENV PORTAINER_VERSION=1.15.5 \
     PORTAINER_HOME=/var/lib/portainer
 
 RUN mkdir -p ${PORTAINER_HOME} && \
