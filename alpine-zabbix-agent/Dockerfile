@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV ZABBIX_VERSION=3.2.4 \
+ENV ZABBIX_VERSION=3.4.4 \
     ZABBIXDOCKER_VERSION=0.2.5
 
 COPY packages/*.apk /root/
