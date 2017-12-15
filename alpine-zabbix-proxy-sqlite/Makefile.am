@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-zabbix-proxy-sqlite3
+IMAGE = bhuisgen/alpine-zabbix-proxy-sqlite
 
 clean-local:
 	docker rmi $(CLEAN_OPTIONS) $(IMAGE):$(TAG) || true

@@ -13,7 +13,7 @@ services:
     zabbix-proxy:
         depends_on:
             - consul
-        image: bhuisgen/alpine-zabbix-proxy-sqlite3
+        image: bhuisgen/alpine-zabbix-proxy-sqlite
         volumes:
             - /etc/localtime:/etc/localtime:ro
             #- /host/data:/var/lib/zabbix       # volume for data
