@@ -10,7 +10,7 @@ else
     rm -f /etc/services.d/rabbitmq/down
 fi
 
-if [ -z /var/lib/rabbitmq/config ]; then
+if [ ! -f /var/lib/rabbitmq/config ]; then
     echo "==> Configuring rabbitmq"
 
     if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then

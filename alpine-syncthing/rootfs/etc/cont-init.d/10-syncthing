@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z /var/lib/syncthing/config ]; then
+if [ ! -f /var/lib/syncthing/config ]; then
     echo "==> Configuring syncthing"
 
     if [ -z "${SYNCTHING_UID}" ]; then
