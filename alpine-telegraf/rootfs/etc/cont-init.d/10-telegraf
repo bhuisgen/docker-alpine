@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z /var/lib/telegraf/config ]; then
+if [ ! -f /var/lib/telegraf/config ]; then
     echo "==> Configuring telegraf"
 
     touch /var/lib/telegraf/config
