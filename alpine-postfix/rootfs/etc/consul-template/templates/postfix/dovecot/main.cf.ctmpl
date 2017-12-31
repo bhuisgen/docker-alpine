@@ -97,8 +97,6 @@ smtpd_client_restrictions =
 smtpd_helo_restrictions =
         permit_mynetworks,
         permit_sasl_authenticated,
-        reject_invalid_hostname,
-        reject_unknown_hostname,
         permit
 
 smtpd_sender_restrictions =
