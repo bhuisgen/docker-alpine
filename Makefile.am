@@ -16,6 +16,7 @@ SUBDIRS = \
     alpine-ansible \
     alpine-archiva \
     alpine-awscli \
+    alpine-backuppc \
     alpine-certbot \
     alpine-chronograf \
     alpine-cli53 \
