@@ -1,0 +1,58 @@
+version: '3.2'
+
+services:
+    consul:
+        image: bhuisgen/alpine-consul
+        ports:
+            - "8500:8500"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+
+    zabbix-proxy:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-zabbix-proxy-sqlite
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            #- /host/data:/var/lib/zabbix       # volume for data
+        environment:
+            - CONSUL_AGENT=consul               # consul agent hostname/IP
+            #- CONSUL_PORT=8500                 # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/    # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-proxy   # consul service name
+            - CONSUL_SERVICETAGS=dev            # consul service tag
+            - CONSUL_SERVICEPORT=10051          # consul service port
+            - CONSUL_CHECKTYPE=tcp              # consul health check type
+            #- ZABBIX_PROXYMODE=0               # proxy mode (0: active, 1: passive)
+            - ZABBIX_SERVER=zabbix-server       # zabbix server IP/host
+            #- ZABBIX_SERVERPORT=10051          # zabbix server port
+            - ZABBIX_HOSTNAME=zabbix-proxy      # zabbix proxy hostname
+            #- ZABBIX_PROXYLOCALBUFFER=0        # period to keep proxy data after sending
+            #- ZABBIX_PROXYOFFLINEBUFFER=1      # period to keep proxy unsent data
+            #- ZABBIX_HEARTBEATFREQUENCY=60     # frequency of heartbeat messages to server
+            #- ZABBIX_CONFIGFREQUENCY=3600      # frequency to pull configuration from server
+            #- ZABBIX_DATASENDERFREQUENCY=1     # frequency to send collected data to server
+            #- ZABBIX_STARTPOLLERS=5            # number of instances for pollers
+            #- ZABBIX_STARTIPMIPOLLERS=0        # number of instances for IPMI pollers
+            #- ZABBIX_STARTPOLLERSUNREACHABLE=1 # number of instances for unreachable hosts
+            #- ZABBIX_STARTTRAPPERS=5           # number of instances for trappers
+            #- ZABBIX_STARTPINGERS=1            # number of instances for ICMP pingers
+            #- ZABBIX_STARTDISCOVERERS=1        # number of instances for hosts discovers
+            #- ZABBIX_STARTHTTPPOLLERS=1        # number of instances for HTTP pollers
+            #- ZABBIX_JAVAGATEWAY=              # Java gateway IP
+            #- ZABBIX_JAVAGATEWAYPORT=10052     # Java gateway port
+            #- ZABBIX_STARTJAVAPOLLERS=0        # number of instances for Java pollers
+            #- ZABBIX_STARTSNMPTRAPPER=0        # enable SNMP trapper
+            #- ZABBIX_HOUSEKEEPINGFREQUENCY=1   # housekeeping frequency
+            #- ZABBIX_CACHESIZE=8M              # cache size
+            #- ZABBIX_STARTDBSYNCERS=4          # number of instances for database syncers
+            #- ZABBIX_HISTORYCACHESIZE=16M      # history cache size
+            #- ZABBIX_HISTORYINDEXCACHESIZE=4M  # history index cache size
+            #- ZABBIX_TIMEOUT=3                 # timeout of processing agent, SNMP and external checks
+            #- ZABBIX_TRAPPERTIMEOUT=300        # timeout of processing trappers data
+            #- ZABBIX_UNREACHABLEPERIOD=45      # period before setting host to unreachable
+            #- ZABBIX_UNAVAILABLEDELAY=60       # delay before setting unreachable host to unavailable
+            #- ZABBIX_UNREACHABLEDELAY=15       # delay to check unreachable host availability
+            #- ZABBIX_LOGSLOWQUERIES=0          # log queries (query time)

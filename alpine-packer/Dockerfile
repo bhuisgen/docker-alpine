@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV PACKER_VERSION=1.1.2

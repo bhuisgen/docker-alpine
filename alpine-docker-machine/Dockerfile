@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV DOCKERMACHINE_VERSION=0.12.2

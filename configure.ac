@@ -121,10 +121,9 @@ AC_CONFIG_FILES([
     alpine-zabbix-monitor/Makefile
     alpine-zabbix-proxy-mysql/Makefile
     alpine-zabbix-proxy-pgsql/Makefile
-    alpine-zabbix-proxy-sqlite3/Makefile
+    alpine-zabbix-proxy-sqlite/Makefile
     alpine-zabbix-server-mysql/Makefile
     alpine-zabbix-server-pgsql/Makefile
-    alpine-zabbix-server-sqlite3/Makefile
 ])
 
 AC_OUTPUT
