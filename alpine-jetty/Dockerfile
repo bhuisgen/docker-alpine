@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV JETTY_VERSION=9.4.7.v20170914 \
+ENV JETTY_VERSION=9.4.8.v20171121 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/usr/local/jetty-base \
     JETTY_MODULES=ext,plus,http,deploy
