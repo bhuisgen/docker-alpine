@@ -1,7 +1,7 @@
 FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV PHPMYADMIN_VERSION=4.6.5.2
+ENV PHPMYADMIN_VERSION=4.7.7
 
 RUN apk add --update curl tar && \
     mkdir -p /var/www && \
