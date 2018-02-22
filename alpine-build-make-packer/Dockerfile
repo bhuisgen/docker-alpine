@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-build-make:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV PACKER_VERSION=1.1.2
+ENV PACKER_VERSION=1.1.3
 
 RUN apk add --update curl zip && \
     curl -sSL https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip -o /tmp/packer.zip && \
