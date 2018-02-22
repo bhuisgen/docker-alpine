@@ -172,8 +172,8 @@ http {
         {{if eq $nginx_php_status "1"}}
         location {{if $nginx_php_status_location}}{{$nginx_php_status_location}}{{else}}/php-fpm_status{{end}} {
             fastcgi_pass php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             access_log off;
             {{if $nginx_php_status_allow}}
             {{range $address := $nginx_php_status_allow | split ","}}
@@ -189,8 +189,8 @@ http {
         {{if eq $nginx_php_status_ping "1"}}
         location {{if $nginx_php_status_ping_location}}{{$nginx_php_status_ping_location}}{{else}}/php-fpm_ping{{end}} {
             fastcgi_pass php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             access_log off;
             {{if $nginx_php_status_ping_allow}}
             {{range $address := $nginx_php_status_ping_allow | split ","}}
@@ -232,8 +232,8 @@ http {
             fastcgi_index index.php;
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
             fastcgi_pass php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
     }
 }
