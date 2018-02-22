@@ -1,7 +1,7 @@
 FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV WORDPRESS_VERSION=4.8.3
+ENV WORDPRESS_VERSION=4.9.4
 
 RUN apk add --update curl tar && \
     mkdir -p /var/www && \
