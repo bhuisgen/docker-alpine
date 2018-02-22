@@ -1,7 +1,7 @@
 FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV ROUNDCUBEMAIL_VERSION=1.3.0
+ENV ROUNDCUBEMAIL_VERSION=1.3.4
 
 RUN apk add --update curl tar && \
     mkdir -p /var/www && \
