@@ -23,5 +23,5 @@ services:
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=backuppc                   # consul service name
             - CONSUL_SERVICETAGS=dev                        # consul service tag
-            - CONSUL_SERVICEPORT=8080                       # consul service port
+            - CONSUL_SERVICEPORT=9000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
