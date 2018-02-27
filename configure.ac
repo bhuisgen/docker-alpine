@@ -54,6 +54,7 @@ AC_CONFIG_FILES([
     alpine-ansible/Makefile
     alpine-archiva/Makefile
     alpine-awscli/Makefile
+    alpine-backuppc/Makefile
     alpine-certbot/Makefile
     alpine-cli53/Makefile
     alpine-consul/Makefile

@@ -1,0 +1,1 @@
+backuppc ALL = NOPASSWD: /bin/tar
