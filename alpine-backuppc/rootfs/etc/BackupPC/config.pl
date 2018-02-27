@@ -1501,7 +1501,7 @@ $Conf{FtpFollowSymlinks} = 0;
 # The Destination of the archive
 # e.g. /tmp for file archive or /dev/nst0 for device archive
 #
-$Conf{ArchiveDest} = '/tmp';
+$Conf{ArchiveDest} = '/var/lib/BackupPC';
 
 #
 # Archive Compression type
