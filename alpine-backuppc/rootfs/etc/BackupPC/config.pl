@@ -1649,7 +1649,7 @@ $Conf{FixedIPNetBiosNameCheck} = 0;
 #
 #     $Conf{PingPath} = '/bin/echo';
 #
-$Conf{PingPath} = '/bin/ping';
+$Conf{PingPath} = '/bin/echo';
 
 #
 # Ping command.  The following variables are substituted at run-time:

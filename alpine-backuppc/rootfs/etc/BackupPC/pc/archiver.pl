@@ -1,0 +1,1 @@
+$Conf{XferMethod} = 'archive';
