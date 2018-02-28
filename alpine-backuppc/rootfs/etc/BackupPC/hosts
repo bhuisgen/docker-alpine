@@ -54,5 +54,5 @@
 host        dhcp    user    moreUsers     # <--- do not edit this line
 #farside    0       craig   jill,jeff     # <--- example static IP host entry
 #larson     1       bill                  # <--- example DHCP host entry
-archiver    0       backuppc
-config      0       backuppc
+archiver    0
+config      0
