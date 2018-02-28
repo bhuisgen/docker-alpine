@@ -15,9 +15,10 @@ services:
             - consul
         image: bhuisgen/alpine-portainer
         ports:
-            - "8080:8080"
+            - "9000:9000"
         volumes:
             - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
             #- /srv/data:/var/lib/portainer
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
@@ -25,5 +26,6 @@ services:
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=portainer                  # consul service name
             - CONSUL_SERVICETAGS=dev                        # consul service tag
-            - CONSUL_SERVICEPORT=8080                       # consul service port
+            - CONSUL_SERVICEPORT=9000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            #- PORTAINER_OPTIONS=                           # portainer options
