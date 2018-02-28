@@ -16,7 +16,7 @@ services:
         image: bhuisgen/alpine-backuppc
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /srv/data:/var/lib/BackupPC
+            #- /srv/data:/var/lib/BackupPC                  # volume for data
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
