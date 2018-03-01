@@ -68,6 +68,7 @@ SUBDIRS = \
     alpine-roundcubemail \
     alpine-rsyslog \
     alpine-ruby \
+    alpine-rundeck \
     alpine-spark \
     alpine-strongswan \
     alpine-syncthing \

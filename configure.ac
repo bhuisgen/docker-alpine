@@ -90,6 +90,7 @@ AC_CONFIG_FILES([
     alpine-opendmarc/Makefile
     alpine-openldap/Makefile
     alpine-openssh/Makefile
+    alpine-openvpn/Makefile
     alpine-packer/Makefile
     alpine-passbolt/Makefile
     alpine-perl/Makefile
@@ -106,6 +107,7 @@ AC_CONFIG_FILES([
     alpine-roundcubemail/Makefile
     alpine-rsyslog/Makefile
     alpine-ruby/Makefile
+    alpine-rundeck/Makefile
     alpine-spark/Makefile
     alpine-strongswan/Makefile
     alpine-syncthing/Makefile
