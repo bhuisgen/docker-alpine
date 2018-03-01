@@ -1,0 +1,17 @@
+version: '3.5'
+
+volumes:
+    rundeck:
+
+services:
+    rundeck:
+        image: bhuisgen/alpine-rundeck
+        ports:
+            - "4440:4440"
+            - "4443:4443"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - rundeck:/home/rundeck                     # volume for data
+        environment:
+            - ENV=local                                 # environment name
+            - RUNDECK_SERVERURL=http://0.0.0.0:4440     # rundeck external server URL
