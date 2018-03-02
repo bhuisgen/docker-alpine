@@ -39,6 +39,7 @@ services:
             #- ZABBIX_BUFFERSIZE=100                                            # maximum number of values in buffer before sending
             #- ZABBIX_MAXLINESPERSECOND=20                                      # maximum number of new lines to send per second
             #- ZABBIX_TIMEOUT=3                                                 # timeout of processing
+            #- ZABBIX_ROOTFILESYSTEM=                                           # host rootfs
             #- ZABBIX_UNSAFEUSERPARAMETERS=                                     # enable unsafe user parameters
             #- ZABBIXDOCKER=0                                                   # enable docker monitoring
             #- ZABBIXDOCKER_ZABBIXHOST=                                         # zabbix host
