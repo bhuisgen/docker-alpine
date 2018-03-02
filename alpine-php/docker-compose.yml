@@ -27,7 +27,7 @@ services:
             - CONSUL_SERVICEPORT=9000               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
             - PHP_MANAGER=static                    # process manager mode (static/dynamic/ondemand)
-            - PHP_MAXCHILDREN=10                    # maximum children (static/ondemand)
+            #- PHP_MAXCHILDREN=5                    # maximum children (static/ondemand)
             #- PHP_STARTSERVERS=2                   # number of startup processes (dynamic)
             #- PHP_MINSPARESERVERS=1                # minimum idle processes (dynamic)
             #- PHP_MAXSPARESERVERS=3                # maximum idle processes (dynamic)
@@ -36,10 +36,14 @@ services:
             - PHP_STATUSPATH=/status                # path of status page
             - PHP_PINGPATH=/ping                    # path of ping page
             #- PHP_PINGRESPONSE=pong                # response of ping
-            - PHP_ACCESSFORMAT="%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"    # access format
-            - PHP_REQUESTSLOWLOGTIMEOUT=10          # timeout for logging slow requests
-            - PHP_REQUESTTERMINATETIMEOUT=30        # timeout for killing running processes
+            #- PHP_ACCESSLOG=0                      # enable access log
+            #- PHP_ACCESSFORMAT=                    # access log format
+            #- PHP_SLOWLOG=0                        # enable slow log
+            #- PHP_REQUESTSLOWLOGTIMEOUT=0          # timeout for logging slow requests
+            #- PHP_REQUESTTERMINATETIMEOUT=0        # timeout for killing running processes
             #- PHP_CLEARENV=yes                     # clear environment of processes
+            #- PHPINI_USERINI_CACHETTL=300          # PHP user-defined php.ini TTL cache
+            #- PHPINI_USERINI_FILENAME=.user.ini    # PHP user-defined php.ini filename
             #- PHPINI_MAXEXECUTIONTIME=30           # PHP maximum execution time
             #- PHPINI_MAXINPUTTIME=60               # PHP maximum input time
             #- PHPINI_MEMORYLIMIT=128M              # PHP memory limit
