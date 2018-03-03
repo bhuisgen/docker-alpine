@@ -1,6 +1,12 @@
 SUBDIRS = \
     alpine-base \
     alpine-base-consul \
+    alpine-backup \
+    alpine-backup-mariadb \
+    alpine-backup-mongodb \
+    alpine-backup-postgresql \
+    alpine-backup-rsync \
+    alpine-backup-tar \
     alpine-build \
     alpine-build-make \
     alpine-build-make-ansible \

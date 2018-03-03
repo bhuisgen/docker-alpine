@@ -39,6 +39,12 @@ AC_CONFIG_FILES([
     Makefile
     alpine-base/Makefile
     alpine-base-consul/Makefile
+    alpine-backup/Makefile
+    alpine-backup-mariadb/Makefile
+    alpine-backup-mongodb/Makefile
+    alpine-backup-postgresql/Makefile
+    alpine-backup-rsync/Makefile
+    alpine-backup-tar/Makefile
     alpine-build/Makefile
     alpine-build-make/Makefile
     alpine-build-make-ansible/Makefile
