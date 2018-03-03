@@ -49,4 +49,4 @@ services:
             #- PHPINI_MEMORYLIMIT=128M              # PHP memory limit
             #- PHPINI_POSTMAXSIZE=8M                # PHP post max size
             #- PHPINI_UPLOADMAXFILESIZE=2M          # PHP upload max file size
-            #- PHPINI_ALWAYSPOPULATERAWPOSTDATA=0   # PHP always populate raw post data
+            #- PHPINI_DATE_TIMEZONE=                # PHP date timezone
