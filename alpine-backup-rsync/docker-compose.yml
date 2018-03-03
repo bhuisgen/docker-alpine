@@ -1,0 +1,18 @@
+version: '3.5'
+
+volumes:
+    backups:
+
+services:
+    backup-rsync:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-backup-rsync
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - backups:/var/backups              # volume for backups
+            - data:/data                        # volume for data
+        environment:
+            - ENV=dev                           # environment name
+            #- BACKUP_PATH=/var/backups         # backup storage path
+            - BACKUP_RSYNC_DIR=/data            # data directory to backup
