@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV RABBITMQ_VERSION=3.6.10 \
+ENV RABBITMQ_VERSION=3.7.3 \
     RABBITMQ_HOME=/var/lib/rabbitmq \
     RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
     RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
@@ -37,7 +37,7 @@ RUN apk add --update tar xz && \
         /root/erlang-syntax-tools-20.1.7-r2.apk \
         /root/erlang-xmerl-20.1.7-r2.apk && \
     mkdir -p /usr/local/rabbitmq && \
-    curl -sSL https://www.rabbitmq.com/releases/rabbitmq-server/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
+    curl -sSL https://github.com/rabbitmq/rabbitmq-server/releases/download/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -f /root/*.apk && \
     rm -rf /var/cache/apk/*
