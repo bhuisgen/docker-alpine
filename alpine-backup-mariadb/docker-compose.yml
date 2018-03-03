@@ -1,0 +1,19 @@
+version: '3.5'
+
+volumes:
+    backups:
+
+services:
+    backup-mariadb:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-backup-mariadb
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - backups:/var/backups              # volume for backups
+        environment:
+            - ENV=dev                           # environment name
+            #- BACKUP_PATH=/var/backups         # backup storage path
+            - BACKUP_MARIADB_HOST=server        # server host (required)
+            - BACKUP_MARIADB_PORT=3306          # serverr host (required)
+            #- BACKUP_MARIADB_DATABASE=         # database to backup (optional, comma list accepted)
