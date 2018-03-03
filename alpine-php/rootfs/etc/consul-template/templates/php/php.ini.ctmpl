@@ -6,6 +6,7 @@
 {{- $phpini_postmaxsize := env "PHPINI_POSTMAXSIZE" -}}
 {{- $phpini_uploadmaxfilesize := env "PHPINI_UPLOADMAXFILESIZE" -}}
 {{- $phpini_alwayspopulaterawpostdata := env "PHPINI_ALWAYSPOPULATERAWPOSTDATA" -}}
+{{- $phpini_date_timezone := env "PHPINI_DATE_TIMEZONE" -}}
 [PHP]
 
 ;;;;;;;;;;;;;;;;;;;
@@ -972,7 +973,11 @@ cli_server.color = On
 [Date]
 ; Defines the default timezone used by the date functions
 ; http://php.net/date.timezone
+{{if $phpini_date_timezone}}
+date.timezone = {{$phpini_date_timezone}}
+{{else}}
 ;date.timezone =
+{{end}}
 
 ; http://php.net/date.default-latitude
 ;date.default_latitude = 31.7667
