@@ -1,0 +1,14 @@
+version: '3.5'
+
+volumes:
+    backups:
+
+services:
+    backup:
+        image: bhuisgen/alpine-backup
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - backups:/var/backups              # volume for backups
+        environment:
+            - ENV=dev                           # environment name
+            #- BACKUP_PATH=/var/backups         # backup storage path
