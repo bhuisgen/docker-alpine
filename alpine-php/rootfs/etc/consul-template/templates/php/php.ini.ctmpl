@@ -5,7 +5,6 @@
 {{- $phpini_memorylimit := env "PHPINI_MEMORYLIMIT" -}}
 {{- $phpini_postmaxsize := env "PHPINI_POSTMAXSIZE" -}}
 {{- $phpini_uploadmaxfilesize := env "PHPINI_UPLOADMAXFILESIZE" -}}
-{{- $phpini_alwayspopulaterawpostdata := env "PHPINI_ALWAYSPOPULATERAWPOSTDATA" -}}
 {{- $phpini_date_timezone := env "PHPINI_DATE_TIMEZONE" -}}
 [PHP]
 
