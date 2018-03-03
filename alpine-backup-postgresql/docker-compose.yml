@@ -1,0 +1,19 @@
+version: '3.5'
+
+volumes:
+    backups:
+
+services:
+    backup-postgresql:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-backup-postgresql
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - backups:/var/backups              # volume for backups
+        environment:
+            - ENV=dev                           # environment name
+            #- BACKUP_PATH=/var/backups         # backup storage path
+            - BACKUP_POSTGRESQL_HOST=server     # server host (required)
+            - BACKUP_POSTGRESQL_PORT=5432       # server port (required)
+            #- BACKUP_POSTGRESQL_DATABASE=      # databases to backup (optional, comma list accepted)
