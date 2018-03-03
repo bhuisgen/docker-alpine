@@ -1,0 +1,19 @@
+version: '3.5'
+
+volumes:
+    backups:
+
+services:
+    backup-mongodb:
+        depends_on:
+            - consul
+        image: bhuisgen/alpine-backup-mongodb
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - backups:/var/backups              # volume for backups
+        environment:
+            - ENV=dev                           # environment name
+            #- BACKUP_PATH=/var/backups         # backup storage path
+            - BACKUP_MONGODB_HOST=my_host       # server host (required)
+            - BACKUP_MONGODB_PORT=27017         # server port (required)
+            - BACKUP_MONGODB_DATABASE=dbname    # database to backup (required, comma list allowed)
