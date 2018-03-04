@@ -1,8 +1,8 @@
-version: '3.2'
+version: '3.5'
 
 volumes:
-    #nginx:
-    #www:
+    nginx:
+    www:
 
 services:
     consul:
@@ -23,8 +23,8 @@ services:
             - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- nginx:/var/cache/nginx                                           # volume for nginx cache
-            #- www:/var/www                                                     # volume for data
+            - nginx:/var/cache/nginx                                            # volume for cache
+            - www:/var/www                                                      # volume for data
         environment:
             - CONSUL_AGENT=consul                                               # consul agent hostname/IP
             #- CONSUL_PORT=8500                                                 # consul agent port
@@ -71,7 +71,18 @@ services:
             #
             - NGINX_TEMPLATE_FASTCGI_SERVICENAME=backend                        # service name of fastcgi backend
             - NGINX_TEMPLATE_FASTCGI_SERVICETAG=dev                             # service tag of fastcgi backend
-            - NGINX_TEMPLATE_FASTCGI_ROOT=/var/www/htdocs
+            #- NGINX_TEMPLATE_FASTCGI_SERVERNAME=""                             # server names
+            #- NGINX_TEMPLATE_FASTCGI_ROOT=/var/www                             # root directory
+            #- NGINX_TEMPLATE_FASTCGI_INDEX=index.html index.php                # index pages
+            #- NGINX_TEMPLATE_FASTCGI_TRYFILES="$uri/ /index.cgi?$args;"        # try files
+            #- NGINX_TEMPLATE_FASTCGI_AUTHBASIC=                                # enable basic authentication
+            #- NGINX_TEMPLATE_FASTCGI_AUTHBASICUSERFILE=                        # basic authentication user file
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMMETHOD=                           # load balancing method (set empty for default round-robin)
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMKEEPALIVE=0                       # number of upstream minimal keepalive connections
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMWEIGHT=1                          # weight of the server
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMMAXCONNS=0                        # maximum connections to upstream server
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMMAXFAILS=1                        # number of unsuccessful attempts before marking upstream server as unavailable
+            #- NGINX_TEMPLATE_FASTCGI_UPSTREAMFAILTIMEOUT=10s                   # time before marking upstream server as unavailable and period of unavailability
             #
             # template loadbalancer-http
             #
@@ -106,6 +117,9 @@ services:
             #- NGINX_TEMPLATE_PHP_SERVERNAME=""                                 # server names
             #- NGINX_TEMPLATE_PHP_ROOT=/var/www                                 # root directory
             #- NGINX_TEMPLATE_PHP_INDEX=index.html index.php                    # index pages
+            #- NGINX_TEMPLATE_PHP_TRYFILES="$uri/ /index.php?$args;"            # try files
+            #- NGINX_TEMPLATE_PHP_AUTHBASIC=                                    # enable basic authentication
+            #- NGINX_TEMPLATE_PHP_AUTHBASICUSERFILE=                            # basic authentication user file
             #- NGINX_TEMPLATE_PHP_PHPSTATUS=0                                   # php status page
             #- NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION=/php-fpm_status             # php status page location
             #- NGINX_TEMPLATE_PHP_PHPSTATUSALLOW=127.0.0.1                      # IP/CIDR allowed to access to php status page (comma separated list)
@@ -118,7 +132,6 @@ services:
             #- NGINX_TEMPLATE_PHP_UPSTREAMMAXCONNS=0                            # maximum connections to upstream server
             #- NGINX_TEMPLATE_PHP_UPSTREAMMAXFAILS=1                            # number of unsuccessful attempts before marking upstream server as unavailable
             #- NGINX_TEMPLATE_PHP_UPSTREAMFAILTIMEOUT=10s                       # time before marking upstream server as unavailable and period of unavailability
-            #- NGINX_TEMPLATE_PHP_UPSTREAMFAILTIMEOUT=10s                       # time before marking upstream server as unavailable and period of unavailability
             #
             # template proxy
             #
@@ -126,6 +139,8 @@ services:
             #- NGINX_TEMPLATE_PROXY_SERVERNAME=""                               # server names
             #- NGINX_TEMPLATE_PROXY_ROOT=/var/www                               # root directory
             #- NGINX_TEMPLATE_PROXY_INDEX=index.html                            # index pages
+            #- NGINX_TEMPLATE_PROXY_AUTHBASIC=                                  # enable basic authentication
+            #- NGINX_TEMPLATE_PROXY_AUTHBASICUSERFILE=                          # basic authentication user file
             #- NGINX_TEMPLATE_PROXY_PROXYBUFFERING=on                           # enable proxy buffering
             #- NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT=60s                     # proxy connect timeout
             #- NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT=60s                        # proxy read timeout
@@ -206,6 +221,8 @@ services:
             #- NGINX_TEMPLATE_STATIC_SERVERNAME=""                              # server names
             #- NGINX_TEMPLATE_STATIC_ROOT=/var/www                              # root directory
             #- NGINX_TEMPLATE_STATIC_INDEX=index.html                           # index pages
+            #- NGINX_TEMPLATE_STATIC_AUTHBASIC=                                 # enable basic authentication
+            #- NGINX_TEMPLATE_STATIC_AUTHBASICUSERFILE=                         # basic authentication user file
             #
             # template upstream
             #

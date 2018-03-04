@@ -36,6 +36,8 @@
 {{- $nginx_root := env "NGINX_TEMPLATE_FASTCGI_ROOT" -}}
 {{- $nginx_index := env "NGINX_TEMPLATE_FASTCGI_INDEX" -}}
 {{- $nginx_try_files := env "NGINX_TEMPLATE_FASTCGI_TRYFILES" -}}
+{{- $nginx_auth_basic := env "NGINX_TEMPLATE_FASTCGI_AUTHBASIC" -}}
+{{- $nginx_auth_basic_user_file := env "NGINX_TEMPLATE_FASTCGI_AUTHBASICUSERFILE" -}}
 {{- $nginx_upstream_method := env "NGINX_TEMPLATE_FASTCGI_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_FASTCGI_UPSTREAMKEEPALIVE" -}}
 {{- $nginx_upstream_weight := env "NGINX_TEMPLATE_FASTCGI_UPSTREAMWEIGHT" -}}
@@ -188,6 +190,11 @@ http {
             try_files $uri {{$nginx_try_files}};
             {{else}}
             try_files $uri $uri/ /index.cgi?$args;
+            {{end}}
+
+            {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
+            auth_basic {{$nginx_auth_basic}};
+            auth_basic_user_file {{$nginx_auth_basic_user_file}};
             {{end}}
         }
 
