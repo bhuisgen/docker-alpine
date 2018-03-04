@@ -11,7 +11,7 @@ mkdir -p "$BACKUP_DIR" || exit 1
 export PGPASSFILE="$BACKUP_PATH/.pgpass"
 
 if [ ! -z $BACKUP_POSTGRESQL_DATABASE ]; then
-    databases="${BACKUP_POSTGRESQL_DATABASE//,/ /}"
+    databases="${BACKUP_POSTGRESQL_DATABASE//,/ }"
 else
     databases=$(psql -h "$BACKUP_POSTGRESQL_HOST" -p "$BACKUP_POSTGRESQL_PORT" -U backup \
         -c "SELECT datname FROM pg_database;" -t postgres)

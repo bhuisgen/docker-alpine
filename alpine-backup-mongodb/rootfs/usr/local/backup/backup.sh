@@ -9,7 +9,7 @@ BACKUP_DIR="$BACKUP_PATH/$(date +%Y%m%d_%H%M%S)"
 
 mkdir -p "$BACKUP_DIR" || exit 1
 
-databases="${BACKUP_MONGODB_DATABASE//,/ /}"
+databases="${BACKUP_MONGODB_DATABASE//,/ }"
 
 for database in $databases; do
     mongodump -h "$BACKUP_MONGODB_HOST" -p "$BACKUP_MONGODB_PORT" -d "$database" --gzip \
