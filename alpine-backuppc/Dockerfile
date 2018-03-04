@@ -11,8 +11,6 @@ RUN apk add --update backuppc fcgiwrap openssh-client perl-cgi spawn-fcgi sudo t
     ln -sf /var/lib/backuppc/log /var/log/BackupPC && \
     mkdir /var/run/backuppc && \
     chown backuppc:backuppc /var/run/backuppc && \
-    ln -f /var/www/cgi-bin/BackupPC_Admin /var/www/htdocs/index.cgi && \
-    chmod +x /var/www/htdocs/index.cgi && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
