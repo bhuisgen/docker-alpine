@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/mongodb/config ]; then
+if [ ! -f /var/lib/mongodb/.config ]; then
     echo "==> Configuring mongodb"
 
-    touch /var/lib/mongodb/config
+    touch /var/lib/mongodb/.config
 fi

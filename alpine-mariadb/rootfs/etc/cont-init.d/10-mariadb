@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/mysql/config ]; then
+if [ ! -f /var/lib/mysql/.config ]; then
     echo "==> Configuring mariadb"
 
     if [ -z "${MARIADB_PROFILE}" ]; then
@@ -68,5 +68,5 @@ if [ ! -f /var/lib/mysql/config ]; then
 
     mysqladmin -u root -p"${MARIADB_ROOTPASSWORD}" shutdown
 
-    touch /var/lib/mysql/config
+    touch /var/lib/mysql/.config
 fi

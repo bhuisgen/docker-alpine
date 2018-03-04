@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/kapacitor/config ]; then
+if [ ! -f /var/lib/kapacitor/.config ]; then
     echo "==> Configuring kapacitor"
 
-    touch /var/lib/kapacitor/config
+    touch /var/lib/kapacitor/.config
 fi

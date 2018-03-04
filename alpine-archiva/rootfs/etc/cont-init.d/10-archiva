@@ -1,10 +1,10 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/archiva/config ]; then
+if [ ! -f /var/lib/archiva/.config ]; then
     echo "==> Configuring archiva"
 
     mkdir -p /var/lib/archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp
     chown archiva:archiva /var/lib/archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp
 
-    touch /var/lib/archiva/config
+    touch /var/lib/archiva/.config
 fi

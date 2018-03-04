@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/nomad/config ]; then
+if [ ! -f /var/lib/nomad/.config ]; then
     echo "==> Configuring nomad"
 
     if [ -S /var/run/docker.sock ]; then
@@ -21,5 +21,5 @@ if [ ! -f /var/lib/nomad/config ]; then
         exit 1
     fi
 
-    touch /var/lib/nomad/config
+    touch /var/lib/nomad/.config
 fi
