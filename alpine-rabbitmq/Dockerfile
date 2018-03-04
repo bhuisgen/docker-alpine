@@ -36,7 +36,7 @@ RUN apk add --update tar xz && \
         /root/erlang-stdlib-20.1.7-r2.apk \
         /root/erlang-syntax-tools-20.1.7-r2.apk \
         /root/erlang-xmerl-20.1.7-r2.apk && \
-    mkdir -p /usr/local/rabbitmq && \
+    mkdir /usr/local/rabbitmq && \
     curl -sSL https://github.com/rabbitmq/rabbitmq-server/releases/download/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     apk del --purge tar xz && \
     rm -f /root/*.apk && \

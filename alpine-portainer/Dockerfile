@@ -4,7 +4,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 ENV PORTAINER_VERSION=1.16.2 \
     PORTAINER_HOME=/var/lib/portainer
 
-RUN mkdir -p ${PORTAINER_HOME} && \
+RUN mkdir ${PORTAINER_HOME} && \
     addgroup -S portainer && \
     adduser -S -D -g "" -G portainer -s /bin/sh -h ${PORTAINER_HOME} portainer && \
     chown -R portainer:portainer ${PORTAINER_HOME}

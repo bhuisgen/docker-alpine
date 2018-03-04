@@ -3,7 +3,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV NOMAD_VERSION=0.6.3
 
-RUN mkdir -p /var/lib/nomad && \
+RUN mkdir /var/lib/nomad && \
     addgroup -S nomad && \
     adduser -S -D -g "" -G nomad -s /sbin/nologin -h /var/lib/nomad nomad && \
     chown -R nomad:nomad /var/lib/nomad

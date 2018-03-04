@@ -5,7 +5,7 @@ ENV SPARK_VERSION=2.2.1 \
     HADOOP_VERSION=2.7 \
     SPARK_HOME=/usr/local/spark
 
-RUN mkdir -p ${SPARK_HOME} && \
+RUN mkdir ${SPARK_HOME} && \
     addgroup -S spark && \
     adduser -S -D -g "" -G spark -s /bin/sh -h ${SPARK_HOME} spark && \
     chown -R spark:spark ${SPARK_HOME}

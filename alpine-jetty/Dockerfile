@@ -6,13 +6,12 @@ ENV JETTY_VERSION=9.4.8.v20171121 \
     JETTY_BASE=/usr/local/jetty-base \
     JETTY_MODULES=ext,plus,http,deploy
 
-RUN mkdir -p ${JETTY_HOME} && \
+RUN mkdir ${JETTY_HOME} ${JETTY_BASE} && \
     addgroup -S jetty && \
     adduser -S -D -g "" -G jetty -s /bin/sh -h ${JETTY_HOME} jetty && \
-    chown -R jetty:jetty ${JETTY_HOME}
+    chown -R jetty:jetty ${JETTY_HOME} ${JETTY_BASE}
 
 RUN apk add --update openjdk8-jre && \
-    mkdir -p ${JETTY_HOME} ${JETTY_BASE} && \
     curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
     rm -fr ${JETTY_HOME}/demo-base && \
     cd ${JETTY_BASE} && \

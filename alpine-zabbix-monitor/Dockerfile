@@ -9,7 +9,7 @@ RUN apk add --update git nodejs yarn && \
     cp app/scripts/config.js.dist app/scripts/config.js && \
     yarn install && \
     yarn run build && \
-    mkdir -p /var/www && \
+    mkdir /var/www && \
     cd /var/www && \
     cp -r /usr/local/zabbix-monitor/dist/* /var/www/ && \
     rm -rf /usr/local/zabbix-monitor && \

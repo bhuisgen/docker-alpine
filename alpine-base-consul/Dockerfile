@@ -3,7 +3,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV CONSULTEMPLATE_VERSION=0.19.3
 
-RUN mkdir -p /var/lib/consul && \
+RUN mkdir /var/lib/consul && \
     addgroup -g 500 -S consul && \
     adduser -u 500 -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
     chown -R consul:consul /var/lib/consul
