@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/openldap/config ]; then
+if [ ! -f /var/lib/openldap/.config ]; then
     echo "==> Configuring openldap"
 
     mkdir -p "${OPENLDAP_CONFIGDIR}"
@@ -8,5 +8,5 @@ if [ ! -f /var/lib/openldap/config ]; then
     chown -R ldap:ldap "${OPENLDAP_CONFIGDIR}"
     chmod -R 0750 "${OPENLDAP_CONFIGDIR}"
 
-    touch /var/lib/openldap/config
+    touch /var/lib/openldap/.config
 fi

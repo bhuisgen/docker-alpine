@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/syncthing/config ]; then
+if [ ! -f /var/lib/syncthing/.config ]; then
     echo "==> Configuring syncthing"
 
     if [ -z "${SYNCTHING_UID}" ]; then
@@ -16,5 +16,5 @@ if [ ! -f /var/lib/syncthing/config ]; then
     adduser -u ${SYNCTHING_UID} -S -D -g "" -G syncthing -s /bin/sh -h /var/lib/syncthing syncthing
     chown syncthing:syncthing /var/lib/syncthing /var/run/syncthing
 
-    touch /var/lib/syncthing/config
+    touch /var/lib/syncthing/.config
 fi

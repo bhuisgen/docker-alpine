@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/elasticsearch/config ]; then
+if [ ! -f /var/lib/elasticsearch/.config ]; then
     echo "==> Configuring elasticsearch"
 
     if [ -z "${ELASTICSEARCH_HEAPSIZE}" ]; then
@@ -8,5 +8,5 @@ if [ ! -f /var/lib/elasticsearch/config ]; then
         printf "%s" "${ELASTICSEARCH_HEAPSIZE}" > /var/run/s6/container_environment/ELASTICSEARCH_HEAPSIZE
     fi
 
-    touch /var/lib/elasticsearch/config
+    touch /var/lib/elasticsearch/.config
 fi
