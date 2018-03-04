@@ -35,6 +35,7 @@
 {{- $nginx_server_name := env "NGINX_TEMPLATE_PHP_SERVERNAME" -}}
 {{- $nginx_root := env "NGINX_TEMPLATE_PHP_ROOT" -}}
 {{- $nginx_index := env "NGINX_TEMPLATE_PHP_INDEX" -}}
+{{- $nginx_try_files := env "NGINX_TEMPLATE_PHP_TRYFILES" -}}
 {{- $nginx_auth_basic := env "NGINX_TEMPLATE_PHP_AUTHBASIC" -}}
 {{- $nginx_auth_basic_user_file := env "NGINX_TEMPLATE_PHP_AUTHBASICUSERFILE" -}}
 {{- $nginx_php_status := env "NGINX_TEMPLATE_PHP_PHPSTATUS" -}}
@@ -225,7 +226,11 @@ http {
         {{end}}
 
         location / {
+            {{if $nginx_try_files}}
+            try_files $uri {{$nginx_try_files}};
+            {{else}}
             try_files $uri $uri/ /index.php?$args;
+            {{end}}
 
             {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
             auth_basic {{$nginx_auth_basic}};
