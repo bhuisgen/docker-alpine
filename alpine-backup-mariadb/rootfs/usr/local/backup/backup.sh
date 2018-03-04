@@ -8,7 +8,7 @@ BACKUP_DIR="$BACKUP_PATH/$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$BACKUP_DIR" || exit 1
 
 if [ ! -z $BACKUP_MARIADB_DATABASE ]; then
-    databases="${BACKUP_MARIADB_DATABASE//,/ /}"
+    databases="${BACKUP_MARIADB_DATABASE//,/ }"
 else
     databases=$(mysql -h "$BACKUP_MARIADB_HOST" -p "$BACKUP_MARIADB_PORT" -u backup \
         --defaults-file="$BACKUP_PATH/.my.cnf" --batch -N -e "SHOW DATABASES")
