@@ -1,4 +1,7 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    backuppc:
 
 services:
     consul:
@@ -16,7 +19,8 @@ services:
         image: bhuisgen/alpine-backuppc
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /srv/data:/var/lib/BackupPC                  # volume for data
+            - backuppc:/var/www                             # volume for web files
+            - /srv/backuppc:/var/lib/backuppc               # volume for storage
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
