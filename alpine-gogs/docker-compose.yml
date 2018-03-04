@@ -2,7 +2,6 @@ version: '3.5'
 
 volumes:
     gogs:
-    git:
 
 services:
     consul:
@@ -23,8 +22,7 @@ services:
             - "2222:22"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - gogs:/var/lib/gogs
-            - git:/home/git
+            - gogs:/var/lib/gogs                            # volume for storage
         environment:
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
