@@ -35,6 +35,8 @@
 {{- $nginx_server_name := env "NGINX_TEMPLATE_UPSTREAM_SERVERNAME" -}}
 {{- $nginx_root := env "NGINX_TEMPLATE_UPSTREAM_ROOT" -}}
 {{- $nginx_index := env "NGINX_TEMPLATE_UPSTREAM_INDEX" -}}
+{{- $nginx_auth_basic := env "NGINX_TEMPLATE_UPSTREAM_AUTHBASIC" -}}
+{{- $nginx_auth_basic_user_file := env "NGINX_TEMPLATE_UPSTREAM_AUTHBASICUSERFILE" -}}
 {{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING" -}}
 {{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
@@ -194,6 +196,11 @@ http {
 
         location / {
             try_files $uri @upstream;
+
+            {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
+            auth_basic {{$nginx_auth_basic}};
+            auth_basic_user_file {{$nginx_auth_basic_user_file}};
+            {{end}}
         }
 
         location @upstream {
