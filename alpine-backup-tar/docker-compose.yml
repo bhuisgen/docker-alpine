@@ -1,15 +1,15 @@
 version: '3.5'
 
 volumes:
-    backups:
+    data:
 
 services:
     backup-tar:
         image: bhuisgen/alpine-backup-mongodb
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - backups:/var/backups              # volume for backups
-            - data:/data                        # volume for data
+            - /srv/backups:/var/backups         # volume for storage
+            - data:/data                        # volume to backup
         environment:
             - ENV=dev                           # environment name
             #- BACKUP_PATH=/var/backups         # backup storage path
