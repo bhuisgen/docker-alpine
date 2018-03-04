@@ -1,2 +1,2 @@
-/etc/BackupPC true backuppc:backuppc 0640 0750
-/var/lib/BackupPC false backuppc:backuppc 0640 0750
+/var/lib/backuppc false backuppc:backuppc 0640 0750
+/var/lib/backuppc/etc true backuppc:backuppc 0640 0750
