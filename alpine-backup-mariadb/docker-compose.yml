@@ -1,8 +1,5 @@
 version: '3.5'
 
-volumes:
-    backups:
-
 services:
     backup-mariadb:
         depends_on:
@@ -10,7 +7,7 @@ services:
         image: bhuisgen/alpine-backup-mariadb
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - backups:/var/backups              # volume for backups
+            - /srv/backups:/var/backups         # volume for storage
         environment:
             - ENV=dev                           # environment name
             #- BACKUP_PATH=/var/backups         # backup storage path
