@@ -6,7 +6,7 @@ ENV NOMAD_VERSION=0.6.3
 RUN mkdir /var/lib/nomad && \
     addgroup -S nomad && \
     adduser -S -D -g "" -G nomad -s /sbin/nologin -h /var/lib/nomad nomad && \
-    chown -R nomad:nomad /var/lib/nomad
+    chown nomad:nomad /var/lib/nomad
 
 RUN apk add --update ca-certificates zip && \
     curl -sSL https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub && \

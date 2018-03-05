@@ -7,10 +7,10 @@ ENV ARCHIVA_VERSION=2.2.3 \
     JETTY_BASE=/usr/local/jetty-base \
     JETTY_MODULES=ext,plus,http,deploy
 
-RUN mkdir -p /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
+RUN mkdir -p /var/lib/archiva && \
     addgroup -S archiva && \
     adduser -S -D -g "" -G archiva -s /bin/sh -h /var/lib/archiva archiva && \
-    chown -R archiva:archiva /var/lib/archiva
+    chown archiva:archiva /var/lib/archiva
 
 RUN apk add --update openjdk8-jre unzip && \
     mkdir ${JETTY_HOME} ${JETTY_BASE} && \
@@ -22,6 +22,8 @@ RUN apk add --update openjdk8-jre unzip && \
     unzip /tmp/archiva.war -d ${JETTY_BASE}/webapps/root && \
     rm /tmp/archiva.war && \
     cp ${JETTY_BASE}/webapps/root/WEB-INF/lib/derby-*.jar ${JETTY_BASE}/lib/ext && \
+    mkdir /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
+    chown archiva:archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
     apk del unzip && \
     rm -rf /var/cache/apk/*
 

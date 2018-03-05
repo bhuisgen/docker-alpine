@@ -7,7 +7,7 @@ ENV JENKINS_VERSION=2.89.4 \
 RUN mkdir ${JENKINS_HOME} && \
     addgroup -S jenkins && \
     adduser -S -D -g "" -G jenkins -s /bin/sh -h ${JENKINS_HOME} jenkins && \
-    chown -R jenkins:jenkins ${JENKINS_HOME}
+    chown jenkins:jenkins ${JENKINS_HOME}
 
 RUN apk add --update git openjdk8-jre openssh-client ttf-dejavu && \
     mkdir /usr/local/jenkins && \

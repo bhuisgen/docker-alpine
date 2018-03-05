@@ -7,7 +7,7 @@ COPY packages/*.apk /root/
 RUN apk add --update --allow-untrusted \
         /root/zabbix-java-gateway-${ZABBIX_VERSION}-*.apk && \
     mkdir /usr/share/zabbix/zabbix_java/conf && \
-    chown -R zabbix:zabbix /usr/share/zabbix/zabbix_java/conf && \
+    chown zabbix:zabbix /usr/share/zabbix/zabbix_java/conf && \
     rm -rf /var/cache/apk/* && \
     rm -f /root/*.apk
 

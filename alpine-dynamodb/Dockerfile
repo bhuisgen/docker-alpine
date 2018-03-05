@@ -4,7 +4,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 RUN mkdir /var/lib/dynamodb && \
     addgroup -S dynamodb && \
     adduser -S -D -g "" -G dynamodb -s /sbin/nologin -h /var/lib/dynamodb dynamodb && \
-    chown -R dynamodb:dynamodb /var/lib/dynamodb
+    chown dynamodb:dynamodb /var/lib/dynamodb
 
 RUN apk add --update openjdk8-jre tar && \
     mkdir /usr/local/dynamodb && \

@@ -6,7 +6,7 @@ ENV KIBANA_VERSION=4.5.1
 RUN mkdir /var/lib/kibana && \
     addgroup -S kibana && \
     adduser -S -D -g "" -G kibana -s /sbin/nologin -h /var/lib/kibana kibana && \
-    chown -R kibana:kibana /var/lib/kibana
+    chown kibana:kibana /var/lib/kibana
 
 RUN apk add --update tar && \
     apk add --no-cache nodejs && \
