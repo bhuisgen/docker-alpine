@@ -1,23 +1,15 @@
-version: '3.2'
+version: '3.5'
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     build-make-terraform:
         depends_on:
-            - consul
+            - consul                                                    # consul agent
         image: bhuisgen/alpine-build-make-terraform
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
+            - ENV=local                                                 # environment name
             - CONSUL_AGENT=consul                                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path

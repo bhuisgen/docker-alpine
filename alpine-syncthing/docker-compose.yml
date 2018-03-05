@@ -1,18 +1,9 @@
-version: '3.2'
+version: '3.5'
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     syncthing:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-syncthing
         ports:
             - "22000:22000"
@@ -21,13 +12,14 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - $HOME/.syncthing:/var/lib/syncthing           # volume for configuration
-            - $HOME:/data                                   # volume for data
+            - $HOME:/data                                   # volume for storage
         environment:
+            - ENV=local                                     # environment name
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=syncthing                  # consul service name
-            - CONSUL_SERVICETAGS=dev                        # consul service tag
+            - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=8443                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
             #- SYNCTHING_UID=1000                           # userid for execution

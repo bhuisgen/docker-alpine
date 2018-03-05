@@ -1,18 +1,9 @@
-version: '3.2'
+version: '3.5'
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     strongswan:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-strongswan
         cap_add:
             - SYS_MODULE
@@ -26,7 +17,8 @@ services:
             - "500:500/udp"
             - "4500:4500/udp"
         environment:
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            - ENV=local                                     # environment name
+            - CONSUL_AGENT=0.0.0.0                          # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - STRONGSWAN_INTERFACE=eth0                     # VPN public interface
