@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-RUN apk add --no-cache mongodb && \
+RUN apk add --update mongodb && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /

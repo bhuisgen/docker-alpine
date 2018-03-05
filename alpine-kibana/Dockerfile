@@ -8,9 +8,8 @@ RUN mkdir /var/lib/kibana && \
     adduser -S -D -g "" -G kibana -s /sbin/nologin -h /var/lib/kibana kibana && \
     chown kibana:kibana /var/lib/kibana
 
-RUN apk add --update tar && \
-    apk add --no-cache nodejs && \
     curl -sSL https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz | tar -xzo -C /usr/local/kibana --strip-components 1 && \
+RUN apk add --update nodejs tar && \
     mkdir /usr/local/kibana && \
     ln -sf /usr/bin/node /usr/local/kibana/node/bin/node && \
     rm -fr /usr/local/kibana/bin/*.bat && \
