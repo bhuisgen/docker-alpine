@@ -1,12 +1,6 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -f /var/spool/postfix/config ]; then
-    if [ ! -z ${POSTFIX_TEMPLATE} ]; then
-        echo "==> Enabling postfix template '${POSTFIX_TEMPLATE}'"
-
-        cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}/postfix.conf" /etc/consul-template/conf-services.d/10-postfix.conf
-    fi
-
     postconf -e smtputf8_enable=no
     postconf -e inet_interfaces=all
     postconf -e inet_protocols=all

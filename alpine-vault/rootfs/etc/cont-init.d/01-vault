@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${VAULT_TEMPLATE} ]; then
+    echo "==> Enabling environment template '${VAULT_TEMPLATE}'"
+
+    cp "/etc/consul-template/templates/vault/${VAULT_TEMPLATE}.conf" /etc/consul-template/conf-env.d/10-vault.conf
+fi
