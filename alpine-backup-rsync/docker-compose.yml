@@ -18,4 +18,4 @@ services:
             #- CONSUL_PORT=8500                     # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
             #- BACKUP_PATH=/var/backups             # backup storage path
-            - BACKUP_RSYNC_DIR=/data                # data directory to backup
+            - BACKUP_RSYNC_DIR=/data                # data directory to backup (required)

@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
+if [ -z "$BACKUP_MARIADB_HOST" ] || [ -z "$BACKUP_MARIADB_PORT" ]; then
+    exit 1
+fi
+
 trap 'exit 2' ERR INT TERM
 
 [ -z $BACKUP_PATH ] && BACKUP_PATH="/var/backups"
 
 BACKUP_DIR="$BACKUP_PATH/$(date +%Y%m%d_%H%M%S)"
-mkdir -p "$BACKUP_DIR" || exit 1
+
+mkdir -p "$BACKUP_DIR" || exit 3
 
 if [ ! -z $BACKUP_MARIADB_DATABASE ]; then
     databases="${BACKUP_MARIADB_DATABASE//,/ }"
