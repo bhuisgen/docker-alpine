@@ -21,9 +21,11 @@ services:
             - CONSUL_SERVICEPORT=10051              # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
             #- ZABBIX_PROXYMODE=0                   # proxy mode (0: active, 1: passive)
-            - ZABBIX_SERVER=zabbix-server           # zabbix server IP/host
+            - ZABBIX_SERVER=10.0.0.1                # zabbix server IP/host
             #- ZABBIX_SERVERPORT=10051              # zabbix server port
             - ZABBIX_HOSTNAME=zabbix-proxy          # zabbix proxy hostname
+            - ZABBIX_ENABLEREMOTECOMMANDS=1         # enable remote commands execution
+            - ZABBIX_LOGREMOTECOMMANDS=1            # log remote commands
             - ZABBIX_DBHOST=postgresql              # database host
             - ZABBIX_DBPORT=5432                    # database port
             - ZABBIX_DBNAME=zabbix                  # database name
