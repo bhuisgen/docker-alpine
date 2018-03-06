@@ -2,6 +2,8 @@
 {{- $zabbix_server := env "ZABBIX_SERVER" -}}
 {{- $zabbix_serverport := env "ZABBIX_SERVERPORT" -}}
 {{- $zabbix_hostname := env "ZABBIX_HOSTNAME" -}}
+{{- $zabbix_enableremotecommands := env "ZABBIX_ENABLEREMOTECOMMANDS" -}}
+{{- $zabbix_logremotecommands := env "ZABBIX_LOGREMOTECOMMANDS" -}}
 {{- $zabbix_proxylocalbuffer := env "ZABBIX_PROXYLOCALBUFFER" -}}
 {{- $zabbix_proxyofflinebuffer := env "ZABBIX_PROXYOFFLINEBUFFER" -}}
 {{- $zabbix_heartbeatfrequency := env "ZABBIX_HEARTBEATFREQUENCY" -}}
@@ -142,14 +144,42 @@ LogType=console
 # Default:
 # DebugLevel=3
 
+### Option: EnableRemoteCommands
+#       Whether remote commands from Zabbix server are allowed.
+#       0 - not allowed
+#       1 - allowed
+#
+# Mandatory: no
+# Default:
+# EnableRemoteCommands=0
+
+{{if $zabbix_enableremotecommands}}EnableRemoteCommands={{$zabbix_enableremotecommands}}{{end}}
+
+### Option: LogRemoteCommands
+#       Enable logging of executed shell commands as warnings.
+#       0 - disabled
+#       1 - enabled
+#
+# Mandatory: no
+# Default:
+# LogRemoteCommands=0
+
+{{if $zabbix_logremotecommands}}LogRemoteCommands={{$zabbix_logremotecommands}}{{end}}
+
 ### Option: PidFile
 #	Name of PID file.
 #
 # Mandatory: no
 # Default:
-# PidFile=/tmp/zabbix_proxy.pid
+# PidFile=/var/run/zabbix/zabbix_proxy.pid
 
-PidFile=/var/run/zabbix/zabbix_proxy.pid
+### Option: SocketDir
+#	IPC socket directory.
+#       Directory to store IPC sockets used by internal Zabbix services.
+#
+# Mandatory: no
+# Default:
+# SocketDir=/tmp
 
 ### Option: DBHost
 #	Database host name.
@@ -279,6 +309,7 @@ DBName=/var/lib/zabbix/db.sqlite3
 
 ### Option: StartIPMIPollers
 #	Number of pre-forked instances of IPMI pollers.
+#       The IPMI manager process is automatically started when at least one IPMI poller is started.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -418,7 +449,7 @@ DBName=/var/lib/zabbix/db.sqlite3
 #
 # Mandatory: no
 # Default:
-# SNMPTrapperFile=/tmp/zabbix_traps.tmp
+# SNMPTrapperFile=/var/log/zabbix/zabbix_traps.tmp
 
 ### Option: StartSNMPTrapper
 #	If 1, SNMP trapper process is started.

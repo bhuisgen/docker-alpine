@@ -105,6 +105,14 @@ LogType=console
 
 PidFile=/var/run/zabbix/zabbix_server.pid
 
+### Option: SocketDir
+#	IPC socket directory.
+#       Directory to store IPC sockets used by internal Zabbix services.
+#
+# Mandatory: no
+# Default:
+# SocketDir=/tmp
+
 ### Option: DBHost
 #	Database host name.
 #	If set to localhost, socket is used for MySQL.
@@ -169,6 +177,20 @@ DBPassword={{$zabbix_dbpassword}}
 
 DBPort={{$zabbix_dbport}}
 
+### Option: HistoryStorageURL
+#	History storage HTTP[S] URL.
+#
+# Mandatory: no
+# Default:
+# HistoryStorageURL=
+
+### Option: HistoryStorageTypes
+#	Comma separated list of value types to be sent to the history storage.
+#
+# Mandatory: no
+# Default:
+# HistoryStorageTypes=uint,dbl,str,log,text
+
 ############ ADVANCED PARAMETERS ################
 
 ### Option: StartPollers
@@ -183,6 +205,7 @@ DBPort={{$zabbix_dbport}}
 
 ### Option: StartIPMIPollers
 #	Number of pre-forked instances of IPMI pollers.
+#       The IPMI manager process is automatically started when at least one IPMI poller is started.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -190,6 +213,15 @@ DBPort={{$zabbix_dbport}}
 # StartIPMIPollers=0
 
 {{if $zabbix_startipmipollers}}StartIPMIPollers={{$zabbix_startipmipollers}}{{end}}
+
+### Option: StartPreprocessors
+#	Number of pre-forked instances of preprocessing workers.
+#       The preprocessing manager process is automatically started when preprocessor worker is started.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# StartPreprocessors=3
 
 ### Option: StartPollersUnreachable
 #	Number of pre-forked instances of pollers for unreachable hosts (including IPMI and Java).
@@ -267,6 +299,15 @@ DBPort={{$zabbix_dbport}}
 # StartEscalators=1
 
 {{if $zabbix_startescalators}}StartEscalators={{$zabbix_startescalators}}{{end}}
+
+### Option: StartAlerters
+#	Number of pre-forked instances of alerters.
+#	Alerters send the notifications created by action operations.
+#
+# Mandatory: no
+# Range: 0-100
+# Default:
+# StartAlerters=3
 
 ### Option: JavaGateway
 #	IP address (or hostname) of Zabbix Java gateway.
@@ -346,7 +387,7 @@ DBPort={{$zabbix_dbport}}
 #
 # Mandatory: no
 # Default:
-# SNMPTrapperFile=/tmp/zabbix_traps.tmp
+# SNMPTrapperFile=/var/log/zabbix/zabbix_traps.tmp
 
 ### Option: StartSNMPTrapper
 #	If 1, SNMP trapper process is started.

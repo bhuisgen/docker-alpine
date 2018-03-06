@@ -4,6 +4,7 @@
 {{- $zabbix_hostname := env "ZABBIX_HOSTNAME" -}}
 {{- $zabbix_hostmetadata := env "ZABBIX_HOSTMETADATA" -}}
 {{- $zabbix_startagents := env "ZABBIX_STARTAGENTS" -}}
+{{- $zabbix_serveractive := env "ZABBIX_SERVERACTIVE" -}}
 {{- $zabbix_refreshactivechecks := env "ZABBIX_REFRESHACTIVECHECKS" -}}
 {{- $zabbix_buffersend := env "ZABBIX_BUFFERSEND" -}}
 {{- $zabbix_buffersize := env "ZABBIX_BUFFERSIZE" -}}
@@ -21,9 +22,7 @@
 #
 # Mandatory: no
 # Default:
-# PidFile=/tmp/zabbix_agentd.pid
-
-PidFile=/var/run/zabbix/zabbix_agentd.pid
+# PidFile=/var/run/zabbix/zabbix_agentd.pid
 
 ### Option: LogType
 #	Specifies where log messages are written to:
@@ -99,9 +98,11 @@ LogType=console
 ##### Passive checks related
 
 ### Option: Server
-#	List of comma delimited IP addresses (or hostnames) of Zabbix servers.
+#	List of comma delimited IP addresses, optionally in CIDR notation, or hostnames of Zabbix servers.
 #	Incoming connections will be accepted only from the hosts listed here.
-#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.domain
 #
 # Mandatory: no
 # Default:
@@ -150,7 +151,7 @@ Server={{$zabbix_server}}
 # Default:
 # ServerActive=
 
-ServerActive={{$zabbix_server}}
+ServerActive={{$zabbix_serveractive}}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
