@@ -8,8 +8,7 @@ ENV RABBITMQ_VERSION=3.7.3 \
     RABBITMQ_SERVER_CODE_PATH=/var/lib/rabbitmq/hipe/ebin \
     RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
     RABBITMQ_LOGS=- \
-    RABBITMQ_SASL_LOGS=- \
-    PATH=/usr/local/rabbitmq/sbin:$PATH
+    RABBITMQ_SASL_LOGS=-
 
 RUN mkdir -p ${RABBITMQ_HOME} && \
     addgroup -S rabbitmq && \
