@@ -1,19 +1,21 @@
-{{- $zabbixdocker_zabbix_host := env "ZABBIXDOCKER_ZABBIXHOST" -}}
 {{- $zabbixdocker_log := env "ZABBIXDOCKER_LOG" -}}
 {{- $zabbixdocker_log_level := env "ZABBIXDOCKER_LOGLEVEL" -}}
+{{- $zabbixdocker_rootfs := env "ZABBIXDOCKER_ROOTFS" -}}
 {{- $zabbixdocker_containers := env "ZABBIXDOCKER_CONTAINERS" -}}
 {{- $zabbixdocker_containers_stats := env "ZABBIXDOCKER_CONTAINERSSTATS" -}}
 {{- $zabbixdocker_containers_top := env "ZABBIXDOCKER_CONTAINERSTOP" -}}
 {{- $zabbixdocker_containers_remote := env "ZABBIXDOCKER_CONTAINERSREMOTE" -}}
-{{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTEPATH" -}}
-{{- $zabbixdocker_containers_remote_delay := env "ZABBIXDOCKER_CONTAINERSREMOTEDELAY" -}}
 {{- $zabbixdocker_events := env "ZABBIXDOCKER_EVENTS" -}}
+{{- $zabbixdocker_zabbix_server := env "ZABBIXDOCKER_ZABBIX_SERVER" -}}
+{{- $zabbixdocker_zabbix_hostname := env "ZABBIXDOCKER_ZABBIX_HOSTNAME" -}}
+{{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTE_PATH" -}}
+{{- $zabbixdocker_containers_remote_delay := env "ZABBIXDOCKER_CONTAINERSREMOTE_DELAY" -}}
 # zabbix-docker.conf
 
 [main]
 log = {{if eq $zabbixdocker_log "1"}}yes{{else}}no{{end}}
 log_level = {{if $zabbixdocker_log_level}}{{$zabbixdocker_log_level}}{{else}}error{{end}}
-rootfs = /rootfs
+{{if $zabbixdocker_rootfs}}rootfs = {{$zabbixdocker_rootfs}}{{else}}#rootfs = {{end}}
 containers = {{if eq $zabbixdocker_containers "1"}}yes{{else}}no{{end}}
 containers_stats = {{if eq $zabbixdocker_containers_stats "1"}}yes{{else}}no{{end}}
 containers_top = {{if eq $zabbixdocker_containers_top "1"}}yes{{else}}no{{end}}
@@ -25,7 +27,8 @@ events = {{if eq $zabbixdocker_events "1"}}yes{{else}}no{{end}}
 #timeout = 5
 
 [zabbix]
-{{if $zabbixdocker_zabbix_host}}host = {{$zabbixdocker_zabbix_host}}{{else}}#host ={{end}}
+{{if $zabbixdocker_zabbix_server}}server = {{$zabbixdocker_zabbix_server}}{{else}}#server ={{end}}
+{{if $zabbixdocker_zabbix_hostname}}hostname = {{$zabbixdocker_zabbix_hostname}}{{else}}#hostname ={{end}}
 
 [discovery]
 #startup = 15
