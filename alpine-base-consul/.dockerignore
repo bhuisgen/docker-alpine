@@ -1,4 +1,5 @@
 rootfs/etc/consul.d/ssl/.gitkeep
+rootfs/etc/consul-template/conf-env.d/.gitkeep
 rootfs/etc/consul-template/conf-services.d/.gitkeep
 rootfs/etc/cont-consul/services.d/.gitkeep
 rootfs/etc/cont-consul/checks.d/.gitkeep

@@ -1,8 +1,13 @@
 #!/usr/bin/with-contenv sh
 
-if [ -z "$CONSULTEMPLATE_CONTAINER" ]; then
-    export CONSULTEMPLATE_CONTAINER=1
-    printf "%s" "${CONSULTEMPLATE_CONTAINER}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONTAINER
+if [ -z "$CONSULTEMPLATE_ENVIRONMENT" ]; then
+    export CONSULTEMPLATE_ENVIRONMENT=1
+    printf "%s" "${CONSULTEMPLATE_ENVIRONMENT}" > /var/run/s6/container_environment/CONSULTEMPLATE_ENVIRONMENT
+fi
+
+if [ -z "$CONSULTEMPLATE_CONSUL" ]; then
+    export CONSULTEMPLATE_CONSUL=1
+    printf "%s" "${CONSULTEMPLATE_CONSUL}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONSUL
 fi
 
 if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
@@ -10,8 +15,24 @@ if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
     printf "%s" "${CONSULTEMPLATE_SERVICES}" > /var/run/s6/container_environment/CONSULTEMPLATE_SERVICES
 fi
 
-if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_CONTAINER}" -eq 1 ]; then
-    echo "==> Creating container configuration"
+if [ "${CONSULTEMPLATE_ENVIRONMENT}" -eq 1 ]; then
+    echo "==> Configuring container from environment"
+
+    options="-config /etc/consul-template/conf-env.d -once"
+
+    if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
+        options="${options} ${CONSULTEMPLATE_OPTIONS}"
+    fi
+
+    consul-template ${options}
+    if [ $? -ne 0 ]; then
+        echo "Failed to configure container from environment, aborting" >&2
+        exit 1
+    fi
+fi
+
+if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_CONSUL}" -eq 1 ]; then
+    echo "==> Configuring container from consul"
 
     options="-config /etc/consul-template/conf-cont.d -once -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
 
@@ -43,15 +64,13 @@ if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_CONTAINER}" -eq 1 ]; then
         options="${options} -consul-token ${CONSUL_TOKEN}"
     fi
 
-    options="${options} -kill-signal SIGTERM"
-
     if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
         options="${options} ${CONSULTEMPLATE_OPTIONS}"
     fi
 
     consul-template ${options}
     if [ $? -ne 0 ]; then
-        echo "Failed to render templates, aborting" >&2
+        echo "Failed to configure container from consul, aborting" >&2
         exit 1
     fi
 fi
