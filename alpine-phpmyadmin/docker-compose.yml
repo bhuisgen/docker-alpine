@@ -1,8 +1,11 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    phpmyadmin:
 
 services:
     phpmyadmin:
         image: bhuisgen/alpine-phpmyadmin
         entrypoint: /bin/sh
         volumes:
-            - /var/www
+            - phpmyadmin:/var/www

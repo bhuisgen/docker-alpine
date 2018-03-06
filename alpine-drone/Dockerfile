@@ -4,7 +4,7 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 ENV DRONE_VERSION=0.8.3 \
     GOPATH=/usr/local
 
-RUN mkdir -p /var/lib/drone && \
+RUN mkdir /var/lib/drone && \
     addgroup -S drone && \
     adduser -S -D -g "" -G drone -s /sbin/nologin -h /var/lib/drone drone
 

@@ -4,12 +4,13 @@ LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 ENV PORTAINER_VERSION=1.16.2 \
     PORTAINER_HOME=/var/lib/portainer
 
-RUN mkdir -p ${PORTAINER_HOME} && \
+RUN mkdir ${PORTAINER_HOME} && \
     addgroup -S portainer && \
     adduser -S -D -g "" -G portainer -s /bin/sh -h ${PORTAINER_HOME} portainer && \
-    chown -R portainer:portainer ${PORTAINER_HOME}
+    chown portainer:portainer ${PORTAINER_HOME}
 
-RUN curl -sSL https://github.com/portainer/portainer/releases/download/${PORTAINER_VERSION}/portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz | tar -xzo -C /usr/local
+RUN curl -sSL https://github.com/portainer/portainer/releases/download/${PORTAINER_VERSION}/portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz | \
+    tar -xzo -C /usr/local
 
 COPY rootfs/ /
 

@@ -1,130 +1,119 @@
-version: '3.2'
+version: '3.5'
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui                    # minimal server options
-
     haproxy:
         depends_on:
-            - consul
+            - consul                                                    # consul agent
         image: bhuisgen/alpine-haproxy
-        #cap_add:
-        #    - NET_ADMIN
-        #network_mode: host
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /dev/log:/dev/log                                                                # syslog support
+            #- /dev/log:/dev/log                                        # syslog support
         environment:
-            - CONSUL_AGENT=consul                                                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                                                    # consul key prefix path
-            - CONSUL_SERVICENAME=haproxy                                                        # consul service name
-            - CONSUL_SERVICETAGS=dev                                                            # consul service tag
-            - CONSUL_SERVICEPORT=80                                                             # consul service port
-            - CONSUL_CHECKTYPE=tcp                                                              # consul health check type
-            #- HAPROXY_MAXCONN=1024                                                             # maximum of connections allowed
-            #- HAPROXY_MAXCONNRATE=                                                             # maximum of connections per second allowed
-            #- HAPROXY_MAXSESSRATE=                                                             # maximum of sessions per second allowed
-            #- HAPROXY_MAXSSLCONN=                                                              # maximum of SSL connections allowed
-            #- HAPROXY_MAXSSLRATE=                                                              # maximum of SSL connections per second allowed
-            #- HAPROXY_LOG=0                                                                    # enable logging
-            #- HAPROXY_LOGADDRESS=127.0.0.1                                                     # server address/socket file
-            #- HAPROXY_LOGLENGTH=1024                                                           # maximum log line length
-            #- HAPROXY_LOGFORMAT=rfc3164                                                        # log format
-            #- HAPROXY_LOGFACILITY=info                                                         # log facility
-            #- HAPROXY_LOGLEVEL=                                                                # log level
-            #- HAPROXY_MAXSPREADCHECKS=                                                         # delay of first check at startup
-            #- HAPROXY_SPREADCHECKS=0                                                           # randomness on the interval delay between checks
-            #- HAPROXY_SERVERSTATEFILE=/var/lib/haproxy/servers_state                           # file containing servers state
-            #- HAPROXY_TIMEOUTCLIENT=30s                                                        # client timeout
-            #- HAPROXY_TIMEOUTCLIENTFIN=                                                        # client timeout for half-closed connections (default timeout client or timeout tunnel)
-            #- HAPROXY_TIMEOUTCONNECT=15s                                                       # connect timeout
-            #- HAPROXY_TIMEOUTSERVER=30s                                                        # server timeout
-            #- HAPROXY_TIMEOUTSERVERFIN=                                                        # server timeout for half-closed connections (default timeout server or timeout tunnel)
-            #- HAPROXY_TIMEOUTQUEUE=30s                                                         # request timeout in queue
-            #- HAPROXY_TIMEOUTTUNNEL=1h                                                         # tunnel timeout
-            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                                                    # HTTP request timeout (http mode only)
-            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                                                  # HTTP keepalive request timeout (http mode only)
-            #- HAPROXY_BALANCE=roundrobin                                                       # balance mode
-            #- HAPROXY_RETRIES=3                                                                # number of connection retries
-            #- HAPROXY_REDISPATCH=0                                                             # allow redispatch of cookie sticked connections
-            #- HAPROXY_CLITCPKA=0                                                               # send TCP keepalive packets on the client side
-            #- HAPROXY_SRVTCPKA=0                                                               # send TCP keepalive packets on the server side
-            #- HAPROXY_DONTLOGNORMAL=0                                                          # disable logging of successful connections
-            #- HAPROXY_DONTLOGNULL=0                                                            # disable logging of null connections
-            #- HAPROXY_STATS=0                                                                  # enable statistics
-            #- HAPROXY_STATSPORT=1936                                                           # statistics port
-            #- HAPROXY_STATSURI=/haproxy?stats                                                  # statistics URI
-            #- HAPROXY_STATSREALM=Haproxy\ Statistics                                           # statistics realm
-            #- HAPROXY_STATSUSERNAME=                                                           # auth user
-            #- HAPROXY_STATSPASSWORD=                                                           # auth password
-            #- HAPROXY_STATSALLOW=127.0.0.1                                                     # IP allowed to access to stats
-            #- HAPROXY_SSL=0                                                                    # enable SSL
-            #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem                                 # SSL certificate file
-            #- HAPROXY_SSLREDIRECT=0                                                            # redirect HTTP to HTTPS
-            #- HAPROXY_GZIP=0                                                                   # enable gzip compression (frontend)
-            #- HAPROXY_FILTER=0                                                                 # enable filtering
-            #- HAPROXY_FILTERTABLESIZE=100k                                                     # table size
-            #- HAPROXY_FILTERTABLEEXPIRE=30s                                                    # table expire time
-            #- HAPROXY_FILTERWHITELIST=0                                                        # enable whitelist filter
-            #- HAPROXY_FILTERWHITELISTFILE=                                                     # file with whitelisted source IP
-            #- HAPROXY_FILTERWHITELISTLOG=0                                                     # log whitelisted connections
-            #- HAPROXY_FILTERBLACKLIST=0                                                        # enable blacklist filter
-            #- HAPROXY_FILTERBLACKLISTFILE=                                                     # file with blacklisted source IP
-            #- HAPROXY_FILTERBLACKLISTLOG=0                                                     # log blacklisted connections
-            #- HAPROXY_FILTERCONN=0                                                             # enable connections limit filter
-            #- HAPROXY_FILTERCONNMAX=10                                                         # maximum established connections per source IP
-            #- HAPROXY_FILTERCONNLOG=0                                                          # log blocked connections
-            #- HAPROXY_FILTERRATE=0                                                             # enable connection rate filter
-            #- HAPROXY_FILTERRATEPERIOD=3s                                                      # rate period
-            #- HAPROXY_FILTERRATEMAX=100                                                        # connections rate limit per source IP
-            #- HAPROXY_FILTERRATELOG=0                                                          # log blocked connections
-            #- HAPROXY_FRONTENDMAXCONN=                                                         # maximum of connections allowed per frontend
-            #- HAPROXY_FRONTENDBACKLOG=                                                         # backlog queue length per frontend
-            #- HAPROXY_FRONTENDRATELIMITSESSIONS=                                               # sessions rate limit per frontend
-            - HAPROXY_TEMPLATE=backend                                                          # configuration template
+            - ENV=local                                                 # environment name
+            - CONSUL_AGENT=consul                                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                            # consul key prefix path
+            - CONSUL_SERVICENAME=haproxy                                # consul service name
+            - CONSUL_SERVICETAGS=local                                  # consul service tag
+            - CONSUL_SERVICEPORT=80                                     # consul service port
+            - CONSUL_CHECKTYPE=tcp                                      # consul health check type
+            #- HAPROXY_MAXCONN=1024                                     # maximum of connections allowed
+            #- HAPROXY_MAXCONNRATE=                                     # maximum of connections per second allowed
+            #- HAPROXY_MAXSESSRATE=                                     # maximum of sessions per second allowed
+            #- HAPROXY_MAXSSLCONN=                                      # maximum of SSL connections allowed
+            #- HAPROXY_MAXSSLRATE=                                      # maximum of SSL connections per second allowed
+            #- HAPROXY_LOG=0                                            # enable logging
+            #- HAPROXY_LOGADDRESS=127.0.0.1                             # server address/socket file
+            #- HAPROXY_LOGLENGTH=1024                                   # maximum log line length
+            #- HAPROXY_LOGFORMAT=rfc3164                                # log format
+            #- HAPROXY_LOGFACILITY=info                                 # log facility
+            #- HAPROXY_LOGLEVEL=                                        # log level
+            #- HAPROXY_MAXSPREADCHECKS=                                 # delay of first check at startup
+            #- HAPROXY_SPREADCHECKS=0                                   # randomness on the interval delay between checks
+            #- HAPROXY_SERVERSTATEFILE=/var/lib/haproxy/servers_state   # file containing servers state
+            #- HAPROXY_TIMEOUTCLIENT=30s                                # client timeout
+            #- HAPROXY_TIMEOUTCLIENTFIN=                                # client timeout for half-closed connections (default timeout client or timeout tunnel)
+            #- HAPROXY_TIMEOUTCONNECT=15s                               # connect timeout
+            #- HAPROXY_TIMEOUTSERVER=30s                                # server timeout
+            #- HAPROXY_TIMEOUTSERVERFIN=                                # server timeout for half-closed connections (default timeout server or timeout tunnel)
+            #- HAPROXY_TIMEOUTQUEUE=30s                                 # request timeout in queue
+            #- HAPROXY_TIMEOUTTUNNEL=1h                                 # tunnel timeout
+            #- HAPROXY_TIMEOUTHTTPREQUEST=5s                            # HTTP request timeout (http mode only)
+            #- HAPROXY_TIMEOUTHTTPKEEPALIVE=5s                          # HTTP keepalive request timeout (http mode only)
+            #- HAPROXY_BALANCE=roundrobin                               # balance mode
+            #- HAPROXY_RETRIES=3                                        # number of connection retries
+            #- HAPROXY_REDISPATCH=0                                     # allow redispatch of cookie sticked connections
+            #- HAPROXY_CLITCPKA=0                                       # send TCP keepalive packets on the client side
+            #- HAPROXY_SRVTCPKA=0                                       # send TCP keepalive packets on the server side
+            #- HAPROXY_DONTLOGNORMAL=0                                  # disable logging of successful connections
+            #- HAPROXY_DONTLOGNULL=0                                    # disable logging of null connections
+            #- HAPROXY_STATS=0                                          # enable statistics
+            #- HAPROXY_STATSPORT=1936                                   # statistics port
+            #- HAPROXY_STATSURI=/haproxy?stats                          # statistics URI
+            #- HAPROXY_STATSREALM=Haproxy\ Statistics                   # statistics realm
+            #- HAPROXY_STATSUSERNAME=                                   # auth user
+            #- HAPROXY_STATSPASSWORD=                                   # auth password
+            #- HAPROXY_STATSALLOW=127.0.0.1                             # IP allowed to access to stats
+            #- HAPROXY_SSL=0                                            # enable SSL
+            #- HAPROXY_SSLCERTIFICATE=/etc/haproxy/ssl/cert.pem         # SSL certificate file
+            #- HAPROXY_SSLREDIRECT=0                                    # redirect HTTP to HTTPS
+            #- HAPROXY_GZIP=0                                           # enable gzip compression (frontend)
+            #- HAPROXY_FILTER=0                                         # enable filtering
+            #- HAPROXY_FILTERTABLESIZE=100k                             # table size
+            #- HAPROXY_FILTERTABLEEXPIRE=30s                            # table expire time
+            #- HAPROXY_FILTERWHITELIST=0                                # enable whitelist filter
+            #- HAPROXY_FILTERWHITELISTFILE=                             # file with whitelisted source IP
+            #- HAPROXY_FILTERWHITELISTLOG=0                             # log whitelisted connections
+            #- HAPROXY_FILTERBLACKLIST=0                                # enable blacklist filter
+            #- HAPROXY_FILTERBLACKLISTFILE=                             # file with blacklisted source IP
+            #- HAPROXY_FILTERBLACKLISTLOG=0                             # log blacklisted connections
+            #- HAPROXY_FILTERCONN=0                                     # enable connections limit filter
+            #- HAPROXY_FILTERCONNMAX=10                                 # maximum established connections per source IP
+            #- HAPROXY_FILTERCONNLOG=0                                  # log blocked connections
+            #- HAPROXY_FILTERRATE=0                                     # enable connection rate filter
+            #- HAPROXY_FILTERRATEPERIOD=3s                              # rate period
+            #- HAPROXY_FILTERRATEMAX=100                                # connections rate limit per source IP
+            #- HAPROXY_FILTERRATELOG=0                                  # log blocked connections
+            #- HAPROXY_FRONTENDMAXCONN=                                 # maximum of connections allowed per frontend
+            #- HAPROXY_FRONTENDBACKLOG=                                 # backlog queue length per frontend
+            #- HAPROXY_FRONTENDRATELIMITSESSIONS=                       # sessions rate limit per frontend
+            - HAPROXY_TEMPLATE=backend                                  # configuration template
             #
             # template backend
             #
-            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                                    # service name to proxify
-            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=dev                                           # service tag to proxify
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKINTER=2s                                    # interval between checks
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFASTINTER=                                  # interval between checks only if server is up or unchecked (inter must be unset)
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKDOWNINTER=                                  # interval between checks only if server is down (inter must be unset)
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKRISE=2                                      # number of successfull checks to considerate servers up
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFALL=3                                      # number of failed checks to considerate server down
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKTIMEOUT=                                    # check timeout (smallest value between timeout check and inter)
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECK=0                                      # enable HTTP check
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKOPTIONS=                                # HTTP check options (<method> [<uri> [<version]])
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKDISABLEON404=0                          # enable maintenance on error 404
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKEXPECT=                                 # response validation ([!] <match> <pattern>)
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDSERVERMAXCONN=                                   # maximum of connections allowed per server
-            #- HAPROXY_TEMPLATE_BACKEND_BACKENDGZIP=0                                           # enable gzip compression (backend)
+            - HAPROXY_TEMPLATE_BACKEND_SERVICENAME=myservice                # service name to proxify
+            - HAPROXY_TEMPLATE_BACKEND_SERVICETAG=local                     # service tag to proxify
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKINTER=2s                # interval between checks
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFASTINTER=              # interval between checks only if server is up or unchecked (inter must be unset)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKDOWNINTER=              # interval between checks only if server is down (inter must be unset)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKRISE=2                  # number of successfull checks to considerate servers up
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKFALL=3                  # number of failed checks to considerate server down
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDCHECKTIMEOUT=                # check timeout (smallest value between timeout check and inter)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECK=0                  # enable HTTP check
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKOPTIONS=            # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKDISABLEON404=0      # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDHTTPCHECKEXPECT=             # response validation ([!] <match> <pattern>)
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDSERVERMAXCONN=               # maximum of connections allowed per server
+            #- HAPROXY_TEMPLATE_BACKEND_BACKENDGZIP=0                       # enable gzip compression (backend)
             #
             # template loadbalancer-http
             #
-            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/                       # key prefix for dynamic configuration
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKINTER=2s                           # interval between checks
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFASTINTER=                         # interval between checks only if server is up or unchecked (inter must be unset)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKDOWNINTER=                         # interval between checks only if server is down (inter must be unset)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKRISE=2                             # number of successfull checks to considerate servers up
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFALL=3                             # number of failed checks to considerate server down
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKTIMEOUT=                           # check timeout (smallest value between timeout check and inter)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECK=0                             # enable HTTP check
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKOPTIONS=                       # HTTP check options (<method> [<uri> [<version]])
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKDISABLEON404=0                 # enable maintenance on error 404
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKEXPECT=                        # response validation ([!] <match> <pattern>)
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDSERVERMAXCONN=                          # maximum of connections allowed per server
-            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDGZIP=0                                  # enable gzip compression (backend)
+            - HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX=myloadbalancer/           # key prefix for dynamic configuration
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKINTER=2s               # interval between checks
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFASTINTER=             # interval between checks only if server is up or unchecked (inter must be unset)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKDOWNINTER=             # interval between checks only if server is down (inter must be unset)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKRISE=2                 # number of successfull checks to considerate servers up
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFALL=3                 # number of failed checks to considerate server down
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKTIMEOUT=               # check timeout (smallest value between timeout check and inter)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECK=0                 # enable HTTP check
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKOPTIONS=           # HTTP check options (<method> [<uri> [<version]])
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKDISABLEON404=0     # enable maintenance on error 404
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKEXPECT=            # response validation ([!] <match> <pattern>)
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDSERVERMAXCONN=              # maximum of connections allowed per server
+            #- HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDGZIP=0                      # enable gzip compression (backend)
             #
             # template loadbalancer-tcp
             #

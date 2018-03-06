@@ -7,7 +7,7 @@ ENV RUNDECK_VERSION=2.10.6 \
 
 RUN addgroup -S rundeck && \
     adduser -S -D -g "" -G rundeck -s /bin/sh -h ${RDECK_BASE} rundeck && \
-    chown -R rundeck:rundeck ${RDECK_BASE}
+    chown rundeck:rundeck ${RDECK_BASE}
 
 RUN apk add --update openjdk8-jre openssh-client && \
     cd ${RDECK_BASE} && \

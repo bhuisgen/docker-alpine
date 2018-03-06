@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
 cd /usr/local/tomcat || exit 1
-exec /usr/local/tomcat/bin/catalina.sh run
+exec exec s6-setuidgid tomcat /usr/local/tomcat/bin/catalina.sh run

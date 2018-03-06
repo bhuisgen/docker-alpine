@@ -1,54 +1,49 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    zabbix-agent:
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     zabbix-agent:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-zabbix-agent
         network_mode: host
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /:/rootfs:ro
-            - /var/run/docker.sock:/var/run/docker.sock
-            #- /host/data:/var/lib/zabbix                                       # volume for data
+            - /:/rootfs:ro                                  # host rootfs for zabbix-agent
+            - /var/run/docker.sock:/var/run/docker.sock     # docker socket for zabbix-docker
+            - zabbix-agent:/var/lib/zabbix                  # volume for data
         environment:
-            - CONSUL_AGENT=consul                                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                                    # consul key prefix path
-            - CONSUL_SERVICENAME=zabbix-agent                                   # consul service name
-            - CONSUL_SERVICETAGS=dev                                            # consul service tag
-            - CONSUL_SERVICEPORT=10050                                          # consul service port
-            - CONSUL_CHECKTYPE=tcp                                              # consul health check type
-            - ZABBIX_ENABLEREMOTECOMMANDS=1                                     # enable remote commands execution
-            - ZABBIX_LOGREMOTECOMMANDS=1                                        # log remote commands
-            - ZABBIX_SERVER=80.81.82.83                                         # zabbix server IP/host
-            - ZABBIX_HOSTNAME=zabbix-agent                                      # zabbix agent hostname
-            #- ZABBIX_HOSTMETADATA=                                             # zabbix agent host metadata
-            - ZABBIX_STARTAGENTS=1                                              # number of processes for passive checks
-            #- ZABBIX_REFRESHACTIVECHECKS=120                                   # time between active checks refresh
-            #- ZABBIX_BUFFERSEND=5                                              # time to keep data in buffer
-            #- ZABBIX_BUFFERSIZE=100                                            # maximum number of values in buffer before sending
-            #- ZABBIX_MAXLINESPERSECOND=20                                      # maximum number of new lines to send per second
-            #- ZABBIX_TIMEOUT=3                                                 # timeout of processing
-            #- ZABBIX_ROOTFILESYSTEM=                                           # host rootfs
-            #- ZABBIX_UNSAFEUSERPARAMETERS=                                     # enable unsafe user parameters
-            #- ZABBIXDOCKER=0                                                   # enable docker monitoring
-            #- ZABBIXDOCKER_ZABBIXHOST=                                         # zabbix host
-            #- ZABBIXDOCKER_LOG=0                                               # enable logging
-            #- ZABBIXDOCKER_LOGLEVEL=error                                      # log level
-            #- ZABBIXDOCKER_CONTAINERS=0                                        # enable containers metrics
-            #- ZABBIXDOCKER_CONTAINERSSTATS=0                                   # enable containers statistics metrics
-            #- ZABBIXDOCKER_CONTAINERSTOP=0                                     # enable containers processes metrics
-            #- ZABBIXDOCKER_CONTAINERSREMOTE=0                                  # enable containers remote command execution
+            - ENV=local                                     # environment name
+            - CONSUL_AGENT=0.0.0.0                          # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=zabbix-agent               # consul service name
+            - CONSUL_SERVICETAGS=local                      # consul service tag
+            - CONSUL_SERVICEPORT=10050                      # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - ZABBIX_ENABLEREMOTECOMMANDS=1                 # enable remote commands execution
+            - ZABBIX_LOGREMOTECOMMANDS=1                    # log remote commands
+            - ZABBIX_SERVER=80.81.82.83                     # zabbix server IP/host
+            - ZABBIX_HOSTNAME=zabbix-agent                  # zabbix agent hostname
+            #- ZABBIX_HOSTMETADATA=                         # zabbix agent host metadata
+            - ZABBIX_STARTAGENTS=1                          # number of processes for passive checks
+            #- ZABBIX_REFRESHACTIVECHECKS=120               # time between active checks refresh
+            #- ZABBIX_BUFFERSEND=5                          # time to keep data in buffer
+            #- ZABBIX_BUFFERSIZE=100                        # maximum number of values in buffer before sending
+            #- ZABBIX_MAXLINESPERSECOND=20                  # maximum number of new lines to send per second
+            #- ZABBIX_TIMEOUT=3                             # timeout of processing
+            #- ZABBIX_ROOTFILESYSTEM=                       # host rootfs
+            #- ZABBIX_UNSAFEUSERPARAMETERS=                 # enable unsafe user parameters
+            #- ZABBIXDOCKER=0                               # enable docker monitoring
+            #- ZABBIXDOCKER_ZABBIXHOST=                     # zabbix host
+            #- ZABBIXDOCKER_LOG=0                           # enable logging
+            #- ZABBIXDOCKER_LOGLEVEL=error                  # log level
+            #- ZABBIXDOCKER_CONTAINERS=0                    # enable containers metrics
+            #- ZABBIXDOCKER_CONTAINERSSTATS=0               # enable containers statistics metrics
+            #- ZABBIXDOCKER_CONTAINERSTOP=0                 # enable containers processes metrics
+            #- ZABBIXDOCKER_CONTAINERSREMOTE=0              # enable containers remote command execution
             #- ZABBIXDOCKER_CONTAINERSREMOTEPATH=/etc/zabbix/scripts/trapper    # remote commands path
-            #- ZABBIXDOCKER_CONTAINERSREMOTEDELAY=1                             # remote commands delay
-            #- ZABBIXDOCKER_EVENTS=0                                            # enable events metrics
+            #- ZABBIXDOCKER_CONTAINERSREMOTEDELAY=1         # remote commands delay
+            #- ZABBIXDOCKER_EVENTS=0                        # enable events metrics

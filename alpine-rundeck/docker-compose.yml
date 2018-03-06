@@ -5,6 +5,8 @@ volumes:
 
 services:
     rundeck:
+        depends_on:
+            - consul                                    # consul agent
         image: bhuisgen/alpine-rundeck
         ports:
             - "4440:4440"
@@ -14,4 +16,7 @@ services:
             - rundeck:/home/rundeck                     # volume for data
         environment:
             - ENV=local                                 # environment name
+            - CONSUL_AGENT=consul                       # consul agent hostname/IP
+            #- CONSUL_PORT=8500                         # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
             - RUNDECK_SERVERURL=http://0.0.0.0:4440     # rundeck external server URL

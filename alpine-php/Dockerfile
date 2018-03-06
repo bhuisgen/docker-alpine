@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-RUN mkdir -p /var/www && \
+RUN mkdir /var/www && \
     addgroup -g 82 -S www-data && \
     adduser -u 82 -S -D -g "" -G www-data www-data
 

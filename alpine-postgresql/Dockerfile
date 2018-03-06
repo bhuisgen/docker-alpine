@@ -6,7 +6,7 @@ ENV PGHOME=/var/lib/postgresql \
 
 RUN apk add --update postgresql postgresql-contrib && \
     mkdir -p ${PGHOME} ${PGDATA} /run/postgresql && \
-    chown -R postgres:postgres ${PGHOME} /run/postgresql && \
+    chown postgres:postgres ${PGHOME} ${PGDATA} /run/postgresql && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
