@@ -7,7 +7,6 @@
 {{- $vault_listener_tls_prefer_server_cipher_suites := env "VAULT_LISTENERTLSPREFERSERVERCIPHERSUITES" -}}
 {{- $vault_listener_tls_require_and_verify_client_cert := env "VAULT_LISTENERTLSREQUIREANDVERIFYCLIENTCERT" -}}
 {{- $vault_listener_tls_client_ca_file := env "VAULT_LISTENERTLSCLIENTCAFILE" -}}
-{{- $vault_storage_path := env "VAULT_TEMPLATE_FILE_STORAGEPATH" -}}
 {{if $vault_cluster_name}}cluster_name = {{$vault_cluster_name}}{{end}}
 
 listener "tcp" {
@@ -23,5 +22,5 @@ listener "tcp" {
 }
 
 storage "file" {
-  path = "{{$vault_storage_path}}"
+  path = "/var/lib/vault"
 }
