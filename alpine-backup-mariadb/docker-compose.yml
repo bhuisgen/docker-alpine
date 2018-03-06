@@ -15,5 +15,5 @@ services:
             #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
             #- BACKUP_PATH=/var/backups             # backup storage path
             - BACKUP_MARIADB_HOST=server            # server host (required)
-            - BACKUP_MARIADB_PORT=3306              # serverr host (required)
+            - BACKUP_MARIADB_PORT=3306              # server port (required)
             #- BACKUP_MARIADB_DATABASE=             # database to backup (optional, comma delimited list)
