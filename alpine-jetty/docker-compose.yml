@@ -1,8 +1,5 @@
 version: '3.5'
 
-volumes:
-    jetty:
-
 services:
     jetty:
         depends_on:
