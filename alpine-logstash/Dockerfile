@@ -9,8 +9,9 @@ RUN mkdir /var/lib/logstash && \
     chown logstash:logstash /var/lib/logstash
 
 RUN apk add --update openjdk8-jre tar && \
-    curl -sSL https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz | tar -xzo -C /usr/local/logstash --strip-components 1 && \
     mkdir /usr/local/logstash && \
+    curl -sSL https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}.tar.gz | \
+        tar -xzo -C /usr/local/logstash --strip-components 1 && \
     rm -fr /usr/local/logstash/bin/*.bat && \
     apk del tar && \
     rm -rf /var/cache/apk/*

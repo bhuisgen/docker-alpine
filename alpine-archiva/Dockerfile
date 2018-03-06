@@ -13,7 +13,9 @@ RUN mkdir -p /var/lib/archiva && \
     chown archiva:archiva /var/lib/archiva
 
 RUN apk add --update openjdk8-jre unzip && \
-    curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
+    mkdir ${JETTY_HOME} && \
+    curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | \
+        tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
     rm -fr ${JETTY_HOME}/demo-base && \
     mkdir ${JETTY_BASE} && \
     chown archiva:archiva ${JETTY_BASE} && \

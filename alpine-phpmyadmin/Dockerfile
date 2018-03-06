@@ -5,7 +5,8 @@ ENV PHPMYADMIN_VERSION=4.7.7
 
 RUN apk add --update curl tar && \
     mkdir /var/www && \
-    curl -sSL https://files.phpmyadmin.net/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.gz | tar -xzo -C /var/www --strip-components 1 && \
+    curl -sSL https://files.phpmyadmin.net/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.gz | \
+        tar -xzo -C /var/www --strip-components 1 && \
     apk del curl tar && \
     rm -rf /var/cache/apk/*
 

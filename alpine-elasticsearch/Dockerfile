@@ -9,8 +9,9 @@ RUN mkdir /var/lib/elasticsearch && \
     chown elasticsearch:elasticsearch /var/lib/elasticsearch
 
 RUN apk add --update openjdk8-jre tar && \
-    curl -sSL https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz | tar -xzo -C /usr/local/elasticsearch --strip-components 1 && \
     mkdir /usr/local/elasticsearch && \
+    curl -sSL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz | \
+        tar -xzo -C /usr/local/elasticsearch --strip-components 1 && \
     rm -fr /usr/local/elasticsearch/bin/*.exe && \
     apk del tar && \
     rm -rf /var/cache/apk/*

@@ -9,7 +9,8 @@ RUN mkdir /var/lib/influxdb && \
 
 RUN apk add --update libc6-compat tar && \
     mkdir /usr/local/influxdb && \
-    curl -sSL https://dl.influxdata.com/influxdb/releases/influxdb-${INFLUXDB_VERSION}_linux_amd64.tar.gz | tar -xzo -C /usr/local/influxdb --strip-components 2 && \
+    curl -sSL https://dl.influxdata.com/influxdb/releases/influxdb-${INFLUXDB_VERSION}_linux_amd64.tar.gz | \
+        tar -xzo -C /usr/local/influxdb --strip-components 2 && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 

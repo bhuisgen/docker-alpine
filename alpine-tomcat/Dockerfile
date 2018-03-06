@@ -11,8 +11,8 @@ RUN mkdir /var/lib/tomcat && \
     chown tomcat:tomcat /var/lib/tomcat
 
 RUN apk add --update openjdk8-jre tar && \
-    curl -sSL http://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz | tar -xzo -C /usr/local/tomcat --strip-components 1 && \
     mkdir /usr/local/tomcat && \
+    curl -sSL http://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz | \
         tar -xzo -C /usr/local/tomcat --strip-components 1 && \
     rm -fr /usr/local/tomcat/bin/*.bat /usr/local/tomcat/webapps/* /usr/local/tomcat/work/Catalina/localhost/* \
         /usr/local/tomcat/conf/Catalina/localhost/* && \

@@ -36,7 +36,8 @@ RUN apk add --update tar xz && \
         /root/erlang-syntax-tools-20.1.7-r2.apk \
         /root/erlang-xmerl-20.1.7-r2.apk && \
     mkdir /usr/local/rabbitmq && \
-    curl -sSL https://github.com/rabbitmq/rabbitmq-server/releases/download/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
+    curl -sSL https://github.com/rabbitmq/rabbitmq-server/releases/download/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | \
+        tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
     mkdir -p ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} /var/run/rabbitmq && \
     chown rabbitmq:rabbitmq ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} \
         /var/run/rabbitmq && \

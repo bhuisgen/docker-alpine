@@ -9,7 +9,8 @@ RUN mkdir /var/lib/chronograf && \
 
 RUN apk add --update libc6-compat tar && \
     mkdir /usr/local/chronograf && \
-    curl -sSL https://dl.influxdata.com/chronograf/releases/chronograf-${CHRONOGRAF_VERSION}_linux_amd64.tar.gz | tar -xzo -C /usr/local/chronograf --strip-components 2 && \
+    curl -sSL https://dl.influxdata.com/chronograf/releases/chronograf-${CHRONOGRAF_VERSION}_linux_amd64.tar.gz | \
+        tar -xzo -C /usr/local/chronograf --strip-components 2 && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
