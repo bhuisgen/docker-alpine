@@ -16,7 +16,7 @@ services:
             #- CONSULTEMPLATE_ENVIRONMENT=1                         # configure container from environment
             #- CONSULTEMPLATE_CONSUL=1                              # configure container from consul
             #- CONSULTEMPLATE_SERVICES=0                            # configure services from consul
-            #- CONSUL_AGENT=                                        # agent hostname
+            - CONSUL_AGENT=consul                                   # agent hostname
             #- CONSUL_PORT=8500                                     # agent port
             #- CONSUL_TLS=0                                         # enable TLS
             #- CONSUL_TLSCAFILE=                                    # TLS CA certificate file
