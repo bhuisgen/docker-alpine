@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 links=$(ip -o link show|wc -l)
-if [ ${links} -gt 1 ]; then
+if [ "${links}" -gt 1 ]; then
     if [ -z "${CONTAINER_HOST}" ]; then
         CONTAINER_HOST=$(cat /etc/hostname)
     fi

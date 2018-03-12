@@ -2,11 +2,7 @@ FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV S6OVERLAY_VERSION=1.21.2.2 \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=1 \
-    LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    TERM=xterm
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=1
 
 RUN apk update && \
     apk upgrade && \
