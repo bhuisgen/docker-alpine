@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${GOGS_TEMPLATE}" ]; then
+    echo "==> Enabling template ${GOGS_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/gogs/${GOGS_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi
