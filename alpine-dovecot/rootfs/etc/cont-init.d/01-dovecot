@@ -1,7 +1,9 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${DOVECOT_TEMPLATE} ]; then
-    echo "==> Enabling service template '${DOVECOT_TEMPLATE}'"
-
-    cp "/etc/consul-template/templates/dovecot/${DOVECOT_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-dovecot.conf
+if [ ! -z "${DOVECOT_TEMPLATE}" ]; then
+    DOVECOT_TEMPLATE=default
 fi
+
+echo "==> Enabling template ${DOVECOT_TEMPLATE}"
+
+cp "/etc/consul-template/templates/dovecot/${DOVECOT_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
