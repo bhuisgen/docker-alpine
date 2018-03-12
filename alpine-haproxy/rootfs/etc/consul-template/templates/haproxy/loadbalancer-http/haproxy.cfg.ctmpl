@@ -19,6 +19,8 @@
 {{- $haproxy_timeout_server_fin := env "HAPROXY_TIMEOUTSERVERFIN" -}}
 {{- $haproxy_timeout_queue := env "HAPROXY_TIMEOUTQUEUE" -}}
 {{- $haproxy_timeout_tunnel := env "HAPROXY_TIMEOUTTUNNEL" -}}
+{{- $haproxy_timeout_http_request := env "HAPROXY_TIMEOUTHTTPREQUEST" -}}
+{{- $haproxy_timeout_http_keepalive := env "HAPROXY_TIMEOUTHTTPKEEPALIVE" -}}
 {{- $haproxy_balance := env "HAPROXY_BALANCE" -}}
 {{- $haproxy_retries := env "HAPROXY_RETRIES" -}}
 {{- $haproxy_redispatch := env "HAPROXY_REDISPATCH" -}}
@@ -35,6 +37,8 @@
 {{- $haproxy_stats_allow := env "HAPROXY_STATSALLOW" -}}
 {{- $haproxy_ssl := env "HAPROXY_SSL" -}}
 {{- $haproxy_ssl_certificate := env "HAPROXY_SSLCERTIFICATE" -}}
+{{- $haproxy_ssl_redirect := env "HAPROXY_SSLREDIRECT" -}}
+{{- $haproxy_gzip := env "HAPROXY_GZIP" -}}
 {{- $haproxy_filter := env "HAPROXY_FILTER" -}}
 {{- $haproxy_filter_table_size := env "HAPROXY_FILTERTABLESIZE" -}}
 {{- $haproxy_filter_table_expire := env "HAPROXY_FILTERTABLEEXPIRE" -}}
@@ -54,21 +58,19 @@
 {{- $haproxy_frontend_maxconn := env "HAPROXY_FRONTENDMAXCONN" -}}
 {{- $haproxy_frontend_backlog := env "HAPROXY_FRONTENDBACKLOG" -}}
 {{- $haproxy_frontend_ratelimitsessions := env "HAPROXY_FRONTENDRATELIMITSESSIONS" -}}
-{{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_KEYPREFIX" -}}
-{{- $loadbalancer_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_LISTENERS" -}}
-{{- $loadbalancer_ssl_listeners := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_SSLLISTENERS" -}}
-{{- $haproxy_backend_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKINTER" -}}
-{{- $haproxy_backend_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKFASTINTER" -}}
-{{- $haproxy_backend_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_CHECKDOWNINTER" -}}
-{{- $haproxy_backend_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKRISE" -}}
-{{- $haproxy_backend_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKFALL" -}}
-{{- $haproxy_backend_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDCHECKTIMEOUT" -}}
-{{- $haproxy_backend_tcpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDTCPCHECK" -}}
-{{- $haproxy_backend_sticky := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_STICKY" -}}
-{{- $haproxy_backend_sticky_table_size := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_STICKYTABLESIZE" -}}
-{{- $haproxy_backend_sticky_table_expire := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_STICKYTABLEEXPIRE" -}}
-{{- $haproxy_backend_server_maxconn := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDSERVERMAXCONN" -}}
-{{- $haproxy_backend_server_onmarkeddown_shutdownsessions := env "HAPROXY_TEMPLATE_LOADBALANCERTCP_BACKENDSERVERONMARKEDDOWNSHUTDOWNSESSIONS" -}}
+{{- $haproxy_loadbalancer_keyprefix := env "HAPROXY_LOADBALANCERKEYPREFIX" -}}
+{{- $haproxy_backend_check_inter := env "HAPROXY_BACKENDCHECKINTER" -}}
+{{- $haproxy_backend_check_fastinter := env "HAPROXY_BACKENDCHECKFASTINTER" -}}
+{{- $haproxy_backend_check_downinter := env "HAPROXY_CHECKDOWNINTER" -}}
+{{- $haproxy_backend_check_rise := env "HAPROXY_BACKENDCHECKRISE" -}}
+{{- $haproxy_backend_check_fall := env "HAPROXY_BACKENDCHECKFALL" -}}
+{{- $haproxy_backend_check_timeout := env "HAPROXY_BACKENDCHECKTIMEOUT" -}}
+{{- $haproxy_backend_httpcheck := env "HAPROXY_BACKENDHTTPCHECK" -}}
+{{- $haproxy_backend_httpcheck_options := env "HAPROXY_BACKENDHTTPCHECKOPTIONS" -}}
+{{- $haproxy_backend_httpcheck_disableon404 := env "HAPROXY_BACKENDHTTPCHECKDISABLEON404" -}}
+{{- $haproxy_backend_httpcheck_expect := env "HAPROXY_BACKENDHTTPCHECKEXPECT" -}}
+{{- $haproxy_backend_server_maxconn := env "HAPROXY_BACKENDSERVERMAXCONN" -}}
+{{- $haproxy_backend_gzip := env "HAPROXY_BACKENDGZIP" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}4096{{end}}
     {{if $haproxy_maxconnrate}}maxconnrate {{$haproxy_maxconnrate}}{{end}}
@@ -88,7 +90,8 @@ global
     server-state-file {{if $haproxy_serverstatefile}}{{$haproxy_serverstatefile}}{{else}}/var/lib/haproxy/servers_state{{end}}
 
 defaults
-    mode tcp
+    mode http
+    option httpclose
     option abortonclose
     timeout client {{if $haproxy_timeout_client}}{{$haproxy_timeout_client}}{{else}}30s{{end}}
     {{if $haproxy_timeout_client_fin}}timeout client-fin {{$haproxy_timeout_client_fin}}{{end}}
@@ -97,13 +100,15 @@ defaults
     {{if $haproxy_timeout_server_fin}}timeout server-fin {{$haproxy_timeout_server_fin}}{{end}}
     timeout queue {{if $haproxy_timeout_queue}}{{$haproxy_timeout_queue}}{{else}}30s{{end}}
     timeout tunnel {{if $haproxy_timeout_tunnel}}{{$haproxy_timeout_tunnel}}{{else}}1h{{end}}
+    timeout http-request {{if $haproxy_timeout_http_request}}{{$haproxy_timeout_http_request}}{{else}}5s{{end}}
+    timeout http-keep-alive {{if $haproxy_timeout_http_keepalive}}{{$haproxy_timeout_http_keepalive}}{{else}}5s{{end}}
     balance {{if $haproxy_balance}}{{$haproxy_balance}}{{else}}roundrobin{{end}}
     retries {{if $haproxy_retries}}{{$haproxy_retries}}{{else}}3{{end}}
     {{if eq $haproxy_redispatch "1"}}option redispatch{{end}}
     {{if eq $haproxy_clitcpka "1"}}option clitcpka{{end}}
     {{if eq $haproxy_srvtcpka "1"}}option srvtcpka{{end}}
     log global
-    option tcplog
+    option httplog
     {{if eq $haproxy_dontlognormal "1"}}option dontlog-normal{{end}}
     {{if eq $haproxy_dontlognull "1"}}option dontlognull{{end}}
     load-server-state-from-file global
@@ -126,10 +131,9 @@ listen stats
     http-request deny if !access_allowed
 {{end}}
 
-{{range $listener := $loadbalancer_listeners | split ","}}
-frontend tcp-in-{{$listener}}
-    bind *:{{$listener}}
-    bind :::{{$listener}}
+frontend http-in
+    bind *:80
+    bind :::80
     {{if $haproxy_frontend_maxconn}}maxconn {{$haproxy_frontend_maxconn}}{{end}}
     {{if $haproxy_frontend_backlog}}backlog {{$haproxy_frontend_backlog}}{{end}}
     {{if $haproxy_frontend_ratelimitsessions}}rate-limit sessions {{$haproxy_frontend_ratelimitsessions}}{{end}}
@@ -140,23 +144,23 @@ frontend tcp-in-{{$listener}}
     {{if eq $haproxy_filter_rate "1"}}tcp-request {{if eq $haproxy_filter_rate_log "1"}}content{{else}}connection{{end}} reject if { src_conn_rate(dummy-filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}100{{end}} }{{end}}
     tcp-request connection track-sc1 src table dummy-filter
     {{end}}
-    default_backend tcp-out-{{$listener}}
-
-backend tcp-out-{{$listener}}
-    default-server inter {{if $haproxy_backend_check_inter}}{{$haproxy_backend_check_inter}}{{else}}2s{{end}}{{if $haproxy_backend_check_fastinter}} fastinter {{$haproxy_backend_check_fastinter}}{{end}}{{if $haproxy_backend_check_downinter}} downinter {{$haproxy_backend_check_downinter}}{{end}} rise {{if $haproxy_backend_check_rise}}{{$haproxy_backend_check_rise}}{{else}}2{{end}} fall {{if $haproxy_backend_check_fall}}{{$haproxy_backend_check_fall}}{{else}}3{{end}}
-    {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
-    {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
-    {{if eq $haproxy_backend_sticky "1"}}stick match src table dummy-sticky{{end}}
-    {{range ls (print $loadbalancer_keyprefix "targets/" $listener)}}
-    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}{{if eq $haproxy_backend_server_onmarkeddown_shutdownsessions "1"}} on-marked-down shutdown-sessions{{end}}
+    option http-server-close
+    {{if eq $haproxy_gzip "1"}}
+    compression algo gzip
+    compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
     {{end}}
-{{end}}
+    option forwardfor
+    reqadd X-Forwarded-Proto:\ http
+    {{if eq $haproxy_ssl_redirect "1"}}
+    redirect scheme https code 301 if !{ ssl_fc }
+    {{else}}
+    default_backend http-out
+    {{end}}
 
 {{if eq $haproxy_ssl "1"}}
-{{range $ssl_listener := $loadbalancer_ssl_listeners | split ","}}
-frontend tcp-ssl-in-{{$ssl_listener}}
-    bind *:{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
-    bind :::{{$ssl_listener}} ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
+frontend https-in
+    bind *:443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
+    bind :::443 ssl crt {{$haproxy_ssl_certificate}} ciphers AES128+EECDH:AES128+EDH force-tlsv12 no-sslv3
     {{if $haproxy_frontend_maxconn}}maxconn {{$haproxy_frontend_maxconn}}{{end}}
     {{if $haproxy_frontend_backlog}}backlog {{$haproxy_frontend_backlog}}{{end}}
     {{if $haproxy_frontend_ratelimitsessions}}rate-limit sessions {{$haproxy_frontend_ratelimitsessions}}{{end}}
@@ -167,25 +171,40 @@ frontend tcp-ssl-in-{{$ssl_listener}}
     {{if eq $haproxy_filter_rate "1"}}tcp-request {{if eq $haproxy_filter_rate_log "1"}}content{{else}}connection{{end}} reject if { src_conn_rate(dummy-filter) ge {{if $haproxy_filter_rate_max}}{{$haproxy_filter_rate_max}}{{else}}100{{end}} }{{end}}
     tcp-request connection track-sc1 src table dummy-filter
     {{end}}
-    default_backend tcp-ssl-out-{{$ssl_listener}}
+    option http-server-close
+    {{if eq $haproxy_gzip "1"}}
+    compression algo gzip
+    compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
+    {{end}}
+    option forwardfor
+    reqadd X-Forwarded-Proto:\ https
+    {{if eq $haproxy_ssl_redirect "1"}}
+    rspadd Strict-Transport-Security:\ max-age=31536000;\ includeSubDomains;\ preload
+    rspadd X-Frame-Options:\ DENY
+    rspadd X-Content-Type-Options:\ nosniff
+    {{end}}
+    default_backend http-out
+{{end}}
 
-backend tcp-ssl-out-{{$ssl_listener}}
+backend http-out
     default-server inter {{if $haproxy_backend_check_inter}}{{$haproxy_backend_check_inter}}{{else}}2s{{end}}{{if $haproxy_backend_check_fastinter}} fastinter {{$haproxy_backend_check_fastinter}}{{end}}{{if $haproxy_backend_check_downinter}} downinter {{$haproxy_backend_check_downinter}}{{end}} rise {{if $haproxy_backend_check_rise}}{{$haproxy_backend_check_rise}}{{else}}2{{end}} fall {{if $haproxy_backend_check_fall}}{{$haproxy_backend_check_fall}}{{else}}3{{end}}
     {{if $haproxy_backend_check_timeout}}timeout check {{$haproxy_backend_check_timeout}}{{end}}
-    {{if eq $haproxy_backend_tcpcheck "1"}}option tcp-check{{end}}
-    {{if eq $haproxy_backend_sticky "1"}}stick match src table dummy-sticky{{end}}
-    {{range ls (print $loadbalancer_keyprefix "ssl_targets/" $ssl_listener)}}
-    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}{{if eq $haproxy_backend_server_onmarkeddown_shutdownsessions "1"}} on-marked-down shutdown-sessions{{end}}
+    {{if eq $haproxy_backend_httpcheck "1"}}
+    option httpchk{{if $haproxy_backend_httpcheck_options}} {{$haproxy_backend_httpcheck_options}}{{end}}
+    {{if eq $haproxy_backend_httpcheck_disableon404 "1"}}http-check disable-on-404{{end}}
+    {{if $haproxy_backend_httpcheck_expect}}http-check expect {{$haproxy_backend_httpcheck_expect}}{{end}}
+    http-check send-state
     {{end}}
-{{end}}
-{{end}}
+    {{range ls (print $haproxy_loadbalancer_keyprefix "targets")}}
+    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}
+    {{end}}
+    errorfile 503 /etc/haproxy/errors/503.http
+    {{if eq $haproxy_backend_gzip "1"}}
+    compression algo gzip
+    compression offload
+    {{end}}
 
 {{if eq $haproxy_filter "1"}}
 backend dummy-filter
     stick-table type ip size {{if $haproxy_filter_table_size}}{{$haproxy_filter_table_size}}{{else}}100k{{end}} expire {{if $haproxy_filter_table_expire}}{{$haproxy_filter_table_expire}}{{else}}30s{{end}} store conn_cur,conn_rate({{if $haproxy_filter_rate_period}}{{$haproxy_filter_rate_period}}{{else}}3s{{end}})
-{{end}}
-
-{{if eq $haproxy_backend_sticky "1"}}
-backend dummy-sticky
-    stick-table type ip size {{if $haproxy_backend_sticky_table_size}}{{$haproxy_backend_sticky_table_size}}{{else}}100k{{end}} expire {{if $haproxy_backend_sticky_table_expire}}{{$haproxy_backend_sticky_table_expire}}{{else}}30m{{end}}
 {{end}}

@@ -3,4 +3,4 @@
 old_pid=$(pidof haproxy)
 echo $$ > /var/run/haproxy.pid
 
-exec /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -db -st ${old_pid} ${HAPROXY_OPTIONS}
+exec /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -db -st "${old_pid}" ${HAPROXY_OPTIONS}

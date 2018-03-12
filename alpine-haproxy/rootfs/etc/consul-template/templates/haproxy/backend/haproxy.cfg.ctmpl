@@ -58,19 +58,20 @@
 {{- $haproxy_frontend_maxconn := env "HAPROXY_FRONTENDMAXCONN" -}}
 {{- $haproxy_frontend_backlog := env "HAPROXY_FRONTENDBACKLOG" -}}
 {{- $haproxy_frontend_ratelimitsessions := env "HAPROXY_FRONTENDRATELIMITSESSIONS" -}}
-{{- $loadbalancer_keyprefix := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_KEYPREFIX" -}}
-{{- $haproxy_backend_check_inter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKINTER" -}}
-{{- $haproxy_backend_check_fastinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFASTINTER" -}}
-{{- $haproxy_backend_check_downinter := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_CHECKDOWNINTER" -}}
-{{- $haproxy_backend_check_rise := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKRISE" -}}
-{{- $haproxy_backend_check_fall := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKFALL" -}}
-{{- $haproxy_backend_check_timeout := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDCHECKTIMEOUT" -}}
-{{- $haproxy_backend_httpcheck := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECK" -}}
-{{- $haproxy_backend_httpcheck_options := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKOPTIONS" -}}
-{{- $haproxy_backend_httpcheck_disableon404 := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKDISABLEON404" -}}
-{{- $haproxy_backend_httpcheck_expect := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDHTTPCHECKEXPECT" -}}
-{{- $haproxy_backend_server_maxconn := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDSERVERMAXCONN" -}}
-{{- $haproxy_backend_gzip := env "HAPROXY_TEMPLATE_LOADBALANCERHTTP_BACKENDGZIP" -}}
+{{- $haproxy_backend_service_name := env "HAPROXY_BACKENDSERVICENAME" -}}
+{{- $haproxy_backend_service_tag := env "HAPROXY_BACKENDSERVICETAG" -}}
+{{- $haproxy_backend_check_inter := env "HAPROXY_BACKENDCHECKINTER" -}}
+{{- $haproxy_backend_check_fastinter := env "HAPROXY_BACKENDCHECKFASTINTER" -}}
+{{- $haproxy_backend_check_downinter := env "HAPROXY_BACKENDCHECKDOWNINTER" -}}
+{{- $haproxy_backend_check_rise := env "HAPROXY_BACKENDCHECKRISE" -}}
+{{- $haproxy_backend_check_fall := env "HAPROXY_BACKENDCHECKFALL" -}}
+{{- $haproxy_backend_check_timeout := env "HAPROXY_BACKENDCHECKTIMEOUT" -}}
+{{- $haproxy_backend_httpcheck := env "HAPROXY_BACKENDHTTPCHECK" -}}
+{{- $haproxy_backend_httpcheck_options := env "HAPROXY_BACKENDHTTPCHECKOPTIONS" -}}
+{{- $haproxy_backend_httpcheck_disableon404 := env "HAPROXY_BACKENDHTTPCHECKDISABLEON404" -}}
+{{- $haproxy_backend_httpcheck_expect := env "HAPROXY_BACKENDHTTPCHECKEXPECT" -}}
+{{- $haproxy_backend_server_maxconn := env "HAPROXY_BACKENDSERVERMAXCONN" -}}
+{{- $haproxy_backend_gzip := env "HAPROXY_BACKENDGZIP" -}}
 global
     maxconn {{if $haproxy_maxconn}}{{$haproxy_maxconn}}{{else}}4096{{end}}
     {{if $haproxy_maxconnrate}}maxconnrate {{$haproxy_maxconnrate}}{{end}}
@@ -78,7 +79,7 @@ global
     {{if $haproxy_maxsslconn}}maxsslconn {{$haproxy_maxsslconn}}{{end}}
     {{if $haproxy_maxsslrate}}maxsslrate {{$haproxy_maxsslrate}}{{end}}
     {{if eq $haproxy_log "1"}}
-    log {{if $haproxy_logaddress}}{{$haproxy_logaddress}}{{else}}127.0.0.1{{end}}{{if $haproxy_loglength}} len {{$haproxy_loglength}}{{end}} {{if $haproxy_logformat}} format {{$haproxy_logformat}}{{end}}{{if $haproxy_logfacility}} {{$haproxy_logfacility}} {{else}} local0 {{end}}{{if $haproxy_loglevel}} {{$haproxy_loglevel}}{{end}}
+    log {{if $haproxy_logaddress}}{{$haproxy_logaddress}}{{else}}127.0.0.1{{end}}{{if $haproxy_loglength}} len {{$haproxy_loglength}}{{end}} {{if $haproxy_logformat}} format {{$haproxy_logformat}}{{end}}{{if $haproxy_logfacility}} {{$haproxy_logfacility}}{{else}} local0{{end}}{{if $haproxy_loglevel}} {{$haproxy_loglevel}}{{end}}
     {{end}}
     stats socket /var/run/haproxy.sock mode 600 level admin
     stats timeout 2m
@@ -195,8 +196,10 @@ backend http-out
     {{if $haproxy_backend_httpcheck_expect}}http-check expect {{$haproxy_backend_httpcheck_expect}}{{end}}
     http-check send-state
     {{end}}
-    {{range ls (print $loadbalancer_keyprefix "targets")}}
-    server {{.Key}} {{.Key}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}
+    {{if and $haproxy_backend_service_name $haproxy_backend_service_tag}}
+    {{range service (print $haproxy_backend_service_tag "." $haproxy_backend_service_name)}}
+    server {{.Address}} {{.Address}}:{{.Port}} check{{if $haproxy_backend_server_maxconn}} maxconn {{$haproxy_backend_server_maxconn}}{{end}}
+    {{end}}
     {{end}}
     errorfile 503 /etc/haproxy/errors/503.http
     {{if eq $haproxy_backend_gzip "1"}}

@@ -10,3 +10,4 @@ ENTRYPOINT ["/init"]
 CMD []
 
 EXPOSE 80 443 1936
+VOLUME ["/var/lib/haproxy/"]
