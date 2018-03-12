@@ -1,25 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/spool/postfix/config ]; then
-    postconf -e smtputf8_enable=no
-    postconf -e inet_interfaces=all
-    postconf -e inet_protocols=all
-
-    newaliases
-    postalias /etc/postfix/aliases
-    postmap hash:/etc/postfix/recipient_access
-    postmap hash:/etc/postfix/sender_access
-    postmap hash:/etc/postfix/canonical
-    postmap hash:/etc/postfix/recipient_canonical
-    postmap hash:/etc/postfix/sender_canonical
-    postmap hash:/etc/postfix/generic
-    postmap hash:/etc/postfix/relay_domains
-    postmap hash:/etc/postfix/sasl_password
-    postmap hash:/etc/postfix/transport
-    postmap hash:/etc/postfix/virtual
-
-    /usr/sbin/postfix start
-    /usr/sbin/postfix stop
-
-    touch /var/spool/postfix/config
-fi
+exit 0

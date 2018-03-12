@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${POSTFIX_TEMPLATE} ]; then
-    echo "==> Enabling service template '${POSTFIX_TEMPLATE}'"
+if [ ! -z "${POSTFIX_TEMPLATE}" ]; then
+    echo "==> Enabling template ${POSTFIX_TEMPLATE}"
 
-    cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}/postfix.conf" /etc/consul-template/conf-services.d/10-postfix.conf
+    cp "/etc/consul-template/templates/postfix/${POSTFIX_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi
