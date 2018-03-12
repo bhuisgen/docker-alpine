@@ -103,7 +103,7 @@ if [ ! -z "${CONSUL_AGENT}" ]; then
                 -X GET "${url}/v1/health/service/${CONSUL_WAITFOR_SERVICENAME}?tag=${CONSUL_WAITFOR_SERVICETAG}" \
                 -G --data-urlencode "passing=true")
             count=$(echo "$health"|jq -r 'length')
-            [ $count -gt 0 ] && break
+            [ "$count" -gt "0" ] && break
 
             echo "Failed to get healthy consul service, retrying in few seconds" >&2
             sleep 15

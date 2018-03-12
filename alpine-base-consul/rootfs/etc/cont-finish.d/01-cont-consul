@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${CONSUL_AGENT}" ]; then
+    echo "==> Deregistering container services/checks"
+
+    /etc/cont-consul/deregister
+
+    rm -f /etc/cont-consul/services.d/container.json /etc/cont-consul/checks.d/container-*.json
+fi

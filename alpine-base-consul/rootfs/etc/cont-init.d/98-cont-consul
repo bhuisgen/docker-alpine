@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${CONSUL_AGENT}" ]; then
+    echo "==> Registering container services/checks"
+
+    /etc/cont-consul/register || (
+        echo "Failed to register container services/checks, aborting" >&2 && exit 1
+    )
+fi

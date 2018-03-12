@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${CONSUL_AGENT}" ] && ls -A /etc/consul-template/conf.d/*.hcl > /dev/null 2>&1; then
-    echo "==> Disabling service consul-template"
+    echo "==> Enabling service consul-template"
 
-    touch /etc/services.d/consul-template/down
+    rm -f /etc/services.d/consul-template/down
 fi
