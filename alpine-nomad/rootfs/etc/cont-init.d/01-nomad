@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${NOMAD_TEMPLATE}" ]; then
+    NOMAD_TEMPLATE=default
+fi
+
+echo "==> Enabling template ${NOMAD_TEMPLATE}"
+
+cp "/etc/consul-template/templates/nomad/${NOMAD_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
