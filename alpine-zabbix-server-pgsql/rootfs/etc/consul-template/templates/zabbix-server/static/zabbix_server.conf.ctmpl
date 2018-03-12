@@ -699,6 +699,8 @@ DBPort={{$zabbix_dbport}}
 # Include=/usr/local/etc/zabbix_server.conf.d/
 # Include=/usr/local/etc/zabbix_server.conf.d/*.conf
 
+Include=/etc/zabbix/zabbix_server.conf.d/*.conf
+
 ### Option: SSLCertLocation
 #	Location of SSL client certificates.
 #	This parameter is used only in web monitoring.
