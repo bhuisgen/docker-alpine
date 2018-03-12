@@ -6,10 +6,10 @@
 {{- $zabbixdocker_containers_top := env "ZABBIXDOCKER_CONTAINERSTOP" -}}
 {{- $zabbixdocker_containers_remote := env "ZABBIXDOCKER_CONTAINERSREMOTE" -}}
 {{- $zabbixdocker_events := env "ZABBIXDOCKER_EVENTS" -}}
-{{- $zabbixdocker_zabbix_server := env "ZABBIXDOCKER_ZABBIX_SERVER" -}}
-{{- $zabbixdocker_zabbix_hostname := env "ZABBIXDOCKER_ZABBIX_HOSTNAME" -}}
-{{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTE_PATH" -}}
-{{- $zabbixdocker_containers_remote_delay := env "ZABBIXDOCKER_CONTAINERSREMOTE_DELAY" -}}
+{{- $zabbixdocker_zabbix_server := env "ZABBIXDOCKER_ZABBIXSERVER" -}}
+{{- $zabbixdocker_zabbix_hostname := env "ZABBIXDOCKER_ZABBIXHOSTNAME" -}}
+{{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTEPATH" -}}
+{{- $zabbixdocker_containers_remote_delay := env "ZABBIXDOCKER_CONTAINERSREMOTEDELAY" -}}
 # zabbix-docker.conf
 
 [main]
