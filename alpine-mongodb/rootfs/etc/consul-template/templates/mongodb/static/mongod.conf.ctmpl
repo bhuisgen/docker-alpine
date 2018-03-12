@@ -1,0 +1,6 @@
+# mongod.conf
+
+storage:
+  dbPath: /var/lib/mongodb
+  journal:
+    enabled: true
