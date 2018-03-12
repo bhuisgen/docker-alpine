@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${CONSUL_TEMPLATE}" ]; then
+    echo "==> Enabling template ${CONSUL_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/consul/${CONSUL_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

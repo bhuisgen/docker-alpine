@@ -1,13 +1,8 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/consul/.config ]; then
-    echo "==> Configuring consul"
+echo "==> Generating consul configuration"
 
-    consul-template -config /etc/consul-template/conf-env.d -once
-    if [ $? -ne 0 ]; then
-        echo "Failed to configure container from environment, aborting" >&2
-        exit 1
-    fi
-
-    touch /var/lib/consul/.config
+if ! consul-template -config /etc/consul-template/conf.d/ -once; then
+    echo "Failed to generate consul configuration, aborting" >&2
+    exit 1
 fi
