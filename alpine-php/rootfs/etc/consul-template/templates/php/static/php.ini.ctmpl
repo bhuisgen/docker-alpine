@@ -1,11 +1,11 @@
-{{- $phpini_userini_filename := env "PHPINI_USERINI_FILENAME" -}}
-{{- $phpini_userini_cachettl := env "PHPINI_USERINI_CACHETTL" -}}
-{{- $phpini_maxecutiontime := env "PHPINI_MAXEXECUTIONTIME" -}}
-{{- $phpini_maxinputtime := env "PHPINI_MAXINPUTTIME" -}}
-{{- $phpini_memorylimit := env "PHPINI_MEMORYLIMIT" -}}
-{{- $phpini_postmaxsize := env "PHPINI_POSTMAXSIZE" -}}
-{{- $phpini_uploadmaxfilesize := env "PHPINI_UPLOADMAXFILESIZE" -}}
-{{- $phpini_date_timezone := env "PHPINI_DATE_TIMEZONE" -}}
+{{- $userini_filename := env "PHP_INI_USERINI_FILENAME" -}}
+{{- $userini_cachettl := env "PHP_INI_USERINI_CACHETTL" -}}
+{{- $maxecutiontime := env "PHP_INI_MAXEXECUTIONTIME" -}}
+{{- $maxinputtime := env "PHP_INI_MAXINPUTTIME" -}}
+{{- $memorylimit := env "PHP_INI_MEMORYLIMIT" -}}
+{{- $postmaxsize := env "PHP_INI_POSTMAXSIZE" -}}
+{{- $uploadmaxfilesize := env "PHP_INI_UPLOADMAXFILESIZE" -}}
+{{- $date_timezone := env "PHP_INI_DATE_TIMEZONE" -}}
 [PHP]
 
 ;;;;;;;;;;;;;;;;;;;
@@ -180,15 +180,15 @@
 ; To disable this feature set this option to empty value
 ;user_ini.filename =
 
-{{if $phpini_userini_filename}}
-user_ini.filename = {{$phpini_userini_filename}}
+{{if $userini_filename}}
+user_ini.filename = {{$userini_filename}}
 {{end}}
 
 ; TTL for user-defined php.ini files (time-to-live) in seconds. Default is 300 seconds (5 minutes)
 ;user_ini.cache_ttl = 300
 
-{{if $phpini_userini_cachettl}}
-user_ini.cache_ttl = {{$phpini_userini_cachettl}}
+{{if $userini_cachettl}}
+user_ini.cache_ttl = {{$userini_cachettl}}
 {{end}}
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -396,8 +396,8 @@ expose_php = Off
 ; Maximum execution time of each script, in seconds
 ; http://php.net/max-execution-time
 ; Note: This directive is hardcoded to 0 for the CLI SAPI
-{{if $phpini_maxecutiontime}}
-max_execution_time = {{$phpini_maxecutiontime}}
+{{if $maxecutiontime}}
+max_execution_time = {{$maxecutiontime}}
 {{else}}
 max_execution_time = 30
 {{end}}
@@ -410,8 +410,8 @@ max_execution_time = 30
 ; Development Value: 60 (60 seconds)
 ; Production Value: 60 (60 seconds)
 ; http://php.net/max-input-time
-{{if $phpini_maxinputtime}}
-max_input_time = {{$phpini_maxinputtime}}
+{{if $maxinputtime}}
+max_input_time = {{$maxinputtime}}
 {{else}}
 max_input_time = 60
 {{end}}
@@ -425,8 +425,8 @@ max_input_time = 60
 
 ; Maximum amount of memory a script may consume (128MB)
 ; http://php.net/memory-limit
-{{if $phpini_memorylimit}}
-memory_limit = {{$phpini_memorylimit}}
+{{if $memorylimit}}
+memory_limit = {{$memorylimit}}
 {{else}}
 memory_limit = 128M
 {{end}}
@@ -696,8 +696,8 @@ auto_globals_jit = On
 ; Its value may be 0 to disable the limit. It is ignored if POST data reading
 ; is disabled through enable_post_data_reading.
 ; http://php.net/post-max-size
-{{if $phpini_postmaxsize}}
-post_max_size = {{$phpini_postmaxsize}}
+{{if $postmaxsize}}
+post_max_size = {{$postmaxsize}}
 {{else}}
 post_max_size = 8M
 {{end}}
@@ -853,8 +853,8 @@ file_uploads = On
 
 ; Maximum allowed size for uploaded files.
 ; http://php.net/upload-max-filesize
-{{if $phpini_uploadmaxfilesize}}
-upload_max_filesize = {{$phpini_uploadmaxfilesize}}
+{{if $uploadmaxfilesize}}
+upload_max_filesize = {{$uploadmaxfilesize}}
 {{else}}
 upload_max_filesize = 2M
 {{end}}
@@ -972,8 +972,8 @@ cli_server.color = On
 [Date]
 ; Defines the default timezone used by the date functions
 ; http://php.net/date.timezone
-{{if $phpini_date_timezone}}
-date.timezone = {{$phpini_date_timezone}}
+{{if $date_timezone}}
+date.timezone = {{$date_timezone}}
 {{else}}
 ;date.timezone =
 {{end}}
