@@ -30,31 +30,31 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $proxy_keyprefix := env "NGINX_TEMPLATE_PROXY_KEYPREFIX" -}}
-{{- $nginx_server_name := env "NGINX_TEMPLATE_PROXY_SERVERNAME" -}}
-{{- $nginx_root := env "NGINX_TEMPLATE_PROXY_ROOT" -}}
-{{- $nginx_index := env "NGINX_TEMPLATE_PROXY_INDEX" -}}
-{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_PROXY_PROXYBUFFERING" -}}
-{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT" -}}
-{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT" -}}
-{{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_PROXY_PROXYSENDTIMEOUT" -}}
-{{- $nginx_proxy_gzip := env "NGINX_TEMPLATE_PROXY_PROXYGZIP" -}}
-{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_PROXY_PROXYACCESSLOG" -}}
-{{- $nginx_proxy_cache_path_levels := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHLEVELS" -}}
-{{- $nginx_proxy_cache_path_keys_cache_size := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHKEYSCACHESIZE" -}}
-{{- $nginx_proxy_cache_path_max_size := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE" -}}
-{{- $nginx_proxy_cache_path_inactive := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE" -}}
-{{- $nginx_proxy_cache_valid := env "NGINX_TEMPLATE_PROXY_PROXYCACHEVALID" -}}
-{{- $nginx_proxy_cache_use_stale := env "NGINX_TEMPLATE_PROXY_PROXYCACHEUSESTALE" -}}
-{{- $nginx_proxy_cache_revalidate := env "NGINX_TEMPLATE_PROXY_PROXYCACHEREVALIDATE" -}}
-{{- $nginx_proxy_cache_min_uses := env "NGINX_TEMPLATE_PROXY_PROXYCACHEMINUSES" -}}
-{{- $nginx_proxy_cache_lock := env "NGINX_TEMPLATE_PROXY_PROXYCACHEVALIDDELAY" -}}
-{{- $nginx_upstream_method := env "NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT" -}}
-{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT" -}}
+{{- $proxy_keyprefix := env "NGINX_KEYPREFIX" -}}
+{{- $nginx_server_name := env "NGINX_SERVERNAME" -}}
+{{- $nginx_root := env "NGINX_ROOT" -}}
+{{- $nginx_index := env "NGINX_INDEX" -}}
+{{- $nginx_proxy_buffering := env "NGINX_PROXYBUFFERING" -}}
+{{- $nginx_proxy_connect_timeout := env "NGINX_PROXYCONNECTTIMEOUT" -}}
+{{- $nginx_proxy_read_timeout := env "NGINX_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_send_timeout := env "NGINX_PROXYSENDTIMEOUT" -}}
+{{- $nginx_proxy_gzip := env "NGINX_PROXYGZIP" -}}
+{{- $nginx_proxy_access_log := env "NGINX_PROXYACCESSLOG" -}}
+{{- $nginx_proxy_cache_path_levels := env "NGINX_PROXYCACHEPATHLEVELS" -}}
+{{- $nginx_proxy_cache_path_keys_cache_size := env "NGINX_PROXYCACHEPATHKEYSCACHESIZE" -}}
+{{- $nginx_proxy_cache_path_max_size := env "NGINX_PROXYCACHEPATHMAXSIZE" -}}
+{{- $nginx_proxy_cache_path_inactive := env "NGINX_PROXYCACHEPATHINACTIVE" -}}
+{{- $nginx_proxy_cache_valid := env "NGINX_PROXYCACHEVALID" -}}
+{{- $nginx_proxy_cache_use_stale := env "NGINX_PROXYCACHEUSESTALE" -}}
+{{- $nginx_proxy_cache_revalidate := env "NGINX_PROXYCACHEREVALIDATE" -}}
+{{- $nginx_proxy_cache_min_uses := env "NGINX_PROXYCACHEMINUSES" -}}
+{{- $nginx_proxy_cache_lock := env "NGINX_PROXYCACHEVALIDDELAY" -}}
+{{- $nginx_upstream_method := env "NGINX_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_UPSTREAMFAILTIMEOUT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -123,7 +123,7 @@ http {
         {{range ls (print $proxy_keyprefix "targets")}}
         server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
-        server httpredir.debian.org:80;
+        server dl-cdn.alpinelinux.org:80;
         {{end}}
     }
 
@@ -202,11 +202,7 @@ http {
         }
         {{end}}
 
-        location /debian/pool {
-            try_files $uri @proxy_cache;
-        }
-
-        location /debian-security/pool {
+        location /alpine {
             try_files $uri @proxy_cache;
         }
 

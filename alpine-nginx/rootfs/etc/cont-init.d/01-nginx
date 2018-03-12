@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z ${NGINX_TEMPLATE} ]; then
-    echo "==> Enabling service template '${NGINX_TEMPLATE}'"
+if [ ! -z "${NGINX_TEMPLATE}" ]; then
+    echo "==> Enabling template ${NGINX_TEMPLATE}"
 
-    cp "/etc/consul-template/templates/nginx/${NGINX_TEMPLATE}.conf" /etc/consul-template/conf-services.d/10-nginx.conf
+    cp "/etc/consul-template/templates/nginx/${NGINX_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi

@@ -30,26 +30,31 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $name := env "NGINX_TEMPLATE_PHP_SERVICENAME" -}}
-{{- $tag := env "NGINX_TEMPLATE_PHP_SERVICETAG" -}}
-{{- $nginx_server_name := env "NGINX_TEMPLATE_PHP_SERVERNAME" -}}
-{{- $nginx_root := env "NGINX_TEMPLATE_PHP_ROOT" -}}
-{{- $nginx_index := env "NGINX_TEMPLATE_PHP_INDEX" -}}
-{{- $nginx_try_files := env "NGINX_TEMPLATE_PHP_TRYFILES" -}}
-{{- $nginx_auth_basic := env "NGINX_TEMPLATE_PHP_AUTHBASIC" -}}
-{{- $nginx_auth_basic_user_file := env "NGINX_TEMPLATE_PHP_AUTHBASICUSERFILE" -}}
-{{- $nginx_php_status := env "NGINX_TEMPLATE_PHP_PHPSTATUS" -}}
-{{- $nginx_php_status_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSLOCATION" -}}
-{{- $nginx_php_status_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSALLOW" -}}
-{{- $nginx_php_status_ping := env "NGINX_TEMPLATE_PHP_PHPSTATUSPING" -}}
-{{- $nginx_php_status_ping_location := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGLOCATION" -}}
-{{- $nginx_php_status_ping_allow := env "NGINX_TEMPLATE_PHP_PHPSTATUSPINGALLOW" -}}
-{{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
-{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
+{{- $proxy_keyprefix := env "NGINX_KEYPREFIX" -}}
+{{- $nginx_server_name := env "NGINX_SERVERNAME" -}}
+{{- $nginx_root := env "NGINX_ROOT" -}}
+{{- $nginx_index := env "NGINX_INDEX" -}}
+{{- $nginx_proxy_buffering := env "NGINX_PROXYBUFFERING" -}}
+{{- $nginx_proxy_connect_timeout := env "NGINX_PROXYCONNECTTIMEOUT" -}}
+{{- $nginx_proxy_read_timeout := env "NGINX_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_send_timeout := env "NGINX_PROXYSENDTIMEOUT" -}}
+{{- $nginx_proxy_gzip := env "NGINX_PROXYGZIP" -}}
+{{- $nginx_proxy_access_log := env "NGINX_PROXYACCESSLOG" -}}
+{{- $nginx_proxy_cache_path_levels := env "NGINX_PROXYCACHEPATHLEVELS" -}}
+{{- $nginx_proxy_cache_path_keys_cache_size := env "NGINX_PROXYCACHEPATHKEYSCACHESIZE" -}}
+{{- $nginx_proxy_cache_path_max_size := env "NGINX_PROXYCACHEPATHMAXSIZE" -}}
+{{- $nginx_proxy_cache_path_inactive := env "NGINX_PROXYCACHEPATHINACTIVE" -}}
+{{- $nginx_proxy_cache_valid := env "NGINX_PROXYCACHEVALID" -}}
+{{- $nginx_proxy_cache_use_stale := env "NGINX_PROXYCACHEUSESTALE" -}}
+{{- $nginx_proxy_cache_revalidate := env "NGINX_PROXYCACHEREVALIDATE" -}}
+{{- $nginx_proxy_cache_min_uses := env "NGINX_PROXYCACHEMINUSES" -}}
+{{- $nginx_proxy_cache_lock := env "NGINX_PROXYCACHEVALIDDELAY" -}}
+{{- $nginx_upstream_method := env "NGINX_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_UPSTREAMFAILTIMEOUT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -93,6 +98,10 @@ http {
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format upstream '$remote_addr - $remote_user [$time_local] '
+                            '"$request" $status $body_bytes_sent '
+                            '"$http_referer" "$http_user_agent" '
+                            'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
     access_log /var/log/nginx/access.log main;
@@ -105,14 +114,16 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    upstream php {
+    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}}{{if $nginx_proxy_cache_path_max_size}} max_size={{$nginx_proxy_cache_path_max_size}}{{end}}{{if $nginx_proxy_cache_path_inactive}} inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
+
+    upstream proxy {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
-        {{range service (print $tag "." $name)}}
-        server {{.Address}}:{{.Port}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
+        {{range ls (print $proxy_keyprefix "targets")}}
+        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
-        server 127.0.0.1:9000 down;
+        server httpredir.debian.org:80;
         {{end}}
     }
 
@@ -155,7 +166,7 @@ http {
 
         server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
         root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html index.php{{end}};
+        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -163,40 +174,6 @@ http {
             access_log off;
             {{if $nginx_status_allow}}
             {{range $address := $nginx_status_allow | split ","}}
-            allow {{$address}};
-            {{end}}
-            {{else}}
-            allow 127.0.0.1;
-            {{end}}
-            deny all;
-        }
-        {{end}}
-
-        {{if eq $nginx_php_status "1"}}
-        location {{if $nginx_php_status_location}}{{$nginx_php_status_location}}{{else}}/php-fpm_status{{end}} {
-            fastcgi_pass php;
-            include fastcgi.conf;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            access_log off;
-            {{if $nginx_php_status_allow}}
-            {{range $address := $nginx_php_status_allow | split ","}}
-            allow {{$address}};
-            {{end}}
-            {{else}}
-            allow 127.0.0.1;
-            {{end}}
-            deny all;
-        }
-        {{end}}
-
-        {{if eq $nginx_php_status_ping "1"}}
-        location {{if $nginx_php_status_ping_location}}{{$nginx_php_status_ping_location}}{{else}}/php-fpm_ping{{end}} {
-            fastcgi_pass php;
-            include fastcgi.conf;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            access_log off;
-            {{if $nginx_php_status_ping_allow}}
-            {{range $address := $nginx_php_status_ping_allow | split ","}}
             allow {{$address}};
             {{end}}
             {{else}}
@@ -225,27 +202,93 @@ http {
         }
         {{end}}
 
+        location /debian/pool {
+            try_files $uri @proxy_cache;
+        }
+
+        location /debian-security/pool {
+            try_files $uri @proxy_cache;
+        }
+
         location / {
-            {{if $nginx_try_files}}
-            try_files $uri {{$nginx_try_files}};
-            {{else}}
-            try_files $uri $uri/ /index.php?$args;
+            try_files $uri @proxy;
+        }
+
+        location @proxy {
+            proxy_pass http://proxy;
+            proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
+            proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
+            proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
+            proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            add_header X-Mirror-Upstream-Status $upstream_status;
+            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
+            add_header X-Mirror-Status $upstream_cache_status;
+
+            {{if eq $nginx_proxy_gzip "1"}}
+            gzip on;
+            gzip_disable "msie6";
+            gzip_vary on;
+            gzip_proxied any;
+            gzip_comp_level 6;
+            gzip_buffers 16 8k;
+            gzip_http_version 1.1;
+            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
             {{end}}
 
-            {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
-            auth_basic {{$nginx_auth_basic}};
-            auth_basic_user_file {{$nginx_auth_basic_user_file}};
+            {{if eq $nginx_proxy_access_log "1"}}
+            access_log /var/log/nginx/access.log upstream;
+            {{else}}
+            access_log off;
             {{end}}
         }
 
-        location ~ \.php$ {
-            try_files $uri =404;
+        location @proxy_cache {
+            proxy_pass http://proxy;
+            proxy_buffering {{$nginx_proxy_buffering}};
+            proxy_connect_timeout {{$nginx_proxy_connect_timeout}};
+            proxy_read_timeout {{$nginx_proxy_read_timeout}};
+            proxy_send_timeout {{$nginx_proxy_send_timeout}};
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
 
-            fastcgi_index index.php;
-            fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass php;
-            include fastcgi.conf;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            add_header X-Mirror-Upstream-Status $upstream_status;
+            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
+            add_header X-Mirror-Status $upstream_cache_status;
+
+            proxy_cache proxy;
+            {{if $nginx_proxy_cache_valid}}proxy_cache_valid {{$nginx_proxy_cache_valid}};{{end}}
+            {{if $nginx_proxy_cache_use_stale}}proxy_cache_use_stale {{$nginx_proxy_cache_use_stale}};{{end}}
+            {{if eq $nginx_proxy_cache_revalidate "1"}}proxy_cache_revalidate on;{{end}}
+            {{if $nginx_proxy_cache_min_uses}}proxy_cache_min_uses {{$nginx_proxy_cache_min_uses}};{{end}}
+            {{if eq $nginx_proxy_cache_lock "1"}}proxy_cache_lock on;{{end}}
+
+            {{if eq $nginx_proxy_gzip "1"}}
+            gzip on;
+            gzip_disable "msie6";
+            gzip_vary on;
+            gzip_proxied any;
+            gzip_comp_level 6;
+            gzip_buffers 16 8k;
+            gzip_http_version 1.1;
+            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+            {{end}}
+
+            {{if eq $nginx_proxy_access_log "1"}}
+            access_log /var/log/nginx/access.log upstream;
+            {{else}}
+            access_log off;
+            {{end}}
         }
     }
 }

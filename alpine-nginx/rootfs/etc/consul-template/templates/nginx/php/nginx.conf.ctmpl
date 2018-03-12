@@ -30,25 +30,26 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $name := env "NGINX_TEMPLATE_UPSTREAM_SERVICENAME" -}}
-{{- $tag := env "NGINX_TEMPLATE_UPSTREAM_SERVICETAG" -}}
-{{- $nginx_server_name := env "NGINX_TEMPLATE_UPSTREAM_SERVERNAME" -}}
-{{- $nginx_root := env "NGINX_TEMPLATE_UPSTREAM_ROOT" -}}
-{{- $nginx_index := env "NGINX_TEMPLATE_UPSTREAM_INDEX" -}}
-{{- $nginx_auth_basic := env "NGINX_TEMPLATE_UPSTREAM_AUTHBASIC" -}}
-{{- $nginx_auth_basic_user_file := env "NGINX_TEMPLATE_UPSTREAM_AUTHBASICUSERFILE" -}}
-{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_UPSTREAM_PROXYBUFFERING" -}}
-{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYCONNECTTIMEOUT" -}}
-{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYREADTIMEOUT" -}}
-{{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_UPSTREAM_PROXYSENDTIMEOUT" -}}
-{{- $nginx_proxy_gzip := env "NGINX_TEMPLATE_UPSTREAM_PROXYGZIP" -}}
-{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_UPSTREAM_PROXYACCESSLOG" -}}
-{{- $nginx_upstream_method := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMETHOD" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMWEIGHT" -}}
-{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXCONNS" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_UPSTREAM_UPSTREAMFAILTIMEOUT" -}}
+{{- $nginx_php_service_name := env "NGINX_PHPSERVICENAME" -}}
+{{- $nginx_php_service_tag := env "NGINX_PHPSERVICETAG" -}}
+{{- $nginx_server_name := env "NGINX_SERVERNAME" -}}
+{{- $nginx_root := env "NGINX_ROOT" -}}
+{{- $nginx_index := env "NGINX_INDEX" -}}
+{{- $nginx_try_files := env "NGINX_TRYFILES" -}}
+{{- $nginx_auth_basic := env "NGINX_AUTHBASIC" -}}
+{{- $nginx_auth_basic_user_file := env "NGINX_AUTHBASICUSERFILE" -}}
+{{- $nginx_php_status := env "NGINX_PHPSTATUS" -}}
+{{- $nginx_php_status_location := env "NGINX_PHPSTATUSLOCATION" -}}
+{{- $nginx_php_status_allow := env "NGINX_PHPSTATUSALLOW" -}}
+{{- $nginx_php_status_ping := env "NGINX_PHPSTATUSPING" -}}
+{{- $nginx_php_status_ping_location := env "NGINX_PHPSTATUSPINGLOCATION" -}}
+{{- $nginx_php_status_ping_allow := env "NGINX_PHPSTATUSPINGALLOW" -}}
+{{- $nginx_upstream_method := env "NGINX_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_UPSTREAMFAILTIMEOUT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -92,10 +93,6 @@ http {
     log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format upstream '$remote_addr - $remote_user [$time_local] '
-                            '"$request" $status $body_bytes_sent '
-                            '"$http_referer" "$http_user_agent" '
-                            'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
     access_log /var/log/nginx/access.log main;
@@ -108,14 +105,14 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    upstream app {
+    upstream php {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
-        {{range service (print $tag "." $name)}}
+        {{range service (print $nginx_php_service_tag "." $nginx_php_service_name)}}
         server {{.Address}}:{{.Port}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
-        server 127.0.0.1:80 down;
+        server 127.0.0.1:9000 down;
         {{end}}
     }
 
@@ -158,7 +155,7 @@ http {
 
         server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
         root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html{{end}};
+        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html index.php{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -166,6 +163,40 @@ http {
             access_log off;
             {{if $nginx_status_allow}}
             {{range $address := $nginx_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
+            deny all;
+        }
+        {{end}}
+
+        {{if eq $nginx_php_status "1"}}
+        location {{if $nginx_php_status_location}}{{$nginx_php_status_location}}{{else}}/php-fpm_status{{end}} {
+            fastcgi_pass php;
+            include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            access_log off;
+            {{if $nginx_php_status_allow}}
+            {{range $address := $nginx_php_status_allow | split ","}}
+            allow {{$address}};
+            {{end}}
+            {{else}}
+            allow 127.0.0.1;
+            {{end}}
+            deny all;
+        }
+        {{end}}
+
+        {{if eq $nginx_php_status_ping "1"}}
+        location {{if $nginx_php_status_ping_location}}{{$nginx_php_status_ping_location}}{{else}}/php-fpm_ping{{end}} {
+            fastcgi_pass php;
+            include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            access_log off;
+            {{if $nginx_php_status_ping_allow}}
+            {{range $address := $nginx_php_status_ping_allow | split ","}}
             allow {{$address}};
             {{end}}
             {{else}}
@@ -195,7 +226,11 @@ http {
         {{end}}
 
         location / {
-            try_files $uri @upstream;
+            {{if $nginx_try_files}}
+            try_files $uri {{$nginx_try_files}};
+            {{else}}
+            try_files $uri $uri/ /index.php?$args;
+            {{end}}
 
             {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
             auth_basic {{$nginx_auth_basic}};
@@ -203,35 +238,14 @@ http {
             {{end}}
         }
 
-        location @upstream {
-            proxy_pass http://app;
-            proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
-            proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
-            proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
-            proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+        location ~ \.php$ {
+            try_files $uri =404;
 
-            {{if eq $nginx_proxy_gzip "1"}}
-            gzip on;
-            gzip_disable "msie6";
-            gzip_vary on;
-            gzip_proxied any;
-            gzip_comp_level 6;
-            gzip_buffers 16 8k;
-            gzip_http_version 1.1;
-            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-            {{end}}
-
-            {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream;
-            {{else}}
-            access_log off;
-            {{end}}
+            fastcgi_index index.php;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass php;
+            include fastcgi.conf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
     }
 }

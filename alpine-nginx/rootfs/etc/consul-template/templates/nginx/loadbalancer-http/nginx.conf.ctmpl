@@ -22,39 +22,22 @@
 {{- $nginx_ssl_protocols := env "NGINX_SSLPROTOCOLS" -}}
 {{- $nginx_ssl_ciphers := env "NGINX_SSLCIPHERS" -}}
 {{- $nginx_ssl_redirect := env "NGINX_SSLREDIRECT" -}}
-{{- $nginx_open_file_cache := env "NGINX_OPENFILECACHE" -}}
-{{- $nginx_gzip := env "NGINX_GZIP" -}}
-{{- $nginx_expire := env "NGINX_EXPIRE" -}}
-{{- $nginx_expire_delay := env "NGINX_EXPIREDELAY" -}}
-{{- $nginx_expire_access_log := env "NGINX_EXPIREACCESSLOG" -}}
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $proxy_keyprefix := env "NGINX_TEMPLATE_PROXY_KEYPREFIX" -}}
-{{- $nginx_server_name := env "NGINX_TEMPLATE_PROXY_SERVERNAME" -}}
-{{- $nginx_root := env "NGINX_TEMPLATE_PROXY_ROOT" -}}
-{{- $nginx_index := env "NGINX_TEMPLATE_PROXY_INDEX" -}}
-{{- $nginx_proxy_buffering := env "NGINX_TEMPLATE_PROXY_PROXYBUFFERING" -}}
-{{- $nginx_proxy_connect_timeout := env "NGINX_TEMPLATE_PROXY_PROXYCONNECTTIMEOUT" -}}
-{{- $nginx_proxy_read_timeout := env "NGINX_TEMPLATE_PROXY_PROXYREADTIMEOUT" -}}
-{{- $nginx_proxy_send_timeout := env "NGINX_TEMPLATE_PROXY_PROXYSENDTIMEOUT" -}}
-{{- $nginx_proxy_gzip := env "NGINX_TEMPLATE_PROXY_PROXYGZIP" -}}
-{{- $nginx_proxy_access_log := env "NGINX_TEMPLATE_PROXY_PROXYACCESSLOG" -}}
-{{- $nginx_proxy_cache_path_levels := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHLEVELS" -}}
-{{- $nginx_proxy_cache_path_keys_cache_size := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHKEYSCACHESIZE" -}}
-{{- $nginx_proxy_cache_path_max_size := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHMAXSIZE" -}}
-{{- $nginx_proxy_cache_path_inactive := env "NGINX_TEMPLATE_PROXY_PROXYCACHEPATHINACTIVE" -}}
-{{- $nginx_proxy_cache_valid := env "NGINX_TEMPLATE_PROXY_PROXYCACHEVALID" -}}
-{{- $nginx_proxy_cache_use_stale := env "NGINX_TEMPLATE_PROXY_PROXYCACHEUSESTALE" -}}
-{{- $nginx_proxy_cache_revalidate := env "NGINX_TEMPLATE_PROXY_PROXYCACHEREVALIDATE" -}}
-{{- $nginx_proxy_cache_min_uses := env "NGINX_TEMPLATE_PROXY_PROXYCACHEMINUSES" -}}
-{{- $nginx_proxy_cache_lock := env "NGINX_TEMPLATE_PROXY_PROXYCACHEVALIDDELAY" -}}
-{{- $nginx_upstream_method := env "NGINX_TEMPLATE_PROXY_UPSTREAMMETHOD" -}}
-{{- $nginx_upstream_keepalive := env "NGINX_TEMPLATE_PROXY_UPSTREAMKEEPALIVE" -}}
-{{- $nginx_upstream_weight := env "NGINX_TEMPLATE_PROXY_UPSTREAMWEIGHT" -}}
-{{- $nginx_upstream_max_conns := env "NGINX_TEMPLATE_PROXY_UPSTREAMMAXCONNS" -}}
-{{- $nginx_upstream_max_fails := env "NGINX_TEMPLATE_PROXY_UPSTREAMMAXFAILS" -}}
-{{- $nginx_upstream_fail_timeout := env "NGINX_TEMPLATE_PROXY_UPSTREAMFAILTIMEOUT" -}}
+{{- $nginx_loadbalancer_keyprefix := env "NGINX_LOADBALANCERKEYPREFIX" -}}
+{{- $nginx_proxy_buffering := env "NGINX_PROXYBUFFERING" -}}
+{{- $nginx_proxy_connect_timeout := env "NGINX_PROXYCONNECTTIMEOUT" -}}
+{{- $nginx_proxy_read_timeout := env "NGINX_PROXYREADTIMEOUT" -}}
+{{- $nginx_proxy_send_timeout := env "NGINX_PROXYSENDTIMEOUT" -}}
+{{- $nginx_proxy_gzip := env "NGINX_PROXYGZIP" -}}
+{{- $nginx_proxy_access_log := env "NGINX_PROXYACCESSLOG" -}}
+{{- $nginx_upstream_method := env "NGINX_UPSTREAMMETHOD" -}}
+{{- $nginx_upstream_keepalive := env "NGINX_UPSTREAMKEEPALIVE" -}}
+{{- $nginx_upstream_weight := env "NGINX_UPSTREAMWEIGHT" -}}
+{{- $nginx_upstream_max_conns := env "NGINX_UPSTREAMMAXCONNS" -}}
+{{- $nginx_upstream_max_fails := env "NGINX_UPSTREAMMAXFAILS" -}}
+{{- $nginx_upstream_fail_timeout := env "NGINX_UPSTREAMFAILTIMEOUT" -}}
 daemon off;
 user nginx;
 worker_processes {{if $nginx_worker_processes}}{{$nginx_worker_processes}}{{else}}1{{end}};
@@ -104,7 +87,7 @@ http {
                             'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
 
     {{if eq $nginx_access_log "1"}}
-    access_log /var/log/nginx/access.log main;
+    access_log /var/log/nginx/access.log main buffer=1m flush=10s;
     {{else}}
     access_log off;
     {{end}}
@@ -114,16 +97,14 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}}{{if $nginx_proxy_cache_path_max_size}} max_size={{$nginx_proxy_cache_path_max_size}}{{end}}{{if $nginx_proxy_cache_path_inactive}} inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
-
-    upstream proxy {
+    upstream app {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
-        {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
+        {{if $nginx_upstream_keepalive}}keepalive {{if $nginx_upstream_keepalive}}{{$nginx_upstream_keepalive}}{{else}}32{{end}};{{end}}
 
-        {{range ls (print $proxy_keyprefix "targets")}}
+        {{range ls (print $nginx_loadbalancer_keyprefix "targets")}}
         server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{else}}
-        server dl-cdn.alpinelinux.org:80;
+        server 127.0.0.1:80 down;
         {{end}}
     }
 
@@ -145,28 +126,6 @@ http {
         ssl_session_cache shared:SSL:10m;
         ssl_session_tickets off;
         {{end}}
-
-        {{if eq $nginx_open_file_cache "1"}}
-        open_file_cache max=1000 inactive=20s;
-        open_file_cache_valid 30s;
-        open_file_cache_min_uses 2;
-        open_file_cache_errors on;
-        {{end}}
-
-        {{if eq $nginx_gzip "1"}}
-        gzip on;
-        gzip_disable "msie6";
-        gzip_vary on;
-        gzip_proxied off;
-        gzip_comp_level 6;
-        gzip_buffers 16 8k;
-        gzip_http_version 1.1;
-        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-        {{end}}
-
-        server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
-        root {{if $nginx_root}}{{$nginx_root}}{{else}}/var/www{{end}};
-        index {{if $nginx_index}}{{$nginx_index}}{{else}}index.html{{end}};
 
         {{if eq $nginx_status "1"}}
         location {{if $nginx_status_location}}{{$nginx_status_location}}{{else}}/nginx_status{{end}} {
@@ -193,25 +152,8 @@ http {
         }
         {{end}}
 
-        {{if eq $nginx_expire "1"}}
-        location ~* \.(woff|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
-            expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
-            add_header Pragma public;
-            add_header Cache-Control "public";
-            {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
-        }
-        {{end}}
-
-        location /alpine {
-            try_files $uri @proxy_cache;
-        }
-
         location / {
-            try_files $uri @proxy;
-        }
-
-        location @proxy {
-            proxy_pass http://proxy;
+            proxy_pass http://app;
             proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
             proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
             proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
@@ -223,10 +165,6 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
 
-            add_header X-Mirror-Upstream-Status $upstream_status;
-            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
-            add_header X-Mirror-Status $upstream_cache_status;
-
             {{if eq $nginx_proxy_gzip "1"}}
             gzip on;
             gzip_disable "msie6";
@@ -239,49 +177,7 @@ http {
             {{end}}
 
             {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream;
-            {{else}}
-            access_log off;
-            {{end}}
-        }
-
-        location @proxy_cache {
-            proxy_pass http://proxy;
-            proxy_buffering {{$nginx_proxy_buffering}};
-            proxy_connect_timeout {{$nginx_proxy_connect_timeout}};
-            proxy_read_timeout {{$nginx_proxy_read_timeout}};
-            proxy_send_timeout {{$nginx_proxy_send_timeout}};
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-
-            add_header X-Mirror-Upstream-Status $upstream_status;
-            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
-            add_header X-Mirror-Status $upstream_cache_status;
-
-            proxy_cache proxy;
-            {{if $nginx_proxy_cache_valid}}proxy_cache_valid {{$nginx_proxy_cache_valid}};{{end}}
-            {{if $nginx_proxy_cache_use_stale}}proxy_cache_use_stale {{$nginx_proxy_cache_use_stale}};{{end}}
-            {{if eq $nginx_proxy_cache_revalidate "1"}}proxy_cache_revalidate on;{{end}}
-            {{if $nginx_proxy_cache_min_uses}}proxy_cache_min_uses {{$nginx_proxy_cache_min_uses}};{{end}}
-            {{if eq $nginx_proxy_cache_lock "1"}}proxy_cache_lock on;{{end}}
-
-            {{if eq $nginx_proxy_gzip "1"}}
-            gzip on;
-            gzip_disable "msie6";
-            gzip_vary on;
-            gzip_proxied any;
-            gzip_comp_level 6;
-            gzip_buffers 16 8k;
-            gzip_http_version 1.1;
-            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-            {{end}}
-
-            {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream;
+            access_log /var/log/nginx/access.log upstream buffer=1m flush=10s;
             {{else}}
             access_log off;
             {{end}}
