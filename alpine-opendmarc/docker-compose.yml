@@ -19,6 +19,12 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=8893               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - OPENDMARC_TEMPLATE=static             # configuration template
+
+            #
+            # template static
+            #
+
             #- OPENDMARC_AUTHSERVID=                # auth server id
             #- OPENDMARC_IGNOREMAILFROM=            # list of domaines names ignore by the filter
             #- OPENDMARC_REJECTFAILURES=false       # reject messages if DMARC evaluation failed
