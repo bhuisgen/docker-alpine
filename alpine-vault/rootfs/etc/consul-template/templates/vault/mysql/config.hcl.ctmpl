@@ -7,7 +7,9 @@
 {{- $vault_listener_tls_prefer_server_cipher_suites := env "VAULT_LISTENERTLSPREFERSERVERCIPHERSUITES" -}}
 {{- $vault_listener_tls_require_and_verify_client_cert := env "VAULT_LISTENERTLSREQUIREANDVERIFYCLIENTCERT" -}}
 {{- $vault_listener_tls_client_ca_file := env "VAULT_LISTENERTLSCLIENTCAFILE" -}}
-{{- $vault_storage_connection_url := env "VAULT_TEMPLATE_POSTGRESQL_STORAGECONNECTIONURL" -}}
+{{- $vault_storage_username := env "VAULT_STORAGEUSERNAME" -}}
+{{- $vault_storage_password := env "VAULT_STORAGEPASSWORD" -}}
+{{- $vault_storage_database := env "VAULT_STORAGEDATABASE" -}}
 {{if $vault_cluster_name}}cluster_name = {{$vault_cluster_name}}{{end}}
 
 listener "tcp" {
@@ -22,6 +24,8 @@ listener "tcp" {
   {{if $vault_listener_tls_client_ca_file}}tls_client_ca_file = {{$vault_listener_tls_client_ca_file}}{{end}}
 }
 
-storage "postgresql" {
-  connection_url = "{{$vault_storage_connection_url}}"
+storage "mysql" {
+  username = "{{$vault_storage_username}}"
+  password = "{{$vault_storage_password}}"
+  database = "{{$vault_storage_database}}"
 }

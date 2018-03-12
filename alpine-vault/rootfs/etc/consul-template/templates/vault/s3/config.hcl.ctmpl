@@ -7,8 +7,9 @@
 {{- $vault_listener_tls_prefer_server_cipher_suites := env "VAULT_LISTENERTLSPREFERSERVERCIPHERSUITES" -}}
 {{- $vault_listener_tls_require_and_verify_client_cert := env "VAULT_LISTENERTLSREQUIREANDVERIFYCLIENTCERT" -}}
 {{- $vault_listener_tls_client_ca_file := env "VAULT_LISTENERTLSCLIENTCAFILE" -}}
-{{- $vault_storage_address := env "VAULT_TEMPLATE_CONSUL_STORAGEADDRESS" -}}
-{{- $vault_storage_path := env "VAULT_TEMPLATE_CONSUL_STORAGEPATH" -}}
+{{- $vault_storage_access_key := env "VAULT_STORAGEACCESSKEY" -}}
+{{- $vault_storage_secret_key := env "VAULT_STORAGESECRETKEY" -}}
+{{- $vault_storage_bucket := env "VAULT_STORAGEBUCKET" -}}
 {{if $vault_cluster_name}}cluster_name = {{$vault_cluster_name}}{{end}}
 
 listener "tcp" {
@@ -23,7 +24,8 @@ listener "tcp" {
   {{if $vault_listener_tls_client_ca_file}}tls_client_ca_file = {{$vault_listener_tls_client_ca_file}}{{end}}
 }
 
-storage "consul" {
-  address = "{{$vault_storage_address}}"
-  path = "{{$vault_storage_path}}"
+storage "mysql" {
+  access_key = "{{$vault_storage_access_key}}"
+  secret_key = "{{$vault_storage_secret_key}}"
+  bucket = "{{$vault_storage_bucket}}"
 }
