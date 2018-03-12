@@ -2,7 +2,7 @@
 {{- $rabbitmq_tcplistenoptionsbacklog := env "RABBITMQ_TCPLISTENOPTIONSBACKLOG" -}}
 {{- $rabbitmq_tcplistenoptionssndbuf := env "RABBITMQ_TCPLISTENOPTIONSSNDBUF" -}}
 {{- $rabbitmq_tcplistenoptionsrecbuf := env "RABBITMQ_TCPLISTENOPTIONSRECBUF" -}}
-{{- $rabbitmq_tcplistenoptionskeepalive :- env "RABBITMQ_TCPLISTENOPTIONSKEEPALIVE" -}}
+{{- $rabbitmq_tcplistenoptionskeepalive := env "RABBITMQ_TCPLISTENOPTIONSKEEPALIVE" -}}
 {{- $rabbitmq_ssl := env "RABBITMQ_SSL" -}}
 {{- $rabbitmq_sslcacertfile := env "RABBITMQ_SSLCACERTFILE" -}}
 {{- $rabbitmq_sslcertfile := env "RABBITMQ_SSLCERTFILE" -}}
@@ -16,7 +16,7 @@
 {{- $rabbitmq_clusterkeepaliveinterval := env "RABBITMQ_CLUSTERKEEPALIVEINTERVAL" -}}
 {{- $rabbitmq_collectstatistics := env "RABBITMQ_COLLECTSTATISTICS" -}}
 {{- $rabbitmq_collectstatisticsinterval := env "RABBITMQ_COLLECTSTATISTICSINTERVAL" -}}
-{{- $rabbitmq_hipecompile := env "RABBITMQ_HIPECOMPILE" }}
+{{- $rabbitmq_hipecompile := env "RABBITMQ_HIPECOMPILE" -}}
 {{- $rabbitmq_management := env "RABBITMQ_MANAGEMENT" -}}
 {{- $rabbitmq_managementratesmode := env "RABBITMQ_MANAGEMENTRATESMODE" -}}
 {{- $rabbitmq_managementagent := env "RABBITMQ_MANAGEMENTAGENT" -}}

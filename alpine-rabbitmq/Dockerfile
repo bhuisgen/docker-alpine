@@ -1,19 +1,13 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV RABBITMQ_VERSION=3.7.3 \
-    RABBITMQ_HOME=/var/lib/rabbitmq \
-    RABBITMQ_MNESIA_DIR=/var/lib/rabbitmq/mnesia \
-    RABBITMQ_PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins \
-    RABBITMQ_SERVER_CODE_PATH=/var/lib/rabbitmq/hipe/ebin \
-    RABBITMQ_PID_FILE=/var/run/rabbitmq/rabbitmq.pid \
-    RABBITMQ_LOGS=- \
-    RABBITMQ_SASL_LOGS=-
+ENV RABBITMQ_VERSION=3.7.4 \
+    PATH=/usr/local/rabbitmq/sbin:$PATH
 
-RUN mkdir -p ${RABBITMQ_HOME} && \
+RUN mkdir -p /var/lib/rabbitmq && \
     addgroup -S rabbitmq && \
-    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h ${RABBITMQ_HOME} rabbitmq && \
-    chown rabbitmq:rabbitmq ${RABBITMQ_HOME}
+    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq
 
 COPY packages/*.apk /root/
 RUN apk add --update tar xz && \
@@ -37,8 +31,10 @@ RUN apk add --update tar xz && \
     mkdir /usr/local/rabbitmq && \
     curl -sSL https://github.com/rabbitmq/rabbitmq-server/releases/download/v${RABBITMQ_VERSION}/rabbitmq-server-generic-unix-${RABBITMQ_VERSION}.tar.xz | \
         tar -xJo -C /usr/local/rabbitmq --strip-components 1 && \
-    mkdir -p ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} /var/run/rabbitmq && \
-    chown rabbitmq:rabbitmq ${RABBITMQ_MNESIA_DIR} ${RABBITMQ_PLUGINS_EXPAND_DIR} ${RABBITMQ_SERVER_CODE_PATH} \
+    mkdir -p /var/lib/rabbitmq/config /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins \
+        /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq && \
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq/config /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins \
+        /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq \
         /var/run/rabbitmq && \
     apk del --purge tar xz && \
     rm -f /root/*.apk && \

@@ -20,10 +20,16 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=5672                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            #- RABBITMQ_RESCUE=1                            # enable rescue mode (disable service startup)
+            - RABBITMQ_TEMPLATE=static                      # configuration template
+
+            #
+            # template static
+            #
+
             - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS    # erlang cookie
             #- RABBITMQ_PLUGINS=                            # enable other plugins (comma separated list)
             #- RABBITMQ_CLUSTERNAME=cluster                 # cluster name
+            #- RABBITMQ_GUESTPASSWORD=                      # guest password
             - RABBITMQ_USERNAME=rabbitmq                    # administrator user
             - RABBITMQ_PASSWORD=rabbitmq                    # administrator password
             #- RABBITMQ_NETTICKTIME=60                      # network tick time frequency
@@ -31,27 +37,27 @@ services:
             #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768        # TCP socket send buffer size
             #- RABBITMQ_TCPLISTENOPTIONSRECBUF=32768        # TCP socket receive buffer size
             #- RABBITMQ_TCPLISTENOPTIONSKEEPALIVE=0         # enable TCP keepalive
-            - RABBITMQ_SSL=0                                # enable TLS
-            #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem     # TLS CA certificates
-            #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem   # TLS server certificate
-            #- RABBITMQ_SSLKEYFILE=/etc/ssl/private/server.key  # TLS server key
+            #- RABBITMQ_SSL=0                               # enable TLS
+            #- RABBITMQ_SSLCACERTFILE=                      # TLS CA certificates
+            #- RABBITMQ_SSLCERTFILE=                        # TLS server certificate
+            #- RABBITMQ_SSLKEYFILE=                         # TLS server key
             #- RABBITMQ_SSLDEPTH=2                          # TLS CA chain verification depth
-            - RABBITMQ_SSLVERIFY=verify_peer                # TLS verification
-            - RABBITMQ_SSLFAILIFNOPEERCERT=false            # TLS fail if client has no certificate
-            - RABBITMQ_RAMLIMIT=0.4                         # RAM limit
-            - RABBITMQ_DISKLIMIT=1000000000                 # disk limit
+            #- RABBITMQ_SSLVERIFY=verify_peer               # TLS verification
+            #- RABBITMQ_SSLFAILIFNOPEERCERT=false           # TLS fail if client has no certificate
+            #- RABBITMQ_RAMLIMIT=0.4                        # RAM limit
+            #- RABBITMQ_DISKLIMIT=1000000000                # disk limit
             #- RABBITMQ_COLLECTSTATISTICS=none              # collect statistics mode
             #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000      # collect statistics interval
             #- RABBITMQ_HIPECOMPILE=false                   # enable hipe compilation
-            - RABBITMQ_MANAGEMENT=1                         # enable management plugin
+            #- RABBITMQ_MANAGEMENT=0                        # enable management plugin
             #- RABBITMQ_MANAGEMENTRATESMODE=basic           # management statistics rates mode
-            - RABBITMQ_MANAGEMENTAGENT=0                    # enable management agent plugin
+            #- RABBITMQ_MANAGEMENTAGENT=0                   # enable management agent plugin
             #- RABBITMQ_MANAGEMENTAGENTRATESMODE=basic      # management agent statistics rates mode
-            - RABBITMQ_MQTT=1                               # enable MQTT
+            #- RABBITMQ_MQTT=0                              # enable MQTT
             #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096    # MQTT TCP socket backlog
             #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768   # MQTT TCP socket send buffer size
             #- RABBITMQ_MQTTTTCPLISTENOPTIONSRECBUF=32768   # MQTT TCP socket receive buffer size
-            - RABBITMQ_STOMP=1                              # enable STOMP
+            #- RABBITMQ_STOMP=0                             # enable STOMP
             #- RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG=4096   # STOMP TCP socket backlog
             #- RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF=32768   # STOMP TCP socket send buffer size
             #- RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF=32768   # STOMP TCP socket receive buffer size
@@ -79,6 +85,7 @@ services:
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=/path/prefix
+    #         - RABBITMQ_TEMPLATE=static
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
     #         - RABBITMQ_CLUSTERNAME=cluster                # set the cluster name
     #         - RABBITMQ_USERNAME=rabbitmq
@@ -99,6 +106,7 @@ services:
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=/path/prefix
+    #         - RABBITMQ_TEMPLATE=static
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq

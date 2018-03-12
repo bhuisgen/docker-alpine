@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 export USER=rabbitmq
-export HOME=${RABBITMQ_HOME}
+export HOME=/var/lib/rabbitmq
+
+cd /usr/local/rabbitmq || exit 1
 exec s6-setuidgid rabbitmq /usr/local/rabbitmq/sbin/rabbitmq-server
