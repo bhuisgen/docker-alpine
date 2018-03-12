@@ -18,6 +18,12 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=8080               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - TOMCAT_TEMPLATE=static                # configuration template
+
+            #
+            # template static
+            #
+
             #- TOMCAT_DEBUG=0                       # enable JVM debug
             #- TOMCAT_JDWP=0                        # enable JVM remote debug
             #- TOMCAT_JMX=0                         # enable JMX monitoring
