@@ -1,7 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${STRONGSWANMONITOR}" ] && [ "${STRONGSWANMONITOR}" -eq 1 ]; then
-    echo "==> Enabling strongswan monitor"
-
-    rm -f /etc/services.d/strongswan-monitor/down
-fi
+exit 0
