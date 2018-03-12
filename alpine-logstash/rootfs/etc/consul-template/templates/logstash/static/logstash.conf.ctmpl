@@ -1,0 +1,15 @@
+{{- $logstash_elasticsearch := env "LOGSTASH_ELASTICSEARCH" -}}
+input {
+    gelf {
+        port => 12201
+        type => docker
+    }
+}
+
+output {
+    elasticsearch {
+        hosts => [
+            {{range $i, $host := $logstash_elasticsearch | split ","}}{{if ne $i 0}}, {{end}}"{{$host}}"{{end}}
+        ]
+    }
+}

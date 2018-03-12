@@ -9,9 +9,7 @@ services:
             - consul                                # consul agent
         image: bhuisgen/alpine-logstash
         ports:
-            - "10514:10514"
-            - "10514:10514/udp"
-            - "12201:12201/udp"
+            - "9600:9600"
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - logstash:/var/lib/logstash            # volume for data
@@ -24,9 +22,11 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=10514              # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            #- LOGSTASH_TEMPLATE=                   # configuration template
+            - LOGSTASH_TEMPLATE=static              # configuration template
+
             #
-            # template cluster
+            # template static
             #
-            - LOGSTASH_TEMPLATE_CLUSTER_SERVICENAME=elasticsearch   # consul service name
-            - LOGSTASH_TEMPLATE_CLUSTER_SERVICETAG=local            # consul service tag
+
+            - LOGSTASH_ELASTICSEARCH=elasticsearch  # elastic server (comma delimited list)
+            #- LOGSTASH_JVMHEAPSIZE=1g              # JVM heap size
