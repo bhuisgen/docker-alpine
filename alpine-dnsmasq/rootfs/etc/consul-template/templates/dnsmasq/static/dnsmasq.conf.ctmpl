@@ -6,7 +6,9 @@
 {{- $dnsmasq_nohosts := env "DNSMASQ_NOHOSTS" -}}
 {{- $dnsmasq_addhosts := env "DNSMASQ_ADDHOSTS" -}}
 {{- $dnsmasq_domain := env "DNSMASQ_DOMAIN" -}}
+{{- $dnsmasq_upstream := env "DNSMASQ_UPSTREAM" -}}
 {{- $dnsmasq_log := env "DNSMASQ_LOG" -}}
+{{- $dnsmasq_dhcp := env "DNSMASQ_DHCP" -}}
 {{- $dnsmasq_dhcp_range := env "DNSMASQ_DHCPRANGE" -}}
 {{- $dnsmasq_dhcp_netmask := env "DNSMASQ_DHCPNETMASK" -}}
 {{- $dnsmasq_dhcp_router := env "DNSMASQ_DHCPROUTER" -}}
@@ -30,7 +32,7 @@ listen-address={{$address}}
 {{if $dnsmasq_addhosts}}addn-hosts={{$dnsmasq_addhosts}}{{end}}
 {{if $dnsmasq_domain}}
 domain={{$dnsmasq_domain}}
-local=/{{$dnsmasq_domain}}/
+server=/{{$dnsmasq_domain}}/{{$dnsmasq_upstream}}
 {{end}}
 
 {{if eq $dnsmasq_log "1"}}
@@ -38,7 +40,7 @@ log-queries
 log-dhcp
 {{end}}
 
-{{if and $dnsmasq_dhcp_range $dnsmasq_dhcp_netmask $dnsmasq_dhcp_router}}
+{{if eq $dnsmasq_dhcp "1"}}
 dhcp-range={{$dnsmasq_dhcp_range}}
 dhcp-option=option:netmask,{{$dnsmasq_dhcp_netmask}}
 dhcp-option=option:router,{{$dnsmasq_dhcp_router}}
