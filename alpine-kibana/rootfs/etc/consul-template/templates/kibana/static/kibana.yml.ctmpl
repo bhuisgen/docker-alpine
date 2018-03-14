@@ -1,8 +1,10 @@
+{{- $kibana_elasticsearch_url := env "KIBANA_ELASTICSEARCHURL" -}}
 # Kibana is served by a back end server. This controls which port to use.
 # server.port: 5601
 
 # The host to bind the server to.
-# server.host: "0.0.0.0"
+
+server.host: "0.0.0.0"
 
 # If you are running kibana behind a proxy, and want to mount it at a path,
 # specify that path here. The basePath can't end in a slash.
@@ -14,7 +16,7 @@
 # The Elasticsearch instance to use for all your queries.
 # elasticsearch.url: "http://localhost:9200"
 
-elasticsearch.url: "http://elasticsearch:9200"
+{{if $kibana_elasticsearch_url}}elasticsearch.url: "{{$kibana_elasticsearch_url}}"{{end}}
 
 # preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,
 # then the host you use to connect to *this* Kibana instance will be sent.
@@ -75,7 +77,8 @@ elasticsearch.url: "http://elasticsearch:9200"
 # logging.silent: false
 
 # Set this to true to suppress all logging output except for error messages.
-# logging.quiet: false
+
+logging.quiet: false
 
 # Set this to true to log all events, including system usage information and all requests.
 # logging.verbose: false

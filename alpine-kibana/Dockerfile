@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV KIBANA_VERSION=4.5.1
+ENV KIBANA_VERSION=6.2.1
 
 RUN mkdir /var/lib/kibana && \
     addgroup -S kibana && \
