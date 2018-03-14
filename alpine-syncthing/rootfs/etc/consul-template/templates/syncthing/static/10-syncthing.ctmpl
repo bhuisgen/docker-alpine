@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -f /var/lib/syncthing/.config ]; then
+    echo "==> Configuring syncthing"
+
+    if [ -z "${SYNCTHING_UID}" ]; then
+        SYNCTHING_UID=1000
+    fi
+
+    if [ -z "${SYNCTHING_GID}" ]; then
+        SYNCTHING_GID=1000
+    fi
+
+    mkdir -p /var/lib/syncthing /var/run/syncthing
+    addgroup -g ${SYNCTHING_GID} -S syncthing
+    adduser -u ${SYNCTHING_UID} -S -D -g "" -G syncthing -s /bin/sh -h /var/lib/syncthing syncthing
+    chown syncthing:syncthing /var/lib/syncthing /var/run/syncthing
+
+    touch /var/lib/syncthing/.config
+fi

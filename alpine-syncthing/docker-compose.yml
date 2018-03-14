@@ -22,5 +22,11 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=8443                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - SYNCTHING_TEMPLATE=static                     # configuration template
+
+            #
+            # template static
+            #
+
             #- SYNCTHING_UID=1000                           # userid for execution
             #- SYNCTHING_GID=1000                           # groupid for execution
