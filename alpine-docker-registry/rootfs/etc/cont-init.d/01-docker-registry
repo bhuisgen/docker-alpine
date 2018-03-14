@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${REGISTRY_TEMPLATE}" ]; then
+    echo "==> Enabling template ${REGISTRY_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/docker-registry/${REGISTRY_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi
