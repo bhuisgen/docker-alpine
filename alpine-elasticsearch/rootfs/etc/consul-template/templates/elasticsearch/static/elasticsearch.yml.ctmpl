@@ -1,3 +1,6 @@
+{{- $elasticsearch_cluster_name := env "ELASTICSEARCH_CLUSTERNAME" -}}
+{{- $elasticsearch_node_name := env "ELASTICSEARCH_NODENAME" -}}
+{{- $elasticsearch_node_attr_rack := env "ELASTICSEARCH_NODEATTRRACK" -}}
 # ======================== Elasticsearch Configuration =========================
 #
 # NOTE: Elasticsearch comes with reasonable defaults for most settings.
@@ -7,94 +10,98 @@
 # The primary way of configuring a node is via this file. This template lists
 # the most important settings you may want to configure for a production cluster.
 #
-# Please see the documentation for further information on configuration options:
-# <http://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration.html>
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
 #
 # ---------------------------------- Cluster -----------------------------------
 #
 # Use a descriptive name for your cluster:
 #
-# cluster.name: my-application
+
+{{if $elasticsearch_cluster_name}}cluster.name = {{$elasticsearch_cluster_name}}{{end}}
+
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-# node.name: node-1
+
+{{if $elasticsearch_node_name}}node.name = {{$elasticsearch_node_name}}{{end}}
+
 #
 # Add custom attributes to the node:
 #
-# node.rack: r1
+
+{{if $elasticsearch_node_attr_rack}}node.attr.rack = {{$elasticsearch_node_attr_rack}}{{end}}
+
 #
 # ----------------------------------- Paths ------------------------------------
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-# path.data: /path/to/data
+#path.data: /path/to/data
 #
 # Path to log files:
 #
-# path.logs: /path/to/logs
+#path.logs: /path/to/logs
 #
 # ----------------------------------- Memory -----------------------------------
 #
 # Lock the memory on startup:
 #
-# bootstrap.mlockall: true
+
+bootstrap.memory_lock: true
+
 #
-# Make sure that the `ES_HEAP_SIZE` environment variable is set to about half the memory
-# available on the system and that the owner of the process is allowed to use this limit.
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
 #
 # Elasticsearch performs poorly when the system is swapping the memory.
 #
-
-bootstrap.mockall: true
-
 # ---------------------------------- Network -----------------------------------
 #
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
-# network.host: 192.168.0.1
+
+network.host: 0.0.0.0
+
 #
 # Set a custom port for HTTP:
 #
-# http.port: 9200
-#
-# For more information, see the documentation at:
-# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html>
 
-network.host: 0.0.0.0
 http.port: 9200
+
+#
+# For more information, consult the network module documentation.
+#
+
+transport.host: 0.0.0.0
+transport.tcp.port: 9300
 
 # --------------------------------- Discovery ----------------------------------
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-# discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+#discovery.zen.ping.unicast.hosts: ["host1", "host2"]
 #
-# Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1):
+# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
-# discovery.zen.minimum_master_nodes: 3
+#discovery.zen.minimum_master_nodes:
 #
-# For more information, see the documentation at:
-# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery.html>
+# For more information, consult the zen discovery module documentation.
 #
 # ---------------------------------- Gateway -----------------------------------
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
 #
-# gateway.recover_after_nodes: 3
+#gateway.recover_after_nodes: 3
 #
-# For more information, see the documentation at:
-# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-gateway.html>
+# For more information, consult the gateway module documentation.
 #
 # ---------------------------------- Various -----------------------------------
 #
-# Disable starting multiple nodes on a single system:
-#
-# node.max_local_storage_nodes: 1
-#
 # Require explicit names when deleting indices:
 #
-# action.destructive_requires_name: true
+#action.destructive_requires_name: true

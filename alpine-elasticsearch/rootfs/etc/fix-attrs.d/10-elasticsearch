@@ -1,1 +1,4 @@
 /var/lib/elasticsearch false elasticsearch:elasticsearch 0640 0750
+/var/lib/elasticsearch/data false elasticsearch:elasticsearch 0640 0750
+/var/lib/elasticsearch/plugins false elasticsearch:elasticsearch 0640 0750
+/var/lib/elasticsearch/tmp false elasticsearch:elasticsearch 0640 0750
