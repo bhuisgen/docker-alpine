@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${ARCHIVA_TEMPLATE}" ]; then
+    echo "==> Enabling template ${ARCHIVA_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/archiva/${ARCHIVA_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi
