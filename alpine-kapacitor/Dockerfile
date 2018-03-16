@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV KAPACITOR_VERSION=1.3.1
+ENV KAPACITOR_VERSION=1.4.1
 
 RUN mkdir /var/lib/kapacitor && \
     addgroup -S kapacitor && \

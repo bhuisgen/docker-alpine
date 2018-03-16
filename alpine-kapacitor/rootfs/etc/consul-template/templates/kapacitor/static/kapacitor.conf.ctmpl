@@ -1,3 +1,7 @@
+{{{{- $kapacitor_influxdb_name := env "KAPACITOR_INFLUXDBNAME" -}}}}
+{{{{- $kapacitor_influxdb_urls := env "KAPACITOR_INFLUXDBURLS" -}}}}
+{{{{- $kapacitor_influxdb_username := env "KAPACITOR_INFLUXDBUSERNAME" -}}}}
+{{{{- $kapacitor_influxdb_password := env "KAPACITOR_INFLUXDBPASSWORD" -}}}}
 # The hostname of this node.
 # Must be resolvable by any configured InfluxDB hosts.
 hostname = "localhost"
@@ -38,6 +42,14 @@ default-retention-policy = ""
     # Logging level can be one of:
     # DEBUG, INFO, WARN, ERROR, or OFF
     level = "INFO"
+
+[load]
+  # Enable/Disable the service for loading tasks/templates/handlers
+  # from a directory
+  enabled = true
+  # Directory where task/template/handler files are set
+  dir = "/var/lib/kapacitor/load"
+
 
 [replay]
   # Where to store replay files, aka recordings.
@@ -80,10 +92,10 @@ default-retention-policy = ""
   # Using InfluxDB is not required and can be disabled.
   enabled = true
   default = true
-  name = "localhost"
-  urls = ["http://influxdb:8086"]
-  username = ""
-  password = ""
+  name = "{{{{if $kapacitor_influxdb_name}}}}{{{{$kapacitor_influxdb_name}}}}{{{{else}}}}influxdb{{{{end}}}}"
+  urls = [{{{{range $i, $url := $kapacitor_influxdb_urls | split ","}}}}{{{{if ne $i 0}}}}, {{{{end}}}}"{{{{$url}}}}"{{{{end}}}}]
+  username = "{{{{if $kapacitor_influxdb_username}}}}{{{{$kapacitor_influxdb_username}}}}{{{{end}}}}"
+  password = "{{{{if $kapacitor_influxdb_password}}}}{{{{$kapacitor_influxdb_password}}}}{{{{end}}}}"
   timeout = 0
   # Absolute path to pem encoded CA file.
   # A CA can be provided without a key/cert pair
@@ -101,6 +113,9 @@ default-retention-policy = ""
 
   # Turn off all subscriptions
   disable-subscriptions = false
+
+  # Subscription mode is either "cluster" or "server"
+  subscription-mode = "cluster"
 
   # Which protocol to use for subscriptions
   # one of 'udp', 'http', or 'https'.
@@ -258,6 +273,11 @@ default-retention-policy = ""
   # without explicitly marking them in the TICKscript.
   # The routing key can still be overridden.
   global = false
+  # Use JSON for the "data" field
+  # New installations will want to set this to true as it makes
+  # the data that triggered the alert available within VictorOps.
+  # The default is "false" for backwards compatibility reasons.
+  # json-data = false
 
 [pagerduty]
   # Configure PagerDuty.
@@ -293,6 +313,35 @@ default-retention-policy = ""
 #   url = "http://example.com"
 #   headers = { Example = "your-key" }
 #   basic-auth = { username = "my-user", password = "my-pass" }
+#
+#   # Provide an alert template for constructing a custom HTTP body.
+#   # Alert templates are only used with post alert handlers as they consume alert data.
+#   # The template uses https://golang.org/pkg/text/template/ and has access to the following fields:
+#   #    * .ID - The unique ID for this alert
+#   #    * .Message - The message of the alert
+#   #    * .Details - The details of the alert
+#   #    * .Time - The time the alert event occurred
+#   #    * .Duration - The duration of the alert event.
+#   #    * .Level - The level of the alert, i.e INFO, WARN, or CRITICAL.
+#   #    * .Data - The data that triggered the alert.
+#   #
+#   # Specify the template inline.
+#   alert-template = "{{.Message}}:{{range .Data.Series}}{{.Tags}},{{range .Values}}{{.}}{{end}}{{end}}"
+#   # Specify an absolute path to a template file.
+#   alert-template-file = "/path/to/template/file"
+#
+#   # Provide a row template for constructing a custom HTTP body.
+#   # Row templates are only used with httpPost pipeline nodes as they consume a row at a time.
+#   # The template uses https://golang.org/pkg/text/template/ and has access to the following fields:
+#   #    * .Name - The measurement name of the data stream
+#   #    * .Tags - A map of tags on the data.
+#   #    * .Values - A list of values, each entry is a map containing a "time" key for the time of the point
+#   #       and keys for all other fields on the point.
+#   #
+#   # Specify the template inline.
+#   row-template = "{{.Name}} host={{index .Tags \"host\"}}{{range .Values}} {{index . "time"}} {{index . "value"}}{{end}}"
+#   # Specify an absolute path to a template file.
+#   row-template-file = "/path/to/template/file"
 
 [slack]
   # Configure Slack.
@@ -445,6 +494,54 @@ default-retention-policy = ""
   url = "https://jianliao.com/v2/services/webhook/uuid"
   # The default authorName.
   author_name = "Kapacitor"
+
+# MQTT client configuration.
+#  Mutliple different clients may be configured by
+#  repeating [[mqtt]] sections.
+[[mqtt]]
+  enabled = false
+  # Unique name for this broker configuration
+  name = "localhost"
+  # Whether this broker configuration is the default
+  default = true
+  # URL of the MQTT broker.
+  # Possible protocols include:
+  #  tcp - Raw TCP network connection
+  #  ssl - TLS protected TCP network connection
+  #  ws  - Websocket network connection
+  url = "tcp://localhost:1883"
+
+  # TLS/SSL configuration
+  # A CA can be provided without a key/cert pair
+  #   ssl-ca = "/etc/kapacitor/ca.pem"
+  # Absolutes paths to pem encoded key and cert files.
+  #   ssl-cert = "/etc/kapacitor/cert.pem"
+  #   ssl-key = "/etc/kapacitor/key.pem"
+
+  # Unique ID for this MQTT client.
+  # If empty used the value of "name"
+  client-id = ""
+
+  # Username
+  username = ""
+  # Password
+  password = ""
+
+[[swarm]]
+  # Enable/Disable the Docker Swarm service.
+  # Needed by the swarmAutoscale TICKscript node.
+  enabled = false
+  # Unique ID for this Swarm cluster
+  # NOTE: This is not the ID generated by Swarm rather a user defined
+  # ID for this cluster since Kapacitor can communicate with multiple clusters.
+  id = ""
+  # List of URLs for Docker Swarm servers.
+  servers = ["http://localhost:2376"]
+  # TLS/SSL Configuration for connecting to secured Docker daemons
+  ssl-ca = ""
+  ssl-cert = ""
+  ssl-key = ""
+  insecure-skip-verify = false
 
 ##################################
 # Input Methods, same as InfluxDB
@@ -603,4 +700,3 @@ default-retention-policy = ""
   ssl-key = ""
   ssl-server-name = ""
   insecure-skip-verify = false
-
