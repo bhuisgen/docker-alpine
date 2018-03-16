@@ -1,9 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${DOVECOT_TEMPLATE}" ]; then
-    DOVECOT_TEMPLATE=default
-fi
-
 echo "==> Enabling template ${DOVECOT_TEMPLATE}"
 
 cp "/etc/consul-template/templates/dovecot/${DOVECOT_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
