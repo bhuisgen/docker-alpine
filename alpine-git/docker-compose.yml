@@ -12,7 +12,7 @@ services:
             - "2222:22"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - git:/home                             # volume for data
+            - git:/home/git                         # volume for data
         environment:
             - ENV=local                             # environment name
             - CONSUL_AGENT=consul                   # consul agent hostname/IP
@@ -22,3 +22,10 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=22                 # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - GIT_TEMPLATE=static                   # configuration template
+
+            #
+            # template static
+            #
+
+            #- GIT_OPENSSH_PASSWORDAUTHENTICATION=0
