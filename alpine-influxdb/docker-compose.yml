@@ -23,3 +23,8 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=8086               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - INFLUXDB_TEMPLATE=static              # configuration template
+
+            #
+            # template static
+            #

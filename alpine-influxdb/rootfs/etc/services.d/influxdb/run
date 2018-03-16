@@ -1,3 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid influxdb /usr/local/influxdb/usr/bin/influxd -config /etc/influxdb/influxdb.conf
+cd /usr/local/influxdb || exit 1
+exec s6-setuidgid influxdb /usr/local/influxdb/usr/bin/influxd run -config ./etc/influxdb/influxdb.conf \
+    ${INFLUXDB_OPTIONS}
