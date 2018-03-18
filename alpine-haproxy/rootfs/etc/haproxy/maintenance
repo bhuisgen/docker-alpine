@@ -2,7 +2,7 @@
 
 trap 'exit 2' INT TERM
 
-echo "==> checking haproxy configuration"
+echo "==> Checking haproxy configuration"
 
 haproxy -c -q -f /etc/haproxy/haproxy.cfg || exit 1
 
@@ -11,24 +11,24 @@ if [ ! -e "${stats_socket}" ]; then
    exit 1
 fi
 
-echo "==> retrieving haproxy frontends"
+echo "==> Retrieving haproxy frontends"
 
 stat=$(echo "show stat"|socat "${stats_socket}" stdio|awk 'NR>1 && /,FRONTEND/ && !/stats/')
 frontends=$(echo "${stat}"|awk -F ',' '{ print $1; }')
 
 if [ ! -z "$1" ] && [ "$1" == "--enable" ]; then
-    echo "==> enabling haproxy maintenance mode"
+    echo "==> Enabling haproxy maintenance mode"
 
     for frontend in ${frontends}; do
         echo "disable frontend ${frontend}"|socat "${stats_socket}" stdio > /dev/null
     done
 elif [ ! -z "$1" ] && [ "$1" == "--disable" ]; then
-    echo "==> disabling haproxy maintenance mode"
+    echo "==> Disabling haproxy maintenance mode"
 
     for frontend in ${frontends}; do
         echo "enable frontend ${frontend}"|socat "${stats_socket}" stdio > /dev/null
     done
 else
-    echo "==> checking haproxy status"
+    echo "==> Checking haproxy status"
     echo "${stat}"
 fi

@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-options="-config /etc/consul-template/conf-services.d -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
+options="-config /etc/consul-template/conf.d/ -kill-signal SIGTERM -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
 
 if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
     options="${options} -consul-ssl"
@@ -29,8 +29,6 @@ fi
 if [ ! -z "${CONSUL_TOKEN}" ]; then
     options="${options} -consul-token ${CONSUL_TOKEN}"
 fi
-
-options="${options} -kill-signal SIGTERM"
 
 if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
     options="${options} ${CONSULTEMPLATE_OPTIONS}"

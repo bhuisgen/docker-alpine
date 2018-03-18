@@ -1,13 +1,14 @@
-FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+FROM alpine:3.7
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV TERRAFORM_VERSION=0.10.5
+ENV TERRAFORM_VERSION=0.11.3
 
-RUN apk add --update zip && \
-    curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
+RUN apk add --update curl zip && \
+    curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+        -o /tmp/terraform.zip && \
     unzip /tmp/terraform.zip -d /usr/bin && \
     rm /tmp/terraform.zip && \
-    apk del zip && \
+    apk del curl zip && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["terraform"]

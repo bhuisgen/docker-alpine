@@ -1,18 +1,9 @@
-version: '3.2'
+version: '3.5'
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     unbound:
         depends_on:
-            - consul
+            - consul                                # consul agent
         image: bhuisgen/alpine-unbound
         cap_add:
             - NET_ADMIN
@@ -20,15 +11,18 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=unbound                    # consul service name
-            - CONSUL_SERVICETAGS=dev                        # consul service tag
-            - CONSUL_SERVICEPORT=53                         # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - UNBOUND_TEMPLATE=forwarder                    # configuration template
+            - ENV=local                             # environment name
+            - CONSUL_AGENT=169.254.1.1              # consul agent hostname/IP
+            #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - CONSUL_SERVICENAME=unbound            # consul service name
+            - CONSUL_SERVICETAGS=local              # consul service tag
+            - CONSUL_SERVICEPORT=53                 # consul service port
+            - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - UNBOUND_TEMPLATE=static               # configuration template
+
             #
-            # template forwarder
+            # template static
             #
-            - UNBOUND_TEMPLATE_FORWARDER_FORWARDADDR=1.2.3.4    # IP address of forwarder
+
+            - UNBOUND_FORWARDADDR=8.8.8.8           # IP address to forward DNS requests

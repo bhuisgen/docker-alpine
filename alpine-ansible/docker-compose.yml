@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+    ansible:
+        image: bhuisgen/alpine-ansible
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./:/data
+            - $HOME/.ssh:/root/.ssh

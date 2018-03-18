@@ -23,11 +23,11 @@
 {{- $postfix_opendkim_service_tag := env "POSTFIX_OPENDKIMSERVICETAG" -}}
 {{- $postfix_opendmarc_service_name := env "POSTFIX_OPENDMARCSERVICENAME" -}}
 {{- $postfix_opendmarc_service_tag := env "POSTFIX_OPENDMARCSERVICETAG" -}}
-{{- $postfix_sasl_service_name := env "POSTFIX_TEMPLATE_DOVECOT_SASLSERVICENAME" -}}
-{{- $postfix_sasl_service_tag := env "POSTFIX_TEMPLATE_DOVECOT_SASLSERVICETAG" -}}
-{{- $postfix_lmtp_service_name := env "POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICENAME" -}}
-{{- $postfix_lmtp_service_tag := env "POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICETAG" -}}
-{{- $postfix_virtual_mailbox_domains := env "POSTFIX_TEMPLATE_DOVECOT_VIRTUALMAILBOXDOMAINS" -}}
+{{- $postfix_sasl_service_name := env "POSTFIX_SASLSERVICENAME" -}}
+{{- $postfix_sasl_service_tag := env "POSTFIX_SASLSERVICETAG" -}}
+{{- $postfix_lmtp_service_name := env "POSTFIX_LMTPSERVICENAME" -}}
+{{- $postfix_lmtp_service_tag := env "POSTFIX_LMTPSERVICETAG" -}}
+{{- $postfix_virtual_mailbox_domains := env "POSTFIX_VIRTUALMAILBOXDOMAINS" -}}
 smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
@@ -97,8 +97,6 @@ smtpd_client_restrictions =
 smtpd_helo_restrictions =
         permit_mynetworks,
         permit_sasl_authenticated,
-        reject_invalid_hostname,
-        reject_unknown_hostname,
         permit
 
 smtpd_sender_restrictions =
@@ -136,13 +134,10 @@ smtpd_milters =
     {{if and $postfix_opendkim_service_name $postfix_opendkim_service_tag}}{{with service (print $postfix_opendkim_service_tag "." $postfix_opendkim_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
     {{if and $postfix_opendmarc_service_name $postfix_opendmarc_service_tag}}{{with service (print $postfix_opendmarc_service_tag "." $postfix_opendmarc_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
 
-dovecot_destination_recipient_limit = 1
 virtual_transport =
     {{if and $postfix_lmtp_service_name $postfix_lmtp_service_tag}}{{with service (print $postfix_lmtp_service_tag "." $postfix_lmtp_service_name)}}{{with index . 0}}lmtp:{{.Address}}:24{{end}}{{end}}{{end}}
 virtual_mailbox_domains = {{$postfix_virtual_mailbox_domains}}
 virtual_alias_maps = hash:/etc/postfix/virtual
-
-#
 
 biff = no
 recipient_delimiter = +

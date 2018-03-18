@@ -1,4 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/sbin/dovecot -F
-
+exec /usr/sbin/dovecot -F ${DOVECOT_OPTIONS}

@@ -1,5 +1,5 @@
-FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+FROM alpine:3.7
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV GOPATH=/go
 

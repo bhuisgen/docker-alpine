@@ -1,8 +1,11 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    zabbix-monitor:
 
 services:
     zabbix-monitor:
         image: bhuisgen/alpine-zabbix-monitor
         entrypoint: /bin/sh
         volumes:
-            - /var/www
+            - zabbix-monitor:/var/www

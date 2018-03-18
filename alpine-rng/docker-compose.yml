@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.5'
 
 services:
     rng:
@@ -8,4 +8,5 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
-            - RNG_OPTIONS=--no-tpm=1
+            - ENV=local                             # environment name
+            - RNG_OPTIONS=--no-tpm=1                # rng options

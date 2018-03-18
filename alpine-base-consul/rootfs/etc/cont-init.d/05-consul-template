@@ -1,0 +1,48 @@
+#!/usr/bin/with-contenv sh
+
+if ls -A /etc/consul-template/conf.d/*.hcl > /dev/null 2>&1; then
+    echo "==> Configuring container"
+
+    options="-config /etc/consul-template/conf.d/ -once"
+
+    if [ ! -z "${CONSUL_AGENT}" ] && [ ! -z "${CONSUL_PORT}" ]; then
+        options="${options} -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
+    fi
+
+    if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
+        options="${options} -consul-ssl"
+
+        if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
+            options="${options} -consul-ssl-ca-cert ${CONSUL_TLSCAFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
+            options="${options} -consul-ssl-cert ${CONSUL_TLSCERTFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
+            options="${options} -consul-ssl-key ${CONSUL_TLSKEYFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSSERVERNAME}" ]; then
+            options="${options} -consul-ssl-server-name ${CONSUL_TLSSERVERNAME}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSVERIFY}" ] && [ "${CONSUL_TLSVERIFY}" -eq 1 ]; then
+            options="${options} -consul-ssl-verify"
+        fi
+    fi
+
+    if [ ! -z "${CONSUL_TOKEN}" ]; then
+        options="${options} -consul-token ${CONSUL_TOKEN}"
+    fi
+
+    if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
+        options="${options} ${CONSULTEMPLATE_OPTIONS}"
+    fi
+
+    if ! consul-template ${options}; then
+            echo "Failed to render container templates, aborting" >&2
+        exit 1
+    fi
+fi

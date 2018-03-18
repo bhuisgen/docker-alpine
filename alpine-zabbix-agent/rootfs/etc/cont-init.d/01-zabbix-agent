@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${ZABBIX_TEMPLATE}" ]; then
+    echo "==> Enabling template ${ZABBIX_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/zabbix-agent/${ZABBIX_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

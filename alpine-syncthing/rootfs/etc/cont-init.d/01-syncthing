@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${SYNCTHING_TEMPLATE}" ]; then
+    echo "==> Enabling template ${SYNCTHING_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/syncthing/${SYNCTHING_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

@@ -1,16 +1,13 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    postfix:
+    mail:
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     postfix:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-postfix
         ports:
             - "25:25"
@@ -18,49 +15,78 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /dev/log:/dev/log
-            #- /host/postfix:/var/spool/postfix                                     # volume for spool
-            #- /host/mail:/var/mail                                                 # volume for mail
+            - postfix:/var/spool/postfix                    # volume for spool
+            - mail:/var/mail                                # volume for mail
         environment:
-            - CONSUL_AGENT=consul                                                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                                        # consul key prefix path
-            - CONSUL_SERVICENAME=postfix                                            # consul service name
-            - CONSUL_SERVICETAGS=dev                                                # consul service tag
-            - CONSUL_SERVICEPORT=25                                                 # consul service port
-            - CONSUL_CHECKTYPE=tcp                                                  # consul health check type
-            #- POSTFIX_MYHOSTNAME=$$HOSTNAME                                        # mail hostname
-            #- POSTFIX_MYDOMAIN=                                                    # mail domain name
-            #- POSTFIX_MYORIGIN=$mydomain                                           # mail domain for origin
+            - ENV=local                                     # environment name
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=postfix                    # consul service name
+            - CONSUL_SERVICETAGS=local                      # consul service tag
+            - CONSUL_SERVICEPORT=25                         # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - POSTFIX_TEMPLATE=static                       # configuration template
+
+            #
+            # template static
+            #
+
+            - POSTFIX_MYHOSTNAME=$$HOSTNAME                 # mail hostname
+            - POSTFIX_MYDOMAIN=my.domain                    # mail domain name
+            #- POSTFIX_MYORIGIN=$mydomain                   # mail domain for origin
             #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
-            #- POSTFIX_MYNETWORKS=                                                  # networks list
-            #- POSTFIX_RELAYHOST=                                                   # relay host
-            #- POSTFIX_RELAYDOMAINS=                                                # domains allowed to relay to
-            #- POSTFIX_SMTPTLSCERTFILE=                                             # SMTP client TLS certificate file
-            #- POSTFIX_SMTPTLSKEYFILE=                                              # SMTP client TLS certificate key
-            #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=                                   # SMTP client TLS mandatory protocols
-            #- POSTFIX_SMTPTLSPROTOCOLS=                                            # SMTP client TLS protocols
-            #- POSTFIX_SMTPTLSMANDATORYCIPHERS=                                     # SMTP client TLS mandatory ciphers
-            #- POSTFIX_SMTPDTLSCERTFILE=                                            # SMTP server TLS certificate file
-            #- POSTFIX_SMTPDTLSKEYFILE=                                             # SMTP server TLS certificate key
-            #- POSTFIX_SMTPDTLSDH1024PARAMFILE=                                     # SMTP server TLS diffie-hellman parameters file
-            #- POSTFIX_SMTPDTLSMANDATORYPROTOCOLS=                                  # SMTP server TLS mandatory protocols
-            #- POSTFIX_SMTPDTLSPROTOCOLS=                                           # SMTP server TLS protocols
-            #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=                                    # SMTP server TLS mandatory ciphers
-            #- POSTFIX_TLSMEDIUMCIPHERLIST=                                         # TLS medium cipher list
-            #- POSTFIX_SUBMISSION=0                                                 # enable submission port
-            #- POSTFIX_OPENDKIMSERVICENAME=                                         # opendkim service name
-            #- POSTFIX_OPENDKIMSERVICETAG=                                          # opendkim service tag
-            #- POSTFIX_OPENDMARCSERVICENAME=                                        # opendmarc service name
-            #- POSTFIX_OPENDMARCSERVICETAG=                                         # opendmarc service tag
-            - POSTFIX_TEMPLATE=relay                                                # configuration template
-            #
-            # template relay
-            #
+            #- POSTFIX_MYNETWORKS=                          # networks list
+            - POSTFIX_RELAYHOST=10.10.0.1                   # relay host
+            #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
+            #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
+            #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
+            #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=           # SMTP client TLS mandatory protocols
+            #- POSTFIX_SMTPTLSPROTOCOLS=                    # SMTP client TLS protocols
+            #- POSTFIX_SMTPTLSMANDATORYCIPHERS=             # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCERTFILE=                    # SMTP server TLS certificate file
+            #- POSTFIX_SMTPDTLSKEYFILE=                     # SMTP server TLS certificate key
+            #- POSTFIX_SMTPDTLSDH1024PARAMFILE=             # SMTP server TLS diffie-hellman parameters file
+            #- POSTFIX_SMTPDTLSMANDATORYPROTOCOLS=          # SMTP server TLS mandatory protocols
+            #- POSTFIX_SMTPDTLSPROTOCOLS=                   # SMTP server TLS protocols
+            #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=            # SMTP server TLS mandatory ciphers
+            #- POSTFIX_TLSMEDIUMCIPHERLIST=                 # TLS medium cipher list
+            #- POSTFIX_SUBMISSION=0                         # enable submission port
+            #- POSTFIX_OPENDKIMSERVICENAME=                 # opendkim service name
+            #- POSTFIX_OPENDKIMSERVICETAG=                  # opendkim service tag
+            #- POSTFIX_OPENDMARCSERVICENAME=                # opendmarc service name
+            #- POSTFIX_OPENDMARCSERVICETAG=                 # opendmarc service tag
+
             #
             # template dovecot
             #
-            #- POSTFIX_TEMPLATE_DOVECOT_SASLSERVICENAME=                            # dovecot SASL service name
-            #- POSTFIX_TEMPLATE_DOVECOT_SASLSERVICETAG=                             # dovecot SASL service tag
-            #- POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICENAME=                            # dovecot LMTP service name
-            #- POSTFIX_TEMPLATE_DOVECOT_LMTPSERVICETAG=                             # dovecot LMTP service tag
-            #- POSTFIX_TEMPLATE_DOVECOT_VIRTUALMAILBOXDOMAINS=                      # virtual mailbox domains list
+
+            #- POSTFIX_MYHOSTNAME=$$HOSTNAME                # mail hostname
+            #- POSTFIX_MYDOMAIN=                            # mail domain name
+            #- POSTFIX_MYORIGIN=$mydomain                   # mail domain for origin
+            #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
+            #- POSTFIX_MYNETWORKS=                          # networks list
+            #- POSTFIX_RELAYHOST=                           # relay host
+            #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
+            #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
+            #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
+            #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=           # SMTP client TLS mandatory protocols
+            #- POSTFIX_SMTPTLSPROTOCOLS=                    # SMTP client TLS protocols
+            #- POSTFIX_SMTPTLSMANDATORYCIPHERS=             # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCERTFILE=                    # SMTP server TLS certificate file
+            #- POSTFIX_SMTPDTLSKEYFILE=                     # SMTP server TLS certificate key
+            #- POSTFIX_SMTPDTLSDH1024PARAMFILE=             # SMTP server TLS diffie-hellman parameters file
+            #- POSTFIX_SMTPDTLSMANDATORYPROTOCOLS=          # SMTP server TLS mandatory protocols
+            #- POSTFIX_SMTPDTLSPROTOCOLS=                   # SMTP server TLS protocols
+            #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=            # SMTP server TLS mandatory ciphers
+            #- POSTFIX_TLSMEDIUMCIPHERLIST=                 # TLS medium cipher list
+            #- POSTFIX_SUBMISSION=0                         # enable submission port
+            #- POSTFIX_OPENDKIMSERVICENAME=                 # opendkim service name
+            #- POSTFIX_OPENDKIMSERVICETAG=                  # opendkim service tag
+            #- POSTFIX_OPENDMARCSERVICENAME=                # opendmarc service name
+            #- POSTFIX_OPENDMARCSERVICETAG=                 # opendmarc service tag
+            #- POSTFIX_SASLSERVICENAME=                     # dovecot SASL service name
+            #- POSTFIX_SASLSERVICETAG=                      # dovecot SASL service tag
+            #- POSTFIX_LMTPSERVICENAME=                     # dovecot LMTP service name
+            #- POSTFIX_LMTPSERVICETAG=                      # dovecot LMTP service tag
+            #- POSTFIX_VIRTUALMAILBOXDOMAINS=               # virtual mailbox domains list

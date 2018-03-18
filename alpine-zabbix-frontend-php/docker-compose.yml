@@ -1,8 +1,11 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    zabbix-frontend-php:
 
 services:
     zabbix-frontend-php:
         image: bhuisgen/alpine-zabbix-frontend-php
         entrypoint: /bin/sh
         volumes:
-            - /var/www
+            - zabbix-frontend-php:/var/www

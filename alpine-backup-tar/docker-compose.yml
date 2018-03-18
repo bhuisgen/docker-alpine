@@ -1,0 +1,21 @@
+version: '3.5'
+
+volumes:
+    data:
+
+services:
+    backup-tar:
+        depends_on:
+            - consul                                # consul agent
+        image: bhuisgen/alpine-backup-mongodb
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /srv/backups:/var/backups             # volume for storage
+            - data:/data                            # volume to backup
+        environment:
+            - ENV=local                             # environment name
+            - CONSUL_AGENT=consul                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            #- BACKUP_PATH=/var/backups             # backup storage path
+            - BACKUP_TAR_DIR=/data                  # data directory to backup (required)

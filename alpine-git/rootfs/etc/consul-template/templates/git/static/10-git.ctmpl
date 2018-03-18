@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+ssh-keygen -A

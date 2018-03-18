@@ -1,29 +1,26 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    portainer:
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     portainer:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-portainer
         ports:
-            - "8080:8080"
+            - "9000:9000"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /srv/data:/var/lib/portainer
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer:/var/lib/portainer                  # volume for data
         environment:
+            - ENV=local                                     # environment name
             - CONSUL_AGENT=consul                           # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=portainer                  # consul service name
-            - CONSUL_SERVICETAGS=dev                        # consul service tag
-            - CONSUL_SERVICEPORT=8080                       # consul service port
+            - CONSUL_SERVICETAGS=local                      # consul service tag
+            - CONSUL_SERVICEPORT=9000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            #- PORTAINER_OPTIONS=                           # portainer options

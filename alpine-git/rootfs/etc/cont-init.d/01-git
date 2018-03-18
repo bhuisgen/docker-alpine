@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${GIT_TEMPLATE}" ]; then
+    echo "==> Enabling template ${GIT_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/git/${GIT_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

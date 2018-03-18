@@ -1,0 +1,66 @@
+{{- $zabbixdocker_log := env "ZABBIXDOCKER_LOG" -}}
+{{- $zabbixdocker_log_level := env "ZABBIXDOCKER_LOGLEVEL" -}}
+{{- $zabbixdocker_rootfs := env "ZABBIXDOCKER_ROOTFS" -}}
+{{- $zabbixdocker_containers := env "ZABBIXDOCKER_CONTAINERS" -}}
+{{- $zabbixdocker_containers_stats := env "ZABBIXDOCKER_CONTAINERSSTATS" -}}
+{{- $zabbixdocker_containers_top := env "ZABBIXDOCKER_CONTAINERSTOP" -}}
+{{- $zabbixdocker_containers_remote := env "ZABBIXDOCKER_CONTAINERSREMOTE" -}}
+{{- $zabbixdocker_events := env "ZABBIXDOCKER_EVENTS" -}}
+{{- $zabbixdocker_zabbix_server := env "ZABBIXDOCKER_ZABBIXSERVER" -}}
+{{- $zabbixdocker_zabbix_hostname := env "ZABBIXDOCKER_ZABBIXHOSTNAME" -}}
+{{- $zabbixdocker_containers_remote_path := env "ZABBIXDOCKER_CONTAINERSREMOTEPATH" -}}
+{{- $zabbixdocker_containers_remote_delay := env "ZABBIXDOCKER_CONTAINERSREMOTEDELAY" -}}
+# zabbix-docker.conf
+
+[main]
+log = {{if eq $zabbixdocker_log "1"}}yes{{else}}no{{end}}
+log_level = {{if $zabbixdocker_log_level}}{{$zabbixdocker_log_level}}{{else}}error{{end}}
+{{if $zabbixdocker_rootfs}}rootfs = {{$zabbixdocker_rootfs}}{{else}}#rootfs = {{end}}
+containers = {{if eq $zabbixdocker_containers "1"}}yes{{else}}no{{end}}
+containers_stats = {{if eq $zabbixdocker_containers_stats "1"}}yes{{else}}no{{end}}
+containers_top = {{if eq $zabbixdocker_containers_top "1"}}yes{{else}}no{{end}}
+containers_remote = {{if eq $zabbixdocker_containers_remote "1"}}yes{{else}}no{{end}}
+events = {{if eq $zabbixdocker_events "1"}}yes{{else}}no{{end}}
+
+[docker]
+#base_url = unix:///var/run/docker.sock
+#timeout = 5
+
+[zabbix]
+{{if $zabbixdocker_zabbix_server}}server = {{$zabbixdocker_zabbix_server}}{{else}}#server ={{end}}
+{{if $zabbixdocker_zabbix_hostname}}hostname = {{$zabbixdocker_zabbix_hostname}}{{else}}#hostname ={{end}}
+
+[discovery]
+#startup = 15
+#interval = 300
+#poll_events = yes
+#poll_events_interval = 15
+
+[containers]
+#startup = 15
+#interval = 60
+
+[containers_stats]
+#startup = 30
+#interval = 60
+#workers = 10
+
+[containers_top]
+#startup = 30
+#interval = 60
+#workers = 10
+
+[containers_remote]
+#startup = 30
+#interval = 60
+#workers = 10
+path = {{if $zabbixdocker_containers_remote_path}}{{$zabbixdocker_containers_remote_path}}{{else}}/etc/zabbix/scripts/trapper{{end}}
+delay = {{if $zabbixdocker_containers_remote_delay}}{{$zabbixdocker_containers_remote_delay}}{{else}}1{{end}}
+#user = root
+#trappers = yes
+#trappers_timestamp = no
+
+[events]
+#startup = 30
+#interval = 60
+

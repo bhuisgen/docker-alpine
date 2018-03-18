@@ -1,0 +1,29 @@
+version: '3.5'
+
+volumes:
+    grafana:
+
+services:
+    grafana:
+        depends_on:
+            - consul                                # consul agent
+        image: bhuisgen/alpine-grafana
+        ports:
+            - "3000:3000"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - grafana:/var/lib/grafana              # volume for data
+        environment:
+            - ENV=local                             # environment name
+            - CONSUL_AGENT=consul                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - CONSUL_SERVICENAME=grafana            # consul service name
+            - CONSUL_SERVICETAGS=local              # consul service tag
+            - CONSUL_SERVICEPORT=3000               # consul service port
+            - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - GRAFANA_TEMPLATE=static               # configuration template
+
+            #
+            # template static
+            #

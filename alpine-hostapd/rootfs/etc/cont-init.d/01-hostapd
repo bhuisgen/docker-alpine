@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${HOSTAPD_TEMPLATE}" ]; then
+    echo "==> Enabling template ${HOSTAPD_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/hostapd/${HOSTAPD_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

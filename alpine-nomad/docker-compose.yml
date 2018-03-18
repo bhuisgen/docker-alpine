@@ -1,0 +1,42 @@
+version: '3.5'
+
+volumes:
+    nomad:
+
+services:
+    nomad:
+        depends_on:
+          - consul                                          # consul agent
+        image: bhuisgen/alpine-nomad
+        ports:
+            - "4646:4646"       # HTTP
+            - "4647:4647"       # RPC
+            - "4648:4648"       # SERF
+            - "4648:4648/udp"   # SERF (UDP)
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /tmp:/tmp
+            - nomad:/var/lib/nomad                          # volume for data
+        environment:
+            - ENV=local                                     # environment name
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/pref                   # consul key prefix path
+            - CONSUL_SERVICENAME=nomad                      # consul service name
+            - CONSUL_SERVICETAGS=local                      # consul service tag
+            - CONSUL_SERVICEPORT=4646                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - NOMAD_TEMPLATE=static                         # configuration template
+
+            #
+            # template static
+            #
+
+            - NOMAD_OPTIONS=-dev                            # minimal cluster options
+            - NOMAD_DATACENTER=local                        # nomad datacenter
+            #- NOMAD_TLS=0                                  # enable TLS
+            #- NOMAD_TLSCAFILE=                             # TLS CA certificate file
+            #- NOMAD_TLSCERTFILE=                           # TLS server certificate file
+            #- NOMAD_TLSKEYFILE=                            # TLS server certificate key file
+

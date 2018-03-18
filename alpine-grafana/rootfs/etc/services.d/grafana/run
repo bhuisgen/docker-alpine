@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /usr/local/grafana || exit 1
+exec s6-setuidgid grafana /usr/local/grafana/bin/grafana-server web ${GRAFANA_OPTIONS}

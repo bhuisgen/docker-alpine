@@ -1,4 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-cd /usr/local/portainer || exit 1
-exec s6-setuidgid portainer ./portainer -p :8080 -d ${PORTAINER_HOME}
+exec /usr/local/portainer/portainer -d "${PORTAINER_HOME}" ${PORTAINER_OPTIONS}

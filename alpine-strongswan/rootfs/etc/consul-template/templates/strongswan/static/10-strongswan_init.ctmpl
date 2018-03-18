@@ -1,0 +1,12 @@
+{{- $strongswan_interface := env "STRONGSWAN_INTERFACE" -}}
+#!/usr/bin/with-contenv sh
+
+STRONGSWAN_INTERFACE="{{$strongswan_interface}}"
+
+echo "==> Configuring iptables"
+
+iptables -A INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
+iptables -A INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT
+iptables -A FORWARD -j ACCEPT
+iptables -A OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
+iptables -A OUTPUT -o "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT

@@ -1,9 +1,10 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${CONSUL_AGENT}" ]; then
-    echo "==> Registering container"
+    echo "==> Generating container configuration"
 
-    /etc/cont-consul/register || (
-        echo "Failed to register container, aborting" >&2 && exit 1
-    )
+    if ! consul-template -config /etc/cont-consul/conf.d/config.hcl -once; then
+        echo "Failed to generate container configuration, aborting" >&2
+        exit 1
+    fi
 fi

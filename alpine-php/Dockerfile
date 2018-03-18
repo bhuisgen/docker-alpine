@@ -1,34 +1,40 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-RUN mkdir -p /var/www && \
+RUN mkdir /var/www && \
     addgroup -g 82 -S www-data && \
     adduser -u 82 -S -D -g "" -G www-data www-data
 
-RUN apk add --update php5 \
-        php5-bcmath \
-        php5-cli \
-        php5-ctype \
-        php5-curl \
-        php5-fpm \
-        php5-gd \
-        php5-gettext \
-        php5-iconv \
-        php5-json \
-        php5-mysql \
-        php5-opcache \
-        php5-openssl \
-        php5-pdo \
-        php5-pdo_mysql \
-        php5-pdo_pgsql \
-        php5-pdo_sqlite \
-        php5-pgsql \
-        php5-sockets \
-        php5-sqlite3 \
-        php5-xml \
-        php5-xmlreader \
-        php5-zip \
-        php5-zlib && \
+RUN apk add --update php7 \
+        php7-bcmath \
+        php7-cli \
+        php7-ctype \
+        php7-curl \
+        php7-fpm \
+        php7-gd \
+        php7-gettext \
+        php7-iconv \
+        php7-json \
+        php7-ldap \
+        php7-mbstring \
+        php7-mysqli \
+        php7-mysqlnd \
+        php7-opcache \
+        php7-openssl \
+        php7-pdo \
+        php7-pdo_mysql \
+        php7-pdo_pgsql \
+        php7-pdo_sqlite \
+        php7-pgsql \
+        php7-session \
+        php7-simplexml \
+        php7-sockets \
+        php7-sqlite3 \
+        php7-xml \
+        php7-xmlreader \
+        php7-xmlwriter \
+        php7-zip \
+        php7-zlib && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /

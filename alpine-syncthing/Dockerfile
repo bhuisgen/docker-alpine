@@ -1,9 +1,10 @@
 FROM bhuisgen/alpine-base-consul:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV SYNCTHING_VERSION=0.14.37
+ENV SYNCTHING_VERSION=0.14.45
 
-RUN curl -sSL https://github.com/syncthing/syncthing/releases/download/v${SYNCTHING_VERSION}/syncthing-linux-amd64-v${SYNCTHING_VERSION}.tar.gz | tar -xzo -C /usr/local/bin --strip-components 1 syncthing-linux-amd64-v${SYNCTHING_VERSION}/syncthing
+RUN curl -sSL https://github.com/syncthing/syncthing/releases/download/v${SYNCTHING_VERSION}/syncthing-linux-amd64-v${SYNCTHING_VERSION}.tar.gz | \
+    tar -xzo -C /usr/local/bin --strip-components 1 syncthing-linux-amd64-v${SYNCTHING_VERSION}/syncthing
 
 COPY rootfs/ /
 

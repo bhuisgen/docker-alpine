@@ -1,71 +1,71 @@
-version: '3.2'
+version: '3.5'
+
+volumes:
+    rabbitmq:
 
 services:
-    consul:
-        image: bhuisgen/alpine-consul
-        ports:
-            - "8500:8500"
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-        environment:
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
-
     rabbitmq:
         depends_on:
-            - consul
+            - consul                                        # consul agent
         image: bhuisgen/alpine-rabbitmq
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            #- /host/data:/var/lib/rabbitmq                                 # volume for data
+            - rabbitmq:/var/lib/rabbitmq                    # volume for data
         environment:
-            - CONSUL_AGENT=consul                                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                                # consul key prefix path
-            - CONSUL_SERVICENAME=rabbitmq                                   # consul service name
-            - CONSUL_SERVICETAGS=dev                                        # consul service tag
-            - CONSUL_SERVICEPORT=5672                                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                                          # consul health check type
-            #- RABBITMQ_RESCUE=1                                            # enable rescue mode (disable service startup)
-            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS                    # erlang cookie
-            #- RABBITMQ_PLUGINS=                                            # enable other plugins (comma separated list)
-            #- RABBITMQ_CLUSTERNAME=cluster                                 # cluster name
-            - RABBITMQ_USERNAME=rabbitmq                                    # administrator user
-            - RABBITMQ_PASSWORD=rabbitmq                                    # administrator password
-            #- RABBITMQ_NETTICKTIME=60                                      # network tick time frequency
-            #- RABBITMQ_TCPLISTENOPTIONSBACKLOG=128                         # TCP socket backlog
-            #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768                        # TCP socket send buffer size
-            #- RABBITMQ_TCPLISTENOPTIONSRECBUF=32768                        # TCP socket receive buffer size
-            #- RABBITMQ_TCPLISTENOPTIONSKEEPALIVE=0                         # enable TCP keepalive
-            - RABBITMQ_SSL=0                                                # enable TLS
-            #- RABBITMQ_SSLCACERTFILE=/etc/ssl/certs/ca.pem                 # TLS CA certificates
-            #- RABBITMQ_SSLCERTFILE=/etc/ssl/certs/server.pem               # TLS server certificate
-            #- RABBITMQ_SSLKEYFILE=/etc/ssl/private/server.key              # TLS server key
-            #- RABBITMQ_SSLDEPTH=2                                          # TLS CA chain verification depth
-            - RABBITMQ_SSLVERIFY=verify_peer                                # TLS verification
-            - RABBITMQ_SSLFAILIFNOPEERCERT=false                            # TLS fail if client has no certificate
-            - RABBITMQ_RAMLIMIT=0.4                                         # RAM limit
-            - RABBITMQ_DISKLIMIT=1000000000                                 # disk limit
-            #- RABBITMQ_COLLECTSTATISTICS=none                              # collect statistics mode
-            #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000                      # collect statistics interval
-            #- RABBITMQ_HIPECOMPILE=false                                   # enable hipe compilation
-            - RABBITMQ_MANAGEMENT=1                                         # enable management plugin
-            #- RABBITMQ_MANAGEMENTRATESMODE=basic                           # management statistics rates mode
-            - RABBITMQ_MANAGEMENTAGENT=0                                    # enable management agent plugin
-            #- RABBITMQ_MANAGEMENTAGENTRATESMODE=basic                      # management agent statistics rates mode
-            - RABBITMQ_MQTT=1                                               # enable MQTT
-            #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096                    # MQTT TCP socket backlog
-            #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768                   # MQTT TCP socket send buffer size
-            #- RABBITMQ_MQTTTTCPLISTENOPTIONSRECBUF=32768                   # MQTT TCP socket receive buffer size
-            - RABBITMQ_STOMP=1                                              # enable STOMP
-            #- RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG=4096                   # STOMP TCP socket backlog
-            #- RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF=32768                   # STOMP TCP socket send buffer size
-            #- RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF=32768                   # STOMP TCP socket receive buffer size
-            #- RABBITMQ_CLUSTER=rabbit@rabbitmq-master                      # cluster to join
-            #- RABBITMQ_CLUSTERRAM=0                                        # cluster RAM node
-            #- RABBITMQ_CLUSTERWAIT=15                                      # delay slave startup if master starts at the same time
-            #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore                     # network partitions management
-            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000                      # keepalive messages interval between nodes
-            #- RABBITMQ_CONFIGSCRIPT=/root/rabbitmq/config.sh               # custom configuration script
+            - ENV=local                                     # environment name
+            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- CONSUL_PORT=8500                             # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - CONSUL_SERVICENAME=rabbitmq                   # consul service name
+            - CONSUL_SERVICETAGS=local                      # consul service tag
+            - CONSUL_SERVICEPORT=5672                       # consul service port
+            - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - RABBITMQ_TEMPLATE=static                      # configuration template
+
+            #
+            # template static
+            #
+
+            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS    # erlang cookie
+            #- RABBITMQ_PLUGINS=                            # enable other plugins (comma separated list)
+            #- RABBITMQ_CLUSTERNAME=cluster                 # cluster name
+            #- RABBITMQ_GUESTPASSWORD=                      # guest password
+            - RABBITMQ_USERNAME=rabbitmq                    # administrator user
+            - RABBITMQ_PASSWORD=rabbitmq                    # administrator password
+            #- RABBITMQ_NETTICKTIME=60                      # network tick time frequency
+            #- RABBITMQ_TCPLISTENOPTIONSBACKLOG=128         # TCP socket backlog
+            #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768        # TCP socket send buffer size
+            #- RABBITMQ_TCPLISTENOPTIONSRECBUF=32768        # TCP socket receive buffer size
+            #- RABBITMQ_TCPLISTENOPTIONSKEEPALIVE=0         # enable TCP keepalive
+            #- RABBITMQ_SSL=0                               # enable TLS
+            #- RABBITMQ_SSLCACERTFILE=                      # TLS CA certificates
+            #- RABBITMQ_SSLCERTFILE=                        # TLS server certificate
+            #- RABBITMQ_SSLKEYFILE=                         # TLS server key
+            #- RABBITMQ_SSLDEPTH=2                          # TLS CA chain verification depth
+            #- RABBITMQ_SSLVERIFY=verify_peer               # TLS verification
+            #- RABBITMQ_SSLFAILIFNOPEERCERT=false           # TLS fail if client has no certificate
+            #- RABBITMQ_RAMLIMIT=0.4                        # RAM limit
+            #- RABBITMQ_DISKLIMIT=1000000000                # disk limit
+            #- RABBITMQ_COLLECTSTATISTICS=none              # collect statistics mode
+            #- RABBITMQ_COLLECTSTATISTICSINTERVAL=5000      # collect statistics interval
+            #- RABBITMQ_HIPECOMPILE=false                   # enable hipe compilation
+            #- RABBITMQ_MANAGEMENT=0                        # enable management plugin
+            #- RABBITMQ_MANAGEMENTRATESMODE=basic           # management statistics rates mode
+            #- RABBITMQ_MANAGEMENTAGENT=0                   # enable management agent plugin
+            #- RABBITMQ_MANAGEMENTAGENTRATESMODE=basic      # management agent statistics rates mode
+            #- RABBITMQ_MQTT=0                              # enable MQTT
+            #- RABBITMQ_MQTTTCPLISTENOPTIONSBACKLOG=4096    # MQTT TCP socket backlog
+            #- RABBITMQ_MQTTTTCPLISTENOPTIONSSNDBUF=32768   # MQTT TCP socket send buffer size
+            #- RABBITMQ_MQTTTTCPLISTENOPTIONSRECBUF=32768   # MQTT TCP socket receive buffer size
+            #- RABBITMQ_STOMP=0                             # enable STOMP
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSBACKLOG=4096   # STOMP TCP socket backlog
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSSNDBUF=32768   # STOMP TCP socket send buffer size
+            #- RABBITMQ_STOMPTCPLISTENOPTIONSRECBUF=32768   # STOMP TCP socket receive buffer size
+            #- RABBITMQ_CLUSTER=rabbit@rabbitmq-master      # cluster to join
+            #- RABBITMQ_CLUSTERRAM=0                        # cluster RAM node
+            #- RABBITMQ_CLUSTERWAIT=15                      # delay slave startup if master starts at the same time
+            #- RABBITMQ_CLUSTERPARTITIONHANDLING=ignore     # network partitions management
+            #- RABBITMQ_CLUSTERKEEPALIVEINTERVAL=10000      # keepalive messages interval between nodes
 
     #
     # CLUSTER
@@ -81,15 +81,16 @@ services:
     #     environment:
     #         - CONSUL_AGENT=consul
     #         - CONSUL_SERVICENAME=rabbitmq
-    #         - CONSUL_SERVICETAGS=dev
+    #         - CONSUL_SERVICETAGS=local
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=/path/prefix
-    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
-    #         - RABBITMQ_CLUSTERNAME=cluster                     # set the cluster name
+    #         - RABBITMQ_TEMPLATE=static
+    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
+    #         - RABBITMQ_CLUSTERNAME=cluster                # set the cluster name
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
-    #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2               # uncomment to rejoin a existing cluster if this node has crashed
+    #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2          # uncomment to rejoin a existing cluster if this node has crashed
     #
     # rabbitmq2:
     #     depends_on:
@@ -101,12 +102,13 @@ services:
     #     environment:
     #         - CONSUL_AGENT=consul
     #         - CONSUL_SERVICENAME=rabbitmq
-    #         - CONSUL_SERVICETAGS=dev
+    #         - CONSUL_SERVICETAGS=local
     #         - CONSUL_SERVICEPORT=5672
     #         - CONSUL_CHECKTYPE=tcp
     #         - CONSUL_KEYPREFIX=/path/prefix
-    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS       # cookie must be shared with other nodes
+    #         - RABBITMQ_TEMPLATE=static
+    #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq
-    #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1                # join existing cluster
-    #         - RABBITMQ_CLUSTERWAIT=15                          # need to wait some time if master node starts at the same time
+    #         - RABBITMQ_CLUSTER=rabbit@rabbitmq1           # join existing cluster
+    #         - RABBITMQ_CLUSTERWAIT=15                     # need to wait some time if master node starts at the same time

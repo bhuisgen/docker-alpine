@@ -1,0 +1,11 @@
+version: '3.5'
+
+volumes:
+    wordpress:
+
+services:
+    wordpress:
+        image: bhuisgen/alpine-wordpress
+        entrypoint: /bin/sh
+        volumes:
+            - wordpress:/var/www

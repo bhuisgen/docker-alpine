@@ -1,10 +1,13 @@
-FROM bhuisgen/alpine-base:latest
-MAINTAINER Boris HUISGEN <bhuisgen@hbis.fr>
+FROM alpine:3.7
+LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV DOCKERMACHINE_VERSION=0.12.2
+ENV DOCKERMACHINE_VERSION=0.13.0
 
-RUN curl -sSL https://github.com/docker/machine/releases/download/v${DOCKERMACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine && \
-    chmod +x /usr/local/bin/docker-machine
+RUN apk add --update curl tar && \
+    curl -sSL https://github.com/docker/machine/releases/download/v${DOCKERMACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine && \
+    chmod +x /usr/local/bin/docker-machine && \
+    apk del curl tar && \
+    rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["docker-machine"]
 CMD []

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z ${CONSUL_AGENT} ]; then
+if [ -z "${CONSUL_AGENT}" ]; then
     exit 0
 fi
 

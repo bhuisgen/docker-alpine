@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/bin/Xvfb -ac -listen tcp :99
+exec /usr/bin/Xvfb -ac -listen tcp :99 ${XVFB_OPTIONS}
