@@ -1,0 +1,35 @@
+{{- $strongswan_left := env "STRONGSWAN_LEFT" -}}
+{{- $strongswan_leftsubnet := env "STRONGSWAN_LEFTSUBNET" -}}
+{{- $strongswan_leftcert := env "STRONGSWAN_LEFTCERT" -}}
+{{- $strongswan_leftid := env "STRONGSWAN_LEFTID" -}}
+{{- $strongswan_right := env "STRONGSWAN_RIGHT" -}}
+{{- $strongswan_rightsubnet := env "STRONGSWAN_RIGHTSUBNET" -}}
+{{- $strongswan_rightid := env "STRONGSWAN_RIGHTID" -}}
+{{- $strongswan_auto := env "STRONGSWAN_AUTO" -}}
+# ipsec.conf
+
+config setup
+    charondebug="ike 2, knl 2, cfg 2, mgr 3, chd 2, net 2"
+
+conn %default
+    ikelifetime=60m
+    keylife=20m
+    rekeymargin=3m
+    keyingtries=1
+    keyexchange=ikev2
+    mobike=no
+
+conn ipsec-ikev2
+    left={{$strongswan_left}}
+    leftsubnet={{$strongswan_leftsubnet}}
+    leftcert={{$strongswan_leftcert}}
+    leftid={{$strongswan_leftid}}
+    leftfirewall=yes
+    right={{$strongswan_right}}
+    rightsubnet={{$strongswan_rightsubnet}}
+    rightid={{$strongswan_rightid}}
+    dpdaction=restart
+    dpddelay=30
+    auto={{$strongswan_auto}}
+
+# end

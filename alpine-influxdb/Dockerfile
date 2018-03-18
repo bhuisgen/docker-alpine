@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV INFLUXDB_VERSION=1.3.7
+ENV INFLUXDB_VERSION=1.5.0
 
 RUN mkdir /var/lib/influxdb && \
     addgroup -S influxdb && \

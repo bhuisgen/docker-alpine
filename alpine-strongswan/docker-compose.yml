@@ -3,24 +3,30 @@ version: '3.5'
 services:
     strongswan:
         depends_on:
-            - consul                                        # consul agent
+            - consul                                # consul agent
         image: bhuisgen/alpine-strongswan
         cap_add:
             - SYS_MODULE
             - NET_ADMIN
             - NET_RAW
         network_mode: host
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - /lib/modules:/lib/modules:ro
         ports:
             - "500:500/udp"
             - "4500:4500/udp"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /lib/modules:/lib/modules:ro
         environment:
-            - ENV=local                                     # environment name
-            - CONSUL_AGENT=0.0.0.0                          # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
+            - ENV=local                             # environment name
+            - CONSUL_AGENT=169.254.1.1              # consul agent hostname/IP
+            #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - STRONGSWAN_TEMPLATE=static            # configuration template
+
+            #
+            # template static
+            #
+
             - STRONGSWAN_INTERFACE=eth0                     # VPN public interface
             - STRONGSWAN_LEFT=10.1.1.0.1                    # VPN left private IP interface to gateway
             - STRONGSWAN_LEFTSUBNET=10.1.0.0/16             # VPN left subnet

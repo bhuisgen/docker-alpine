@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/bin/python3 -m zabbix-docker.main
+exec /usr/bin/python3 -m zabbix-docker.main ${ZABBIXDOCKER_OPTIONS}

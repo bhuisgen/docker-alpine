@@ -16,3 +16,12 @@ services:
             - CONSUL_AGENT=consul                   # consul agent hostname/IP
             #- CONSUL_PORT=8500                     # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - TELEGRAF_TEMPLATE=static              # configuration template
+
+            #
+            # template static
+            #
+            - TELEGRAF_INFLUXDBURLS=http://influxdb:8086    # influxdb server URL (comma separated list)
+            #- TELEGRAF_INFLUXDBDATABASE=telegraf           # influxdb database
+            #- TELEGRAF_INFLUXDBUSERNAME=                   # influxdb auth username
+            #- TELEGRAF_INFLUXDBPASSWORD=                   # influxdb auth password

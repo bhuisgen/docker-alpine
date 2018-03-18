@@ -23,4 +23,13 @@ services:
             - CONSUL_SERVICETAGS=local                  # consul service tag
             - CONSUL_SERVICEPORT=9200                   # consul service port
             - CONSUL_CHECKTYPE=tcp                      # consul health check type
-            #- ELASTICSEARCH_HEAPSIZE=256M              # elasticsearch JVM heap size (optional)
+            - ELASTICSEARCH_TEMPLATE=static             # configuration template
+
+            #
+            # template static
+            #
+
+            #- ELASTICSEARCH_CLUSTERNAME=               # cluster name
+            #- ELASTICSEARCH_NODENAME=                  # node name
+            #- ELASTICSEARCH_NODEATTRRACK=              # node custom attributes
+            #- ELASTICSEARCH_JVMHEAPSIZE=1g             # JVM heap size

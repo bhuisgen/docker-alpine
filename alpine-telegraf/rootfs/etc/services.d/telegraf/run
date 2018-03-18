@@ -1,3 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid telegraf /usr/local/telegraf/usr/bin/telegraf --config /etc/telegraf/telegraf.conf
+cd /usr/local/telegraf || exit 1
+exec s6-setuidgid telegraf /usr/local/telegraf/usr/bin/telegraf --config etc/telegraf/telegraf.conf \
+    ${TELEGRAF_OPTIONS}

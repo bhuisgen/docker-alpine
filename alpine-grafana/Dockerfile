@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV GRAFANA_VERSION=4.6.0
+ENV GRAFANA_VERSION=5.0.3
 
 RUN mkdir /var/lib/grafana && \
     addgroup -S grafana && \

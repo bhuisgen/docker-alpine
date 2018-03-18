@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV CHRONOGRAF_VERSION=1.3.10.0
+ENV CHRONOGRAF_VERSION=1.4.2.3
 
 RUN mkdir /var/lib/chronograf && \
     addgroup -S chronograf && \

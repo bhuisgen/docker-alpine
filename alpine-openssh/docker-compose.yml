@@ -22,6 +22,12 @@ services:
             - CONSUL_SERVICETAGS=local                  # consul service tag
             - CONSUL_SERVICEPORT=22                     # consul service port
             - CONSUL_CHECKTYPE=tcp                      # consul health check type
+            - OPENSSH_TEMPLATE=static                   # configuration template
+
+            #
+            # template static
+            #
+
             #- OPENSSH_PASSWORDAUTHENTICATION=no        # enable authentication by password
             #- OPENSSH_SFTPUSERS=                       # SFTP users to create (comma separated list)
             #- OPENSSH_SFTPGROUP=sftp                   # SFTP group for users

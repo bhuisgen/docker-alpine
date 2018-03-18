@@ -22,3 +22,4 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=8888               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            #- CHRONOGRAF_OPTIONS=                  # chronograf options

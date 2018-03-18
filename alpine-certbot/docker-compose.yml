@@ -1,8 +1,13 @@
 version: '3.5'
 
+volumes:
+    certbot:
+
 services:
     certbot:
         image: bhuisgen/alpine-certbot
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - ./data:/data
+            - certbot:/data
+        environment:
+            - ENV=local

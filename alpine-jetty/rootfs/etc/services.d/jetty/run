@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-cd ${JETTY_BASE} || exit 1
+cd "${JETTY_BASE}" || exit 1
 exec s6-setuidgid jetty /usr/bin/java ${JAVA_OPTS} -jar "${JETTY_HOME}/start.jar"

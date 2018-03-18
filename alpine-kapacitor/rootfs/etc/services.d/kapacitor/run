@@ -1,3 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid kapacitor /usr/local/kapacitor/usr/bin/kapacitord -config /etc/kapacitor/kapacitor.conf
+cd /usr/local/kapacitor || exit 1
+exec s6-setuidgid kapacitor /usr/local/kapacitor/usr/bin/kapacitord -config etc/kapacitor/kapacitor.conf \
+    ${KAPACITOR_OPTIONS}

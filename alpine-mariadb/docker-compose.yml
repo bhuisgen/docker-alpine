@@ -22,10 +22,16 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=3306               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - MARIADB_TEMPLATE=static               # configuration template
+
+            #
+            # template static
+            #
+
             #- MARIADB_PROFILE=my-small             # default configuration profile to use (my-small, my-medium ...)
-            - MARIADB_ROOTPASSWORD=mariadb          # root password
-            #- MARIADB_ROOTHOSTMASK=172.30.0.%      # root user hostmask (optional)
-            #- MARIADB_DATABASE=                    # create database (optional)
-            #- MARIADB_USERNAME=                    # grant user name (optional)
-            #- MARIADB_PASSWORD=                    # grant user password (optional)
-            #- MARIADB_HOSTMASK=                    # grant user hostmask (optional)
+            #- MARIADB_ROOTPASSWORD=mariadb         # root password (optional)
+            #- MARIADB_ROOTHOSTMASK=localhost       # root user hostmask (optional)
+            #- MARIADB_DATABASE=                    # create user database (optional)
+            #- MARIADB_USERNAME=                    # user name
+            #- MARIADB_PASSWORD=                    # user password
+            #- MARIADB_HOSTMASK=                    # user hostmask

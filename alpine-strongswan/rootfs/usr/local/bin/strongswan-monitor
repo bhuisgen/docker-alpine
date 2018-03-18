@@ -16,7 +16,7 @@ function usage {
 while [[ $# -gt 0 ]]
 do
     key="$1"
-    case $key in
+    case "$key" in
         -c|--config)
         if [ -z "$2" ]; then
             usage
@@ -59,34 +59,33 @@ do
     esac
 done
 
-if [ -z ${STRONGSWAN_CONFIG} ]; then
+if [ -z "${STRONGSWAN_CONFIG}" ]; then
     STRONGSWAN_CONFIG=/etc/ipsec.conf
 fi
 
-if [ -z ${STRONGSWAN_STARTUP} ]; then
+if [ -z "${STRONGSWAN_STARTUP}" ]; then
     STRONGSWAN_STARTUP=60
 fi
 
-if [ -z ${STRONGSWAN_INTERVAL} ]; then
+if [ -z "${STRONGSWAN_INTERVAL}" ]; then
     STRONGSWAN_INTERVAL=60
 fi
 
-if [ ! -e ${STRONGSWAN_CONFIG} ]; then
+if [ ! -e "${STRONGSWAN_CONFIG}" ]; then
     exit 1
 fi
 
 trap 'exit 1' ERR INT TERM
 
-sleep ${STRONGSWAN_STARTUP}
+sleep "${STRONGSWAN_STARTUP}"
 
 while true; do
     conns=$(awk '/^conn (\w)/ { print $2; }' "${STRONGSWAN_CONFIG}")
 
-    for conn in $conns; do
-        (status=$(ipsec status $conn|grep -c 'ESTABLISHED') && [ "$status" -eq 1 ]) || ( \
-            echo "Starting connection ${conn} ..."
-            ipsec up ${conn} \
-            )
+    for c in $conns; do
+        (status=$(ipsec status "$c"|grep -c 'ESTABLISHED') && [ "$status" -eq 1 ]) || ( \
+            echo "Starting connection ${c} ..."
+            ipsec up "${c}" )
     done
 
     sleep ${STRONGSWAN_INTERVAL}

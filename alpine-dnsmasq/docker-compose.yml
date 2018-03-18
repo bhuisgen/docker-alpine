@@ -12,13 +12,19 @@ services:
             - /etc/localtime:/etc/localtime:ro
         environment:
             - ENV=local                                 # environment name
-            - CONSUL_AGENT=0.0.0.0                      # consul agent hostname/IP
+            - CONSUL_AGENT=169.254.1.1                  # consul agent hostname/IP
             #- CONSUL_PORT=8500                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
             - CONSUL_SERVICENAME=dnsmasq                # consul service name
             - CONSUL_SERVICETAGS=local                  # consul service tag
             - CONSUL_SERVICEPORT=53                     # consul service port
             - CONSUL_CHECKTYPE=tcp                      # consul health check type
+            - DNSMASQ_TEMPLATE=static                   # configuration template
+
+            #
+            # template static
+            #
+
             - DNSMASQ_NORESOLV=1                        # read /etc/resolv.conf
             - DNSMASQ_INTERFACE=wlan0                   # listen interface
             #- DNSMASQ_EXCEPTINTERFACE=                 # interface to not listen
@@ -26,11 +32,12 @@ services:
             #- DNSMASQ_BINDINTERFACES=0                 # bind only on these interfaces
             #- DNSMASQ_NOHOSTS=1                        # disable hosts file
             #- DNSMASQ_ADDHOSTS=/etc/hosts.dnsmasq      # custom hosts file
-            - DNSMASQ_DOMAIN=my.domain                  # domain
-            #- DNSMASQ_LOG=1                            # enable log
-            #- DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,1h # DHCP addresses range
-            #- DNSMASQ_DHCPNETMASK=255.255.255.0        # DHCP network mask
-            #- DNSMASQ_DHCPROUTER=192.168.100.1         # DHCP gateway to push to clients
-            #- DNSMASQ_DHCPDNSSERVER=192.168.100.1      # DHCP DNS server to push to clients
-            #- DNSMASQ_DHCPNTPSERVER=192.168.100.1      # DHCP NTP server to push to clients
-            #- DNSMASQ_TEMPLATE=                        # configuration template
+            - DNSMASQ_DOMAIN=my.domain                  # domain name
+            #- DNSMASQ_UPSTREAM=                        # upstream server
+            #- DNSMASQ_LOG=0                            # enable log
+            - DNSMASQ_DHCP=1                            # enable DHCP server
+            - DNSMASQ_DHCPRANGE=192.168.100.10,192.168.100.20,255.255.255.0,1h # DHCP addresses range
+            - DNSMASQ_DHCPNETMASK=255.255.255.0         # DHCP network mask
+            - DNSMASQ_DHCPROUTER=192.168.100.1          # DHCP gateway to push to clients
+            - DNSMASQ_DHCPDNSSERVER=192.168.100.1       # DHCP DNS server to push to clients
+            - DNSMASQ_DHCPNTPSERVER=192.168.100.1       # DHCP NTP server to push to clients

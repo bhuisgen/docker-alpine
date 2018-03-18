@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -f /var/lib/influxdb/.config ]; then
-    echo "==> Configuring influxdb"
-
-    touch /var/lib/influxdb/.config
-fi

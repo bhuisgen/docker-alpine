@@ -14,9 +14,15 @@ services:
             - /etc/localtime:/etc/localtime:ro
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=0.0.0.0                  # consul agent hostname/IP
+            - CONSUL_AGENT=169.254.1.1              # consul agent hostname/IP
             #- CONSUL_PORT=8500                     # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - HOSTAPD_TEMPLATE=static               # configuration template
+
+            #
+            # template static
+            #
+
             - HOSTAPD_INTERFACE=wlx74da386015cd     # AP interface
             - HOSTAPD_SSID=${USERNAME}              # AP network SSID
             - HOSTAPD_COUNTRYCODE=FR                # AP country code

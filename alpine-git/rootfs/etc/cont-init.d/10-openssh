@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-echo "==> Configuring openssh"
-
-ssh-keygen -A

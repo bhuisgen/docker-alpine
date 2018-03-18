@@ -1,3 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/local/portainer/portainer -d ${PORTAINER_HOME} ${PORTAINER_OPTIONS}
+exec /usr/local/portainer/portainer -d "${PORTAINER_HOME}" ${PORTAINER_OPTIONS}

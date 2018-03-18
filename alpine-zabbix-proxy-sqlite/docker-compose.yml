@@ -20,6 +20,12 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=10051              # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - ZABBIX_TEMPLATE=static                # configuration template
+
+            #
+            # template static
+            #
+
             #- ZABBIX_PROXYMODE=0                   # proxy mode (0: active, 1: passive)
             - ZABBIX_SERVER=10.0.0.1                # zabbix server IP/host
             #- ZABBIX_SERVERPORT=10051              # zabbix server port

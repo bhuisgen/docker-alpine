@@ -22,7 +22,13 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=5432               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - POSTGRESQL_TEMPLATE=static            # configuration template
+
+            #
+            # template static
+            #
+
             #- POSTGRESQL_DATABASE=                 # create database (optional)
-            #- POSTGRESQL_USERNAME=                 # grant user name (optional)
-            #- POSTGRESQL_PASSWORD=                 # grant user password (optional)
-            #- POSTGRESQL_ADDRESS=                  # grant user address (optional)
+            #- POSTGRESQL_USERNAME=                 # database user name
+            #- POSTGRESQL_PASSWORD=                 # database user password
+            #- POSTGRESQL_ADDRESS=                  # database user address

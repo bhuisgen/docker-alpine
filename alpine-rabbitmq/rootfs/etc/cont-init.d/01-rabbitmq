@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${RABBITMQ_TEMPLATE}" ]; then
+    echo "==> Enabling template ${RABBITMQ_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/rabbitmq/${RABBITMQ_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

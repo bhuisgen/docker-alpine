@@ -1,0 +1,12 @@
+{{- $zabbixdocker := env "ZABBIXDOCKER" -}}
+#!/usr/bin/with-contenv sh
+
+ZABBIXDOCKER="{{$zabbixdocker}}"
+
+if [ ! -z ${ZABBIXDOCKER} ] && [ ${ZABBIXDOCKER} -eq 1 ]; then
+    echo "==> Enabling service zabbix-docker"
+
+    rm -f /etc/services.d/zabbix-docker/down
+else
+    touch /etc/services.d/zabbix-docker/down
+fi

@@ -21,6 +21,12 @@ services:
             - consul:/var/lib/consul                    # volume for data
         environment:
             - ENV=local                                 # environment name
+            - CONSUL_TEMPLATE=static                    # configuration template
+
+            #
+            # template static
+            #
+
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # server mode with UI
             - CONSUL_DATACENTER=local                   # datacenter
             - CONSUL_DOMAIN=consul                      # domain name

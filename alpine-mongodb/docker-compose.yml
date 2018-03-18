@@ -23,3 +23,8 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=27017              # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - MONGODB_TEMPLATE=static               # configuration template
+
+            #
+            # template static
+            #

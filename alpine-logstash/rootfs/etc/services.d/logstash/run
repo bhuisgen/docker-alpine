@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 cd /usr/local/logstash || exit 1
-exec s6-setuidgid logstash /usr/local/logstash/bin/logstash -f /usr/local/logstash/config/logstash.conf --auto-reload --reload-interval 15
+exec s6-setuidgid logstash /usr/local/logstash/bin/logstash -f /usr/local/logstash/config/logstash.conf \
+    --path.data /var/lib/logstash/data --path.logs /var/lib/logstash/logs ${LOGSTASH_OPTIONS}

@@ -1,12 +1,3 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f /var/lib/openldap/.config ]; then
-    echo "==> Configuring openldap"
-
-    mkdir -p "${OPENLDAP_CONFIGDIR}"
-    slaptest -f /etc/openldap/slapd.conf -F "${OPENLDAP_CONFIGDIR}" > /dev/null 2>&1
-    chown -R ldap:ldap "${OPENLDAP_CONFIGDIR}"
-    chmod -R 0750 "${OPENLDAP_CONFIGDIR}"
-
-    touch /var/lib/openldap/.config
-fi
+exit 0

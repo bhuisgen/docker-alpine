@@ -22,3 +22,13 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=9092               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - KAPACITOR_TEMPLATE=static             # configuration template
+
+            #
+            # template static
+            #
+
+            - KAPACITOR_INFLUXDBNAME=influxdb               # influxdb server name
+            - KAPACITOR_INFLUXDBURLS=http://influxdb:8086   # influxdb server URL (comma separated list)
+            #- KAPACITOR_INFLUXDBUSERNAME=                  # influxdb auth username
+            #- KAPACITOR_INFLUXDBPASSWORD=                  # influxdb auth password

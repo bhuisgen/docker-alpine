@@ -20,6 +20,12 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=10052                      # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - ZABBIX_TEMPLATE=static                        # configuration template
+
+            #
+            # template static
+            #
+
             - ZABBIX_STARTPOLLERS=5                         # number of zabbix worker threads
             - ZABBIX_TIMEOUT=3                              # network operations timeout
             - ZABBIX_JMX=0                                  # enable JMX monitoring

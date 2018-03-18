@@ -16,13 +16,19 @@ services:
             - zabbix-agent:/var/lib/zabbix                  # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=0.0.0.0                          # consul agent hostname/IP
+            - CONSUL_AGENT=169.254.1.1                      # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=zabbix-agent               # consul service name
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=10050                      # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - ZABBIX_TEMPLATE=static                        # configuration template
+
+            #
+            # template static
+            #
+
             - ZABBIX_ENABLEREMOTECOMMANDS=1                 # enable remote commands execution
             - ZABBIX_LOGREMOTECOMMANDS=1                    # log remote commands
             - ZABBIX_SERVER=0.0.0.0/0                       # zabbix server (IP/host/CIDR comma delimited list)
@@ -37,16 +43,16 @@ services:
             #- ZABBIX_TIMEOUT=3                             # timeout of processing
             #- ZABBIX_ROOTFILESYSTEM=                       # host rootfs
             #- ZABBIX_UNSAFEUSERPARAMETERS=                 # enable unsafe user parameters
-            #- ZABBIXDOCKER=0                               # enable docker monitoring
+            - ZABBIXDOCKER=1                                # enable docker monitoring
             #- ZABBIXDOCKER_LOG=0                           # enable logging
             #- ZABBIXDOCKER_LOGLEVEL=error                  # log level
             - ZABBIXDOCKER_ROOTFS=/rootfs                   # rootfs path to use for system metrics
-            #- ZABBIXDOCKER_CONTAINERS=0                    # enable containers metrics
-            #- ZABBIXDOCKER_CONTAINERSSTATS=0               # enable containers statistics metrics
+            - ZABBIXDOCKER_CONTAINERS=1                     # enable containers metrics
+            - ZABBIXDOCKER_CONTAINERSSTATS=1                # enable containers statistics metrics
             #- ZABBIXDOCKER_CONTAINERSTOP=0                 # enable containers processes metrics
-            #- ZABBIXDOCKER_CONTAINERSREMOTE=0              # enable containers remote command execution
-            #- ZABBIXDOCKER_EVENTS=0                        # enable events metrics
-            #- ZABBIXDOCKER_ZABBIX_SERVER=                  # zabbix server to send metrics
-            #- ZABBIXDOCKER_ZABBIX_HOSTNAME=                # zabbix hostname for sended metrics
-            #- ZABBIXDOCKER_CONTAINERSREMOTE_PATH=/etc/zabbix/scripts/trapper   # remote commands path
-            #- ZABBIXDOCKER_CONTAINERSREMOTE_DELAY=1        # remote commands delay
+            - ZABBIXDOCKER_CONTAINERSREMOTE=1               # enable containers remote command execution
+            - ZABBIXDOCKER_EVENTS=1                         # enable events metrics
+            - ZABBIXDOCKER_ZABBIXSERVER=10.0.0.1            # zabbix server to send metrics
+            #- ZABBIXDOCKER_ZABBIXHOSTNAME=                 # zabbix hostname for sended metrics
+            - ZABBIXDOCKER_CONTAINERSREMOTEPATH=/etc/zabbix/scripts/trapper:/etc/zabbix/discovery/trapper # remote commands path
+            - ZABBIXDOCKER_CONTAINERSREMOTEDELAY=1:5        # remote commands delay

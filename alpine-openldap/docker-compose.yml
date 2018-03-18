@@ -22,5 +22,11 @@ services:
             - CONSUL_SERVICETAGS=local                  # consul service tag
             - CONSUL_SERVICEPORT=389                    # consul service port
             - CONSUL_CHECKTYPE=tcp                      # consul health check type
-            - OPENLDAP_OLCROOTDN=cn=admin,cn=config     # OLC root DN
+            - OPENLDAP_TEMPLATE=static                  # configuration template
+
+            #
+            # template static
+            #
+
+            - OPENLDAP_OLCROOTDN=cn=admin,cn=config                     # OLC root DN
             - OPENLDAP_OLCROOTPW={SSHA}p12w1DrMOFl6TwXVrRlfLOa6Qwsa0avD # OLC root password

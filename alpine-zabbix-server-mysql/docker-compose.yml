@@ -20,6 +20,12 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=10051              # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - ZABBIX_TEMPLATE=static                # configuration template
+
+            #
+            # template static
+            #
+
             - ZABBIX_DBHOST=mysql                   # database host
             - ZABBIX_DBPORT=3306                    # database port
             - ZABBIX_DBNAME=zabbix                  # database name

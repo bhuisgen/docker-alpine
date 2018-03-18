@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV TELEGRAF_VERSION=1.4.3
+ENV TELEGRAF_VERSION=1.5.3
 
 RUN mkdir /var/lib/telegraf && \
     addgroup -S telegraf && \

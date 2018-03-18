@@ -1,16 +1,21 @@
 #!/usr/bin/with-contenv sh
 
-exec s6-setuidgid elasticsearch /usr/bin/java -server \
-    -XX:+DisableExplicitGC \
-    -Djava.awt.headless=true \
-    -Dfile.encoding=utf-8 \
-    -Xms${ELASTICSEARCH_HEAPSIZE} -Xmx${ELASTICSEARCH_HEAPSIZE} \
-    -Des.path.conf=/usr/local/elasticsearch/config/ \
-    -Des.path.home=/var/lib/elasticsearch \
-    -Des.default.path.data=/var/lib/elasticsearch/data \
-    -Des.default.path.plugins=/var/lib/elasticsearch/plugins \
-    -Des.default.path.work=/var/lib/elastisearch/tmp \
-    -Des.default.path.logs=/var/lib/elasticsearch/logs \
-    -Des.default.path.scripts=/var/lib/elasticsearch/bin \
-    -cp '/usr/local/elasticsearch/lib/*' \
-    org.elasticsearch.bootstrap.Elasticsearch start
+java_opts="
+        -Des.path.home=/var/lib/elasticsearch
+        -Des.default.path.plugins=/var/lib/elasticsearch/plugins
+        -Des.default.path.work=/var/lib/elasticsearch/tmp
+        -Des.default.path.script=/var/lib/elasticsearch/bin
+        ${JAVA_OPTS}
+        "
+elastic_opts="
+        -Epath.data=/var/lib/elasticsearch/data
+        -Epath.logs=/var/lib/elasticsearch/logs
+        ${ELASTICSEARCH_OPTIONS}
+        "
+
+export ES_JAVA_OPTS="$java_opts"
+export ES_JVM_OPTIONS="/usr/local/elasticsearch/config/jvm.options"
+export ES_TMPDIR=/var/lib/elasticsearch/tmp
+
+cd /usr/local/elasticsearch || exit 1
+exec s6-setuidgid elasticsearch /usr/local/elasticsearch/bin/elasticsearch ${elastic_opts}

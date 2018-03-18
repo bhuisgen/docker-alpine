@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${RSYSLOG_TEMPLATE}" ]; then
+    echo "==> Enabling template ${RSYSLOG_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/rsyslog/${RSYSLOG_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi
