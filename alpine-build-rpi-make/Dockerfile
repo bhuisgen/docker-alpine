@@ -1,2 +1,4 @@
-FROM bhuisgen/alpine-build-rpi-make:latest
+FROM bhuisgen/alpine-build-rpi:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+
+COPY rootfs/ /
