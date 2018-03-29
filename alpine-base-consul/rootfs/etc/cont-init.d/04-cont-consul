@@ -1,6 +1,12 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${CONSUL_AGENT}" ]; then
+    echo "==> Waiting for service"
+
+    if ! /etc/cont-consul/wait-for; then
+        echo "Failed to wait for service, aborting" >&2 && exit 1
+    fi
+
     echo "==> Generating container configuration"
 
     if ! consul-template -config /etc/cont-consul/conf.d/config.hcl -once; then

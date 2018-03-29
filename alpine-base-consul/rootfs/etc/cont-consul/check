@@ -5,10 +5,10 @@ if [ -z "${CONSUL_AGENT}" ]; then
 fi
 
 options=""
-url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
+consul_addr="http://${CONSUL_AGENT}:${CONSUL_PORT}"
 
 if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
-    url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
+    consul_addr="https://${CONSUL_AGENT}:${CONSUL_PORT}"
 
     if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
         options="${options} --cacert ${CONSUL_TLSCAFILE}"
@@ -39,7 +39,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
 
         id=$(jq -r '.ID' "$file") && \
             name=$(jq -r '.Name' "$file") && \
-            health=$(curl -s ${options} -X GET "${url}/v1/health/service/${name}" \
+            health=$(curl -s ${options} -X GET "${consul_addr}/v1/health/service/${name}" \
                         -G --data-urlencode "passing=true") && \
             service_ids=$(echo "$health"|jq -r '.[].Service.ID') || break
 

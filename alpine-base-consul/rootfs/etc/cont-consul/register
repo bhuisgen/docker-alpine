@@ -5,10 +5,10 @@ if [ -z "${CONSUL_AGENT}" ]; then
 fi
 
 options=""
-url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
+consul_addr="http://${CONSUL_AGENT}:${CONSUL_PORT}"
 
 if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
-    url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
+    consul_addr="https://${CONSUL_AGENT}:${CONSUL_PORT}"
 
     if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
         options="${options} --cacert ${CONSUL_TLSCAFILE}"
@@ -38,7 +38,7 @@ if [ -d /etc/cont-consul/services.d/ ]; then
         [ -f "$file" ] || continue
 
         [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-            -X PUT -d "@${file}" "${url}/v1/agent/service/register") == "200" ] || status=1
+            -X PUT -d "@${file}" "${consul_addr}/v1/agent/service/register") == "200" ] || status=1
     done
 fi
 
@@ -47,7 +47,7 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
         [ -f "$file" ] || continue
 
         [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-            -X PUT -d "@${file}" "${url}/v1/agent/check/register") == "200" ] || status=1
+            -X PUT -d "@${file}" "${consul_addr}/v1/agent/check/register") == "200" ] || status=1
     done
 fi
 
