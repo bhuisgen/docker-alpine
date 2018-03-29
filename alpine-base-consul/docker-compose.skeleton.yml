@@ -32,8 +32,8 @@ services:
             #- CONSUL_RESOLVER=container                # IP resolver method for consul service (container/route/interface, by default container)
             #- CONSUL_RESOLVER_INTERFACENAME=eth0       # network interface name for IP resolver (default: eth0)
             #- CONSUL_RESOLVER_INTERFACETYPE=inet       # network interface type for IP resolver (inet/inet6, default: inet)
-            #- CONSUL_WAITFOR_SERVICENAME=              # consul service name to wait for starting
-            #- CONSUL_WAITFOR_SERVICETAG=               # consul service tag to wait for starting
+            #- CONSUL_WAITFOR_SERVICENAME=consul        # consul service name to wait at startup
+            #- CONSUL_WAITFOR_SERVICETAG=               # consul service tag to wait at startup
             #
             # HTTP health check
             #
