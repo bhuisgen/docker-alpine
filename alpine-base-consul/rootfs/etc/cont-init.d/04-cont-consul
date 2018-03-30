@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${CONSUL_AGENT}" ]; then
-    echo "==> Waiting for service"
+    echo "==> Waiting for consul"
 
     if ! /etc/cont-consul/wait-for; then
         echo "Failed to wait for service, aborting" >&2 && exit 1
