@@ -20,8 +20,9 @@ services:
 
             - CONSUL_OPTIONS=-advertise {{GetPrivateIP}} -retry-join server.my.domain -client 169.254.1.1   # client mode
             - CONSUL_DATACENTER=local                   # datacenter
-            - CONSUL_DOMAIN=consul                      # domain name
+            #- CONSUL_DOMAIN=consul                     # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==   # encryption key
+            #- CONSUL_RAFTMULTIPLIER=5                  # raft mutliplier
             #- CONSUL_TLS=0                             # enable TLS
             #- CONSUL_TLSCAFILE=                        # TLS CA certificate file
             #- CONSUL_TLSCERTFILE=                      # TLS server certificate file (server)
@@ -35,5 +36,4 @@ services:
             #- CONSUL_ACLDEFAULTPOLICY=extend-cache     # ACL default policy (server only)
             #- CONSUL_ACLDOWNPOLICY=extend-cache        # ACL down policy
             #- CONSUL_ACLTTL=30                         # ACL TTL (server only)
-            #- CONSUL_ACLENFORCEVERSION8=true           # Enforce ACL version 8
-            #- CONSUL_RAFTMULTIPLIER=0                  # Raft mutliplier
+            #- CONSUL_ACLENFORCEVERSION8=true           # enforce ACL version 8
