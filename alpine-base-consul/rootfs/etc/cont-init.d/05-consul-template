@@ -42,7 +42,7 @@ if ls -A /etc/consul-template/conf.d/*.hcl > /dev/null 2>&1; then
     fi
 
     if ! consul-template ${options}; then
-            echo "Failed to render container templates, aborting" >&2
+        echo "Failed to render container templates, aborting" >&2
         exit 1
     fi
 fi
