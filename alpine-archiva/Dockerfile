@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ARCHIVA_VERSION=2.2.3 \
-    JETTY_VERSION=9.4.8.v20171121 \
+    JETTY_VERSION=9.4.9.v20180320 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/var/lib/jetty \
     JETTY_MODULES=ext,plus,http,deploy
