@@ -32,7 +32,7 @@ if [ ! -z "${CONSUL_TOKEN}" ]; then
 fi
 
 while true; do
-    [ $(curl -sI -w '%{http_code}' --out /dev/null ${options} "${consul_addr}/v1/agent/self") == "200" ] && break
+    [ $(curl -s -w '%{http_code}' --out /dev/null ${options} "${consul_addr}/v1/agent/self") == "200" ] && break
 
     sleep 4
 done
