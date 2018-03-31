@@ -34,9 +34,9 @@ services:
             #- PHP_FPM_MINSPARESERVERS=1            # minimum idle processes (dynamic)
             #- PHP_FPM_MAXSPARESERVERS=3            # maximum idle processes (dynamic)
             #- PHP_FPM_PROCESSIDLETIMEOUT=10s       # number of seconds before killing idle processes
-            #- PHP_FPM_MAXREQUESTS=500              # number of requests before respawning
-            #- PHP_FPM_STATUSPATH=/status            # path of status page
-            #- PHP_FPM_PINGPATH=/ping                # path of ping page
+            #- PHP_FPM_MAXREQUESTS=0                # number of requests before respawning
+            #- PHP_FPM_STATUSPATH=/status           # path of status page
+            #- PHP_FPM_PINGPATH=/ping               # path of ping page
             #- PHP_FPM_PINGRESPONSE=pong            # response of ping
             #- PHP_FPM_ACCESSLOG=0                  # enable access log
             #- PHP_FPM_ACCESSFORMAT=                # access log format
