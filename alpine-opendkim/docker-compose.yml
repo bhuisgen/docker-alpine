@@ -23,10 +23,10 @@ services:
             - CONSUL_SERVICETAGS=local              # consul service tag
             - CONSUL_SERVICEPORT=8891               # consul service port
             - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - OPENDKIM_DEFAULT=default              # configuration template
+            - OPENDKIM_TEMPLATE=static              # configuration template
 
             #
-            # template opendkim
+            # template static
             #
 
             #- OPENDKIM_KEYTABLE=                   # opendkim key table file of signing keys
