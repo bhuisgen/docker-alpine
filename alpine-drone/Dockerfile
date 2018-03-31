@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV DRONE_VERSION=0.8.3 \
+ENV DRONE_VERSION=0.8.5 \
     GOPATH=/usr/local
 
 RUN mkdir /var/lib/drone && \
