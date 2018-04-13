@@ -1,0 +1,26 @@
+version: '3.5'
+
+volumes:
+    mailhog:
+
+services:
+    mailhog:
+        depends_on:
+            - consul                                # consul agent
+        image: bhuisgen/alpine-mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - mailhog:/var/lib/mailhog              # volume for data
+        environment:
+            - ENV=local                             # environment name
+            - CONSUL_AGENT=consul                   # consul agent hostname/IP
+            #- CONSUL_PORT=8500                     # consul agent port
+            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
+            - CONSUL_SERVICENAME=mailhog            # consul service name
+            - CONSUL_SERVICETAGS=local              # consul service tag
+            - CONSUL_SERVICEPORT=1025               # consul service port
+            - CONSUL_CHECKTYPE=tcp                  # consul health check type
+            - MAILHOG_OPTIONS=
