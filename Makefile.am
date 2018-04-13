@@ -49,6 +49,7 @@ SUBDIRS = \
     alpine-kapacitor \
     alpine-kibana \
     alpine-logstash \
+    alpine-mailhog \
     alpine-mariadb \
     alpine-mongodb \
     alpine-nginx \

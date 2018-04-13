@@ -87,6 +87,7 @@ AC_CONFIG_FILES([
     alpine-kapacitor/Makefile
     alpine-kibana/Makefile
     alpine-logstash/Makefile
+    alpine-mailhog/Makefile
     alpine-mariadb/Makefile
     alpine-mongodb/Makefile
     alpine-nginx/Makefile
