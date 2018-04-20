@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV ZABBIXMONITOR_VERSION=0.3.0
+ENV ZABBIXMONITOR_VERSION=0.4.0
 
 RUN apk add --update git nodejs yarn && \
     git clone -b ${ZABBIXMONITOR_VERSION} https://github.com/bhuisgen/zabbix-monitor.git /usr/local/zabbix-monitor && \
