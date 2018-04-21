@@ -19,4 +19,10 @@ services:
             - CONSUL_AGENT=consul                       # consul agent hostname/IP
             #- CONSUL_PORT=8500                         # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
-            - RUNDECK_SERVERURL=http://0.0.0.0:4440     # rundeck external server URL
+            - RUNDECK_TEMPLATE=static                   # configuration template
+
+            #
+            # template static
+            #
+
+            - RUNDECK_SERVERURL=http://0.0.0.0:4440     # external server URL
