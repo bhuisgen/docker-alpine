@@ -33,6 +33,7 @@ SUBDIRS = \
     alpine-docker-registry \
     alpine-dovecot \
     alpine-drone \
+    alpine-drone-cli \
     alpine-dynamodb \
     alpine-elasticsearch \
     alpine-fabric \

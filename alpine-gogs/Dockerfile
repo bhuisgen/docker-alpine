@@ -5,7 +5,8 @@ ENV GOGS_VERSION=0.11.43
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \
-    adduser -D -g "" -G git -s /usr/bin/git-shell -h /var/lib/gogs/git git && \
+    adduser -D -g "" -G git -s /bin/bash -h /var/lib/gogs/git git && \
+    echo git:* | chpasswd && \
     chown git:git /var/lib/gogs/git && \
     mkdir /var/lib/gogs/git/git-shell-commands && \
     chmod 755 /var/lib/gogs/git/git-shell-commands

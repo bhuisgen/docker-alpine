@@ -5,9 +5,9 @@ if [ -S /var/run/docker.sock ]; then
     GROUP=$(getent group "${GID}"|cut -d ':' -f 1)
 
     if [ ! -z "${GROUP}" ]; then
-        adduser nomad "${GROUP}"
+        adduser drone "${GROUP}"
     else
         addgroup -g "${GID}" -S docker
-        adduser nomad docker
+        adduser drone docker
     fi
 fi

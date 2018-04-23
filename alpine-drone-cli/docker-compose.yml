@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+    drone-cli:
+        image: bhuisgen/alpine-drone-cli
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - DRONE_SERVER=${DRONE_SERVER}
+            - DRONE_TOKEN=${DRONE_TOKEN}

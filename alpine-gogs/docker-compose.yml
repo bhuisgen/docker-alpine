@@ -28,5 +28,3 @@ services:
             #
             # template static
             #
-
-            #- GOGS_OPENSSH_PASSWORDAUTHENTICATION=0    # allow OpenSSH password authentication
