@@ -23,6 +23,7 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=8000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - DRONE_TEMPLATE=static                         # configuration template
             - DRONE_HOST=0.0.0.0
             - DRONE_OPEN=true
             - DRONE_SECRET=my$ecret
@@ -47,5 +48,6 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=8000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - DRONE_TEMPLATE=static                         # configuration template
             - DRONE_SERVER=drone-server:9000
             - DRONE_SECRET=my$ecret

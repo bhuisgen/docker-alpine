@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv sh
+
+if [ -S /var/run/docker.sock ]; then
+    GID=$(stat -c "%g" /var/run/docker.sock)
+    GROUP=$(getent group "${GID}"|cut -d ':' -f 1)
+
+    if [ ! -z "${GROUP}" ]; then
+        adduser drone "${GROUP}"
+    else
+        addgroup -g "${GID}" -S docker
+        adduser drone docker
+    fi
+fi
