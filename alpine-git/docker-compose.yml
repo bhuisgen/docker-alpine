@@ -27,5 +27,3 @@ services:
             #
             # template static
             #
-
-            #- GIT_OPENSSH_PASSWORDAUTHENTICATION=0
