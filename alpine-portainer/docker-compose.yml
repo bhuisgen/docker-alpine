@@ -23,4 +23,10 @@ services:
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=9000                       # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
+            - PORTAINER_TEMPLATE=static                     # configuration template
+
+            #
+            # template static
+            #
+
             #- PORTAINER_OPTIONS=                           # portainer options
