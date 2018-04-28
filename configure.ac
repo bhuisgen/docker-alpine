@@ -64,6 +64,7 @@ AC_CONFIG_FILES([
     alpine-certbot/Makefile
     alpine-cli53/Makefile
     alpine-consul/Makefile
+    alpine-consul-cli/Makefile
     alpine-chronograf/Makefile
     alpine-dnsmasq/Makefile
     alpine-dovecot/Makefile

@@ -10,7 +10,7 @@ RUN apk add --update bash bind-tools ca-certificates curl jq python2 tar && \
     chmod +x /usr/local/bin/rabbitmqadmin && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["rabbitmqadmin"]
+ENTRYPOINT ["/usr/local/bin/rabbitmqadmin"]
 CMD []
 
 VOLUME ["/data"]

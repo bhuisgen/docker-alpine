@@ -8,7 +8,7 @@ RUN apk add --update python3 && \
     pip3 install docker-compose==${DOCKERCOMPOSE_VERSION} && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["docker-compose"]
+ENTRYPOINT ["/usr/bin/docker-compose"]
 CMD []
 
 VOLUME ["/data"]

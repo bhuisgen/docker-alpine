@@ -11,7 +11,7 @@ RUN apk add --update curl zip && \
     apk del curl zip && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["packer"]
+ENTRYPOINT ["/usr/bin/packer"]
 CMD []
 
 VOLUME ["/data"]
