@@ -7,7 +7,7 @@ RUN apk add --update ca-certificates libffi openssl python2 py2-pip && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["fab"]
+ENTRYPOINT ["/usr/bin/fab"]
 CMD []
 
 VOLUME ["/data"]

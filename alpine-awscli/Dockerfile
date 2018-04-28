@@ -6,7 +6,7 @@ RUN apk add --update python3 && \
     pip3 install awscli && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["aws"]
+ENTRYPOINT ["/usr/bin/aws"]
 CMD []
 
 VOLUME ["/data"]

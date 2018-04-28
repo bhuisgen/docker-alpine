@@ -9,7 +9,7 @@ RUN apk add --update curl tar && \
     apk del curl tar && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["docker-machine"]
+ENTRYPOINT ["/usr/bin/docker-machine"]
 CMD []
 
 VOLUME ["/data"]

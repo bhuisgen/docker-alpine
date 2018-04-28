@@ -10,5 +10,5 @@ RUN apk add --update curl tar && \
     apk del curl tar && \
     rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["drone"]
+ENTRYPOINT ["/usr/local/bin/drone"]
 CMD []

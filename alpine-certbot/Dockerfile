@@ -6,7 +6,7 @@ RUN apk add --update certbot openssl && \
 
 COPY rootfs/ /
 
-ENTRYPOINT ["certbot"]
+ENTRYPOINT ["/usr/bin/certbot"]
 CMD []
 
 VOLUME ["/data"]
