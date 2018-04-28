@@ -307,6 +307,7 @@ SUBDIRS = \
     alpine-chronograf \
     alpine-cli53 \
     alpine-consul \
+    alpine-consul-cli \
     alpine-dnsmasq \
     alpine-docker-compose \
     alpine-docker-machine \

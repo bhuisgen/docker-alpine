@@ -1,0 +1,7 @@
+version: '3.5'
+
+services:
+    consul-cli:
+        image: bhuisgen/alpine-consul-cli
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
