@@ -99,7 +99,6 @@ AC_CONFIG_FILES([
     alpine-opendmarc/Makefile
     alpine-openldap/Makefile
     alpine-openssh/Makefile
-    alpine-openvpn/Makefile
     alpine-packer/Makefile
     alpine-passbolt/Makefile
     alpine-perl/Makefile
