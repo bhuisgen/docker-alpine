@@ -1,0 +1,9 @@
+pipeline:
+    build:
+        image: alpine:3.7
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        commands:
+            - apk add --update build-base docker
+            - ./configure
+            - make build
