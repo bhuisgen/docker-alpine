@@ -7,9 +7,7 @@ RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \
     adduser -D -g "" -G git -s /bin/bash -h /var/lib/gogs/git git && \
     echo git:* | chpasswd && \
-    chown git:git /var/lib/gogs/git && \
-    mkdir /var/lib/gogs/git/git-shell-commands && \
-    chmod 755 /var/lib/gogs/git/git-shell-commands
+    chown git:git /var/lib/gogs/git
 
 RUN apk add --update git libc6-compat linux-pam openssh tar && \
     mkdir /usr/local/gogs && \
