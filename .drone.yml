@@ -1,9 +1,24 @@
 pipeline:
-    build:
+    build-prod:
+        when:
+            branch:
+                include: [ master ]
         image: alpine:3.7
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         commands:
             - apk add --update build-base docker
-            - ./configure
+            - ./configure TAG=prod
+            - make build
+
+    build-dev:
+        when:
+            branch:
+                exclude: [ master ]
+        image: alpine:3.7
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        commands:
+            - apk add --update build-base docker
+            - ./configure TAG=dev
             - make build
