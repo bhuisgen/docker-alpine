@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ZABBIX_VERSION=3.4.7 \
-    ZABBIXDOCKER_VERSION=0.3.0
+    ZABBIXDOCKER_VERSION=0.3.1
 
 COPY packages/*.apk /root/
 RUN apk add --update git python3 && \
