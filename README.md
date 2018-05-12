@@ -6,5 +6,6 @@ Boris HUISGEN <bhuisgen@hbis.fr>
 
 ## Usage
 
+    $ ./autogen.sh
     $ ./configure
     $ make build
