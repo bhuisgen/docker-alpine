@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV RUNDECK_VERSION=2.10.8 \
+ENV RUNDECK_VERSION=2.11.3 \
     RDECK_BASE=/home/rundeck \
     PATH=${PATH}:${RDECK_BASE}/tools/bin
 
