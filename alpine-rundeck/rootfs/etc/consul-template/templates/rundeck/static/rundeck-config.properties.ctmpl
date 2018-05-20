@@ -1,0 +1,31 @@
+{{- $rundeck_server_url := env "RUNDECK_SERVERURL" -}}
+{{- $rundeck_datasource_driverclassname := env "RUNDECK_DATASOURCEDRIVERCLASSNAME" -}}
+{{- $rundeck_datasource_url := env "RUNDECK_DATASOURCEURL" -}}
+{{- $rundeck_datasource_username := env "RUNDECK_DATASOURCEUSERNAME" -}}
+{{- $rundeck_datasource_password := env "RUNDECK_DATASOURCEPASSWORD" -}}
+#loglevel.default is the default log level for jobs: ERROR,WARN,INFO,VERBOSE,DEBUG
+loglevel.default=INFO
+rdeck.base=/home/rundeck
+
+#rss.enabled if set to true enables RSS feeds that are public (non-authenticated)
+rss.enabled=false
+grails.serverURL={{if $rundeck_server_url}}{{$rundeck_server_url}}{{else}}http://0.0.0.0:4440{{end}}
+dataSource.dbCreate = update
+{{if $rundeck_datasource_driverclassname}}dataSource.driverClassName = {{$rundeck_datasource_driverclassname}}{{end}}
+dataSource.url = {{if $rundeck_datasource_url}}{{$rundeck_datasource_url}}{{else}}jdbc:h2:file:/home/rundeck/server/data/grailsdb;MVCC=true{{end}}
+{{if and $rundeck_datasource_username $rundeck_datasource_password}}
+dataSource.username={{$rundeck_datasource_username}}
+dataSource.password={{$rundeck_datasource_password}}
+{{end}}
+
+# Pre Auth mode settings
+rundeck.security.authorization.preauthenticated.enabled=false
+rundeck.security.authorization.preauthenticated.attributeName=REMOTE_USER_GROUPS
+rundeck.security.authorization.preauthenticated.delimiter=,
+# Header from which to obtain user name
+rundeck.security.authorization.preauthenticated.userNameHeader=X-Forwarded-Uuid
+# Header from which to obtain list of roles
+rundeck.security.authorization.preauthenticated.userRolesHeader=X-Forwarded-Roles
+# Redirect to upstream logout url
+rundeck.security.authorization.preauthenticated.redirectLogout=false
+rundeck.security.authorization.preauthenticated.redirectUrl=/oauth2/sign_in

@@ -25,4 +25,8 @@ services:
             # template static
             #
 
-            - RUNDECK_SERVERURL=http://0.0.0.0:4440     # external server URL
+            #- RUNDECK_SERVERURL=http://0.0.0.0:4440    # external server URL
+            #- RUNDECK_DATASOURCEDRIVERCLASSNAME=       # datasource driver class name
+            #- RUNDECK_DATASOURCEURL=                   # datasource URL
+            #- RUNDECK_DATASOURCEUSERNAME=              # datasource username
+            #- RUNDECK_DATASOURCEPASSWORD=              # datasource password
