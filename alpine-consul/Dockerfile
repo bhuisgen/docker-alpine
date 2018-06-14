@@ -1,8 +1,8 @@
 FROM bhuisgen/alpine-base:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV CONSUL_VERSION=1.0.7 \
-    CONSULTEMPLATE_VERSION=0.19.4
+ENV CONSUL_VERSION=1.1.0 \
+    CONSULTEMPLATE_VERSION=0.19.5
 
 RUN mkdir /var/lib/consul && \
     addgroup -g 500 -S consul && \
