@@ -1,0 +1,27 @@
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $check_type := env "CONSUL_CHECKTYPE" -}}
+{{- $check_interval := env "CONSUL_CHECKINTERVAL" -}}
+{{- $check_notes := env "CONSUL_CHECKNOTES" -}}
+{{- $check_deregistercriticalserviceafter := env "CONSUL_DEREGISTERCRITICALSERVICEAFTER" -}}
+{{- $check_grpc := env "CONSUL_CHECKGRPC" -}}
+{{- $check_grpc_use_tls := env "CONSUL_CHECKGRPCUSETLS" -}}
+{{- if eq $check_type "grpc" -}}
+{{- if and $host $ip $name $check_grpc -}}
+{
+    "ID": "{{print $name "-" $host "-script"}}",
+    "Name": "Check script",
+    "ServiceID": "{{print $name "-" $host}}",
+    {{if $check_notes}}
+    "Notes": "{{$check_notes}}",
+    {{end}}
+    {{if $check_deregistercriticalserviceafter}}
+    "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
+    {{end}}
+    "GRPC": "{{$check_grpc}}",
+    "GRPCUseTLS": {{if eq $check_grpc_use_tls "1"}}true{{else}}false{{end}},
+    "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
+}
+{{- end -}}
+{{- end -}}
