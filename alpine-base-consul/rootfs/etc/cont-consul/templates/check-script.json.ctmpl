@@ -20,7 +20,7 @@
     {{if $check_deregistercriticalserviceafter}}
     "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
     {{end}}
-    "Script": "{{$check_script}}",
+    "Args": ["{{$check_script}}"],
     {{if and $check_docker_container_id $check_shell -}}
     "DockerContainerID": "{{$check_docker_container_id}}",
     "Shell": "{{$check_shell}}",
