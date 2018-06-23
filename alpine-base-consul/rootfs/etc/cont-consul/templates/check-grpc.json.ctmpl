@@ -5,11 +5,10 @@
 {{- $check_interval := env "CONSUL_CHECKINTERVAL" -}}
 {{- $check_notes := env "CONSUL_CHECKNOTES" -}}
 {{- $check_deregistercriticalserviceafter := env "CONSUL_DEREGISTERCRITICALSERVICEAFTER" -}}
-{{- $check_script := env "CONSUL_CHECKSCRIPT" -}}
-{{- $check_docker_container_id := env "CONSUL_CHECKDOCKERCONTAINERID" -}}
-{{- $check_shell := env "CONSUL_CHECKSHELL" -}}
-{{- if eq $check_type "script" -}}
-{{- if and $host $ip $name $check_script -}}
+{{- $check_grpc := env "CONSUL_CHECKGRPC" -}}
+{{- $check_grpc_use_tls := env "CONSUL_CHECKGRPCUSETLS" -}}
+{{- if eq $check_type "grpc" -}}
+{{- if and $host $ip $name $check_grpc -}}
 {
     "ID": "{{print $name "-" $host "-script"}}",
     "Name": "Check script",
@@ -20,11 +19,8 @@
     {{if $check_deregistercriticalserviceafter}}
     "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
     {{end}}
-    "Args": ["{{$check_script}}"],
-    {{if and $check_docker_container_id $check_shell -}}
-    "DockerContainerID": "{{$check_docker_container_id}}",
-    "Shell": "{{$check_shell}}",
-    {{end -}}
+    "GRPC": "{{$check_grpc}}",
+    "GRPCUseTLS": {{if eq $check_grpc_use_tls "1"}}true{{else}}false{{end}},
     "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
 }
 {{- end -}}

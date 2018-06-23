@@ -37,9 +37,9 @@ if [ -d /etc/cont-consul/services.d/ ]; then
     for file in /etc/cont-consul/services.d/*.json; do
         [ -f "$file" ] || continue
 
-        serviceid=$(jq -r '.ID' "$file") && \
+        id=$(jq -r '.ID' "$file") && \
             [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-                -X PUT "${consul_addr}/v1/agent/service/deregister/${serviceid}") == "200" ] || status=1
+                -X PUT "${consul_addr}/v1/agent/service/deregister/${id}") == "200" ] || status=1
     done
 fi
 
@@ -47,9 +47,9 @@ if [ -d /etc/cont-consul/checks.d/ ]; then
     for file in /etc/cont-consul/checks.d/*.json; do
         [ -f "$file" ] || continue
 
-        checkid=$(jq -r '.ID' "$file") && \
+        id=$(jq -r '.ID' "$file") && \
             [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-                -X PUT "${consul_addr}/v1/agent/check/deregister/${checkid}") == "200" ] || status=1
+                -X PUT "${consul_addr}/v1/agent/check/deregister/${id}") == "200" ] || status=1
     done
 fi
 

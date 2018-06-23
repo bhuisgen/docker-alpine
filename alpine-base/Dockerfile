@@ -1,7 +1,7 @@
 FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV S6OVERLAY_VERSION=1.21.2.2 \
+ENV S6OVERLAY_VERSION=1.21.4.0 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1
 
 RUN apk update && \
