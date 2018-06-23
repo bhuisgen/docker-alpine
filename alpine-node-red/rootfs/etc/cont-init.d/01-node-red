@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${NODERED_TEMPLATE}" ]; then
+    echo "==> Enabling template ${NODERED_TEMPLATE}"
+
+    cp "/etc/consul-template/templates/node-red/${NODERED_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi

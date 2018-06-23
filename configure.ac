@@ -93,6 +93,7 @@ AC_CONFIG_FILES([
     alpine-mariadb/Makefile
     alpine-mongodb/Makefile
     alpine-nginx/Makefile
+    alpine-node-red/Makefile
     alpine-nodejs/Makefile
     alpine-nomad/Makefile
     alpine-opendkim/Makefile
