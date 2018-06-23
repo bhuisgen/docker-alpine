@@ -55,6 +55,7 @@ SUBDIRS = \
     alpine-mariadb \
     alpine-mongodb \
     alpine-nginx \
+    alpine-node-red \
     alpine-nodejs \
     alpine-nomad \
     alpine-opendkim \
