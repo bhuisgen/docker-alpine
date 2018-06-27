@@ -2,7 +2,7 @@ FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV TOMCAT_MAJOR=9 \
-    TOMCAT_VERSION=9.0.6 \
+    TOMCAT_VERSION=9.0.8 \
     CATALINA_HOME=/usr/local/tomcat
 
 RUN mkdir /var/lib/tomcat && \
