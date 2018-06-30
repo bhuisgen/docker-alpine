@@ -1,3 +1,4 @@
+{{- $vault_ui := env "VAULT_UI" -}}
 {{- $vault_cluster_name := env "VAULT_CLUSTERNAME" -}}
 {{- $vault_listener_tls_disable := env "VAULT_LISTENERTLSDISABLE" -}}
 {{- $vault_listener_tls_cert_file := env "VAULT_LISTENERTLSCERTFILE" -}}
@@ -9,6 +10,7 @@
 {{- $vault_listener_tls_client_ca_file := env "VAULT_LISTENERTLSCLIENTCAFILE" -}}
 {{- $vault_storage_address := env "VAULT_STORAGEADDRESS" -}}
 {{- $vault_storage_path := env "VAULT_STORAGEPATH" -}}
+{{if eq $vault_ui "1"}}ui = true{{end}}
 {{if $vault_cluster_name}}cluster_name = {{$vault_cluster_name}}{{end}}
 
 listener "tcp" {
