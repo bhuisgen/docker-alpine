@@ -30,6 +30,7 @@ services:
             # template consul
             #
 
+            #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
             - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
@@ -46,6 +47,7 @@ services:
             # template file
             #
 
+            #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
             - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
@@ -60,6 +62,7 @@ services:
             # template mysql
             #
 
+            #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
             - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
@@ -77,6 +80,7 @@ services:
             # template postgresql
             #
 
+            #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
             - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
@@ -92,6 +96,7 @@ services:
             # template s3
             #
 
+            #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
             - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
