@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV VAULT_VERSION=0.9.5
+ENV VAULT_VERSION=0.10.3
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \
