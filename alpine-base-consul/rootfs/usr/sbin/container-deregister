@@ -36,14 +36,7 @@ if [ ! -z "${CONSUL_ADDR}" ]; then
         id=$(jq -r '.ID' /var/run/container/service.json) && \
             [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
                 -X PUT "${consul_addr}/v1/agent/service/deregister/${id}") == "200" ] || status=1
-        rm /var/run/container/service.json
-    fi
-
-    if [ -f /var/run/container/check.json ]; then
-        id=$(jq -r '.ID' /var/run/container/check.json) && \
-            [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-                -X PUT "${consul_addr}/v1/agent/check/deregister/${id}") == "200" ] || status=1
-        rm /var/run/container/check.json
+        rm -f /var/run/container/service.json /var/run/container/check.json
     fi
 
     exit $status

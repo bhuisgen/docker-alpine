@@ -1,104 +1,5 @@
 #!/usr/bin/env bash
 
-if [ ! -z "${CONSUL_ADDR}" ] && [ ! -z "${CONSUL_SERVICENAME}" ]; then
-    if [ -z "${CONSUL_RESOLVER}" ]; then
-        CONSUL_RESOLVER=container
-    fi
-
-    case ${CONSUL_RESOLVER} in
-        container)
-            CONSUL_SERVICEADDR=${CONTAINER_IP}
-            ;;
-
-        interface)
-            if [ -z "${CONTAINER_RESOLVER_INTERFACENAME}" ]; then
-                CONSUL_RESOLVER_INTERFACENAME=eth0
-            fi
-
-            if [ -z "${CONTAINER_RESOLVER_INTERFACETYPE}" ]; then
-                CONSUL_RESOLVER_INTERFACETYPE=inet
-            fi
-
-            CONSUL_SERVICEADDR=$(ip -o addr show ${CONSUL_RESOLVER_INTERFACENAME}| \
-                grep "${CONSUL_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
-            ;;
-
-        route)
-            CONSUL_SERVICEADDR=$(ip route get 1|awk '{ print $NF; exit; }')
-            ;;
-    esac
-
-    if [ -z "${CONSUL_SERVICEADDR}" ]; then
-        exit 1
-    fi
-
-    export CONSUL_SERVICEADDR
-    printf "%s" "${CONSUL_SERVICEADDR}" > /run/s6/container_environment/CONSUL_SERVICEADDR
-
-    if [ -z "${CONSUL_WAITFOR_SERVICENAME}" ]; then
-        export CONSUL_WAITFOR_SERVICENAME=consul
-        printf "%s" "${CONSUL_WAITFOR_SERVICENAME}" > /var/run/s6/container_environment/CONSUL_WAITFOR_SERVICENAME
-    fi
-
-    if [ -z "${CONSUL_WAITFOR_SERVICETAG}" ]; then
-        export CONSUL_WAITFOR_SERVICETAG=""
-        printf "%s" "${CONSUL_WAITFOR_SERVICETAG}" > /var/run/s6/container_environment/CONSUL_WAITFOR_SERVICETAG
-    fi
-fi
-
-if [ ! -z "${CONSUL_ADRR}" ]; then
-    options=""
-    consul_addr="http://${CONSUL_ADRR}"
-
-    if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
-        consul_addr="https://${CONSUL_ADRR}"
-
-        if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
-            options="${options} --cacert ${CONSUL_TLSCAFILE}"
-        elif [ ! -z "${CONSUL_TLSCAPATH}" ]; then
-            options="${options} --capath ${CONSUL_TLSCAPATH}"
-        fi
-
-        if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
-            options="${options} --cert ${CONSUL_TLSCERTFILE}"
-        fi
-
-        if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
-            options="${options} --key ${CONSUL_TLSKEYFILE}"
-        fi
-
-        if [ -z "${CONSUL_TLSVERIFY}" ] || [ "${CONSUL_TLSVERIFY}" -ne 1 ]; then
-            options="${options} --insecure"
-        fi
-    fi
-
-    if [ ! -z "${CONSUL_TOKEN}" ]; then
-        options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
-    fi
-
-    while true; do
-        [ $(curl -s -w '%{http_code}' --out /dev/null ${options} "${consul_addr}/v1/agent/self") == "200" ] && break
-
-        sleep 4
-    done
-
-    if [ ! -z "${CONSUL_WAITFOR_SERVICENAME}" ]; then
-        url="${consul_addr}/v1/health/service/${CONSUL_WAITFOR_SERVICENAME}"
-        url_data="passing=true"
-
-        if [ ! -z "${CONSUL_WAITFOR_SERVICETAG}" ]; then
-            url="${url}?tag=${CONSUL_WAITFOR_SERVICETAG}"
-        fi
-
-        while true; do
-            health=$(curl -s ${options} -X GET "${url}" -G --data-urlencode "${url_data}") && \
-                count=$(echo "$health"|jq -r 'length') && [ "$count" -gt "0" ] && break
-
-            sleep 4
-        done
-    fi
-fi
-
 if [ ! -z "${CONSUL_ADDR}" ]; then
     options=""
     consul_addr="http://${CONSUL_ADDR}"
@@ -129,16 +30,40 @@ if [ ! -z "${CONSUL_ADDR}" ]; then
         options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
     fi
 
+    while true; do
+        [ $(curl -s -w '%{http_code}' --out /dev/null ${options} "${consul_addr}/v1/agent/self") == "200" ] && break
+
+        sleep 5
+    done
+
+    if [ ! -z "${CONSUL_WAITFOR_SERVICENAME}" ]; then
+        url="${consul_addr}/v1/health/service/${CONSUL_WAITFOR_SERVICENAME}"
+        url_data="passing=true"
+
+        if [ ! -z "${CONSUL_WAITFOR_SERVICETAG}" ]; then
+            url="${url}?tag=${CONSUL_WAITFOR_SERVICETAG}"
+        fi
+
+        while true; do
+            health=$(curl -s ${options} -X GET "${url}" -G --data-urlencode "${url_data}") && \
+                count=$(echo "$health"|jq -r 'length') && [ "$count" -gt "0" ] && break
+
+            sleep 5
+        done
+    fi
+
     status=0
 
     if [ -f /var/run/container/service.json ]; then
         [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-            -X PUT -d "@/var/run/container/service.json" "${consul_addr}/v1/agent/service/register") == "200" ] || status=1
+            -X PUT -d "@/var/run/container/service.json" "${consul_addr}/v1/agent/service/register") == "200" ] || \
+            status=1
     fi
 
     if [ -f /var/run/container/check.json ]; then
         [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
-            -X PUT -d "@$/var/run/container/check.json" "${consul_addr}/v1/agent/check/register") == "200" ] || status=1
+            -X PUT -d "@/var/run/container/check.json" "${consul_addr}/v1/agent/check/register") == "200" ] || \
+            status=1
     fi
 
     exit $status

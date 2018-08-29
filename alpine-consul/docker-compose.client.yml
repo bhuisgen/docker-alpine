@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.6'
 
 volumes:
     consul:
@@ -12,28 +12,29 @@ services:
             - consul:/var/lib/consul                    # volume for data
         environment:
             - ENV=local                                 # environment name
-            - CONSUL_TEMPLATE=static                    # configuration template
+            #- VAULT_ADDR=                              # vault address
+            #- VAULT_TOKEN=                             # vault token
+            #- VAULT_SECRET=                            # vault secret path
+            - CONSUL_TEMPLATE=generic                   # configuration template
 
             #
-            # template static
+            # template generic
             #
 
-            - CONSUL_OPTIONS=-advertise {{GetPrivateIP}} -retry-join server.my.domain -client 169.254.1.1   # client mode
+            - CONSUL_OPTIONS=-advertise {{GetPrivateIP}} -retry-join server.my.domain -client 169.254.0.1   # client mode
+            #- CONSUL_NODENAME=                         # node name
             - CONSUL_DATACENTER=local                   # datacenter
             #- CONSUL_DOMAIN=consul                     # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==   # encryption key
             #- CONSUL_RAFTMULTIPLIER=5                  # raft mutliplier
             #- CONSUL_TLS=0                             # enable TLS
+            #- CONSUL_TLSCAPATH=                        # TLS CA directory
             #- CONSUL_TLSCAFILE=                        # TLS CA certificate file
-            #- CONSUL_TLSCERTFILE=                      # TLS server certificate file (server)
-            #- CONSUL_TLSKEYFILE=                       # TLS server certificate key file (server)
+            #- CONSUL_TLSCERTFILE=                      # TLS client certificate file
+            #- CONSUL_TLSKEYFILE=                       # TLS client certificate key file
             #- CONSUL_ACLDATACENTER=                    # ACL authoritative datacenter
-            #- CONSUL_ACLMASTERTOKEN=                   # ACL master token (server only)
             #- CONSUL_ACLTOKEN=                         # ACL token
-            #- CONSUL_ACLAGENTMASTERTOKEN=              # ACL token during server outage (client only)
-            #- CONSUL_ACLAGENTTOKEN=                    # ACL token for internal operations (client only, ACL token by default)
-            #- CONSUL_ACLREPLICATIONTOKEN=              # ACL token for replication outside of datacenter (server only)
-            #- CONSUL_ACLDEFAULTPOLICY=extend-cache     # ACL default policy (server only)
+            #- CONSUL_ACLAGENTMASTERTOKEN=              # ACL token during server outage
+            #- CONSUL_ACLAGENTTOKEN=                    # ACL token for internal operations (ACL token by default)
             #- CONSUL_ACLDOWNPOLICY=extend-cache        # ACL down policy
-            #- CONSUL_ACLTTL=30                         # ACL TTL (server only)
             #- CONSUL_ACLENFORCEVERSION8=true           # enforce ACL version 8

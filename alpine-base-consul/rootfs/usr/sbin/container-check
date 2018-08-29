@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-if [ ! -z "${CONSUL_ADRR}" ]; then
+if [ ! -z "${CONSUL_ADDR}" ]; then
     options=""
-    consul_addr="http://${CONSUL_ADRR}"
+    consul_addr="http://${CONSUL_ADDR}"
 
     if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
-        consul_addr="https://${CONSUL_ADRR}"
+        consul_addr="https://${CONSUL_ADDR}"
 
         if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
             options="${options} --cacert ${CONSUL_TLSCAFILE}"
