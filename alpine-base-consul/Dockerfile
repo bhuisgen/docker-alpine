@@ -18,4 +18,4 @@ RUN apk add --update zip && \
 
 COPY rootfs/ /
 
-HEALTHCHECK CMD /etc/cont-consul/check || exit 1
+HEALTHCHECK CMD /usr/sbin/container-check || exit 1
