@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${OPENDMARC_TEMPLATE}" ]; then
-    echo "==> Enabling template ${OPENDMARC_TEMPLATE}"
-
     cp "/etc/consul-template/templates/opendmarc/${OPENDMARC_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi
