@@ -1,5 +1,5 @@
-{{- $dovecot_ldap_service_name := env "DOVECOT_SERVICENAME" -}}
-{{- $dovecot_ldap_service_tag := env "DOVECOT_SERVICETAG" -}}
+{{- $dovecot_ldap_service_name := env "DOVECOT_LDAPSERVICENAME" -}}
+{{- $dovecot_ldap_service_tag := env "DOVECOT_LDAPSERVICETAG" -}}
 {{- $dovecot_dn := env "DOVECOT_DN" -}}
 {{- $dovecot_dnpass := env "DOVECOT_DNPASS" -}}
 {{- $dovecot_tls := env "DOVECOT_TLS" -}}
