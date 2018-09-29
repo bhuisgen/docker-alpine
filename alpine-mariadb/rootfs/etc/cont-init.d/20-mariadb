@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${MARIADB_TEMPLATE}" ]; then
-    echo "==> Enabling template ${MARIADB_TEMPLATE}"
-
     cp "/etc/consul-template/templates/mariadb/${MARIADB_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi

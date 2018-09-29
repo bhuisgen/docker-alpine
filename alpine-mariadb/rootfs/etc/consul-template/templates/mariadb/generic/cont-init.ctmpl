@@ -36,11 +36,11 @@ if [ ! -f /var/lib/mysql/.config ]; then
     /usr/bin/mysqld_safe --skip-networking &
 
     for i in {30..0}; do
-        if mysql --protocol=socket -u root --protocol=socket -e "SELECT 1" > /dev/null 2>&1; then
+        if mysql -u root --protocol=socket -e "SELECT 1" > /dev/null 2>&1; then
             break
         fi
 
-        sleep 1
+        sleep 5
     done
 
     if [ "$i" = 0 ]; then
@@ -58,20 +58,15 @@ if [ ! -f /var/lib/mysql/.config ]; then
             DELETE FROM mysql.user; \
             CREATE USER 'root'@'%' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}'; \
             GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION; \
-            DROP DATABASE IF EXISTS test; \
-            FLUSH PRIVILEGES; \
+            DROP DATABASE IF EXISTS test;
             "
     fi
-
-    options="-u root"
-
-    [ ! -z "${MARIADB_ROOTPASSWORD}" ] && options="${options} -p${MARIADB_ROOTPASSWORD}"
 
     if [ ! -z "${MARIADB_DATABASE}" ] && [ ! -z "${MARIADB_USERNAME}" ] && [ ! -z "${MARIADB_PASSWORD}" ] && \
         [ ! -z "${MARIADB_HOSTMASK}" ]; then
         echo "==> Creating database and user"
 
-        mysql ${options} --protocol=socket -e " \
+        mysql -u root --protocol=socket -e " \
             SET @@SESSION.SQL_LOG_BIN=0; \
             CREATE DATABASE \`${MARIADB_DATABASE}\`; \
             CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
@@ -80,7 +75,7 @@ if [ ! -f /var/lib/mysql/.config ]; then
             "
     fi
 
-    mysqladmin ${options} shutdown
+    mysqladmin -u root --protocol=socket shutdown
 
     touch /var/lib/mysql/.config
 fi
