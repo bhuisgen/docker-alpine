@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${OPENLDAP_TEMPLATE}" ]; then
-    echo "==> Enabling template ${OPENLDAP_TEMPLATE}"
-
     cp "/etc/consul-template/templates/openldap/${OPENLDAP_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi
