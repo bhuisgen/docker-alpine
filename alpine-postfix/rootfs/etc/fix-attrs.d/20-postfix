@@ -1,0 +1,2 @@
+/var/spool/postfix false postfix:postfix 0644 2755
+/var/mail false root:root 0644 0755
