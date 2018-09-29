@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${PHP_TEMPLATE}" ]; then
-    echo "==> Enabling template ${PHP_TEMPLATE}"
-
     cp "/etc/consul-template/templates/php/${PHP_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
 fi

@@ -5,8 +5,6 @@ volumes:
 
 services:
     php:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-php
         ports:
             - "9000:9000"
@@ -15,17 +13,20 @@ services:
             - www:/var/www                          # volume for web files
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
+            #- VAULT_ADDR=                          # vault address
+            #- VAULT_TLS=1                          # enable TLS
+            #- VAULT_TOKEN=                         # vault token
+            #- VAULT_SECRET=local/php/              # secret path
             #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=php                # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=9000               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - PHP_TEMPLATE=static                   # configuration template
+            #- CONSUL_KEYPREFIX=local/php/          # consul key prefix path
+            #- CONSUL_SERVICENAME=php               # consul service name
+            #- CONSUL_SERVICETAGS=local             # consul service tag
+            #- CONSUL_SERVICEPORT=9000              # consul service port
+            #- CONSUL_CHECKTYPE=tcp                 # consul health check type
+            - PHP_TEMPLATE=generic                  # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- PHP_FPM_MANAGER=static               # process manager mode (static/dynamic/ondemand)
