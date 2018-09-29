@@ -6,8 +6,6 @@ volumes:
 
 services:
     nginx:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-nginx
         ports:
             - "80:80"
@@ -18,17 +16,20 @@ services:
             - www:/var/www                                  # volume for web files
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
+            #- VAULT_ADDR=                                  # vault address
+            #- VAULT_TLS=1                                  # enable TLS
+            #- VAULT_TOKEN=                                 # vault token
+            #- VAULT_SECRET=local/nginx/                    # secret path
             #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=nginx                      # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=80                         # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - NGINX_TEMPLATE=static                         # configuration template
+            #- CONSUL_KEYPREFIX=local/nginx/                # consul key prefix path
+            #- CONSUL_SERVICENAME=nginx                     # consul service name
+            #- CONSUL_SERVICETAGS=local                     # consul service tag
+            #- CONSUL_SERVICEPORT=80                        # consul service port
+            #- CONSUL_CHECKTYPE=tcp                         # consul health check type
+            - NGINX_TEMPLATE=generic                        # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- NGINX_WORKERPROCESSES=1                      # number of worker processes
