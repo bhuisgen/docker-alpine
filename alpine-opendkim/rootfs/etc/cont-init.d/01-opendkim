@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${OPENDKIM_TEMPLATE}" ]; then
-    echo "==> Enabling template ${OPENDKIM_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/nginx/${OPENDKIM_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

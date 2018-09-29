@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${OPENDKIM_TEMPLATE}" ]; then
+    cp "/etc/consul-template/templates/opendkim/${OPENDKIM_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+fi
