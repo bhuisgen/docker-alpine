@@ -1,5 +1,4 @@
-{{- $dovecot_ldap_service_name := env "DOVECOT_LDAPSERVICENAME" -}}
-{{- $dovecot_ldap_service_tag := env "DOVECOT_LDAPSERVICETAG" -}}
+{{- $dovecot_ldap_hosts := env "DOVECOT_LDAPHOSTS" -}}
 {{- $dovecot_dn := env "DOVECOT_DN" -}}
 {{- $dovecot_dnpass := env "DOVECOT_DNPASS" -}}
 {{- $dovecot_tls := env "DOVECOT_TLS" -}}
@@ -40,7 +39,7 @@
 #        by * none
 
 # Space separated list of LDAP hosts to use. host:port is allowed too.
-hosts = {{if and $dovecot_ldap_service_name $dovecot_ldap_service_tag}}{{range $index, $service := service (print $dovecot_ldap_service_tag "." $dovecot_ldap_service_name)}}{{if ne $index 0}} {{end}}{{.Address}}:{{.Port}}{{else}}127.0.0.1:389{{end}}{{end}}
+hosts = {{$dovecot_ldap_hosts}}
 
 # LDAP URIs to use. You can use this instead of hosts list. Note that this
 # setting isn't supported by all LDAP libraries.

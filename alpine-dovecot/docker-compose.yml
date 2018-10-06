@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     mail:
@@ -20,16 +20,7 @@ services:
             - mail:/var/mail                        # volume for mail storage
         environment:
             - ENV=local                             # environment name
-            #- VAULT_ADDR=                          # vault address
-            #- VAULT_TLS=1                          # enable TLS
-            #- VAULT_TOKEN=                         # vault token
-            #- VAULT_SECRET=local/openldap/         # secret path
-            #- CONSUL_ADDR=                         # consul address
-            #- CONSUL_SERVICENAME=dovecot           # consul service name
-            #- CONSUL_SERVICETAGS=local             # consul service tag
-            #- CONSUL_SERVICEPORT=143               # consul service port
-            #- CONSUL_CHECKTYPE=tcp                 # consul health check type
-            - DOVECOT_TEMPLATE=ldap                 # configuration template
+            #- DOVECOT_TEMPLATE=ldap                # configuration template
 
             #
             # template ldap
@@ -54,8 +45,7 @@ services:
             #- DOVECOT_SSLPROTOCOLS=!SSLv3                        # TLS protocols
             #- DOVECOT_SSLCIPHERLIST=ALL:!LOW:!SSLv2:!EXP:!aNULL  # TLS cipher list
             #- DOVECOT_POSTMASTERADDRESS=                         # postmaster address
-            - DOVECOT_LDAPSERVICENAME=openldap                    # consul service name of LDAP backend
-            - DOVECOT_LDAPSERVICETAG=local                        # consul service tag of LDAP backend
+            #- DOVECOT_LDAPHOSTS=openldap:389                     # LDAP backend hosts
             #- DOVECOT_DN=                                        # LDAP DN
             #- DOVECOT_DNPASS=                                    # LDAP password
             #- DOVECOT_TLS=0                                      # enable LDAP TLS
