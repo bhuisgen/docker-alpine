@@ -19,14 +19,10 @@
 {{- $postfix_smtpd_tls_protocols := env "POSTFIX_SMTPDTLSPROTOCOLS" -}}
 {{- $postfix_smtpd_tls_mandatory_ciphers := env "POSTFIX_SMTPDTLSMANDATORYCIPHERS" -}}
 {{- $postfix_tls_medium_cipherlist := env "POSTFIX_TLSMEDIUMCIPHERLIST" -}}
-{{- $postfix_opendkim_service_name := env "POSTFIX_OPENDKIMSERVICENAME" -}}
-{{- $postfix_opendkim_service_tag := env "POSTFIX_OPENDKIMSERVICETAG" -}}
-{{- $postfix_opendmarc_service_name := env "POSTFIX_OPENDMARCSERVICENAME" -}}
-{{- $postfix_opendmarc_service_tag := env "POSTFIX_OPENDMARCSERVICETAG" -}}
-{{- $postfix_sasl_service_name := env "POSTFIX_SASLSERVICENAME" -}}
-{{- $postfix_sasl_service_tag := env "POSTFIX_SASLSERVICETAG" -}}
-{{- $postfix_lmtp_service_name := env "POSTFIX_LMTPSERVICENAME" -}}
-{{- $postfix_lmtp_service_tag := env "POSTFIX_LMTPSERVICETAG" -}}
+{{- $postfix_opendkim_servers := env "POSTFIX_OPENDKIMSERVERS" -}}
+{{- $postfix_opendmarc_servers := env "POSTFIX_OPENDMARCSERVERS" -}}
+{{- $postfix_sasl_servers := env "POSTFIX_SASLSERVERS" -}}
+{{- $postfix_lmtp_servers := env "POSTFIX_LMTPSERVERS" -}}
 {{- $postfix_virtual_mailbox_domains := env "POSTFIX_VIRTUALMAILBOXDOMAINS" -}}
 smtputf8_enable = no
 meta_directory = /etc/postfix
@@ -83,7 +79,7 @@ smtp_sasl_tls_security_options = noanonymous
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
 smtpd_sasl_path =
-    {{if and $postfix_sasl_service_name $postfix_sasl_service_tag}}{{with service (print $postfix_sasl_service_tag "." $postfix_sasl_service_name)}}{{with index . 0}}inet:{{.Address}}:12345{{end}}{{end}}{{end}}
+    {{if $postfix_sasl_servers}}{{range $server := $postfix_sasl_servers | split ","}}inet:{{$server}}{{end}}{{end}}
 smtpd_sasl_security_options = noanonymous
 
 smtpd_client_restrictions =
@@ -131,11 +127,11 @@ smtpd_data_restrictions =
 milter_default_action = accept
 milter_protocol = 6
 smtpd_milters =
-    {{if and $postfix_opendkim_service_name $postfix_opendkim_service_tag}}{{with service (print $postfix_opendkim_service_tag "." $postfix_opendkim_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
-    {{if and $postfix_opendmarc_service_name $postfix_opendmarc_service_tag}}{{with service (print $postfix_opendmarc_service_tag "." $postfix_opendmarc_service_name)}}{{with index . 0}}inet:{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}
+    {{if $postfix_opendkim_servers}}{{range $server := $postfix_opendkim_servers | split ","}}{{$server}}{{end}}{{end}}
+    {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
 
 virtual_transport =
-    {{if and $postfix_lmtp_service_name $postfix_lmtp_service_tag}}{{with service (print $postfix_lmtp_service_tag "." $postfix_lmtp_service_name)}}{{with index . 0}}lmtp:{{.Address}}:24{{end}}{{end}}{{end}}
+    {{if $postfix_lmtp_servers}}{{range $server := $postfix_lmtp_servers | split ","}}lmtp:{{$server}}{{end}}{{end}}
 virtual_mailbox_domains = {{$postfix_virtual_mailbox_domains}}
 virtual_alias_maps = hash:/etc/postfix/virtual
 
