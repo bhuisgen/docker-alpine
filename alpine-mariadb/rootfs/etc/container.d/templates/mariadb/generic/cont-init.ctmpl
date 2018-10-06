@@ -28,9 +28,11 @@ if [ ! -f /var/lib/mysql/.config ]; then
     cp "/usr/share/mysql/${MARIADB_PROFILE}.cnf" /etc/mysql/my.cnf
     echo "" >> /etc/mysql/my.cnf
     echo "!includedir /etc/mysql/conf.d/" >> /etc/mysql/my.cnf
+    chown -R mysql:root /etc/mysql/my.cnf /etc/mysql/conf.d/
 
     mkdir -p /var/run/mysqld
     chown -R mysql:root /var/run/mysqld
+
     mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --console
 
     /usr/bin/mysqld_safe --skip-networking &
