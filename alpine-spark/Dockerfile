@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV SPARK_VERSION=2.2.1 \
+ENV SPARK_VERSION=2.3.2 \
     HADOOP_VERSION=2.7 \
     SPARK_HOME=/usr/local/spark
 

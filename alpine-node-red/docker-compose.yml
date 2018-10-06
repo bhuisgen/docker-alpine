@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     node-red:
 
 services:
     node-red:
-        depends_on:
-          - consul                                          # consul agent
         image: bhuisgen/alpine-node-red
         privileged: true
         ports:
@@ -16,17 +14,10 @@ services:
             - node-red:/var/lib/node-red                    # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/pref                   # consul key prefix path
-            - CONSUL_SERVICENAME=node-red                   # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=1880                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - NODERED_TEMPLATE=static                       # configuration template
+            #- NODERED_TEMPLATE=generic                     # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- NODERED_OPTIONS=                             # exec options

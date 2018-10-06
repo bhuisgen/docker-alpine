@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     jenkins-slave:
 
 services:
     jenkins-slave:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-jenkins-slave
         ports:
             - "2222:22"
@@ -16,10 +14,3 @@ services:
             - jenkins-slave:/home/jenkins                   # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=jenkins-slave              # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=22                         # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type

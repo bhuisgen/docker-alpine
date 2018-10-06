@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${JETTY_TEMPLATE}" ]; then
-    echo "==> Enabling template ${JETTY_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/jetty/${JETTY_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+    cp "/etc/container.d/templates/jetty/${JETTY_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

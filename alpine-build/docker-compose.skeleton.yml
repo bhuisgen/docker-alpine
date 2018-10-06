@@ -1,18 +1,13 @@
-version: '3.5'
+version: '3.7'
 
 services:
     build:
-        depends_on:
-            - consul                                            # consul agent
         image: bhuisgen/alpine-build
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
             - ENV=local                                         # environment name
-            - CONSUL_AGENT=consul                               # consul agent hostname/IP
-            #- CONSUL_PORT=8500                                 # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                    # consul key prefix path
             #- BUILD_GITURL=git@git.my.domain:your/project.git  # git repository URL
             #- BUILD_GITREF=HEAD                                # git tag/commit reference to build
             #- BUILD_PROJECT=                                   # project directory (empty for the root of sources)

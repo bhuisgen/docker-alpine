@@ -1,37 +1,28 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     rabbitmq:
 
 services:
     rabbitmq:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-rabbitmq
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - rabbitmq:/var/lib/rabbitmq                    # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=rabbitmq                   # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=5672                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - RABBITMQ_TEMPLATE=static                      # configuration template
+            #- RABBITMQ_TEMPLATE=generic                    # configuration template
 
             #
-            # template static
+            # template generic
             #
 
-            - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS    # erlang cookie
+            #- RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS   # erlang cookie
             #- RABBITMQ_PLUGINS=                            # enable other plugins (comma separated list)
             #- RABBITMQ_CLUSTERNAME=cluster                 # cluster name
             #- RABBITMQ_GUESTPASSWORD=                      # guest password
-            - RABBITMQ_USERNAME=rabbitmq                    # administrator user
-            - RABBITMQ_PASSWORD=rabbitmq                    # administrator password
+            #- RABBITMQ_USERNAME=rabbitmq                   # administrator user
+            #- RABBITMQ_PASSWORD=rabbitmq                   # administrator password
             #- RABBITMQ_NETTICKTIME=60                      # network tick time frequency
             #- RABBITMQ_TCPLISTENOPTIONSBACKLOG=128         # TCP socket backlog
             #- RABBITMQ_TCPLISTENOPTIONSSNDBUF=32768        # TCP socket send buffer size
@@ -72,20 +63,12 @@ services:
     #
 
     # rabbitmq1:
-    #     depends_on:
-    #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq1
     #     volumes:
     #         - /host/data1:/var/lib/rabbitmq
     #     environment:
-    #         - CONSUL_AGENT=consul
-    #         - CONSUL_SERVICENAME=rabbitmq
-    #         - CONSUL_SERVICETAGS=local
-    #         - CONSUL_SERVICEPORT=5672
-    #         - CONSUL_CHECKTYPE=tcp
-    #         - CONSUL_KEYPREFIX=/path/prefix
-    #         - RABBITMQ_TEMPLATE=static
+    #         - RABBITMQ_TEMPLATE=generic
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
     #         - RABBITMQ_CLUSTERNAME=cluster                # set the cluster name
     #         - RABBITMQ_USERNAME=rabbitmq
@@ -93,20 +76,12 @@ services:
     #         #- RABBITMQ_CLUSTER=rabbit@rabbitmq2          # uncomment to rejoin a existing cluster if this node has crashed
     #
     # rabbitmq2:
-    #     depends_on:
-    #         - consul
     #     image: bhuisgen/alpine-rabbitmq
     #     hostname: rabbitmq2
     #     volumes:
     #         - /host/data2:/var/lib/rabbitmq
     #     environment:
-    #         - CONSUL_AGENT=consul
-    #         - CONSUL_SERVICENAME=rabbitmq
-    #         - CONSUL_SERVICETAGS=local
-    #         - CONSUL_SERVICEPORT=5672
-    #         - CONSUL_CHECKTYPE=tcp
-    #         - CONSUL_KEYPREFIX=/path/prefix
-    #         - RABBITMQ_TEMPLATE=static
+    #         - RABBITMQ_TEMPLATE=generic
     #         - RABBITMQ_ERLANGCOOKIE=NYRIWPJAVRANPDAJVPJS  # cookie must be shared with other nodes
     #         - RABBITMQ_USERNAME=rabbitmq
     #         - RABBITMQ_PASSWORD=rabbitmq

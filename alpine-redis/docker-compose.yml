@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     redis:
 
 services:
     redis:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-redis
         ports:
             - "6379:6379"
@@ -15,15 +13,8 @@ services:
             - redis:/var/lib/redis                  # volume for data
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=redis              # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=6379               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - REDIS_TEMPLATE=static                 # configuration template
+            #- REDIS_TEMPLATE=generic               # configuration template
 
             #
-            # template static
+            # template generic
             #

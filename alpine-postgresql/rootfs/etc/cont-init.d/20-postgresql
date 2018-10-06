@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${POSTGRESQL_TEMPLATE}" ]; then
-    echo "==> Enabling template ${POSTGRESQL_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/postgresql/${POSTGRESQL_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+    cp "/etc/container.d/templates/postgresql/${POSTGRESQL_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

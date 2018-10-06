@@ -1,6 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 cd "${JETTY_BASE}" || exit 1
-exec s6-setuidgid archiva /usr/bin/java \
-    -Dappserver.home=/var/lib/archiva -Dappserver.base=/var/lib/archiva ${JAVA_OPTS} \
-    -jar "${JETTY_HOME}/start.jar" etc/jetty-archiva.xml
+exec s6-setuidgid archiva /usr/bin/java -Dappserver.home=/var/lib/archiva -Dappserver.base=/var/lib/archiva \
+    ${JAVA_OPTS} -jar "${JETTY_HOME}/start.jar" etc/jetty-archiva.xml

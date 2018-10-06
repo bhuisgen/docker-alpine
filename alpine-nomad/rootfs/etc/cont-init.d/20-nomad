@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-echo "==> Enabling template ${NOMAD_TEMPLATE}"
-
-cp "/etc/consul-template/templates/nomad/${NOMAD_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+if [ ! -z "${NOMAD_TEMPLATE}" ]; then
+    cp "/etc/container.d/templates/nomad/${NOMAD_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+fi

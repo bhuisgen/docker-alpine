@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV NOMAD_VERSION=0.6.3
+ENV NOMAD_VERSION=0.8.4
 
 RUN mkdir /var/lib/nomad && \
     addgroup -S nomad && \
@@ -9,12 +9,11 @@ RUN mkdir /var/lib/nomad && \
     chown nomad:nomad /var/lib/nomad
 
 RUN apk add --update ca-certificates zip && \
-    curl -sSL https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
-        -o /etc/apk/keys/sgerrand.rsa.pub && \
-    curl -sSL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk \
-        -o /tmp/glibc-2.25-r0.apk && \
-    apk add /tmp/glibc-2.25-r0.apk && \
-    rm /tmp/glibc-2.25-r0.apk && \
+    curl -sSL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub && \
+    curl -sSL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk \
+        -o /tmp/glibc-2.28-r0.apk && \
+    apk add /tmp/glibc-2.28-r0.apk && \
+    rm /tmp/glibc-2.28-r0.apk && \
     curl -sSL https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip \
         -o /tmp/nomad.zip && \
     unzip /tmp/nomad.zip -d /bin && \

@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     kapacitor:
 
 services:
     kapacitor:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-kapacitor
         ports:
             - "9092:9092"
@@ -15,20 +13,13 @@ services:
             - kapacitor:/var/lib/kapacitor          # volume for data
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=kapacitor          # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=9092               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - KAPACITOR_TEMPLATE=static             # configuration template
+            - KAPACITOR_TEMPLATE=generic            # configuration template
 
             #
-            # template static
+            # template generic
             #
 
-            - KAPACITOR_INFLUXDBNAME=influxdb               # influxdb server name
-            - KAPACITOR_INFLUXDBURLS=http://influxdb:8086   # influxdb server URL (comma separated list)
+            #- KAPACITOR_INFLUXDBNAME=influxdb              # influxdb server name
+            #- KAPACITOR_INFLUXDBURLS=http://influxdb:8086  # influxdb server URL (comma separated list)
             #- KAPACITOR_INFLUXDBUSERNAME=                  # influxdb auth username
             #- KAPACITOR_INFLUXDBPASSWORD=                  # influxdb auth password

@@ -1,9 +1,7 @@
-version: '3.5'
+version: '3.7'
 
 services:
     strongswan:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-strongswan
         cap_add:
             - SYS_MODULE
@@ -17,26 +15,23 @@ services:
             - /etc/localtime:/etc/localtime:ro
             - /lib/modules:/lib/modules:ro
         environment:
-            - ENV=local                             # environment name
-            - CONSUL_AGENT=169.254.1.1              # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - STRONGSWAN_TEMPLATE=static            # configuration template
+            - ENV=local                                     # environment name
+            #- STRONGSWAN_TEMPLATE=generic                  # configuration template
 
             #
-            # template static
+            # template generic
             #
 
-            - STRONGSWAN_INTERFACE=eth0                     # VPN public interface
-            - STRONGSWAN_LEFT=10.1.1.0.1                    # VPN left private IP interface to gateway
-            - STRONGSWAN_LEFTSUBNET=10.1.0.0/16             # VPN left subnet
-            - STRONGSWAN_LEFTCERT=vpn-01.pem                # VPN left certificate name
-            - STRONGSWAN_LEFTKEY=vpn-01-priv.pem            # VPN left private key name
-            - STRONGSWAN_LEFTID="CN=vpn-01"                 # VPN left certificate id
-            - STRONGSWAN_RIGHT=81.82.83.84                  # VPN right public IP
-            - STRONGSWAN_RIGHTSUBNET=10.2.0.0/16            # VPN right subnet
-            - STRONGSWAN_RIGHTID="CN=vpn-02"                # VPN right certificate id
-            - STRONGSWAN_AUTO=start                         # VPN startup
+            #- STRONGSWAN_INTERFACE=eth0                    # VPN public interface
+            #- STRONGSWAN_LEFT=10.1.1.0.1                   # VPN left private IP interface to gateway
+            #- STRONGSWAN_LEFTSUBNET=10.1.0.0/16            # VPN left subnet
+            #- STRONGSWAN_LEFTCERT=vpn-01.pem               # VPN left certificate name
+            #- STRONGSWAN_LEFTKEY=vpn-01-priv.pem           # VPN left private key name
+            #- STRONGSWAN_LEFTID="CN=vpn-01"                # VPN left certificate id
+            #- STRONGSWAN_RIGHT=81.82.83.84                 # VPN right public IP
+            #- STRONGSWAN_RIGHTSUBNET=10.2.0.0/16           # VPN right subnet
+            #- STRONGSWAN_RIGHTID="CN=vpn-02"               # VPN right certificate id
+            #- STRONGSWAN_AUTO=start                        # VPN startup
             #- STRONGSWANMONITOR=0                          # enable strongswan-monitor
             #- STRONGSWANMONITOR_CONFIGFILE=/etc/ipsec.conf # ipsec configuration file
             #- STRONGSWANMONITOR_STARTUP=60                 # startup delay before first check (seconds)

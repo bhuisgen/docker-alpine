@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-echo "==> Enabling template ${GRAFANA_TEMPLATE}"
-
-cp "/etc/consul-template/templates/grafana/${GRAFANA_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
+if [ ! -z "${REGISTRY_TEMPLATE}" ]; then
+    cp "/etc/container.d/templates/grafana/${GRAFANA_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+fi

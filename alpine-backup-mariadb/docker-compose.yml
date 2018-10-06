@@ -1,18 +1,13 @@
-version: '3.5'
+version: '3.7'
 
 services:
     backup-mariadb:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-backup-mariadb
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - /srv/backups:/var/backups             # volume for storage
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
             #- BACKUP_PATH=/var/backups             # backup storage path
             - BACKUP_MARIADB_HOST=server            # server host (required)
             - BACKUP_MARIADB_PORT=3306              # server port (required)

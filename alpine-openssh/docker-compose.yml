@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     openssh:
 
 services:
     openssh:
-        depends_on:
-            - consul                                    # consul agent
         image: bhuisgen/alpine-openssh
         ports:
             - "2222:22"
@@ -15,17 +13,10 @@ services:
             - openssh:/home                             # volume for data
         environment:
             - ENV=local                                 # environment name
-            - CONSUL_AGENT=consul                       # consul agent hostname/IP
-            #- CONSUL_PORT=8500                         # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/            # consul key prefix path
-            - CONSUL_SERVICENAME=openssh                # consul service name
-            - CONSUL_SERVICETAGS=local                  # consul service tag
-            - CONSUL_SERVICEPORT=22                     # consul service port
-            - CONSUL_CHECKTYPE=tcp                      # consul health check type
-            - OPENSSH_TEMPLATE=static                   # configuration template
+            #- OPENSSH_TEMPLATE=generic                 # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- OPENSSH_PASSWORDAUTHENTICATION=no        # enable authentication by password

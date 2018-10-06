@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     zabbix-agent:
@@ -16,17 +16,17 @@ services:
             - zabbix-agent:/var/lib/zabbix                  # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=169.254.1.1                      # consul agent hostname/IP
+            - CONSUL_AGENT=169.254.0.1                      # consul agent hostname/IP
             #- CONSUL_PORT=8500                             # consul agent port
             #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
             - CONSUL_SERVICENAME=zabbix-agent               # consul service name
             - CONSUL_SERVICETAGS=local                      # consul service tag
             - CONSUL_SERVICEPORT=10050                      # consul service port
             - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - ZABBIX_TEMPLATE=static                        # configuration template
+            - ZABBIX_TEMPLATE=generic                       # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             - ZABBIX_ENABLEREMOTECOMMANDS=1                 # enable remote commands execution
