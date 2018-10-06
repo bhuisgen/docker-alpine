@@ -55,6 +55,8 @@ if [ ! -z "${CONTAINER_WAITFOR_HOST}" ] && [ ! -z "${CONTAINER_WAITFOR_PORT}" ];
     done
 fi
 
-if ls -A /etc/container.d/conf.d/*.hcl > /dev/null 2>&1; then
-    consul-template -config /etc/container.d/conf.d/ -once
+if ls -A /etc/container.d/conf-init.d/*.hcl > /dev/null 2>&1; then
+    if ! consul-template -config /etc/container.d/conf-init.d/ -once ${CONSULTEMPLATE_OPTIONS}; then
+        exit 1
+    fi
 fi
