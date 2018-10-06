@@ -1,5 +1,5 @@
 template {
-  source      = "/etc/consul-template/templates/vault/s3/config.hcl.ctmpl"
+  source      = "/etc/container.d/templates/vault/s3/config.hcl.ctmpl"
   destination = "/etc/vault.d/config.hcl"
   perms       = 0644
 }

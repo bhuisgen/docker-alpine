@@ -1,12 +1,10 @@
-version: '3.6'
+version: '3.7'
 
 volumes:
     vault:
 
 services:
     vault:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-vault
         cap_add:
             - IPC_LOCK
@@ -17,7 +15,7 @@ services:
             - vault:/var/lib/vault                          # volume for data
         environment:
             - ENV=local                                     # environment name
-            - VAULT_TEMPLATE=file                           # configuration template
+            #- VAULT_TEMPLATE=file                          # configuration template
 
             #
             # template consul
