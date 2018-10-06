@@ -30,10 +30,12 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $proxy_keyprefix := env "NGINX_KEYPREFIX" -}}
+{{- $nginx_proxy_servers := env "NGINX_PROXYSERVERS" -}}
 {{- $nginx_server_name := env "NGINX_SERVERNAME" -}}
 {{- $nginx_root := env "NGINX_ROOT" -}}
 {{- $nginx_index := env "NGINX_INDEX" -}}
+{{- $nginx_auth_basic := env "NGINX_AUTHBASIC" -}}
+{{- $nginx_auth_basic_user_file := env "NGINX_AUTHBASICUSERFILE" -}}
 {{- $nginx_proxy_buffering := env "NGINX_PROXYBUFFERING" -}}
 {{- $nginx_proxy_connect_timeout := env "NGINX_PROXYCONNECTTIMEOUT" -}}
 {{- $nginx_proxy_read_timeout := env "NGINX_PROXYREADTIMEOUT" -}}
@@ -120,10 +122,8 @@ http {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
-        {{range ls (print $proxy_keyprefix "targets")}}
-        server {{.Key}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
-        {{else}}
-        server dl-cdn.alpinelinux.org:80;
+        {{range $server := $nginx_proxy_servers | split ","}}
+        server {{$server}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{end}}
     }
 
@@ -202,12 +202,13 @@ http {
         }
         {{end}}
 
-        location /alpine {
-            try_files $uri @proxy_cache;
-        }
-
         location / {
             try_files $uri @proxy;
+
+            {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
+            auth_basic {{$nginx_auth_basic}};
+            auth_basic_user_file {{$nginx_auth_basic_user_file}};
+            {{end}}
         }
 
         location @proxy {
@@ -222,45 +223,6 @@ http {
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
-
-            add_header X-Mirror-Upstream-Status $upstream_status;
-            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
-            add_header X-Mirror-Status $upstream_cache_status;
-
-            {{if eq $nginx_proxy_gzip "1"}}
-            gzip on;
-            gzip_disable "msie6";
-            gzip_vary on;
-            gzip_proxied any;
-            gzip_comp_level 6;
-            gzip_buffers 16 8k;
-            gzip_http_version 1.1;
-            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-            {{end}}
-
-            {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream;
-            {{else}}
-            access_log off;
-            {{end}}
-        }
-
-        location @proxy_cache {
-            proxy_pass http://proxy;
-            proxy_buffering {{$nginx_proxy_buffering}};
-            proxy_connect_timeout {{$nginx_proxy_connect_timeout}};
-            proxy_read_timeout {{$nginx_proxy_read_timeout}};
-            proxy_send_timeout {{$nginx_proxy_send_timeout}};
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-
-            add_header X-Mirror-Upstream-Status $upstream_status;
-            add_header X-Mirror-Upstream-Response-Time $upstream_response_time;
-            add_header X-Mirror-Status $upstream_cache_status;
 
             proxy_cache proxy;
             {{if $nginx_proxy_cache_valid}}proxy_cache_valid {{$nginx_proxy_cache_valid}};{{end}}
