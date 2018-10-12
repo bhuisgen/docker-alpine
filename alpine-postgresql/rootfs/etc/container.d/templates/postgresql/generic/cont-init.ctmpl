@@ -10,8 +10,6 @@ POSTGRESQL_PASSWORD="{{$postgresql_password}}"
 POSTGRESQL_ADDRESS="{{$postgresql_address}}"
 
 if [ ! -f /var/lib/postgresql/.config ]; then
-    echo "==> Configuring postgresql"
-
     su -c "initdb /var/lib/postgresql/data" postgres
 
     su -c "pg_ctl -D $PGDATA -o \"-c listen_addresses=''\" -w start" postgres
@@ -19,7 +17,6 @@ if [ ! -f /var/lib/postgresql/.config ]; then
 
     if [ ! -z "${POSTGRESQL_DATABASE}" ] && [ ! -z "${POSTGRESQL_USERNAME}" ] && [ ! -z "${POSTGRESQL_PASSWORD}" ] && \
         [ ! -z "${POSTGRESQL_ADDRESS}" ]; then
-        echo "==> Creating database and user"
 
         su -c "createuser ${POSTGRESQL_USERNAME}" postgres
         su -c "createdb -O${POSTGRESQL_USERNAME} ${POSTGRESQL_DATABASE}" postgres

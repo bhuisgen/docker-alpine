@@ -30,8 +30,6 @@ RABBITMQ_CLUSTERWAIT="{{$rabbitmq_clusterwait}}"
 RABBITMQ_CLUSTERRAM="{{$rabbitmq_clusterram}}"
 
 if [ -f /var/lib/rabbitmq/rescue ]; then
-    echo "==> Enabling rabbitmq rescue mode"
-
     touch /etc/services.d/rabbitmq/down
 
     exit 0
@@ -40,8 +38,6 @@ else
 fi
 
 if [ ! -f /var/lib/rabbitmq/.config ]; then
-    echo "==> Configuring rabbitmq"
-
     if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
         echo "${RABBITMQ_ERLANGCOOKIE}" > /var/lib/rabbitmq/.erlang.cookie
         chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie

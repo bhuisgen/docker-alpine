@@ -23,8 +23,6 @@ if [ -z "${OPENSSH_SFTPCHROOTUSERDIR}" ]; then
     OPENSSH_SFTPGROUP=public_html
 fi
 
-echo "==> Configuring openssh"
-
 ssh-keygen -A
 
 grep -q "${OPENSSH_SFTPGROUP}" /etc/group

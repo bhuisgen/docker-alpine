@@ -4,8 +4,6 @@
 STRONGSWANMONITOR="{{$strongswanmonitor}}"
 
 if [ ! -z "${STRONGSWANMONITOR}" ] && [ "${STRONGSWANMONITOR}" -eq 1 ]; then
-    echo "==> Enabling service strongswan-monitor"
-
     rm -f /etc/services.d/strongswan-monitor/down
 else
     touch /etc/services.d/strongswan-monitor/down

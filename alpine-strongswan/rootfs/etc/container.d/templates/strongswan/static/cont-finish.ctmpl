@@ -3,8 +3,6 @@
 
 STRONGSWAN_INTERFACE="{{$strongswan_interface}}"
 
-echo "==> Cleaning iptables"
-
 iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 500 -j ACCEPT
 iptables -D INPUT -i "${STRONGSWAN_INTERFACE}" -p udp --dport 4500 -j ACCEPT
 iptables -D FORWARD -j ACCEPT

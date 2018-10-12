@@ -16,8 +16,6 @@ MARIADB_PASSWORD="{{$mariadb_password}}"
 MARIADB_HOSTMASK="{{$mariadb_hostmask}}"
 
 if [ ! -f /var/lib/mysql/.config ]; then
-    echo "==> Configuring mariadb"
-
     [ -z "${MARIADB_PROFILE}" ] && MARIADB_PROFILE="my-small"
 
     if [ ! -f "/usr/share/mysql/${MARIADB_PROFILE}.cnf" ]; then
@@ -51,8 +49,6 @@ if [ ! -f /var/lib/mysql/.config ]; then
     fi
 
     if [ ! -z "${MARIADB_ROOTPASSWORD}" ]; then
-        echo "==> Configuring root user"
-
         [ -z "${MARIADB_ROOTHOSTMASK}" ] && MARIADB_ROOTHOSTMASK="localhost"
 
         mysql -u root --protocol=socket -e " \
@@ -66,8 +62,6 @@ if [ ! -f /var/lib/mysql/.config ]; then
 
     if [ ! -z "${MARIADB_DATABASE}" ] && [ ! -z "${MARIADB_USERNAME}" ] && [ ! -z "${MARIADB_PASSWORD}" ] && \
         [ ! -z "${MARIADB_HOSTMASK}" ]; then
-        echo "==> Creating database and user"
-
         mysql -u root --protocol=socket -e " \
             SET @@SESSION.SQL_LOG_BIN=0; \
             CREATE DATABASE \`${MARIADB_DATABASE}\`; \
