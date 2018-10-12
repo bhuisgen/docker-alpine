@@ -1,7 +1,7 @@
 FROM bhuisgen/alpine-base-consul:latest
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV PORTAINER_VERSION=1.18.1 \
+ENV PORTAINER_VERSION=1.19.2 \
     PORTAINER_HOME=/var/lib/portainer
 
 RUN mkdir ${PORTAINER_HOME} && \
@@ -17,5 +17,5 @@ COPY rootfs/ /
 ENTRYPOINT ["/init"]
 CMD []
 
-EXPOSE 8080
+EXPOSE 9000
 VOLUME ["/var/lib/portainer"]
