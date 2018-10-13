@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV CONSULTEMPLATE_VERSION=0.19.5

@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-build-make:latest
+ARG TAG
+
+FROM bhuisgen/alpine-build-make:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV PACKER_VERSION=1.2.4

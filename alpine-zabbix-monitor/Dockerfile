@@ -1,4 +1,4 @@
-FROM bhuisgen/alpine-base:latest
+FROM alpine:3.7
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ZABBIXMONITOR_VERSION=0.4.0
