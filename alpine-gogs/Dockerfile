@@ -3,12 +3,12 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV GOGS_VERSION=0.11.43
+ENV GOGS_VERSION=0.11.66
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \
     adduser -D -g "" -G git -s /bin/bash -h /var/lib/gogs/git git && \
-    echo git:* | chpasswd && \
+    echo git:* | chpasswd 2>/dev/null && \
     chown git:git /var/lib/gogs/git
 
 RUN apk add --update git libc6-compat linux-pam openssh tar && \
