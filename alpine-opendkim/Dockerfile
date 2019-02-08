@@ -4,6 +4,8 @@ FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update opendkim && \
+    mkdir /var/run/opendkim && \
+    chown opendkim:opendkim /var/run/opendkim && \
     rm -f /etc/opendkim/opendkim.conf.sample && \
     rm -rf /var/cache/apk/*
 
