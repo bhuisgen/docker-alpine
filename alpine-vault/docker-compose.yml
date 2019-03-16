@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     vault:
 
 services:
     vault:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-vault
         cap_add:
             - IPC_LOCK
@@ -17,14 +15,7 @@ services:
             - vault:/var/lib/vault                          # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/pref                   # consul key prefix path
-            - CONSUL_SERVICENAME=vault                      # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=8200                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - VAULT_TEMPLATE=file                           # configuration template
+            #- VAULT_TEMPLATE=file                          # configuration template
 
             #
             # template consul
@@ -32,7 +23,7 @@ services:
 
             #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
-            - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
+            #- VAULT_LISTENERTLSDISABLE=1                   # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
             #- VAULT_LISTENERTLSKEYFILE=                    # TLS key file
             #- VAULT_LISTENERTLSMINVERSION=                 # TLS minimum version allowed
@@ -49,7 +40,7 @@ services:
 
             #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
-            - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
+            #- VAULT_LISTENERTLSDISABLE=1                   # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
             #- VAULT_LISTENERTLSKEYFILE=                    # TLS key file
             #- VAULT_LISTENERTLSMINVERSION=                 # TLS minimum version allowed
@@ -64,7 +55,7 @@ services:
 
             #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
-            - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
+            #- VAULT_LISTENERTLSDISABLE=1                   # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
             #- VAULT_LISTENERTLSKEYFILE=                    # TLS key file
             #- VAULT_LISTENERTLSMINVERSION=                 # TLS minimum version allowed
@@ -82,7 +73,7 @@ services:
 
             #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
-            - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
+            #- VAULT_LISTENERTLSDISABLE=1                   # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
             #- VAULT_LISTENERTLSKEYFILE=                    # TLS key file
             #- VAULT_LISTENERTLSMINVERSION=                 # TLS minimum version allowed
@@ -98,7 +89,7 @@ services:
 
             #- VAULT_UI=0                                   # enable the UI
             #- VAULT_CLUSTERNAME=                           # vault cluster name
-            - VAULT_LISTENERTLSDISABLE=1                    # disable TLS for listener
+            #- VAULT_LISTENERTLSDISABLE=1                   # disable TLS for listener
             #- VAULT_LISTENERTLSCERTFILE=                   # TLS certificate file
             #- VAULT_LISTENERTLSKEYFILE=                    # TLS key file
             #- VAULT_LISTENERTLSMINVERSION=                 # TLS minimum version allowed

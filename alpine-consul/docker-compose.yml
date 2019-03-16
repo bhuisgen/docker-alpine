@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     consul:
@@ -6,41 +6,44 @@ volumes:
 services:
     consul:
         image: bhuisgen/alpine-consul
-        hostname: local                                 # use environment name as hostname
+        hostname: consul
         ports:
-            - "127.0.0.1:8500:8500"                     # HTTP port for access from localhost
-            - "169.254.1.1:8500:8500"                   # HTTP port for access from localhost and dummy networks
-            #- "169.254.1.1:8501:8501"                  # HTTPS port for access from localhost and docker networks
-            - "169.254.1.1:8600:8600"                   # DNS TCP port for DNS cache forwarder
-            - "169.254.1.1:8600:8600/udp"               # DNS UDP port for DNS cache forwarder
+            - "127.0.0.1:8500:8500"         # HTTP port for localhost access from localhost
+            #- "127.0.0.1:8501:8501"        # HTTPS port for localhost access from localhost
+            - "169.254.0.1:8500:8500"       # HTTP port for access from localhost and docker networks
+            #- "169.254.0.1:8501:8501"      # HTTPS port for access from localhost and docker networks
+            #- "169.254.0.1:8600:8600"      # DNS TCP port for DNS cache forwarder
+            #- "169.254.0.1:8600:8600/udp"  # DNS UDP port for DNS cache forwarder
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - consul:/var/lib/consul                    # volume for data
         environment:
             - ENV=local                                 # environment name
-            - CONSUL_TEMPLATE=static                    # configuration template
+            #- VAULT_ADDR=                              # vault address
+            #- VAULT_TOKEN=                             # vault token
+            #- VAULT_SECRET=                            # vault secret path
+            - CONSUL_TEMPLATE=generic                   # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server for development
+            #- CONSUL_NODENAME=                         # node name
             - CONSUL_DATACENTER=local                   # datacenter
             #- CONSUL_DOMAIN=consul                     # domain name
             - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==   # encryption key
             #- CONSUL_RAFTMULTIPLIER=5                  # raft mutliplier
             #- CONSUL_TLS=0                             # enable TLS
+            #- CONSUL_TLSCAPATH=                        # TLS CA directory
             #- CONSUL_TLSCAFILE=                        # TLS CA certificate file
-            #- CONSUL_TLSCERTFILE=                      # TLS server certificate file (server)
-            #- CONSUL_TLSKEYFILE=                       # TLS server certificate key file (server)
+            #- CONSUL_TLSCERTFILE=                      # TLS server certificate file
+            #- CONSUL_TLSKEYFILE=                       # TLS server certificate key file
             #- CONSUL_ACLDATACENTER=                    # ACL authoritative datacenter
-            #- CONSUL_ACLMASTERTOKEN=                   # ACL master token (server only)
+            #- CONSUL_ACLMASTERTOKEN=                   # ACL master token
             #- CONSUL_ACLTOKEN=                         # ACL token
-            #- CONSUL_ACLAGENTMASTERTOKEN=              # ACL token during server outage (client only)
-            #- CONSUL_ACLAGENTTOKEN=                    # ACL token for internal operations (client only, ACL token by default)
-            #- CONSUL_ACLREPLICATIONTOKEN=              # ACL token for replication outside of datacenter (server only)
-            #- CONSUL_ACLDEFAULTPOLICY=extend-cache     # ACL default policy (server only)
+            #- CONSUL_ACLREPLICATIONTOKEN=              # ACL token for replication outside of datacenter
+            #- CONSUL_ACLDEFAULTPOLICY=extend-cache     # ACL default policy
             #- CONSUL_ACLDOWNPOLICY=extend-cache        # ACL down policy
-            #- CONSUL_ACLTTL=30                         # ACL TTL (server only)
+            #- CONSUL_ACLTTL=30                         # ACL TTL
             #- CONSUL_ACLENFORCEVERSION8=true           # enforce ACL version 8
-

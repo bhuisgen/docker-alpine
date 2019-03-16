@@ -1,9 +1,13 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV OPENLDAP_CONFIGDIR=/var/lib/openldap/slapd.d
 
-RUN apk add --update openldap openldap-clients && \
+RUN apk add --update openldap openldap-back-mdb openldap-clients openldap-overlay-all && \
+    mkdir /var/run/openldap && \
+    chown ldap:ldap /var/run/openldap && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /

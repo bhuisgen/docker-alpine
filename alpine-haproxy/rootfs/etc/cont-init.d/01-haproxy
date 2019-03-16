@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-echo "==> Enabling template ${HAPROXY_TEMPLATE}"
-
-cp "/etc/consul-template/templates/haproxy/${HAPROXY_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/

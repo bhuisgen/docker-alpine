@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${RUNDECK_TEMPLATE}" ]; then
-    echo "==> Enabling template ${RUNDECK_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/rundeck/${RUNDECK_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

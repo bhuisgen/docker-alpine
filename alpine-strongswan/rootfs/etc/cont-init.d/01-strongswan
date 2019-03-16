@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${STRONGSWAN_TEMPLATE}" ]; then
-    echo "==> Enabling template ${STRONGSWAN_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/strongswan/${STRONGSWAN_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

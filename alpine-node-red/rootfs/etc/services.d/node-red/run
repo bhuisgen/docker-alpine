@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-cd /usr/local/node-red || exit 2
+cd /usr/local/node-red || exit 2
 exec /usr/bin/node red.js --userDir /var/lib/node-red/ ${NODERED_OPTIONS}

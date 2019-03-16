@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     drone:
 
 services:
     drone-server:
-        depends_on:
-            - consul                                        # consul agent
         image: bhuisgen/alpine-drone
         ports:
             - "8000:8000"
@@ -16,14 +14,12 @@ services:
             - drone:/var/lib/drone                          # volume for data
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=drone-server               # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=8000                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - DRONE_TEMPLATE=static                         # configuration template
+            #- DRONE_TEMPLATE=generic                        # configuration template
+
+            #
+            # template generic
+            #
+
             - DRONE_HOST=0.0.0.0
             - DRONE_OPEN=true
             - DRONE_SECRET=my$ecret
@@ -41,13 +37,11 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         environment:
             - ENV=local                                     # environment name
-            - CONSUL_AGENT=consul                           # consul agent hostname/IP
-            #- CONSUL_PORT=8500                             # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/                # consul key prefix path
-            - CONSUL_SERVICENAME=drone-agent                # consul service name
-            - CONSUL_SERVICETAGS=local                      # consul service tag
-            - CONSUL_SERVICEPORT=8000                       # consul service port
-            - CONSUL_CHECKTYPE=tcp                          # consul health check type
-            - DRONE_TEMPLATE=static                         # configuration template
+            #- DRONE_TEMPLATE=generic                       # configuration template
+
+            #
+            # template generic
+            #
+
             - DRONE_SERVER=drone-server:9000
             - DRONE_SECRET=my$ecret

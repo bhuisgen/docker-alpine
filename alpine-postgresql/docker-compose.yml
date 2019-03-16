@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     postgresql:
 
 services:
     postgresql:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-postgresql
         ports:
             - "5432:5432"
@@ -15,17 +13,10 @@ services:
             - postgresql:/var/lib/postgresql        # volume for data
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=postgresql         # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=5432               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - POSTGRESQL_TEMPLATE=static            # configuration template
+            #- POSTGRESQL_TEMPLATE=generic          # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- POSTGRESQL_DATABASE=                 # create database (optional)

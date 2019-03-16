@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${DRONE_TEMPLATE}" ]; then
-    echo "==> Enabling template ${DRONE_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/drone/${DRONE_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

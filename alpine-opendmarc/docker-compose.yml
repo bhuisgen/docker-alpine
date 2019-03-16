@@ -1,9 +1,7 @@
-version: '3.5'
+version: '3.7'
 
 services:
     opendmarc:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-opendmarc
         ports:
             - "8893:8893"
@@ -12,17 +10,10 @@ services:
             - /dev/log:/dev/log
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=opendmarc          # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=8893               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - OPENDMARC_TEMPLATE=static             # configuration template
+            #- OPENDMARC_TEMPLATE=generic           # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- OPENDMARC_AUTHSERVID=                # auth server id

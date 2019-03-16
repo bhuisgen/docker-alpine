@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV RABBITMQ_VERSION=3.7.4 \

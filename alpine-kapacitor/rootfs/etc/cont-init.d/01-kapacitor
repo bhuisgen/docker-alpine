@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${KAPACITOR_TEMPLATE}" ]; then
-    echo "==> Enabling template ${KAPACITOR_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/kapacitor/${KAPACITOR_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${PORTAINER_TEMPLATE}" ]; then
-    echo "==> Enabling template ${PORTAINER_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/portainer/${PORTAINER_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

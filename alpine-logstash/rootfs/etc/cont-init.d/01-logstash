@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${LOGSTASH_TEMPLATE}" ]; then
-    echo "==> Enabling template ${LOGSTASH_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/logstash/${LOGSTASH_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

@@ -1,7 +1,9 @@
-FROM bhuisgen/alpine-build-make:latest
+ARG TAG
+
+FROM bhuisgen/alpine-build-make:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV TERRAFORM_VERSION=0.11.7
+ENV TERRAFORM_VERSION=0.11.10
 
 RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \

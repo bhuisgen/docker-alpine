@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${TELEGRAF_TEMPLATE}" ]; then
-    echo "==> Enabling template ${TELEGRAF_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/telegraf/${TELEGRAF_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

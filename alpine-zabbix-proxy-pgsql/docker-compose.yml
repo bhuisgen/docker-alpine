@@ -1,42 +1,33 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     zabbix-proxy:
 
 services:
     zabbix-proxy:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-zabbix-proxy-pgsql
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - zabbix-proxy:/var/lib/zabbix          # volume for data
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=zabbix-proxy       # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=10051              # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - ZABBIX_TEMPLATE=static                # configuration template
+            #- ZABBIX_TEMPLATE=generic              # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- ZABBIX_PROXYMODE=0                   # proxy mode (0: active, 1: passive)
-            - ZABBIX_SERVER=10.0.0.1                # zabbix server IP/host
+            #- ZABBIX_SERVER=10.0.0.1               # zabbix server IP/host
             #- ZABBIX_SERVERPORT=10051              # zabbix server port
-            - ZABBIX_HOSTNAME=zabbix-proxy          # zabbix proxy hostname
-            - ZABBIX_ENABLEREMOTECOMMANDS=1         # enable remote commands execution
-            - ZABBIX_LOGREMOTECOMMANDS=1            # log remote commands
-            - ZABBIX_DBHOST=postgresql              # database host
-            - ZABBIX_DBPORT=5432                    # database port
-            - ZABBIX_DBNAME=zabbix                  # database name
-            - ZABBIX_DBUSER=zabbix                  # database user
-            - ZABBIX_DBPASSWORD=zabbix              # database password
+            #- ZABBIX_HOSTNAME=zabbix-proxy         # zabbix proxy hostname
+            #- ZABBIX_ENABLEREMOTECOMMANDS=1        # enable remote commands execution
+            #- ZABBIX_LOGREMOTECOMMANDS=1           # log remote commands
+            #- ZABBIX_DBHOST=postgresql             # database host
+            #- ZABBIX_DBPORT=5432                   # database port
+            #- ZABBIX_DBNAME=zabbix                 # database name
+            #- ZABBIX_DBUSER=zabbix                 # database user
+            #- ZABBIX_DBPASSWORD=zabbix             # database password
             #- ZABBIX_PROXYLOCALBUFFER=0            # period to keep proxy data after sending
             #- ZABBIX_PROXYOFFLINEBUFFER=1          # period to keep proxy unsent data
             #- ZABBIX_HEARTBEATFREQUENCY=60         # frequency of heartbeat messages to server

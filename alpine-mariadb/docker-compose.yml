@@ -1,12 +1,10 @@
-version: '3.5'
+version: '3.7'
 
 volumes:
     mariadb:
 
 services:
     mariadb:
-        depends_on:
-            - consul                                # consul agent
         image: bhuisgen/alpine-mariadb
         ports:
             - "3306:3306"
@@ -15,17 +13,10 @@ services:
             - mariadb:/var/lib/mysql                # volume for data
         environment:
             - ENV=local                             # environment name
-            - CONSUL_AGENT=consul                   # consul agent hostname/IP
-            #- CONSUL_PORT=8500                     # consul agent port
-            #- CONSUL_KEYPREFIX=path/prefix/        # consul key prefix path
-            - CONSUL_SERVICENAME=mariadb            # consul service name
-            - CONSUL_SERVICETAGS=local              # consul service tag
-            - CONSUL_SERVICEPORT=3306               # consul service port
-            - CONSUL_CHECKTYPE=tcp                  # consul health check type
-            - MARIADB_TEMPLATE=static               # configuration template
+            #- MARIADB_TEMPLATE=generic             # configuration template
 
             #
-            # template static
+            # template generic
             #
 
             #- MARIADB_PROFILE=my-small             # default configuration profile to use (my-small, my-medium ...)

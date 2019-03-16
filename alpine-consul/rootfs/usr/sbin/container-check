@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [ $(s6-svstat -o up /var/run/s6/services/consul) != "true" ]; then
+    exit 1
+fi

@@ -1,7 +1,9 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV VAULT_VERSION=0.10.3
+ENV VAULT_VERSION=0.10.4
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \

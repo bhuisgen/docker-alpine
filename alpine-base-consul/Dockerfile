@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV CONSULTEMPLATE_VERSION=0.19.5
@@ -18,4 +20,4 @@ RUN apk add --update zip && \
 
 COPY rootfs/ /
 
-HEALTHCHECK CMD /etc/cont-consul/check || exit 1
+HEALTHCHECK CMD /usr/sbin/container-check || exit 1

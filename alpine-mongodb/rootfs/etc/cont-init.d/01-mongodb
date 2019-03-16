@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${MONGODB_TEMPLATE}" ]; then
-    echo "==> Enabling template ${MONGODB_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/mongodb/${MONGODB_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

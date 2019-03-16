@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV SYNCTHING_VERSION=0.14.48

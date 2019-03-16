@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${POSTFIX_TEMPLATE}" ]; then
+    cp "/etc/container.d/templates/postfix/${POSTFIX_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+fi

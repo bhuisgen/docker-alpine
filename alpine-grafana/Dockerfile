@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV GRAFANA_VERSION=5.0.3

@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-if [ ! -z "${TOMCAT_TEMPLATE}" ]; then
-    echo "==> Enabling template ${TOMCAT_TEMPLATE}"
-
-    cp "/etc/consul-template/templates/tomcat/${TOMCAT_TEMPLATE}"/*.hcl /etc/consul-template/conf.d/
-fi

@@ -1,7 +1,9 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV DRONE_VERSION=0.8.5 \
+ENV DRONE_VERSION=0.8.6 \
     GOPATH=/usr/local
 
 RUN mkdir /var/lib/drone && \

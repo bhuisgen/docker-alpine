@@ -1,4 +1,6 @@
-FROM bhuisgen/alpine-base-consul:latest
+ARG TAG
+
+FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update backuppc fcgiwrap openssh-client perl-cgi spawn-fcgi sudo tar && \
