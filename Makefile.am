@@ -43,6 +43,7 @@ SUBDIRS = \
     alpine-grafana \
     alpine-haproxy \
     alpine-hostapd \
+    alpine-hugo \
     alpine-influxdb \
     alpine-java \
     alpine-jenkins \

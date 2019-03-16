@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+    hugo:
+        image: bhuisgen/alpine-hugo
+        ports:
+            - "1313:1313"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - $PWD:/data
