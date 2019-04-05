@@ -81,6 +81,7 @@ AC_CONFIG_FILES([
     alpine-grafana/Makefile
     alpine-haproxy/Makefile
     alpine-hostapd/Makefile
+    alpine-hugo/Makefile
     alpine-influxdb/Makefile
     alpine-java/Makefile
     alpine-jenkins/Makefile
