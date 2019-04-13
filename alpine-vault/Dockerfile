@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV VAULT_VERSION=0.10.4
+ENV VAULT_VERSION=1.1.0
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \
