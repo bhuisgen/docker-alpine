@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.9
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV WORDPRESS_VERSION=4.9.8
