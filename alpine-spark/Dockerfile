@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV SPARK_VERSION=2.4.0 \
+ENV SPARK_VERSION=2.4.4 \
     HADOOP_VERSION=2.7 \
     SPARK_HOME=/usr/local/spark
 
