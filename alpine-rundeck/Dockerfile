@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV RUNDECK_VERSION=2.11.3 \
+ENV RUNDECK_VERSION=3.1.0-20190731 \
     RDECK_BASE=/home/rundeck \
     PATH=${PATH}:${RDECK_BASE}/tools/bin
 
@@ -13,8 +13,8 @@ RUN addgroup -S rundeck && \
 
 RUN apk add --update openjdk8-jre openssh-client && \
     cd ${RDECK_BASE} && \
-    curl -sSL http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-${RUNDECK_VERSION}.jar -o rundeck.jar && \
-    s6-setuidgid rundeck java -jar rundeck.jar --installonly && \
+    curl -sSL http://dl.bintray.com/rundeck/rundeck-maven/rundeck-${RUNDECK_VERSION}.war -o rundeck.war && \
+    s6-setuidgid rundeck java -jar rundeck.war --installonly && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 

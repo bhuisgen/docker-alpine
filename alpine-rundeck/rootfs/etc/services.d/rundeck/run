@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
 cd ${RDECK_BASE} || exit 1
-exec s6-setuidgid rundeck /usr/bin/java ${JAVA_OPTS} -jar rundeck.jar --skipinstall {RUNDECK_OPTIONS}
+exec s6-setuidgid rundeck /usr/bin/java ${JAVA_OPTS} -jar rundeck.war --skipinstall {RUNDECK_OPTIONS}
