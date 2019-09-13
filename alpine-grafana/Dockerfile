@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV GRAFANA_VERSION=5.0.3
+ENV GRAFANA_VERSION=6.3.5
 
 RUN mkdir /var/lib/grafana && \
     addgroup -S grafana && \
