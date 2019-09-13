@@ -11,7 +11,7 @@ RUN mkdir /var/lib/grafana && \
 
 RUN apk add --update libc6-compat tar && \
     mkdir /usr/local/grafana && \
-    curl -sSL https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz | \
+    curl -sSL https://dl.grafana.com/oss/release/grafana-${GRAFANA_VERSION}.linux-amd64.tar.gz | \
         tar -xzo -C /usr/local/grafana --strip-components 1 && \
     apk del tar && \
     rm -rf /var/cache/apk/*
