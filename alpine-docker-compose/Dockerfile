@@ -1,7 +1,7 @@
-FROM alpine:3.9
+FROM alpine:3.10
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV DOCKERCOMPOSE_VERSION=1.21.2
+ENV DOCKERCOMPOSE_VERSION=1.24.1
 
 RUN apk add --update python3 && \
     python3 -m ensurepip --upgrade && \

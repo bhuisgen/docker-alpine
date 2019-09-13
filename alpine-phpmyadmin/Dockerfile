@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV PHPMYADMIN_VERSION=4.8.3

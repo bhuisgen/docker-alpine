@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV CONSULCLI_VERSION=0.3.1
