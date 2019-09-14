@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-build:${TAG}
+FROM bhuisgen/alpine-build:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm \

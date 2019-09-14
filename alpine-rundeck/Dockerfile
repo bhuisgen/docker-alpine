@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/alpine-base-consul:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV RUNDECK_VERSION=2.11.3 \

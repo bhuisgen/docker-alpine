@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-build-make:${TAG}
+FROM bhuisgen/alpine-build-make:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV TERRAFORM_VERSION=0.11.10

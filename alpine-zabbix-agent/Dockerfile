@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/alpine-base-consul:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ZABBIX_VERSION=3.4.7 \

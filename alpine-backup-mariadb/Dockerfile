@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-backup:${TAG}
+FROM bhuisgen/alpine-backup:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update mariadb-client && \
