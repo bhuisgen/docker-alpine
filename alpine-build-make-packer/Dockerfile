@@ -1,9 +1,9 @@
 ARG TAG
 
-FROM bhuisgen/alpine-build-make:${TAG}
+FROM bhuisgen/alpine-build-make:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV PACKER_VERSION=1.3.1
+ENV PACKER_VERSION=1.4.3
 
 RUN apk add --update curl zip && \
     curl -sSL https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip \

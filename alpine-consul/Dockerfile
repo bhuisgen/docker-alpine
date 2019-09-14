@@ -1,9 +1,9 @@
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/alpine-base-consul:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV CONSUL_VERSION=1.2.3
+ENV CONSUL_VERSION=1.6.1
 
 RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip \

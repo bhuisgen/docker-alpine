@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/alpine-base-consul:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV JETTY_VERSION=9.4.11.v20180605 \

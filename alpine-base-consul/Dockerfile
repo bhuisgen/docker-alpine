@@ -1,9 +1,9 @@
 ARG TAG
 
-FROM bhuisgen/alpine-base:${TAG}
+FROM bhuisgen/alpine-base:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV CONSULTEMPLATE_VERSION=0.19.5
+ENV CONSULTEMPLATE_VERSION=0.22.0
 
 RUN mkdir /var/lib/consul && \
     addgroup -g 500 -S consul && \

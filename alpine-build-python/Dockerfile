@@ -1,6 +1,6 @@
 ARG TAG
 
-FROM bhuisgen/alpine-build:${TAG}
+FROM bhuisgen/alpine-build:${TAG:-latest}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 RUN apk add --update python3 python3-dev py3-pip && \

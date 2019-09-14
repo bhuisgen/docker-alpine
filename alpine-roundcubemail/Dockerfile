@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.10
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
 ENV ROUNDCUBEMAIL_VERSION=1.3.7
