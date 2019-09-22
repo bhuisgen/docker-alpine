@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${REGISTRY_TEMPLATE}" ]; then
+if [ ! -z "${GRAFANA_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/grafana/${GRAFANA_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi
