@@ -3,7 +3,6 @@ SUBDIRS = \
     alpine-base-consul \
     alpine-backup \
     alpine-backup-mariadb \
-    alpine-backup-mongodb \
     alpine-backup-postgresql \
     alpine-backup-rsync \
     alpine-backup-tar \
@@ -54,7 +53,6 @@ SUBDIRS = \
     alpine-logstash \
     alpine-mailhog \
     alpine-mariadb \
-    alpine-mongodb \
     alpine-nginx \
     alpine-node-red \
     alpine-nodejs \

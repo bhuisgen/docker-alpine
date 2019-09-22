@@ -41,7 +41,6 @@ AC_CONFIG_FILES([
     alpine-base-consul/Makefile
     alpine-backup/Makefile
     alpine-backup-mariadb/Makefile
-    alpine-backup-mongodb/Makefile
     alpine-backup-postgresql/Makefile
     alpine-backup-rsync/Makefile
     alpine-backup-tar/Makefile
@@ -92,7 +91,6 @@ AC_CONFIG_FILES([
     alpine-logstash/Makefile
     alpine-mailhog/Makefile
     alpine-mariadb/Makefile
-    alpine-mongodb/Makefile
     alpine-nginx/Makefile
     alpine-node-red/Makefile
     alpine-nodejs/Makefile
