@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV INFLUXDB_VERSION=1.5.0
+ENV INFLUXDB_VERSION=1.7.8
 
 RUN mkdir /var/lib/influxdb && \
     addgroup -S influxdb && \

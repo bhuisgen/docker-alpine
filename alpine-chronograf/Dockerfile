@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV CHRONOGRAF_VERSION=1.4.2.3
+ENV CHRONOGRAF_VERSION=1.7.14
 
 RUN mkdir /var/lib/chronograf && \
     addgroup -S chronograf && \
