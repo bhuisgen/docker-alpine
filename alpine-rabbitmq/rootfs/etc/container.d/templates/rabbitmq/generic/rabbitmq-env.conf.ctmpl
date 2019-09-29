@@ -1,4 +1,5 @@
 GENERATED_CONFIG_DIR=/var/lib/rabbitmq/config
+RABBITMQ_ENABLED_PLUGINS_FILE=/var/lib/rabbitmq/config/enabled_plugins
 MNESIA_BASE=/var/lib/rabbitmq/mnesia
 SCHEMA_DIR=/var/lib/rabbitmq/schema
 LOG_BASE=/var/lib/rabbitmq/logs
@@ -7,4 +8,3 @@ SASL_LOGS=-
 PLUGINS_EXPAND_DIR=/var/lib/rabbitmq/plugins
 SERVER_CODE_PATH=/var/lib/rabbitmq/hipe/ebin
 PID_FILE=/var/run/rabbitmq/rabbitmq.pid
-

@@ -38,6 +38,9 @@ else
 fi
 
 if [ ! -f /var/lib/rabbitmq/.config ]; then
+    export HOME=/var/lib/rabbitmq
+    export RABBITMQ_CONF_ENV_FILE=/var/lib/rabbitmq/config/rabbitmq-env.conf
+
     if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
         echo "${RABBITMQ_ERLANGCOOKIE}" > /var/lib/rabbitmq/.erlang.cookie
         chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
@@ -47,8 +50,6 @@ if [ ! -f /var/lib/rabbitmq/.config ]; then
     if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
         su -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
     fi
-
-    touch /usr/local/rabbitmq/etc/rabbitmq/enabled_plugins
 
     if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
         rabbitmq-plugins enable --offline rabbitmq_management

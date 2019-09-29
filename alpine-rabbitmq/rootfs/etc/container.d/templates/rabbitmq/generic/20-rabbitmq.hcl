@@ -6,12 +6,12 @@ template {
 
 template {
   source      = "/etc/container.d/templates/rabbitmq/generic/rabbitmq-env.conf.ctmpl"
-  destination = "/usr/local/rabbitmq/etc/rabbitmq/rabbitmq-env.conf"
+  destination = "/var/lib/rabbitmq/config/rabbitmq-env.conf"
   perms       = 0644
 }
 
 template {
-  source      = "/etc/container.d/templates/rabbitmq/generic/rabbitmq.config.ctmpl"
-  destination = "/usr/local/rabbitmq/etc/rabbitmq/rabbitmq.config"
+  source      = "/etc/container.d/templates/rabbitmq/generic/advanced.config.ctmpl"
+  destination = "/var/lib/rabbitmq/config/advanced.config"
   perms       = 0644
 }
