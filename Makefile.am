@@ -38,6 +38,7 @@ SUBDIRS = \
     alpine-drone-cli \
     alpine-dynamodb \
     alpine-elasticsearch \
+    alpine-etcd \
     alpine-fabric \
     alpine-git \
     alpine-go \
