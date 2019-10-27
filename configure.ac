@@ -45,6 +45,7 @@ AC_CONFIG_FILES([
     alpine-backup-rsync/Makefile
     alpine-backup-tar/Makefile
     alpine-build/Makefile
+    alpine-build-go/Makefile
     alpine-build-make/Makefile
     alpine-build-make-ansible/Makefile
     alpine-build-make-packer/Makefile
@@ -53,6 +54,7 @@ AC_CONFIG_FILES([
     alpine-build-python/Makefile
     alpine-build-npm/Makefile
     alpine-build-rpi/Makefile
+    alpine-build-rpi-go/Makefile
     alpine-build-rpi-make/Makefile
     alpine-build-rpi-python/Makefile
     alpine-build-yarn/Makefile
@@ -76,6 +78,7 @@ AC_CONFIG_FILES([
     alpine-elasticsearch/Makefile
     alpine-fabric/Makefile
     alpine-git/Makefile
+    alpine-go/Makefile
     alpine-gogs/Makefile
     alpine-grafana/Makefile
     alpine-haproxy/Makefile

@@ -8,6 +8,7 @@ SUBDIRS = \
     alpine-backup-tar \
     alpine-build \
     alpine-build-make \
+    alpine-build-go \
     alpine-build-make-ansible \
     alpine-build-make-packer \
     alpine-build-make-terraform \
@@ -15,6 +16,7 @@ SUBDIRS = \
     alpine-build-npm \
     alpine-build-python \
     alpine-build-rpi \
+    alpine-build-rpi-go \
     alpine-build-rpi-make \
     alpine-build-rpi-python \
     alpine-build-yarn \
@@ -38,6 +40,7 @@ SUBDIRS = \
     alpine-elasticsearch \
     alpine-fabric \
     alpine-git \
+    alpine-go \
     alpine-gogs \
     alpine-grafana \
     alpine-haproxy \
