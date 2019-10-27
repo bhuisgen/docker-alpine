@@ -102,3 +102,4 @@ SUBDIRS = \
     alpine-zabbix-proxy-sqlite \
     alpine-zabbix-server-mysql \
     alpine-zabbix-server-pgsql
+    alpine-wordpress
