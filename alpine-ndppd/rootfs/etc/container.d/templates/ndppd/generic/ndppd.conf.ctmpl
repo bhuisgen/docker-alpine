@@ -1,0 +1,16 @@
+{{- $ndppd_proxy_interface := env "NDPPD_PROXYINTERFACE" -}}
+{{- $ndppd_ipv6_subnet := env "NDPPD_IPV6SUBNET" -}}
+{{- $ndppd_forward_interface := env "NDPPD_FORWARDINTERFACE" -}}
+route-ttl 30000
+
+proxy {{$ndppd_proxy_interface}} {
+  router yes
+  timeout 500
+  ttl 30000
+
+{{ if and $ndppd_ipv6_subnet $ndppd_forward_interface }}
+  rule {{$ndppd_ipv6_subnet}} {
+    iface {{$ndppd_forward_interface}}
+  }
+{{ end }}
+}
