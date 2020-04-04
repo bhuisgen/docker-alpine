@@ -1,5 +1,23 @@
-FROM alpine:3.10
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+FROM alpine:3.11
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+      org.label-schema.build-date="$BUILD_DATE" \
+      org.label-schema.name="alpine-base" \
+      org.label-schema.description="alpine-base image" \
+      org.label-schema.vcs-ref="$GIT_COMMIT" \
+      org.label-schema.vcs-url="$GIT_URL" \
+      org.label-schema.vendor="Boris HUISGEN" \
+      org.label-schema.version="$BUILD_VERSION" \
+      org.label-schema.schema-version="1.0" \
+      fr.hbis.docker.base.build-date="$BUILD_DATE" \
+      fr.hbis.docker.base.name="alpine-base" \
+      fr.hbis.docker.base.vendor="Boris HUISGEN" \
+      fr.hbis.docker.base.version="$BUILD_VERSION"
 
 ENV S6OVERLAY_VERSION=1.22.1.0 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1
