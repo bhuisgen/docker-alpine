@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 
-if [ ! -z "${CONSUL_ADDR}" ]; then
+if [ -n "${CONSUL_ADDR}" ]; then
     options=""
     consul_addr="http://${CONSUL_ADDR}"
 
-    if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
+    if [ -n "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
         consul_addr="https://${CONSUL_ADDR}"
 
-        if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
+        if [ -n "${CONSUL_TLSCAFILE}" ]; then
             options="${options} --cacert ${CONSUL_TLSCAFILE}"
-        elif [ ! -z "${CONSUL_TLSCAPATH}" ]; then
+        elif [ -n "${CONSUL_TLSCAPATH}" ]; then
             options="${options} --capath ${CONSUL_TLSCAPATH}"
         fi
 
-        if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
+        if [ -n "${CONSUL_TLSCERTFILE}" ]; then
             options="${options} --cert ${CONSUL_TLSCERTFILE}"
         fi
 
-        if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
+        if [ -n "${CONSUL_TLSKEYFILE}" ]; then
             options="${options} --key ${CONSUL_TLSKEYFILE}"
         fi
 
@@ -26,13 +26,13 @@ if [ ! -z "${CONSUL_ADDR}" ]; then
         fi
     fi
 
-    if [ ! -z "${CONSUL_TOKEN}" ]; then
+    if [ -n "${CONSUL_TOKEN}" ]; then
         options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
     fi
 
-    if [ ! -z "$1" ] && [ "$1" == "--enable" ]; then
+    if [ -n "$1" ] && [ "$1" == "--enable" ]; then
         options="${options} -G --data-urlencode enable=true"
-    elif [ ! -z "$1" ] && [ "$1" == "--disable" ]; then
+    elif [ -n "$1" ] && [ "$1" == "--disable" ]; then
         options="${options} -G --data-urlencode enable=false"
     else
         exit 1
