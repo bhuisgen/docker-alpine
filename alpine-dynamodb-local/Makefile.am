@@ -1,4 +1,4 @@
-IMAGE = bhuisgen/alpine-dynamodb
+IMAGE = bhuisgen/alpine-dynamodb-local
 
 clean-local:
 	docker rmi $(CLEAN_OPTIONS) $(IMAGE):$(TAG) || true

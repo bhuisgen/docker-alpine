@@ -1,0 +1,15 @@
+version: '3.7'
+
+volumes:
+    dynamodb-local:
+
+services:
+    dynamodb-local:
+        image: bhuisgen/alpine-dynamodb-local
+        ports:
+            - "8000:8000"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - dynamodb-local:/var/lib/dynamodb-local    # volume for data
+        environment:
+            - ENV=local                                 # environment name
