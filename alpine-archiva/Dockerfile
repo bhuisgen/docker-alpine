@@ -1,10 +1,24 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV ARCHIVA_VERSION=2.2.3 \
-    JETTY_VERSION=9.4.11.v20180605 \
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+      org.label-schema.build-date="$BUILD_DATE" \
+      org.label-schema.name="alpine-archiva" \
+      org.label-schema.description="alpine-archiva image" \
+      org.label-schema.vcs-ref="$GIT_COMMIT" \
+      org.label-schema.vcs-url="$GIT_URL" \
+      org.label-schema.vendor="Boris HUISGEN" \
+      org.label-schema.version="$BUILD_VERSION" \
+      org.label-schema.schema-version="1.0"
+
+ENV ARCHIVA_VERSION=2.2.4 \
+    JETTY_VERSION=9.4.27.v20200227 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/var/lib/jetty \
     JETTY_MODULES=ext,plus,http,deploy

@@ -19,7 +19,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       fr.hbis.docker.base.vendor="Boris HUISGEN" \
       fr.hbis.docker.base.version="$BUILD_VERSION"
 
-ENV S6OVERLAY_VERSION=1.22.1.0 \
+ENV S6OVERLAY_VERSION=2.0.0.1 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1
 
 RUN apk update && \

@@ -1,7 +1,7 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+LABEL maintainer="bhuisgen@hbis.fr"
 
 ENV RABBITMQ_VERSION=3.7.11 \
     PATH=/usr/local/rabbitmq/sbin:$PATH

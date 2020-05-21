@@ -1,7 +1,7 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+LABEL maintainer="bhuisgen@hbis.fr"
 
 ENV OPENLDAP_CONFIGDIR=/var/lib/openldap/slapd.d
 

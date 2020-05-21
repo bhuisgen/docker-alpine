@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV VAULT_VERSION=1.3.4
+ENV VAULT_VERSION=1.4.1
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \

@@ -1,7 +1,7 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+LABEL maintainer="bhuisgen@hbis.fr"
 
 ENV ETCD_VERSION=3.4.3 \
     ETCD_USER=etcd \

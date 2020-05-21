@@ -1,9 +1,23 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
 
-ENV DRONE_VERSION=0.8.6 \
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+      org.label-schema.build-date="$BUILD_DATE" \
+      org.label-schema.name="alpine-drone" \
+      org.label-schema.description="alpine-drone image" \
+      org.label-schema.vcs-ref="$GIT_COMMIT" \
+      org.label-schema.vcs-url="$GIT_URL" \
+      org.label-schema.vendor="Boris HUISGEN" \
+      org.label-schema.version="$BUILD_VERSION" \
+      org.label-schema.schema-version="1.0"
+
+ENV DRONE_VERSION=1.7.0 \
     GOPATH=/usr/local
 
 RUN mkdir /var/lib/drone && \

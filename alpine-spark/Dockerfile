@@ -1,10 +1,10 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV SPARK_VERSION=2.4.4 \
-    HADOOP_VERSION=2.7 \
+ENV SPARK_VERSION=2.4.5 \
+    HADOOP_VERSION=2.12 \
     SPARK_HOME=/usr/local/spark
 
 RUN mkdir ${SPARK_HOME} && \

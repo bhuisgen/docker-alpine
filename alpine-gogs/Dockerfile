@@ -1,9 +1,25 @@
 ARG TAG
 
 FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV GOGS_VERSION=0.11.66
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+      org.label-schema.build-date="$BUILD_DATE" \
+      org.label-schema.name="alpine-gogs" \
+      org.label-schema.description="alpine-gogs image" \
+      org.label-schema.vcs-ref="$GIT_COMMIT" \
+      org.label-schema.vcs-url="$GIT_URL" \
+      org.label-schema.vendor="Boris HUISGEN" \
+      org.label-schema.version="$BUILD_VERSION" \
+      org.label-schema.schema-version="1.0"
+
+ENV GOGS_VERSION=0.11.91 \
+    GOPATH=/usr/local
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \

@@ -16,6 +16,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.vendor="Boris HUISGEN" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
+
 RUN mkdir /var/lib/dynamodb-local && \
     addgroup -S dynamodb-local && \
     adduser -S -D -g "" -G dynamodb-local -s /sbin/nologin -h /var/lib/dynamodb-local dynamodb-local && \
@@ -25,7 +26,7 @@ RUN apk add --update openjdk8-jre tar && \
     mkdir /usr/local/dynamodb-local && \
     cd /usr/local/dynamodb-local && \
     curl -sSL http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz | tar -xzo && \
-    rm /usr/local/dynamodb-local/dynamodb-localLocal_lib/*sqlite4java* && \
+    rm /usr/local/dynamodb-local/DynamoDBLocal_lib/*sqlite4java* && \
     apk del tar && \
     rm -rf /var/cache/apk/*
 
