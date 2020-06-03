@@ -3,7 +3,7 @@ pipeline:
         when:
             branch:
                 include: [ master ]
-        image: alpine:3.10
+        image: alpine:3.12
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         commands:
@@ -16,7 +16,7 @@ pipeline:
         when:
             branch:
                 exclude: [ master ]
-        image: alpine:3.10
+        image: alpine:3.12
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         commands:
