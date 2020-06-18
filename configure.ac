@@ -128,7 +128,6 @@ AC_CONFIG_FILES([
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
     alpine-unbound/Makefile
-    alpine-xvfb/Makefile
     alpine-vault/Makefile
     alpine-wordpress/Makefile
     alpine-zabbix-agent/Makefile

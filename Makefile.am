@@ -90,7 +90,6 @@ SUBDIRS = \
     alpine-terraform \
     alpine-tomcat \
     alpine-unbound \
-    alpine-xvfb \
     alpine-vault \
     alpine-wordpress \
     alpine-zabbix-agent \
