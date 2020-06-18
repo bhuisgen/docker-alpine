@@ -105,7 +105,6 @@ AC_CONFIG_FILES([
     alpine-openldap/Makefile
     alpine-openssh/Makefile
     alpine-packer/Makefile
-    alpine-passbolt/Makefile
     alpine-perl/Makefile
     alpine-php/Makefile
     alpine-phpmyadmin/Makefile

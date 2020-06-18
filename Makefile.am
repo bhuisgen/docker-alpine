@@ -67,7 +67,6 @@ SUBDIRS = \
     alpine-openldap \
     alpine-openssh \
     alpine-packer \
-    alpine-passbolt \
     alpine-perl \
     alpine-php \
     alpine-phpmyadmin \
