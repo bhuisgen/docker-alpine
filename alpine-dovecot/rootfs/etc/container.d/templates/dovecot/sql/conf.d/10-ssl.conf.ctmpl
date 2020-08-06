@@ -67,7 +67,7 @@ ssl_key = <{{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/s
 # SSL ciphers to use, the default is:
 #ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
 # To disable non-EC DH, use:
-{{if $dovecot_ssl_cipher_list}}ssl_cipher_list = {{$dovecot_ssl_cipher_list}}{{else}}#ssl_cipher_list = ALL:!DH:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH{{end}}
+#ssl_cipher_list = ALL:!DH:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
 
 # Colon separated list of elliptic curves to use. Empty value (the default)
 # means use the defaults from the SSL library. P-521:P-384:P-256 would be an

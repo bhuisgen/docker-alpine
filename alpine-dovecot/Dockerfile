@@ -24,7 +24,8 @@ RUN mkdir -p ${VMAIL_HOME} && \
     adduser -u 5000 -S -D -g "" -G vmail -s /bin/sh -h ${VMAIL_HOME} vmail && \
     chown vmail:vmail ${VMAIL_HOME}
 
-RUN apk add --update dovecot dovecot-ldap dovecot-mysql dovecot-pigeonhole-plugin dovecot-pgsql dovecot-sqlite && \
+RUN apk add --update dovecot dovecot-ldap dovecot-lmtpd dovecot-mysql dovecot-pigeonhole-plugin dovecot-pop3d \
+        dovecot-pgsql dovecot-sqlite && \
     rm -rf /var/cache/apk/*
 
 COPY rootfs/ /

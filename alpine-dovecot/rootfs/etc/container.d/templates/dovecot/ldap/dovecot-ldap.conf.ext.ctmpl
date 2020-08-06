@@ -1,25 +1,25 @@
 {{- $dovecot_ldap_hosts := env "DOVECOT_LDAPHOSTS" -}}
-{{- $dovecot_dn := env "DOVECOT_DN" -}}
-{{- $dovecot_dnpass := env "DOVECOT_DNPASS" -}}
-{{- $dovecot_tls := env "DOVECOT_TLS" -}}
-{{- $dovecot_tls_ca_cert_file := env "DOVECOT_TLSCACERTFILE" -}}
-{{- $dovecot_tls_ca_cert_dir := env "DOVECOT_TLSCACERTDIR" -}}
-{{- $dovecot_tls_cipher_suite := env "DOVECOT_TLSCIPHERSUITE" -}}
-{{- $dovecot_tls_cert_file := env "DOVECOT_TLSCERTFILE" -}}
-{{- $dovecot_tls_key_file := env "DOVECOT_TLSKEYFILE" -}}
-{{- $dovecot_tls_require_cert := env "DOVECOT_TLSREQUIRECERT" -}}
-{{- $dovecot_auth_bind := env "DOVECOT_AUTHBIND" -}}
-{{- $dovecot_auth_bind_userdn := env "DOVECOT_AUTHBINDUSERDN" -}}
-{{- $dovecot_auth_bind_userpass := env "DOVECOT_AUTHBINDUSERDN" -}}
-{{- $dovecot_base := env "DOVECOT_BASE" -}}
-{{- $dovecot_scope := env "DOVECOT_SCOPE" -}}
-{{- $dovecot_user_attrs := env "DOVECOT_USERATTRS" -}}
-{{- $dovecot_user_filter := env "DOVECOT_USERFILTER" -}}
-{{- $dovecot_pass_attrs := env "DOVECOT_PASSATTRS" -}}
-{{- $dovecot_pass_filter := env "DOVECOT_PASSFILTER" -}}
-{{- $dovecot_iterate_attrs := env "DOVECOT_ITERATEATTRS" -}}
-{{- $dovecot_iterate_filter := env "DOVECOT_ITERATEFILTER" -}}
-{{- $dovecot_default_pass_scheme := env "DOVECOT_DEFAULTPASSSCHEME" -}}
+{{- $devocot_ldap_dn := env "DOVECOT_LDAPDN" -}}
+{{- $devocot_ldap_dnpass := env "DOVECOT_LDAPDNPASS" -}}
+{{- $devocot_ldap_tls := env "DOVECOT_LDAPTLS" -}}
+{{- $devocot_ldap_tls_ca_cert_file := env "DOVECOT_LDAPTLSCACERTFILE" -}}
+{{- $devocot_ldap_tls_ca_cert_dir := env "DOVECOT_LDAPTLSCACERTDIR" -}}
+{{- $devocot_ldap_tls_cipher_suite := env "DOVECOT_LDAPTLSCIPHERSUITE" -}}
+{{- $devocot_ldap_tls_cert_file := env "DOVECOT_LDAPTLSCERTFILE" -}}
+{{- $devocot_ldap_tls_key_file := env "DOVECOT_LDAPTLSKEYFILE" -}}
+{{- $devocot_ldap_tls_require_cert := env "DOVECOT_LDAPTLSREQUIRECERT" -}}
+{{- $devocot_ldap_auth_bind := env "DOVECOT_LDAPAUTHBIND" -}}
+{{- $devocot_ldap_auth_bind_userdn := env "DOVECOT_LDAPAUTHBINDUSERDN" -}}
+{{- $devocot_ldap_auth_bind_userpass := env "DOVECOT_LDAPAUTHBINDUSERDN" -}}
+{{- $devocot_ldap_base := env "DOVECOT_LDAPBASE" -}}
+{{- $devocot_ldap_scope := env "DOVECOT_LDAPSCOPE" -}}
+{{- $devocot_ldap_user_attrs := env "DOVECOT_LDAPUSERATTRS" -}}
+{{- $devocot_ldap_user_filter := env "DOVECOT_LDAPUSERFILTER" -}}
+{{- $devocot_ldap_pass_attrs := env "DOVECOT_LDAPPASSATTRS" -}}
+{{- $devocot_ldap_pass_filter := env "DOVECOT_LDAPPASSFILTER" -}}
+{{- $devocot_ldap_iterate_attrs := env "DOVECOT_LDAPITERATEATTRS" -}}
+{{- $devocot_ldap_iterate_filter := env "DOVECOT_LDAPITERATEFILTER" -}}
+{{- $devocot_ldap_default_pass_scheme := env "DOVECOT_LDAPDEFAULTPASSSCHEME" -}}
 # This file is commonly accessed via passdb {} or userdb {} section in
 # conf.d/auth-ldap.conf.ext
 
@@ -47,10 +47,10 @@ hosts = {{$dovecot_ldap_hosts}}
 
 # Distinguished Name - the username used to login to the LDAP server.
 # Leave it commented out to bind anonymously (useful with auth_bind=yes).
-dn = {{$dovecot_dn}}
+dn = {{$devocot_ldap_dn}}
 
 # Password for LDAP server, if dn is specified.
-dnpass = {{$dovecot_dnpass}}
+dnpass = {{$devocot_ldap_dnpass}}
 
 # Use SASL binding instead of the simple binding. Note that this changes
 # ldap_version automatically to be 3 if it's lower.
@@ -64,16 +64,16 @@ dnpass = {{$dovecot_dnpass}}
 #sasl_authz_id =
 
 # Use TLS to connect to the LDAP server.
-{{if eq $dovecot_tls "1"}}tls = yes{{else}}tls = no{{end}}
+{{if eq $devocot_ldap_tls "1"}}tls = yes{{else}}tls = no{{end}}
 # TLS options, currently supported only with OpenLDAP:
-{{if $dovecot_tls_ca_cert_file}}tls_ca_cert_file = {{$dovecot_tls_ca_cert_file}}{{else}}#tls_ca_cert_file ={{end}}
-{{if $dovecot_tls_ca_cert_dir}}tls_ca_cert_dir = {{$dovecot_tls_ca_cert_dir}}{{else}}#tls_ca_cert_dir ={{end}}
-{{if $dovecot_tls_cipher_suite}}tls_cipher_suite = {{$dovecot_tls_cipher_suite}}{{else}}#tls_cipher_suite ={{end}}
+{{if $devocot_ldap_tls_ca_cert_file}}tls_ca_cert_file = {{$devocot_ldap_tls_ca_cert_file}}{{else}}#tls_ca_cert_file ={{end}}
+{{if $devocot_ldap_tls_ca_cert_dir}}tls_ca_cert_dir = {{$devocot_ldap_tls_ca_cert_dir}}{{else}}#tls_ca_cert_dir ={{end}}
+{{if $devocot_ldap_tls_cipher_suite}}tls_cipher_suite = {{$devocot_ldap_tls_cipher_suite}}{{else}}#tls_cipher_suite ={{end}}
 # TLS cert/key is used only if LDAP server requires a client certificate.
-{{if $dovecot_tls_cert_file}}tls_cert_file = {{$dovecot_tls_cert_file}}{{else}}#tls_cert_file ={{end}}
-{{if $dovecot_tls_key_file}}tls_key_file = {{$dovecot_tls_key_file}}{{else}}#tls_key_file ={{end}}
+{{if $devocot_ldap_tls_cert_file}}tls_cert_file = {{$devocot_ldap_tls_cert_file}}{{else}}#tls_cert_file ={{end}}
+{{if $devocot_ldap_tls_key_file}}tls_key_file = {{$devocot_ldap_tls_key_file}}{{else}}#tls_key_file ={{end}}
 # Valid values: never, hard, demand, allow, try
-{{if $dovecot_tls_require_cert}}tls_require_cert = {{$dovecot_tls_require_cert}}{{else}}#tls_require_cert ={{end}}
+{{if $devocot_ldap_tls_require_cert}}tls_require_cert = {{$devocot_ldap_tls_require_cert}}{{else}}#tls_require_cert ={{end}}
 
 # Use the given ldaprc path.
 #ldaprc_path =
@@ -88,7 +88,7 @@ dnpass = {{$dovecot_dnpass}}
 # The pass_filter is used to find the DN for the user. Note that the pass_attrs
 # is still used, only the password field is ignored in it. Before doing any
 # search, the binding is switched back to the default DN.
-{{if eq $dovecot_auth_bind "1"}}auth_bind = yes{{else}}#auth_bind = no{{end}}
+{{if eq $devocot_ldap_auth_bind "1"}}auth_bind = yes{{else}}#auth_bind = no{{end}}
 
 # If authentication binding is used, you can save one LDAP request per login
 # if users' DN can be specified with a common template. The template can use
@@ -111,13 +111,13 @@ dnpass = {{$dovecot_dnpass}}
 
 # LDAP base. %variables can be used here.
 # For example: dc=mail, dc=example, dc=org
-base = {{$dovecot_base}}
+base = {{$devocot_ldap_base}}
 
 # Dereference: never, searching, finding, always
 #deref = never
 
 # Search scope: base, onelevel, subtree
-{{if $dovecot_scope}}scope = {{$dovecot_scope}}{{else}}#scope = subtree{{end}}
+{{if $devocot_ldap_scope}}scope = {{$devocot_ldap_scope}}{{else}}#scope = subtree{{end}}
 
 # User attributes are given in LDAP-name=dovecot-internal-name list. The
 # internal names are:
@@ -128,14 +128,14 @@ base = {{$dovecot_base}}
 #
 # There are also other special fields which can be returned, see
 # http://wiki2.dovecot.org/UserDatabase/ExtraFields
-{{if $dovecot_user_attrs}}user_attrs = {{$dovecot_user_attrs}}{{else}}#user_attrs = homeDirectory=home,uidNumber=uid,gidNumber=gid{{end}}
+{{if $devocot_ldap_user_attrs}}user_attrs = {{$devocot_ldap_user_attrs}}{{else}}#user_attrs = homeDirectory=home,uidNumber=uid,gidNumber=gid{{end}}
 
 # Filter for user lookup. Some variables can be used (see
 # http://wiki2.dovecot.org/Variables for full list):
 #   %u - username
 #   %n - user part in user@domain, same as %u if there's no domain
 #   %d - domain part in user@domain, empty if user there's no domain
-{{if $dovecot_user_filter}}user_filter = {{$dovecot_user_filter}}{{else}}#user_filter = (&(objectClass=posixAccount)(uid=%u)){{end}}
+{{if $devocot_ldap_user_filter}}user_filter = {{$devocot_ldap_user_filter}}{{else}}#user_filter = (&(objectClass=posixAccount)(uid=%u)){{end}}
 
 # Password checking attributes:
 #  user: Virtual user name (user@domain), if you wish to change the
@@ -143,7 +143,7 @@ base = {{$dovecot_base}}
 #  password: Password, may optionally start with {type}, eg. {crypt}
 # There are also other special fields which can be returned, see
 # http://wiki2.dovecot.org/PasswordDatabase/ExtraFields
-{{if $dovecot_pass_attrs}}pass_attrs = {{$dovecot_pass_attrs}}{{else}}#pass_attrs = uid=user,userPassword=password{{end}}
+{{if $devocot_ldap_pass_attrs}}pass_attrs = {{$devocot_ldap_pass_attrs}}{{else}}#pass_attrs = uid=user,userPassword=password{{end}}
 
 # If you wish to avoid two LDAP lookups (passdb + userdb), you can use
 # userdb prefetch instead of userdb ldap in dovecot.conf. In that case you'll
@@ -153,12 +153,21 @@ base = {{$dovecot_base}}
 #  homeDirectory=userdb_home,uidNumber=userdb_uid,gidNumber=userdb_gid
 
 # Filter for password lookups
-{{if $dovecot_pass_filter}}pass_filter = {{$dovecot_pass_filter}}{{else}}#pass_filter = (&(objectClass=posixAccount)(uid=%u)){{end}}
+{{if $devocot_ldap_pass_filter}}pass_filter = {{$devocot_ldap_pass_filter}}{{else}}#pass_filter = (&(objectClass=posixAccount)(uid=%u)){{end}}
 
 # Attributes and filter to get a list of all users
-{{if $dovecot_iterate_attrs}}iterate_attrs = {{$dovecot_iterate_attrs}}{{else}}#iterate_attrs = uid=user{{end}}
-{{if $dovecot_iterate_filter}}iterate_filter = {{$dovecot_iterate_filter}}{{else}}#iterate_filter = (objectClass=posixAccount){{end}}
+{{if $devocot_ldap_iterate_attrs}}iterate_attrs = {{$devocot_ldap_iterate_attrs}}{{else}}#iterate_attrs = uid=user{{end}}
+{{if $devocot_ldap_iterate_filter}}iterate_filter = {{$devocot_ldap_iterate_filter}}{{else}}#iterate_filter = (objectClass=posixAccount){{end}}
 
 # Default password scheme. "{scheme}" before password overrides this.
 # List of supported schemes is in: http://wiki2.dovecot.org/Authentication
-{{if $dovecot_default_pass_scheme}}default_pass_scheme = {{$dovecot_default_pass_scheme}}{{else}}#default_pass_scheme = CRYPT{{end}}
+{{if $devocot_ldap_default_pass_scheme}}default_pass_scheme = {{$devocot_ldap_default_pass_scheme}}{{else}}#default_pass_scheme = CRYPT{{end}}
+
+# By default all LDAP lookups are performed by the auth master process.
+# If blocking=yes, auth worker processes are used to perform the lookups.
+# Each auth worker process creates its own LDAP connection so this can
+# increase parallelism. With blocking=no the auth master process can
+# keep 8 requests pipelined for the LDAP connection, while with blocking=yes
+# each connection has a maximum of 1 request running. For small systems the
+# blocking=no is sufficient and uses less resources.
+#blocking = no
