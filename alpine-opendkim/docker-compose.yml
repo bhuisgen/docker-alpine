@@ -20,7 +20,8 @@ services:
             # template generic
             #
 
-            #- OPENDKIM_KEYTABLE=                   # opendkim key table file of signing keys
-            #- OPENDKIM_SIGNINGTABLE=               # opendkim table file for selecting signatures
-            #- OPENDKIM_EXTERNALIGNORELIST=         # opendkim ignore list file
-            #- OPENDKIM_INTERNALHOSTS=              # opendkim internal hosts file
+            #- OPENDKIM_KEYTABLE=                   # key table file of signing keys
+            #- OPENDKIM_SIGNINGTABLE=               # table file for selecting signatures
+            #- OPENDKIM_EXTERNALIGNORELIST=         # ignore list file
+            #- OPENDKIM_INTERNALHOSTS=              # internal hosts file
+            #- OPENDKIM_SYSLOG=1                    # enable syslog
