@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 if [ ! -z "${CONSUL_TEMPLATE}" ]; then
-    cp "/etc/container.d/templates/consul/${CONSUL_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+    cp "/etc/container.d/templates/consul/${CONSUL_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
 fi

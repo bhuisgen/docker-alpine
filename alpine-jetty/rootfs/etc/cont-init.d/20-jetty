@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${JETTY_TEMPLATE}" ]; then
+if [ ! -z "${JETTY_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
+    cp "/etc/container.d/templates/jetty/${JETTY_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
+elif [ ! -z "${JETTY_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
     cp "/etc/container.d/templates/jetty/${JETTY_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

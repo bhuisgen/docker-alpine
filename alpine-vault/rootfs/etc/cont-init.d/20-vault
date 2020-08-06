@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${VAULT_TEMPLATE}" ]; then
+if [ ! -z "${VAULT_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
+    cp "/etc/container.d/templates/vault/${VAULT_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
+elif [ ! -z "${VAULT_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
     cp "/etc/container.d/templates/vault/${VAULT_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

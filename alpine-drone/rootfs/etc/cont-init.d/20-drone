@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${DRONE_TEMPLATE}" ]; then
+if [ ! -z "${DRONE_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
+    cp "/etc/container.d/templates/drone/${DRONE_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
+elif [ ! -z "${DRONE_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
     cp "/etc/container.d/templates/drone/${DRONE_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi
