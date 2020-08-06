@@ -24,6 +24,7 @@
 smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
+maillog_file = /dev/stdout
 
 inet_interfaces = all
 inet_protocols = all

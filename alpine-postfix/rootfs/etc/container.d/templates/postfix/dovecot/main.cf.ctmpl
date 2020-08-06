@@ -27,6 +27,7 @@
 smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
+maillog_file = /dev/stdout
 
 inet_interfaces = all
 inet_protocols = all
@@ -79,7 +80,7 @@ smtp_sasl_tls_security_options = noanonymous
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
 smtpd_sasl_path =
-    {{if $postfix_sasl_servers}}{{range $server := $postfix_sasl_servers | split ","}}inet:{{$server}}{{end}}{{end}}
+    {{if $postfix_sasl_servers}}{{range $server := $postfix_sasl_servers | split ","}}{{$server}}{{end}}{{end}}
 smtpd_sasl_security_options = noanonymous
 
 smtpd_client_restrictions =

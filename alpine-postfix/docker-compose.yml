@@ -12,7 +12,6 @@ services:
             - "587:587"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /dev/log:/dev/log
             - postfix:/var/spool/postfix                    # volume for spool
             - mail:/var/mail                                # volume for mail
         environment:
@@ -30,11 +29,13 @@ services:
             #- POSTFIX_MYNETWORKS=                          # networks list
             #- POSTFIX_RELAYHOST=10.10.0.1                  # relay host
             #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
+            #- POSTFIX_SMTPTLSCAFILE=                       # SMTP client TLS CA certificate file
             #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
             #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
             #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=           # SMTP client TLS mandatory protocols
             #- POSTFIX_SMTPTLSPROTOCOLS=                    # SMTP client TLS protocols
             #- POSTFIX_SMTPTLSMANDATORYCIPHERS=             # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCAFILE=                      # SMTP server TLS CA certificate file
             #- POSTFIX_SMTPDTLSCERTFILE=                    # SMTP server TLS certificate file
             #- POSTFIX_SMTPDTLSKEYFILE=                     # SMTP server TLS certificate key
             #- POSTFIX_SMTPDTLSDH1024PARAMFILE=             # SMTP server TLS diffie-hellman parameters file
@@ -57,11 +58,13 @@ services:
             #- POSTFIX_MYNETWORKS=                          # networks list
             #- POSTFIX_RELAYHOST=                           # relay host
             #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
+            #- POSTFIX_SMTPTLSCAFILE=                       # SMTP client TLS CA certificate file
             #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
             #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
             #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=           # SMTP client TLS mandatory protocols
             #- POSTFIX_SMTPTLSPROTOCOLS=                    # SMTP client TLS protocols
             #- POSTFIX_SMTPTLSMANDATORYCIPHERS=             # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCAFILE=                      # SMTP server TLS CA certificate file
             #- POSTFIX_SMTPDTLSCERTFILE=                    # SMTP server TLS certificate file
             #- POSTFIX_SMTPDTLSKEYFILE=                     # SMTP server TLS certificate key
             #- POSTFIX_SMTPDTLSDH1024PARAMFILE=             # SMTP server TLS diffie-hellman parameters file
