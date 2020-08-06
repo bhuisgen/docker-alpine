@@ -25,4 +25,4 @@ COPY rootfs/ /
 ENTRYPOINT ["/init"]
 CMD []
 
-HEALTHCHECK CMD "[ $(s6-svstat /var/run/s6/services/rng | grep -c '^up ') == '1' ] || exit 1"
+HEALTHCHECK CMD "[ $(s6-svstat /var/run/s6/services/rng | grep -c '^up ') == '1' ]"
