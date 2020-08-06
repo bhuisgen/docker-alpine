@@ -5,4 +5,4 @@
 {{if $opendmarc_authservid}}AuthservID {{$opendmarc_authservid}}{{end}}
 {{if $opendmarc_ignoremailfrom}}IgnoreMailFrom {{$opendmarc_ignoremailfrom}}{{end}}
 {{if $opendmarc_rejectfailures}}RejectFailures {{$opendmarc_rejectfailures}}{{end}}
-{{if $opendmarc_syslog}}Syslog {{$opendmarc_syslog}}{{end}}
+{{if eq $opendmarc_syslog "1"}}Syslog {{$opendmarc_syslog}}{{end}}
