@@ -17,15 +17,14 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV CONSUL_VERSION=1.7.3
+ENV CONSUL_VERSION=1.8.1
 
-RUN apk add --update zip && \
+RUN apk add --no-cache --update zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip \
         -o /tmp/consul.zip && \
     unzip /tmp/consul.zip -d /bin && \
     rm /tmp/consul.zip && \
-    apk del zip && \
-    rm -rf /var/cache/apk/*
+    apk del zip
 
 COPY rootfs/ /
 
