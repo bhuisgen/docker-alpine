@@ -26,3 +26,5 @@ listener "tcp" {
 storage "file" {
   path = "/var/lib/vault"
 }
+
+disable_mlock = true

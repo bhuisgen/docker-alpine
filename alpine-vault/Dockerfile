@@ -17,21 +17,20 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV VAULT_VERSION=1.4.1
+ENV VAULT_VERSION=1.5.0
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \
     adduser -S -D -g "" -G vault -s /sbin/nologin -h /var/lib/vault vault && \
     chown vault:vault /var/lib/vault
 
-RUN apk add --update libcap zip && \
+RUN apk add --no-cache --update libcap zip && \
     curl -sSL https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
         -o /tmp/vault.zip && \
     unzip /tmp/vault.zip -d /bin && \
     setcap cap_ipc_lock=+ep $(readlink -f $(which vault)) && \
     rm /tmp/vault.zip && \
-    apk del libcap zip && \
-    rm -rf /var/cache/apk/*
+    apk del libcap zip
 
 COPY rootfs/ /
 

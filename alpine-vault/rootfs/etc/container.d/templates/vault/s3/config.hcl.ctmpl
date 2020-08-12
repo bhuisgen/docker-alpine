@@ -31,3 +31,5 @@ storage "mysql" {
   secret_key = "{{ $vault_storage_secret_key }}"
   bucket = "{{ $vault_storage_bucket }}"
 }
+
+disable_mlock = true

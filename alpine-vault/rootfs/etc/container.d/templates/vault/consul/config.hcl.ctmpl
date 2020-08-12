@@ -29,3 +29,5 @@ storage "consul" {
   address = "{{ $vault_storage_address }}"
   path = "{{ $vault_storage_path }}"
 }
+
+disable_mlock = true
