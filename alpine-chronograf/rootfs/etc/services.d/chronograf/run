@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 cd /usr/local/chronograf || exit 1
-exec s6-setuidgid chronograf /usr/local/chronograf/usr/bin/chronograf -b /var/lib/chronograf/chronograf-v1.db \
+exec s6-setuidgid chronograf /usr/local/chronograf/usr/bin/chronograf -r -b /var/lib/chronograf/chronograf-v1.db \
     ${CHRONOGRAF_OPTIONS}
