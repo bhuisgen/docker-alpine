@@ -68,9 +68,8 @@ smtpd_tls_session_cache_timeout = 3600s
 {{if $postfix_smtpd_tls_mandatory_protocols}}smtpd_tls_mandatory_protocols = {{$postfix_smtpd_tls_mandatory_protocols}}{{else}}smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
 {{if $postfix_smtpd_tls_protocols}}smtpd_tls_protocols = {{$postfix_smtpd_tls_protocols}}{{else}}smtpd_tls_protocols = !SSLv2, !SSLv3{{end}}
 {{if $postfix_smtpd_tls_mandatory_ciphers}}smtpd_tls_mandatory_ciphers = {{$postfix_smtpd_tls_mandatory_ciphers}}{{else}}smtpd_tls_mandatory_ciphers = medium{{end}}
-smtpd_tls_loglevel = 1
-
 {{if $postfix_tls_medium_cipherlist}}tls_medium_cipherlist = {{$postfix_tls_medium_cipherlist}}{{else}}tls_medium_cipherlist = aNULL:-aNULL:HIGH:MEDIUM:+RC4:@STRENGTH{{end}}
+smtpd_tls_loglevel = 1
 
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
@@ -82,6 +81,11 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path =
     {{if $postfix_sasl_servers}}{{range $server := $postfix_sasl_servers | split ","}}{{$server}}{{end}}{{end}}
 smtpd_sasl_security_options = noanonymous
+
+smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
+mua_client_restrictions = permit_sasl_authenticated, reject
+mua_sender_restrictions = permit_sasl_authenticated, reject
+mua_helo_restrictions = permit_mynetworks, reject_non_fqdn_hostname, reject_invalid_hostname, permit
 
 smtpd_client_restrictions =
         permit_mynetworks,
@@ -157,3 +161,8 @@ smtpd_helo_required = yes
 smtpd_delay_reject = yes
 smtpd_tls_auth_only = yes
 smtp_tls_note_starttls_offer = yes
+
+smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
+mua_client_restrictions = permit_sasl_authenticated, reject
+mua_sender_restrictions = permit_sasl_authenticated, reject
+mua_helo_restrictions = permit_mynetworks, reject_non_fqdn_hostname, reject_invalid_hostname, permit
