@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${GRAFANA_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/grafana/${GRAFANA_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${GRAFANA_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${GRAFANA_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/grafana/${GRAFANA_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${POSTGRESQL_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/postgresql/${POSTGRESQL_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${POSTGRESQL_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${POSTGRESQL_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/postgresql/${POSTGRESQL_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

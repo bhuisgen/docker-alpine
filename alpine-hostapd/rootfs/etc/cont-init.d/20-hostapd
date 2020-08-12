@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${HOSTAPD_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/hostapd/${HOSTAPD_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${HOSTAPD_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${HOSTAPD_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/hostapd/${HOSTAPD_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

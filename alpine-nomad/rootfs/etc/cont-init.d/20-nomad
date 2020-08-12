@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${NOMAD_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/nomad/${NOMAD_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${NOMAD_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${NOMAD_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/nomad/${NOMAD_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

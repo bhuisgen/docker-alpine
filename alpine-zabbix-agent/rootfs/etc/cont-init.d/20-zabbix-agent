@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${ZABBIX_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/zabbix-agent/${ZABBIX_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${ZABBIX_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${ZABBIX_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/zabbix-agent/${ZABBIX_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

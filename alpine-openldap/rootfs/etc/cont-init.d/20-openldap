@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${OPENLDAP_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/openldap/${OPENLDAP_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${OPENLDAP_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${OPENLDAP_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/openldap/${OPENLDAP_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi

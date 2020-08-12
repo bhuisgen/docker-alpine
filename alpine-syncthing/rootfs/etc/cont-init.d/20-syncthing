@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -z "${SYNCTHING_TEMPLATE}" ] && [ -z "${CONSUL_ADDR}" ]; then
-    cp "/etc/container.d/templates/syncthing/${SYNCTHING_TEMPLATE}"/*.hcl /etc/container.d/conf-init.d/
-elif [ ! -z "${SYNCTHING_TEMPLATE}" ] && [ ! -z "${CONSUL_ADDR}" ]; then
+if [ ! -z "${SYNCTHING_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/syncthing/${SYNCTHING_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
 fi
