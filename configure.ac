@@ -60,20 +60,14 @@ AC_CONFIG_FILES([
     alpine-build-yarn/Makefile
     alpine-ansible/Makefile
     alpine-archiva/Makefile
-    alpine-awscli/Makefile
     alpine-backuppc/Makefile
-    alpine-certbot/Makefile
-    alpine-cli53/Makefile
     alpine-consul/Makefile
     alpine-consul-cli/Makefile
     alpine-chronograf/Makefile
     alpine-dnsmasq/Makefile
     alpine-dovecot/Makefile
-    alpine-docker-compose/Makefile
-    alpine-docker-machine/Makefile
     alpine-docker-registry/Makefile
     alpine-drone/Makefile
-    alpine-drone-cli/Makefile
     alpine-elasticsearch/Makefile
     alpine-etcd/Makefile
     alpine-fabric/Makefile
@@ -87,7 +81,6 @@ AC_CONFIG_FILES([
     alpine-influxdb/Makefile
     alpine-java/Makefile
     alpine-jenkins/Makefile
-    alpine-jenkins-slave/Makefile
     alpine-jetty/Makefile
     alpine-kapacitor/Makefile
     alpine-kibana/Makefile
@@ -112,7 +105,6 @@ AC_CONFIG_FILES([
     alpine-postgresql/Makefile
     alpine-python/Makefile
     alpine-rabbitmq/Makefile
-    alpine-rabbitmqadmin/Makefile
     alpine-redis/Makefile
     alpine-rng/Makefile
     alpine-roundcubemail/Makefile

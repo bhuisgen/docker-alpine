@@ -22,20 +22,13 @@ SUBDIRS = \
     alpine-build-yarn \
     alpine-ansible \
     alpine-archiva \
-    alpine-awscli \
     alpine-backuppc \
-    alpine-certbot \
     alpine-chronograf \
-    alpine-cli53 \
     alpine-consul \
-    alpine-consul-cli \
     alpine-dnsmasq \
-    alpine-docker-compose \
-    alpine-docker-machine \
     alpine-docker-registry \
     alpine-dovecot \
     alpine-drone \
-    alpine-drone-cli \
     alpine-elasticsearch \
     alpine-etcd \
     alpine-fabric \
@@ -49,7 +42,6 @@ SUBDIRS = \
     alpine-influxdb \
     alpine-java \
     alpine-jenkins \
-    alpine-jenkins-slave \
     alpine-jetty \
     alpine-kapacitor \
     alpine-kibana \
@@ -74,7 +66,6 @@ SUBDIRS = \
     alpine-postgresql \
     alpine-python \
     alpine-rabbitmq \
-    alpine-rabbitmqadmin \
     alpine-redis \
     alpine-rng \
     alpine-roundcubemail \
