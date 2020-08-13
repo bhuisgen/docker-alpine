@@ -74,7 +74,6 @@ AC_CONFIG_FILES([
     alpine-docker-registry/Makefile
     alpine-drone/Makefile
     alpine-drone-cli/Makefile
-    alpine-dynamodb/Makefile
     alpine-elasticsearch/Makefile
     alpine-etcd/Makefile
     alpine-fabric/Makefile

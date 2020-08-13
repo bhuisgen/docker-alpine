@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-cd /usr/local/dynamodb-local || exit 1
-exec s6-setuidgid dynamodb-local /usr/bin/java ${JAVA_OPTS} -Djava.library.path=./DynamoDBLocal_lib \
-    -jar DynamoDBLocal.jar -dbPath /var/lib/dynamodb-local -sharedDb ${DYNAMODB_OPTIONS}

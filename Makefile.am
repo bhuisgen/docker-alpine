@@ -36,7 +36,6 @@ SUBDIRS = \
     alpine-dovecot \
     alpine-drone \
     alpine-drone-cli \
-    alpine-dynamodb \
     alpine-elasticsearch \
     alpine-etcd \
     alpine-fabric \
@@ -100,4 +99,3 @@ SUBDIRS = \
     alpine-zabbix-proxy-sqlite \
     alpine-zabbix-server-mysql \
     alpine-zabbix-server-pgsql
-    alpine-wordpress
