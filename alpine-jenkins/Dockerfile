@@ -11,10 +11,9 @@ RUN mkdir ${JENKINS_HOME} && \
     adduser -S -D -g "" -G jenkins -s /bin/sh -h ${JENKINS_HOME} jenkins && \
     chown jenkins:jenkins ${JENKINS_HOME}
 
-RUN apk add --update git openjdk8-jre openssh-client ttf-dejavu && \
+RUN apk add --no-cache --update git openjdk11-jre openssh-client ttf-dejavu && \
     mkdir /usr/local/jenkins && \
-    curl -sSL http://mirrors.jenkins-ci.org/war-stable/${JENKINS_VERSION}/jenkins.war -o /usr/local/jenkins/jenkins.war && \
-    rm -rf /var/cache/apk/*
+    curl -sSL http://mirrors.jenkins-ci.org/war-stable/${JENKINS_VERSION}/jenkins.war -o /usr/local/jenkins/jenkins.war
 
 COPY rootfs/ /
 

@@ -26,7 +26,7 @@ RUN mkdir /var/lib/tomcat && \
     adduser -S -D -g "" -G tomcat -s /bin/sh -h /var/lib/tomcat tomcat && \
     chown tomcat:tomcat /var/lib/tomcat
 
-RUN apk add --update openjdk8-jre tar && \
+RUN apk add --no-cache --update openjdk11-jre tar && \
     mkdir /usr/local/tomcat && \
     curl -sSL http://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz | \
         tar -xzo -C /usr/local/tomcat --strip-components 1 && \
@@ -35,8 +35,7 @@ RUN apk add --update openjdk8-jre tar && \
     chown -R tomcat:tomcat /usr/local/tomcat && \
     chmod 700 /usr/local/tomcat/conf && \
     chmod -R 400 /usr/local/tomcat/conf/* && \
-    apk del tar && \
-    rm -rf /var/cache/apk/*
+    apk del tar
 
 COPY rootfs/ /
 

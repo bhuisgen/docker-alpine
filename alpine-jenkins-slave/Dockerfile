@@ -10,8 +10,7 @@ RUN mkdir ${JENKINS_HOME} && \
     adduser -S -D -g "" -G jenkins -s /bin/sh -h ${JENKINS_HOME} jenkins && \
     chown jenkins:jenkins ${JENKINS_HOME}
 
-RUN apk add --update git docker openjdk8-jre openssh && \
-    rm -rf /var/cache/apk/*
+RUN apk add --no-cache --update git docker openjdk11-jre openssh
 
 COPY rootfs/ /
 
