@@ -42,6 +42,7 @@ services:
             #- DOVECOT_SSL=yes                                    # enable SSL/TLS (yes/no/required)
             #- DOVECOT_SSLCERT=                                   # TLS certificate file
             #- DOVECOT_SSLKEY=                                    # TLS key file
+            #- DOVECOT_SSLMINPROTOCOL=TLSv1                       # TLS minimal protocol
             #- DOVECOT_SSLCIPHERLIST=ALL:!LOW:!SSLv2:!EXP:!aNULL  # TLS cipher list
             #- DOVECOT_POSTMASTERADDRESS=                         # postmaster address
             #- DOVECOT_LDAPHOSTS=openldap:389                     # LDAP backend hosts
@@ -86,6 +87,7 @@ services:
             #- DOVECOT_SSL=yes                                    # enable SSL/TLS (yes/no/required)
             #- DOVECOT_SSLCERT=                                   # TLS certificate file
             #- DOVECOT_SSLKEY=                                    # TLS key file
+            #- DOVECOT_SSLMINPROTOCOL=TLSv1                       # TLS minimal protocol
             #- DOVECOT_SSLCIPHERLIST=ALL:!LOW:!SSLv2:!EXP:!aNULL  # TLS cipher list
             #- DOVECOT_POSTMASTERADDRESS=                         # postmaster address
             #- DOVECOT_SQLDRIVER=sqlite                           # SQL driver

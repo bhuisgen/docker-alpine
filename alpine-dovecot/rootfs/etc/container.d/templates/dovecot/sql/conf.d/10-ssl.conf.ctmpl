@@ -1,6 +1,7 @@
 {{- $dovecot_ssl := env "DOVECOT_SSL" -}}
 {{- $dovecot_ssl_cert := env "DOVECOT_SSLCERT" -}}
 {{- $dovecot_ssl_key := env "DOVECOT_SSLKEY" -}}
+{{- $dovecot_ssl_min_protocol := env "DOVECOT_SSLMINPROTOCOL" -}}
 {{- $dovecot_ssl_cipher_list := env "DOVECOT_SSLCIPHERLIST" -}}
 ##
 ## SSL settings
@@ -62,12 +63,13 @@ ssl_key = <{{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/s
 
 # Minimum SSL protocol version to use. Potentially recognized values are SSLv3,
 # TLSv1, TLSv1.1, and TLSv1.2, depending on the OpenSSL version used.
-#ssl_min_protocol = TLSv1
+{{if $dovecot_ssl_min_protocol}}ssl_min_protocol = {{$dovecot_ssl_min_protocol}}{{else}}#ssl_min_protocol = TLSv1{{end}}
 
 # SSL ciphers to use, the default is:
 #ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
 # To disable non-EC DH, use:
 #ssl_cipher_list = ALL:!DH:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
+{{if $dovecot_ssl_cipher_list}}ssl_cipher_list = {{$dovecot_ssl_cipher_list}}{{else}}#ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH{{end}}
 
 # Colon separated list of elliptic curves to use. Empty value (the default)
 # means use the defaults from the SSL library. P-521:P-384:P-256 would be an
