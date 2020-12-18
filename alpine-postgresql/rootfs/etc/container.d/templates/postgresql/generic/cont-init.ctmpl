@@ -10,9 +10,9 @@ POSTGRESQL_PASSWORD="{{$postgresql_password}}"
 POSTGRESQL_ADDRESS="{{$postgresql_address}}"
 
 if [ ! -f /var/lib/postgresql/.config ]; then
-    su -c "initdb /var/lib/postgresql/data" postgres
+    su -c "initdb ${PGDATA}" postgres
 
-    su -c "pg_ctl -D $PGDATA -o \"-c listen_addresses=''\" -w start" postgres
+    su -c "pg_ctl -D ${PGDATA} -o \"-c listen_addresses=''\" -w start" postgres
     sleep 5
 
     if [ ! -z "${POSTGRESQL_DATABASE}" ] && [ ! -z "${POSTGRESQL_USERNAME}" ] && [ ! -z "${POSTGRESQL_PASSWORD}" ] && \
@@ -30,6 +30,8 @@ if [ ! -f /var/lib/postgresql/.config ]; then
 
     su -c "pg_ctl -m fast -w stop" postgres
     sleep 5
+
+    mv /var/lib/postgresql/postgresql.conf /var/lib/postgresql/data/postgresql.conf
 
     touch /var/lib/postgresql/.config
 fi
