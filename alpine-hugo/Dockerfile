@@ -15,17 +15,16 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV HUGO_VERSION=0.69.2
+ENV HUGO_VERSION=0.79.1
 
-RUN apk add --update curl tar && \
+RUN apk add --update curl libc6-compat libstdc++ tar && \
     mkdir /usr/local/hugo && \
-    curl -sSL https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz | \
+    curl -sSL https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz | \
         tar -xzo -C /usr/local/bin && \
     apk del curl tar && \
     rm -rf /var/cache/apk/*
 
-
-ENTRYPOINT ["/usr/bin/hugo"]
+ENTRYPOINT ["/usr/local/bin/hugo"]
 CMD []
 
 EXPOSE 1313
