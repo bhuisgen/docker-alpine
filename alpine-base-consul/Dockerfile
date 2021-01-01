@@ -21,7 +21,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       fr.hbis.docker.base-consul.vendor="Boris HUISGEN" \
       fr.hbis.docker.base-consul.version="$BUILD_VERSION"
 
-ENV CONSULTEMPLATE_VERSION=0.25.0
+ENV CONSULTEMPLATE_VERSION=0.25.1
 
 RUN mkdir /var/lib/consul && \
     addgroup -g 500 -S consul && \
