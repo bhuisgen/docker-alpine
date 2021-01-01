@@ -5,6 +5,6 @@ services:
         image: bhuisgen/alpine-backup
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /srv/backups:/var/backups             # volume for storage
+            - /srv/backups:/var/backups             # storage volume
         environment:
             - ENV=local                             # environment name
