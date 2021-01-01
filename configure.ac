@@ -117,6 +117,7 @@ AC_CONFIG_FILES([
     alpine-telegraf/Makefile
     alpine-terraform/Makefile
     alpine-tomcat/Makefile
+    alpine-traefik/Makefile
     alpine-unbound/Makefile
     alpine-vault/Makefile
     alpine-wordpress/Makefile

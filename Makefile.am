@@ -78,6 +78,7 @@ SUBDIRS = \
     alpine-telegraf \
     alpine-terraform \
     alpine-tomcat \
+    alpine-traefik \
     alpine-unbound \
     alpine-vault \
     alpine-wordpress \

@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+    traefik:
+        image: bhuisgen/alpine-traefik
+        ports:
+            - "80:80"
+            - "443:443"
+            - "8080:8080"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - ENV=local             # environment name
+            - TRAEFIK_OPTIONS=      # traefik options
