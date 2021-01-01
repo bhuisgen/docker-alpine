@@ -1,0 +1,2 @@
+STORAGE_PATH=/srv/backups
+DATA_VOLUME=data

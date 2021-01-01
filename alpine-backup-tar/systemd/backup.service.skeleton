@@ -1,0 +1,14 @@
+[Unit]
+Description=backup service
+After=docker.service
+Requires=docker.service
+Wants=backup.timer
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/sysconfig/backup
+ExecStart=/usr/bin/docker run --rm -v /etc/localtime:/etc/localtime:ro -v ${STORAGE_PATH}:/var/backups \
+    -v ${DATA_VOLUME}:/data -e BACKUP_PATH=/var/backups -e BACKUP_DATA=/data bhuisgen/alpine-backup-tar:latest
+
+[Install]
+WantedBy=multi-user.target
