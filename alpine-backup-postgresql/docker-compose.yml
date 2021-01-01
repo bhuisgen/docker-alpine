@@ -1,14 +1,21 @@
 version: '3.7'
 
+networks:
+    default:
+        external:
+            name: backend
+
 services:
     backup-postgresql:
         image: bhuisgen/alpine-backup-postgresql
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /srv/backups:/var/backups             # volume for storage
+            - /srv/backups:/var/backups             # storage path
         environment:
             - ENV=local                             # environment name
-            #- BACKUP_PATH=/var/backups             # backup storage path
-            - BACKUP_POSTGRESQL_HOST=server         # server host (required)
-            - BACKUP_POSTGRESQL_PORT=5432           # server port (required)
-            #- BACKUP_POSTGRESQL_DATABASE=          # databases to backup (optional, comma delimited list)
+            #- BACKUP_PATH=/var/backups             # backup path
+            #- BACKUP_POSTGRESQL_HOST=postgresql    # server host
+            #- BACKUP_POSTGRESQL_PORT=5432          # server port
+            #- BACKUP_POSTGRESQL_DATABASE=          # database to backup (optional, comma delimited list)
+            #- BACKUP_ROTATE=1                      # enable backup files rotation
+            #- BACKUP_ROTATE_DAYS=4                 # number of backup to keep in days
