@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV TERRAFORM_VERSION=0.12.29
+ENV TERRAFORM_VERSION=1.0.11
 
 RUN apk add --update curl zip && \
     curl -sSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
