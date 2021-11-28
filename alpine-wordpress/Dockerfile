@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.12
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV WORDPRESS_VERSION=5.5
+ENV WORDPRESS_VERSION=5.6
 
 RUN apk add --update curl tar && \
     mkdir /var/www && \
