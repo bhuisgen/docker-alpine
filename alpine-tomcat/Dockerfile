@@ -18,7 +18,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.schema-version="1.0"
 
 ENV TOMCAT_MAJOR=9 \
-    TOMCAT_VERSION=9.0.33 \
+    TOMCAT_VERSION=9.0.55 \
     CATALINA_HOME=/usr/local/tomcat
 
 RUN mkdir /var/lib/tomcat && \
