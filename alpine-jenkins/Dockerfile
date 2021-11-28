@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV JENKINS_VERSION=2.176.3 \
+ENV JENKINS_VERSION=2.303.3 \
     JENKINS_HOME=/home/jenkins
 
 RUN mkdir ${JENKINS_HOME} && \
