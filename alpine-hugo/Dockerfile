@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV HUGO_VERSION=0.79.1
+ENV HUGO_VERSION=0.89.4
 
 RUN apk add --update curl libc6-compat libstdc++ tar && \
     mkdir /usr/local/hugo && \
