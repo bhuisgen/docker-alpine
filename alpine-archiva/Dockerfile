@@ -17,8 +17,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV ARCHIVA_VERSION=2.2.4 \
-    JETTY_VERSION=9.4.27.v20200227 \
+ENV ARCHIVA_VERSION=2.2.5 \
+    JETTY_VERSION=11.0.7 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/var/lib/jetty \
     JETTY_MODULES=ext,plus,http,deploy
@@ -30,7 +30,7 @@ RUN mkdir -p /var/lib/archiva && \
 
 RUN apk add --update openjdk11-jre unzip && \
     mkdir ${JETTY_HOME} && \
-    curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | \
+    curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/${JETTY_VERSION}/jetty-home-${JETTY_VERSION}.tar.gz | \
         tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
     rm -fr ${JETTY_HOME}/demo-base && \
     mkdir ${JETTY_BASE} && \
