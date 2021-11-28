@@ -16,7 +16,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.vendor="Boris HUISGEN" \
       org.label-schema.version="$BUILD_VERSION"
 
-ENV PORTAINER_VERSION=1.23.2 \
+ENV PORTAINER_VERSION=2.9.3 \
     PORTAINER_HOME=/var/lib/portainer
 
 RUN mkdir ${PORTAINER_HOME} && \
