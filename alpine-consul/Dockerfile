@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV CONSUL_VERSION=1.8.1
+ENV CONSUL_VERSION=1.10.4
 
 RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip \
