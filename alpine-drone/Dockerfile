@@ -17,23 +17,18 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV DRONE_VERSION=1.7.0 \
+ENV DRONE_VERSION=2.5.0 \
     GOPATH=/usr/local
 
 RUN mkdir /var/lib/drone && \
     addgroup -S drone && \
     adduser -S -D -g "" -G drone -s /sbin/nologin -h /var/lib/drone drone
 
-RUN apk add --update --no-cache --virtual .build-deps build-base go git && \
+RUN apk add --update --virtual .build-deps build-base go git && \
     mkdir -p /usr/local/src/github.com/drone/drone && \
     git clone -b v${DRONE_VERSION} https://github.com/drone/drone.git /usr/local/src/github.com/drone/drone && \
-    go get -u github.com/drone/drone-ui/dist && \
-    go get -u golang.org/x/net/context && \
-    go get -u golang.org/x/net/context/ctxhttp && \
-    go get -u github.com/golang/protobuf/proto && \
-    go get -u github.com/golang/protobuf/protoc-gen-go && \
-    go install github.com/drone/drone/cmd/drone-agent && \
-    go install github.com/drone/drone/cmd/drone-server && \
+    cd /usr/local/src/github.com/drone/drone && \
+    go install -trimpath -ldflags='-w -s' -tags "oss nolimit" github.com/drone/drone/cmd/drone-server && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/* /usr/local/src/*
 
