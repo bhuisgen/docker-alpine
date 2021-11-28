@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV SYNCTHING_VERSION=1.5.0
+ENV SYNCTHING_VERSION=1.18.4
 
 RUN curl -sSL https://github.com/syncthing/syncthing/releases/download/v${SYNCTHING_VERSION}/syncthing-linux-amd64-v${SYNCTHING_VERSION}.tar.gz | \
     tar -xzo -C /usr/local/bin --strip-components 1 syncthing-linux-amd64-v${SYNCTHING_VERSION}/syncthing
