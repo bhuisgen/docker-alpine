@@ -18,7 +18,6 @@ RUN apk add --update libc6-compat libgcc libstdc++ && \
     make install && \
     rm -rf /usr/src/ndppd /tmp/logger.patch && \
     apk del .build-deps && \
-    apk --no-cache add libc6-compat libgcc libstdc++ && \
     rm -rf var/cache/apk/*
 
 COPY rootfs/ /
