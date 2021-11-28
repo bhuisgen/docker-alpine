@@ -3,8 +3,8 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV SPARK_VERSION=2.4.5 \
-    HADOOP_VERSION=2.12 \
+ENV SPARK_VERSION=3.2.0 \
+    HADOOP_VERSION=3.2 \
     SPARK_HOME=/usr/local/spark
 
 RUN mkdir ${SPARK_HOME} && \
