@@ -10,14 +10,15 @@ RUN mkdir /var/lib/logstash && \
     adduser -S -D -g "" -G logstash -s /sbin/nologin -h /var/lib/logstash logstash && \
     chown logstash:logstash /var/lib/logstash
 
-RUN apk add --no-cache --update openjdk11-jre tar && \
+RUN apk add --update openjdk11-jre tar && \
     mkdir /usr/local/logstash && \
     curl -sSL https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}.tar.gz | \
         tar -xzo -C /usr/local/logstash --strip-components 1 && \
     rm -fr /usr/local/logstash/bin/*.bat && \
     mkdir /var/lib/logstash/data /var/lib/logstash/logs && \
     chown logstash:logstash /var/lib/logstash/data /var/lib/logstash/logs && \
-    apk del tar
+    apk del tar && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 

@@ -19,12 +19,13 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 
 ENV CONSUL_VERSION=1.8.1
 
-RUN apk add --no-cache --update zip && \
+RUN apk add --update zip && \
     curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip \
         -o /tmp/consul.zip && \
     unzip /tmp/consul.zip -d /bin && \
     rm /tmp/consul.zip && \
-    apk del zip
+    apk del zip && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 

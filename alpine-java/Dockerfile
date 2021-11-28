@@ -17,7 +17,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-RUN apk add --no-cache --update openjdk11-jre
+RUN apk add --update openjdk11-jre && \
+    rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/init"]
 CMD []

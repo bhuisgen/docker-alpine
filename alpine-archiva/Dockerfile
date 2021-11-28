@@ -28,7 +28,7 @@ RUN mkdir -p /var/lib/archiva && \
     adduser -S -D -g "" -G archiva -s /bin/sh -h /var/lib/archiva archiva && \
     chown archiva:archiva /var/lib/archiva
 
-RUN apk add --no-cache --update openjdk11-jre unzip && \
+RUN apk add --update openjdk11-jre unzip && \
     mkdir ${JETTY_HOME} && \
     curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | \
         tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
@@ -45,7 +45,8 @@ RUN apk add --no-cache --update openjdk11-jre unzip && \
     chown -R archiva:archiva ${JETTY_BASE} && \
     mkdir /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
     chown archiva:archiva /var/lib/archiva/conf /var/lib/archiva/data /var/lib/archiva/logs /var/lib/archiva/temp && \
-    apk del unzip
+    apk del unzip && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 

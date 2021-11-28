@@ -27,14 +27,15 @@ RUN mkdir /var/lib/jetty && \
     adduser -S -D -g "" -G jetty -s /bin/sh -h /var/lib/jetty jetty && \
     chown jetty:jetty /var/lib/jetty
 
-RUN apk add --no-cache --update openjdk11-jre && \
+RUN apk add --update openjdk11-jre && \
     mkdir ${JETTY_HOME} && \
     curl -sSL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${JETTY_VERSION}/jetty-distribution-${JETTY_VERSION}.tar.gz | \
         tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
     rm -fr ${JETTY_HOME}/demo-base && \
     cd ${JETTY_BASE} && \
     s6-setuidgid jetty java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES} && \
-    chown -R jetty:jetty ${JETTY_BASE}
+    chown -R jetty:jetty ${JETTY_BASE} && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 

@@ -24,7 +24,7 @@ RUN mkdir /var/lib/elasticsearch && \
     adduser -S -D -g "" -G elasticsearch -s /sbin/nologin -h /var/lib/elasticsearch elasticsearch && \
     chown elasticsearch:elasticsearch /var/lib/elasticsearch
 
-RUN apk add --no-cache --update openjdk11-jre tar && \
+RUN apk add --update openjdk11-jre tar && \
     mkdir /usr/local/elasticsearch && \
     curl -sSL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}-linux-x86_64.tar.gz | \
         tar -xzo -C /usr/local/elasticsearch --strip-components 1 && \
@@ -33,7 +33,8 @@ RUN apk add --no-cache --update openjdk11-jre tar && \
     chown elasticsearch:elasticsearch /var/lib/elasticsearch/data /var/lib/elasticsearch/plugins \
         /var/lib/elasticsearch/tmp && \
     chown -R elasticsearch:elasticsearch /usr/local/elasticsearch/config && \
-    apk del tar
+    apk del tar && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 
