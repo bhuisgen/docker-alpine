@@ -17,7 +17,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-RUN apk add --no-cache --update postfix postfix-ldap postfix-mysql postfix-pcre postfix-pgsql postfix-sqlite
+RUN apk add --update postfix postfix-ldap postfix-mysql postfix-pcre postfix-pgsql postfix-sqlite && \
+    rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
 
