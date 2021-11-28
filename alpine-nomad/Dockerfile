@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV NOMAD_VERSION=0.8.4
+ENV NOMAD_VERSION=1.2.2
 
 RUN mkdir /var/lib/nomad && \
     addgroup -S nomad && \
