@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV PHPMYADMIN_VERSION=5.0.2
+ENV PHPMYADMIN_VERSION=5.1.1
 
 RUN apk add --update curl tar && \
     mkdir /var/www && \
