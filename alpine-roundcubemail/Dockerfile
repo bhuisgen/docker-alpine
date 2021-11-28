@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV ROUNDCUBEMAIL_VERSION=1.4.3
+ENV ROUNDCUBEMAIL_VERSION=1.5.1
 
 RUN apk add --update curl tar && \
     mkdir /var/www && \
