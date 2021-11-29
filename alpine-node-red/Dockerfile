@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV NODERED_VERSION=1.0.6
+ENV NODERED_VERSION=2.1.3
 
 RUN apk add --update --no-cache nodejs npm build-base git python3 && \
     git clone -b ${NODERED_VERSION} https://github.com/node-red/node-red.git /usr/local/node-red && \
