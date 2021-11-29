@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV CHRONOGRAF_VERSION=1.8.5
+ENV CHRONOGRAF_VERSION=1.9.1
 
 RUN mkdir /var/lib/chronograf && \
     addgroup -S chronograf && \
