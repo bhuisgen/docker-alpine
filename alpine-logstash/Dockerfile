@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV LOGSTASH_VERSION=7.8.1
+ENV LOGSTASH_VERSION=7.15.2
 
 RUN mkdir /var/lib/logstash && \
     addgroup -S logstash && \
@@ -12,7 +12,7 @@ RUN mkdir /var/lib/logstash && \
 
 RUN apk add --update openjdk11-jre tar && \
     mkdir /usr/local/logstash && \
-    curl -sSL https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}.tar.gz | \
+    curl -sSL https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}-linux-x86_64.tar.gz | \
         tar -xzo -C /usr/local/logstash --strip-components 1 && \
     rm -fr /usr/local/logstash/bin/*.bat && \
     mkdir /var/lib/logstash/data /var/lib/logstash/logs && \
