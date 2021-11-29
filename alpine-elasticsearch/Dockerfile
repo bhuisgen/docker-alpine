@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV ELASTICSEARCH_VERSION=7.7.0
+ENV ELASTICSEARCH_VERSION=7.15.2
 
 RUN mkdir /var/lib/elasticsearch && \
     addgroup -S elasticsearch && \
