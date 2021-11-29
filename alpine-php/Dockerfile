@@ -17,9 +17,9 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-RUN mkdir /var/www && \
-    addgroup -g 82 -S www-data && \
-    adduser -u 82 -S -D -g "" -G www-data www-data
+RUN mkdir -p /var/www && \
+    grep -q "^www-data$" /etc/group || addgroup -g 82 -S www-data && \
+    grep -q "^www-data$" /etc/passwd || adduser -u 82 -S -D -g "" -G www-data www-data
 
 RUN apk add --update php7 \
         php7-bcmath \
