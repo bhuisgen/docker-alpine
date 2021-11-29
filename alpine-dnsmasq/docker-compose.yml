@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
     dnsmasq:
@@ -31,4 +31,4 @@ services:
             #- DNSMASQ_DHCPNETMASK=255.255.255.0        # DHCP network mask
             #- DNSMASQ_DHCPROUTER=192.168.100.1         # DHCP gateway to push to clients
             #- DNSMASQ_DHCPDNSSERVER=192.168.100.1      # DHCP DNS server to push to clients
-            @- DNSMASQ_DHCPNTPSERVER=192.168.100.1      # DHCP NTP server to push to clients
+            #- DNSMASQ_DHCPNTPSERVER=192.168.100.1      # DHCP NTP server to push to clients

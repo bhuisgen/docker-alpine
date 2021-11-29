@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     nomad:
@@ -30,4 +30,3 @@ services:
             #- NOMAD_TLSCAFILE=                             # TLS CA certificate file
             #- NOMAD_TLSCERTFILE=                           # TLS server certificate file
             #- NOMAD_TLSKEYFILE=                            # TLS server certificate key file
-

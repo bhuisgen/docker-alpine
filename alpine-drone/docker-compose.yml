@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     drone:
@@ -14,7 +14,7 @@ services:
             - drone:/var/lib/drone                          # volume for data
         environment:
             - ENV=local                                     # environment name
-            #- DRONE_TEMPLATE=generic                        # configuration template
+            #- DRONE_TEMPLATE=generic                       # configuration template
 
             #
             # template generic

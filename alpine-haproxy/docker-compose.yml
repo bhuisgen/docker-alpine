@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     haproxy:
@@ -94,7 +94,6 @@ services:
             #- HAPROXY_BACKENDHTTPCHECKEXPECT=          # response validation ([!] <match> <pattern>)
             #- HAPROXY_BACKENDSERVERMAXCONN=            # maximum of connections allowed per server
             #- HAPROXY_BACKENDGZIP=0                    # enable gzip compression (backend)
-
 
             #
             # template loadbalancer-http

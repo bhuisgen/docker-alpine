@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     archiva:
@@ -12,7 +12,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
             - archiva:/var/lib/archiva              # volume for data
         environment:
-            - ENV=local                             # environment name
+            - ENV=local # environment name
             #- ARCHIVA_TEMPLATE=generic             # configuration template
 
             #
