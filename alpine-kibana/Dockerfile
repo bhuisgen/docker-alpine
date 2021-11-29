@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV KIBANA_VERSION=6.2.1
+ENV KIBANA_VERSION=7.15.2
 
 RUN mkdir /var/lib/kibana && \
     addgroup -S kibana && \
