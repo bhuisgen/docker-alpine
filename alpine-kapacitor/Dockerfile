@@ -3,7 +3,7 @@ ARG TAG
 FROM bhuisgen/alpine-base-consul:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV KAPACITOR_VERSION=1.5.6
+ENV KAPACITOR_VERSION=1.6.2
 
 RUN mkdir /var/lib/kapacitor && \
     addgroup -S kapacitor && \
