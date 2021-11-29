@@ -22,7 +22,7 @@ SUBDIRS = \
     alpine-build-yarn \
     alpine-ansible \
     alpine-archiva \
-    alpine-backuppc \
+	alpine-certbot \
     alpine-chronograf \
     alpine-consul \
     alpine-dnsmasq \
