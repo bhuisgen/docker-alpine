@@ -26,6 +26,7 @@ SUBDIRS = \
     alpine-chronograf \
     alpine-consul \
     alpine-dnsmasq \
+	alpine-docker \
     alpine-docker-registry \
     alpine-dovecot \
     alpine-drone \

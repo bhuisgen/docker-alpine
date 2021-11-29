@@ -66,6 +66,7 @@ AC_CONFIG_FILES([
     alpine-chronograf/Makefile
     alpine-dnsmasq/Makefile
     alpine-dovecot/Makefile
+    alpine-docker/Makefile
     alpine-docker-registry/Makefile
     alpine-drone/Makefile
     alpine-elasticsearch/Makefile
