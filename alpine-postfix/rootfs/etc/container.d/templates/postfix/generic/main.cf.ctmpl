@@ -44,7 +44,7 @@ recipient_canonical_maps = regexp:/etc/postfix/recipient_canonical
 relay_domains = hash:/etc/postfix/relay_domains
 transport_maps = hash:/etc/postfix/transport
 
-smtp_tls_security_level = may
+smtp_tls_security_level = encrypt
 {{if $postfix_smtp_tls_CAfile}}smtp_tls_CAfile = {{$postfix_smtp_tls_CAfile}}{{end}}
 {{if $postfix_smtp_tls_cert_file}}smtp_tls_cert_file = {{$postfix_smtp_tls_cert_file}}{{end}}
 {{if $postfix_smtp_tls_key_file}}smtp_tls_key_file = {{$postfix_smtp_tls_key_file}}{{end}}
@@ -53,9 +53,12 @@ smtp_tls_session_cache_timeout = 3600s
 {{if $postfix_smtp_tls_mandatory_protocols}}smtp_tls_mandatory_protocols = {{$postfix_smtp_tls_mandatory_protocols}}{{else}}smtp_tls_mandatory_protocols = !SSLv2, !SSLv3{{end}}
 {{if $postfix_smtp_tls_protocols}}smtp_tls_protocols = {{$postfix_smtp_tls_protocols}}{{else}}smtp_tls_protocols = !SSLv2, !SSLv3{{end}}
 {{if $postfix_smtp_tls_mandatory_ciphers}}smtp_tls_mandatory_ciphers = {{$postfix_smtp_tls_mandatory_ciphers}}{{else}}smtp_tls_mandatory_ciphers = medium{{end}}
+smtp_tls_ciphers = high
+smtp_tls_mandatory_exclude_ciphers = MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL
+smtp_tls_exclude_ciphers = MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL
 smtp_tls_loglevel = 1
 
-smtpd_tls_security_level = may
+smtpd_tls_security_level = encrypt
 {{if $postfix_smtpd_tls_CAfile}}smtpd_tls_CAfile = {{$postfix_smtpd_tls_CAfile}}{{end}}
 {{if $postfix_smtpd_tls_cert_file}}smtpd_tls_cert_file = {{$postfix_smtpd_tls_cert_file}}{{end}}
 {{if $postfix_smtpd_tls_key_file}}smtpd_tls_key_file = {{$postfix_smtpd_tls_key_file}}{{end}}
@@ -66,6 +69,9 @@ smtpd_tls_session_cache_timeout = 3600s
 {{if $postfix_smtpd_tls_protocols}}smtpd_tls_protocols = {{$postfix_smtpd_tls_protocols}}{{else}}smtpd_tls_protocols = !SSLv2, !SSLv3{{end}}
 {{if $postfix_smtpd_tls_mandatory_ciphers}}smtpd_tls_mandatory_ciphers = {{$postfix_smtpd_tls_mandatory_ciphers}}{{else}}smtpd_tls_mandatory_ciphers = medium{{end}}
 {{if $postfix_tls_medium_cipherlist}}tls_medium_cipherlist = {{$postfix_tls_medium_cipherlist}}{{else}}tls_medium_cipherlist = aNULL:-aNULL:HIGH:MEDIUM:+RC4:@STRENGTH{{end}}
+smtpd_tls_ciphers = high
+smtpd_tls_mandatory_exclude_ciphers = MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL
+smtpd_tls_exclude_ciphers = MD5, DES, ADH, RC4, PSD, SRP, 3DES, eNULL, aNULL
 smtpd_tls_loglevel = 1
 
 smtp_sasl_auth_enable = yes
@@ -73,14 +79,20 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_password
 smtp_sasl_security_options = noanonymous
 smtp_sasl_tls_security_options = noanonymous
 
-smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
-mua_client_restrictions = permit_sasl_authenticated, reject
-mua_sender_restrictions = permit_sasl_authenticated, reject
-mua_helo_restrictions = permit_mynetworks, permit
-smtpd_delay_reject = yes
-smtpd_helo_required = yes
-smtpd_helo_restrictions = permit_mynetworks permit
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtpd_client_restrictions =
+    permit_mynetworks,
+    reject_unauth_pipelining
+
+smtpd_helo_restrictions =
+    permit_mynetworks,
+    reject_unauth_pipelining
+
+smtpd_relay_restrictions =
+    permit_mynetworks,
+    reject_unauth_pipelining
+
+smtpd_data_restrictions =
+    reject_unauth_pipelining
 
 milter_default_action = accept
 milter_protocol = 6
@@ -88,3 +100,9 @@ smtpd_milters =
     {{if $postfix_opendkim_servers}}{{range $server := $postfix_opendkim_servers | split ","}}{{$server}}{{end}}{{end}}
     {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
 
+smtpd_helo_required = yes
+smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
+mua_client_restrictions = permit_sasl_authenticated, reject
+mua_sender_restrictions = permit_sasl_authenticated, reject
+mua_helo_restrictions = permit_mynetworks, permit
+compatibility_level = 2
