@@ -30,6 +30,7 @@ SUBDIRS = \
     alpine-docker-registry \
     alpine-dovecot \
     alpine-drone \
+    alpine-drone-cli \
     alpine-elasticsearch \
     alpine-etcd \
     alpine-fabric \

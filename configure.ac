@@ -70,6 +70,7 @@ AC_CONFIG_FILES([
     alpine-docker/Makefile
     alpine-docker-registry/Makefile
     alpine-drone/Makefile
+    alpine-drone-cli/Makefile
     alpine-elasticsearch/Makefile
     alpine-etcd/Makefile
     alpine-fabric/Makefile
