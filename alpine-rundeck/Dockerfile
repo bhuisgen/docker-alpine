@@ -17,7 +17,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV RUNDECK_VERSION=3.3.1-20200727 \
+ENV RUNDECK_VERSION=3.4.10-20220118 \
     RDECK_BASE=/home/rundeck \
     PATH=${PATH}:${RDECK_BASE}/tools/bin
 
@@ -27,7 +27,7 @@ RUN addgroup -S rundeck && \
 
 RUN apk add --update openjdk11-jre openssh-client && \
     cd ${RDECK_BASE} && \
-    curl -sSL http://dl.bintray.com/rundeck/rundeck-maven/rundeck-${RUNDECK_VERSION}.war -o rundeck.war && \
+    curl -sSL https://packagecloud.io/pagerduty/rundeck/packages/java/org.rundeck/rundeck-${RUNDECK_VERSION}.war/artifacts/rundeck-${RUNDECK_VERSION}.war/download -o rundeck.war && \
     s6-setuidgid rundeck java -jar rundeck.war --installonly && \
     apk del tar && \
     rm -rf /var/cache/apk/*
