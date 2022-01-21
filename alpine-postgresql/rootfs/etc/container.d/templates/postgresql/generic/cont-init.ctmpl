@@ -2,12 +2,16 @@
 {{- $postgresql_username := env "POSTGRESQL_USERNAME" -}}
 {{- $postgresql_password := env "POSTGRESQL_PASSWORD" -}}
 {{- $postgresql_address := env "POSTGRESQL_ADDRESS" -}}
+{{- $postgresql_createdb := env "POSTGRESQL_CREATEDB" -}}
+{{- $postgresql_allow_all := env "POSTGRESQL_ALLOWALL" -}}
 #!/usr/bin/with-contenv sh
 
 POSTGRESQL_DATABASE="{{$postgresql_database}}"
 POSTGRESQL_USERNAME="{{$postgresql_username}}"
 POSTGRESQL_PASSWORD="{{$postgresql_password}}"
 POSTGRESQL_ADDRESS="{{$postgresql_address}}"
+POSTGRESQL_CREATEDB="{{$postgresql_createdb}}"
+POSTGRESQL_ALLOWALL="{{$postgresql_allow_all}}"
 
 if [ ! -f /var/lib/postgresql/.config ]; then
     su -c "initdb ${PGDATA}" postgres
@@ -17,12 +21,22 @@ if [ ! -f /var/lib/postgresql/.config ]; then
 
     if [ ! -z "${POSTGRESQL_DATABASE}" ] && [ ! -z "${POSTGRESQL_USERNAME}" ] && [ ! -z "${POSTGRESQL_PASSWORD}" ] && \
         [ ! -z "${POSTGRESQL_ADDRESS}" ]; then
-
-        su -c "createuser ${POSTGRESQL_USERNAME}" postgres
+        if [ "${POSTGRESQL_CREATEDB}" == "1" ]; then
+            su -c "createuser -d ${POSTGRESQL_USERNAME}" postgres
+        else
+            su -c "createuser ${POSTGRESQL_USERNAME}" postgres
+        fi
         su -c "createdb -O${POSTGRESQL_USERNAME} ${POSTGRESQL_DATABASE}" postgres
         su -c "psql -c \"ALTER USER ${POSTGRESQL_USERNAME} WITH PASSWORD '${POSTGRESQL_PASSWORD}';\"" postgres
-        echo "host ${POSTGRESQL_DATABASE} ${POSTGRESQL_USERNAME} ${POSTGRESQL_ADDRESS} md5" >> \
-            "/var/lib/postgresql/data/pg_hba.conf"
+
+
+        if [ "${POSTGRESQL_ALLOWALL}" != "" ]; then
+            echo "host all ${POSTGRESQL_USERNAME} ${POSTGRESQL_ADDRESS} md5" >> \
+                "/var/lib/postgresql/data/pg_hba.conf"
+        else
+            echo "host ${POSTGRESQL_DATABASE} ${POSTGRESQL_USERNAME} ${POSTGRESQL_ADDRESS} md5" >> \
+                "/var/lib/postgresql/data/pg_hba.conf"
+        fi
 
         su -c "pg_ctl reload" postgres
         sleep 5
