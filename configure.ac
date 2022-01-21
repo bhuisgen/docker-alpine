@@ -90,6 +90,7 @@ AC_CONFIG_FILES([
     alpine-logstash/Makefile
     alpine-mailhog/Makefile
     alpine-mariadb/Makefile
+    alpine-n8n/Makefile
     alpine-ndppd/Makefile
     alpine-nginx/Makefile
     alpine-node-red/Makefile

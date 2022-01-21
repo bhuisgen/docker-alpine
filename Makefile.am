@@ -50,6 +50,7 @@ SUBDIRS = \
     alpine-logstash \
     alpine-mailhog \
     alpine-mariadb \
+	alpine-n8n \
     alpine-ndppd \
     alpine-nginx \
     alpine-node-red \
