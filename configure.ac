@@ -95,6 +95,7 @@ AC_CONFIG_FILES([
     alpine-node-red/Makefile
     alpine-nodejs/Makefile
     alpine-nomad/Makefile
+    alpine-odoo/Makefile
     alpine-opendkim/Makefile
     alpine-opendmarc/Makefile
     alpine-openldap/Makefile

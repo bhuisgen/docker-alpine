@@ -55,6 +55,7 @@ SUBDIRS = \
     alpine-node-red \
     alpine-nodejs \
     alpine-nomad \
+	alpine-odoo \
     alpine-opendkim \
     alpine-opendmarc \
     alpine-openldap \

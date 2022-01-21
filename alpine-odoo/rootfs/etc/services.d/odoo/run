@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+export USER=odoo
+export HOME=/var/lib/odoo
+
+cd /var/lib/odoo || exit 2
+exec s6-setuidgid odoo /usr/local/odoo/odoo-bin ${ODOO_OPTIONS}
