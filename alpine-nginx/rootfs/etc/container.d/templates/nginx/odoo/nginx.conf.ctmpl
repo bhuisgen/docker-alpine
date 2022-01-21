@@ -30,7 +30,8 @@
 {{- $nginx_status := env "NGINX_STATUS" -}}
 {{- $nginx_status_location := env "NGINX_STATUSLOCATION" -}}
 {{- $nginx_status_allow := env "NGINX_STATUSALLOW" -}}
-{{- $nginx_upstream_servers := env "NGINX_UPSTREAMSERVERS" -}}
+{{- $nginx_odoo_hosts := env "NGINX_ODOOHOSTS" -}}
+{{- $nginx_odoo_url := env "NGINX_ODOOURL" -}}
 {{- $nginx_server_name := env "NGINX_SERVERNAME" -}}
 {{- $nginx_root := env "NGINX_ROOT" -}}
 {{- $nginx_index := env "NGINX_INDEX" -}}
@@ -42,6 +43,15 @@
 {{- $nginx_proxy_send_timeout := env "NGINX_PROXYSENDTIMEOUT" -}}
 {{- $nginx_proxy_gzip := env "NGINX_PROXYGZIP" -}}
 {{- $nginx_proxy_access_log := env "NGINX_PROXYACCESSLOG" -}}
+{{- $nginx_proxy_cache_path_levels := env "NGINX_PROXYCACHEPATHLEVELS" -}}
+{{- $nginx_proxy_cache_path_keys_cache_size := env "NGINX_PROXYCACHEPATHKEYSCACHESIZE" -}}
+{{- $nginx_proxy_cache_path_max_size := env "NGINX_PROXYCACHEPATHMAXSIZE" -}}
+{{- $nginx_proxy_cache_path_inactive := env "NGINX_PROXYCACHEPATHINACTIVE" -}}
+{{- $nginx_proxy_cache_valid := env "NGINX_PROXYCACHEVALID" -}}
+{{- $nginx_proxy_cache_use_stale := env "NGINX_PROXYCACHEUSESTALE" -}}
+{{- $nginx_proxy_cache_revalidate := env "NGINX_PROXYCACHEREVALIDATE" -}}
+{{- $nginx_proxy_cache_min_uses := env "NGINX_PROXYCACHEMINUSES" -}}
+{{- $nginx_proxy_cache_lock := env "NGINX_PROXYCACHEVALIDDELAY" -}}
 {{- $nginx_upstream_method := env "NGINX_UPSTREAMMETHOD" -}}
 {{- $nginx_upstream_keepalive := env "NGINX_UPSTREAMKEEPALIVE" -}}
 {{- $nginx_upstream_weight := env "NGINX_UPSTREAMWEIGHT" -}}
@@ -107,12 +117,23 @@ http {
     include /etc/nginx/conf.d/*.conf;
     {{end}}
 
-    upstream app {
+    proxy_cache_path /var/cache/nginx{{if $nginx_proxy_cache_path_levels}} levels={{$nginx_proxy_cache_path_levels}}{{end}} keys_zone=proxy:{{if $nginx_proxy_cache_path_keys_cache_size}}{{$nginx_proxy_cache_path_keys_cache_size}}{{else}}1m{{end}}{{if $nginx_proxy_cache_path_max_size}} max_size={{$nginx_proxy_cache_path_max_size}}{{end}}{{if $nginx_proxy_cache_path_inactive}} inactive={{$nginx_proxy_cache_path_inactive}}{{end}};
+
+    upstream odoo {
         {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
         {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
 
-        {{range $server := $nginx_upstream_servers | split ","}}
-        server {{$server}}{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
+        {{range $host := $nginx_odoo_hosts | split ","}}
+        server {{$host}}:8069{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
+        {{end}}
+    }
+
+    upstream odoo-chat {
+        {{if $nginx_upstream_method}}{{$nginx_upstream_method}};{{end}}
+        {{if $nginx_upstream_keepalive}}keepalive {{$nginx_upstream_keepalive}};{{end}}
+
+        {{range $host := $nginx_odoo_hosts | split ","}}
+        server {{$host}}:8072{{if $nginx_upstream_weight}} weight={{$nginx_upstream_weight}}{{end}}{{if $nginx_upstream_max_conns}} max_conns={{$nginx_upstream_max_conns}}{{end}}{{if $nginx_upstream_max_fails}} max_fails={{$nginx_upstream_max_fails}}{{end}}{{if $nginx_upstream_fail_timeout}} fail_timeout={{$nginx_upstream_fail_timeout}}{{end}};
         {{end}}
     }
 
@@ -150,7 +171,7 @@ http {
         gzip_comp_level 6;
         gzip_buffers 16 8k;
         gzip_http_version 1.1;
-        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+        gzip_types text/css text/less text/plain text/xml application/json application/javascript application/xml application/xml+rss;
         {{end}}
 
         server_name {{if $nginx_server_name}}{{$nginx_server_name}}{{else}}""{{end}};
@@ -190,44 +211,35 @@ http {
         }
         {{end}}
 
-        location / {
-            try_files $uri @upstream;
+        proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
+        proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}720s{{end}};
+        proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}720s{{end}};
+        proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}720s{{end}};
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
 
-            {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
-            auth_basic {{$nginx_auth_basic}};
-            auth_basic_user_file {{$nginx_auth_basic_user_file}};
+        location / {
+            proxy_pass http://odoo;
+            {{if $nginx_odoo_url}}
+            proxy_redirect http://$host {{$nginx_odoo_url}};
+            {{else}}
+            proxy_redirect off;
             {{end}}
         }
 
-        location @upstream {
-            proxy_pass http://app;
-            proxy_buffering {{if $nginx_proxy_buffering}}{{$nginx_proxy_buffering}}{{else}}on{{end}};
-            proxy_connect_timeout {{if $nginx_proxy_connect_timeout}}{{$nginx_proxy_connect_timeout}}{{else}}60s{{end}};
-            proxy_read_timeout {{if $nginx_proxy_read_timeout}}{{$nginx_proxy_read_timeout}}{{else}}60s{{end}};
-            proxy_send_timeout {{if $nginx_proxy_send_timeout}}{{$nginx_proxy_send_timeout}}{{else}}60s{{end}};
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+        location /longpolling {
+            proxy_pass http://odoo-chat;
+        }
 
-            {{if eq $nginx_proxy_gzip "1"}}
-            gzip on;
-            gzip_disable "msie6";
-            gzip_vary on;
-            gzip_proxied any;
-            gzip_comp_level 6;
-            gzip_buffers 16 8k;
-            gzip_http_version 1.1;
-            gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-            {{end}}
-
-            {{if eq $nginx_proxy_access_log "1"}}
-            access_log /var/log/nginx/access.log upstream;
-            {{else}}
-            access_log off;
-            {{end}}
+        location ~* /web/static/ {
+            proxy_cache_valid 200 90m;
+            proxy_buffering on;
+            expires 864000;
+            proxy_pass http://odoo;
         }
     }
 }
