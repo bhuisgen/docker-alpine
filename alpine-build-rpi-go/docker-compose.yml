@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-    build-maven:
+    build-go:
         image: bhuisgen/alpine-build-rpi-go
         volumes:
             - /etc/localtime:/etc/localtime:ro

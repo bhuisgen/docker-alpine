@@ -16,7 +16,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.schema-version="1.0"
 
 RUN apk add --update ca-certificates libffi openssl python3 py3-pip && \
-    apk add --update --no-cache --virtual .build-deps build-base ca-certificates cargo libffi-dev openssl-dev python3-dev rust && \
+    apk add --virtual .build-deps build-base ca-certificates cargo libffi-dev openssl-dev python3-dev rust && \
     pip install fabric && \
     apk del .build-deps && \
     rm -rf /var/cache/apk/*

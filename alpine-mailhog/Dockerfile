@@ -7,7 +7,7 @@ RUN mkdir /var/lib/mailhog && \
     addgroup -S mailhog && \
     adduser -S -D -g "" -G mailhog -s /sbin/nologin -h /var/lib/mailhog mailhog
 
-RUN apk add --update --no-cache --virtual .build-deps go git musl-dev && \
+RUN apk add --update --virtual .build-deps go git musl-dev && \
     export GOPATH=/usr/local/src/ && \
     go get github.com/mailhog/MailHog && \
     mv /usr/local/src/bin/MailHog /usr/local/bin && \

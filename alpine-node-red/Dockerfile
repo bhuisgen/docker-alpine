@@ -5,7 +5,7 @@ LABEL maintainer="bhuisgen@hbis.fr"
 
 ENV NODERED_VERSION=2.1.3
 
-RUN apk add --update --no-cache nodejs npm build-base git python3 && \
+RUN apk add --update nodejs npm build-base git python3 && \
     git clone -b ${NODERED_VERSION} https://github.com/node-red/node-red.git /usr/local/node-red && \
     git clone https://github.com/node-red/node-red.git && \
     cd /usr/local/node-red && \
