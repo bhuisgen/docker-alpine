@@ -124,6 +124,7 @@ smtpd_recipient_restrictions =
     reject_rhsbl_reverse_client dbl.spamhaus.org,
     reject_rhsbl_sender dbl.spamhaus.org,
     reject_rbl_client zen.spamhaus.org,
+    reject_rbl_client dnsbl.sorbs.net,
     reject_rbl_client bl.spamcop.net
 
 smtpd_relay_restrictions =
@@ -160,10 +161,10 @@ mailbox_size_limit = 51200000
 message_size_limit = 20480000
 disable_vrfy_command = yes
 strict_rfc821_envelopes = yes
-minimal_backoff_time = 1000
-maximal_backoff_time = 4000
-smtp_connect_timeout = 10
-smtp_helo_timeout = 10
+minimal_backoff_time = 1000s
+maximal_backoff_time = 4000s
+smtp_connect_timeout = 10s
+smtp_helo_timeout = 10s
 smtpd_error_sleep_time = 0
 smtpd_helo_required = yes
 smtpd_tls_auth_only = yes
