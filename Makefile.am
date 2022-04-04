@@ -13,13 +13,12 @@ SUBDIRS = \
     alpine-build-make-packer \
     alpine-build-make-terraform \
     alpine-build-maven \
-    alpine-build-npm \
+    alpine-build-nodejs-npm \
+    alpine-build-nodejs-yarn \
     alpine-build-python \
     alpine-build-rpi \
-    alpine-build-rpi-go \
     alpine-build-rpi-make \
     alpine-build-rpi-python \
-    alpine-build-yarn \
     alpine-ansible \
     alpine-archiva \
 	alpine-certbot \

@@ -1,10 +1,10 @@
-IMAGE = bhuisgen/alpine-build-rpi-go
+IMAGE = bhuisgen/alpine-build-nodejs-npm
 
 clean-local:
 	docker rmi $(CLEAN_OPTIONS) $(IMAGE):$(TAG) || true
 
 build:
-	docker build $(BUILD_OPTIONS) --build-arg TAG=$(TAG) -t $(IMAGE):$(TAG) .
+	docker build $(BUILD_OPTIONS) --build-arg BASE=$(BASE) --build-arg TAG=$(TAG) -t $(IMAGE):$(TAG) .
 
 pull:
 	docker pull $(PULL_OPTIONS) $(IMAGE):$(TAG)

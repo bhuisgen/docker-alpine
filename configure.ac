@@ -58,13 +58,12 @@ AC_CONFIG_FILES([
     alpine-build-make-packer/Makefile
     alpine-build-make-terraform/Makefile
     alpine-build-maven/Makefile
+    alpine-build-nodejs-npm/Makefile
+    alpine-build-nodejs-yarn/Makefile
     alpine-build-python/Makefile
-    alpine-build-npm/Makefile
     alpine-build-rpi/Makefile
-    alpine-build-rpi-go/Makefile
     alpine-build-rpi-make/Makefile
     alpine-build-rpi-python/Makefile
-    alpine-build-yarn/Makefile
     alpine-ansible/Makefile
     alpine-archiva/Makefile
     alpine-backuppc/Makefile
