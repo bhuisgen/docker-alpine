@@ -1,3 +1,4 @@
+ARG BASE
 ARG TAG
 
 FROM bhuisgen/alpine-base:${TAG}

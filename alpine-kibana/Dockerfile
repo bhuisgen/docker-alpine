@@ -1,6 +1,7 @@
+ARG BASE
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/${BASE}:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
 ENV KIBANA_VERSION=7.15.2

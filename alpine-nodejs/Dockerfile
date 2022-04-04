@@ -1,6 +1,7 @@
+ARG BASE
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
+FROM bhuisgen/${BASE}:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
 ARG BUILD_DATE
@@ -18,7 +19,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-RUN apk add --update nodejs && \
+RUN apk add --update nodejs npm && \
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/init"]

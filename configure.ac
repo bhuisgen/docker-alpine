@@ -24,10 +24,17 @@ fi
 
 # Checks for library functions.
 
+AC_ARG_VAR(BASE, base of docker images)
+AC_MSG_CHECKING([base of docker images])
+if test "x${BASE}" = "x"; then
+    AC_SUBST(BASE, alpine-base-consul)
+fi
+AC_MSG_RESULT([${BASE}])
+
 AC_ARG_VAR(TAG, tag of docker images)
 AC_MSG_CHECKING([tag of docker images])
 if test "x${TAG}" = "x"; then
-    AC_SUBST(TAG, latest)
+    AC_SUBST(TAG, dev)
 fi
 AC_MSG_RESULT([${TAG}])
 
@@ -137,3 +144,9 @@ AC_CONFIG_FILES([
 ])
 
 AC_OUTPUT
+
+AC_MSG_RESULT([----------------------------------------------------------------
+
+Base image ... ${BASE}
+Tag .......... ${TAG}
+])
