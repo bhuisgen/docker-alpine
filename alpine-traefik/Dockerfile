@@ -18,7 +18,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV TRAEFIK_VERSION=2.5.4
+ENV TRAEFIK_VERSION=2.6.3
 
 RUN mkdir /var/lib/traefik && \
     addgroup -S traefik && \
