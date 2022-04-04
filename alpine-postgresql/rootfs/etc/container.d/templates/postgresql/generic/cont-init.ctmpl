@@ -45,7 +45,7 @@ if [ ! -f /var/lib/postgresql/.config ]; then
     su -c "pg_ctl -m fast -w stop" postgres
     sleep 5
 
-    mv /var/lib/postgresql/postgresql.conf /var/lib/postgresql/data/postgresql.conf
-
     touch /var/lib/postgresql/.config
 fi
+
+mv /var/lib/postgresql/.postgresql.conf /var/lib/postgresql/data/postgresql.conf

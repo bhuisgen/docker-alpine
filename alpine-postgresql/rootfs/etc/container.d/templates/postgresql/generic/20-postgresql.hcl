@@ -6,6 +6,6 @@ template {
 
 template {
   source      = "/etc/container.d/templates/postgresql/generic/postgresql.conf.ctmpl"
-  destination = "/var/lib/postgresql/data/postgresql.conf"
+  destination = "/var/lib/postgresql/.postgresql.conf"
   perms       = 0644
 }
