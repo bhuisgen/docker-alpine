@@ -92,7 +92,6 @@ smtpd_client_restrictions =
     permit_mynetworks,
     check_client_access hash:/etc/postfix/client_access,
     reject_unauth_pipelining
-    reject_unknown_client_hostname
 
 smtpd_helo_restrictions =
     permit_mynetworks,
