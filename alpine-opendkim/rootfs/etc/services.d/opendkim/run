@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv sh
 
-exec /usr/sbin/opendkim -f -x /etc/opendkim/opendkim.conf -u opendkim -P /var/run/opendkim/opendkim.pid -p inet:8891 \
-    ${OPENDKIM_OPTIONS}
+exec /usr/sbin/opendkim -f -x /etc/opendkim/opendkim.conf -u opendkim -P /var/run/opendkim/opendkim.pid \
+    -p inet:8891 -p inet6:8891 ${OPENDKIM_OPTIONS}
