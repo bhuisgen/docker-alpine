@@ -6,25 +6,25 @@ postconf -e inet_protocols=all
 
 newaliases
 postalias /etc/postfix/aliases
-postmap hash:/etc/postfix/canonical
-postmap hash:/etc/postfix/sender_canonical
-postmap hash:/etc/postfix/recipient_canonical
-postmap hash:/etc/postfix/generic
-postmap hash:/etc/postfix/relay_domains
-postmap hash:/etc/postfix/sasl_password
-postmap hash:/etc/postfix/transport
-postmap hash:/etc/postfix/virtual
+postmap lmdb:/etc/postfix/canonical
+postmap lmdb:/etc/postfix/sender_canonical
+postmap lmdb:/etc/postfix/recipient_canonical
+postmap lmdb:/etc/postfix/generic
+postmap lmdb:/etc/postfix/relay_domains
+postmap lmdb:/etc/postfix/sasl_password
+postmap lmdb:/etc/postfix/transport
+postmap lmdb:/etc/postfix/virtual
 
 touch /etc/postfix/client_access \
     /etc/postfix/helo_access \
     /etc/postfix/sender_access \
     /etc/postfix/recipient_access \
     /etc/postfix/rbl_access
-postmap hash:/etc/postfix/client_access
-postmap hash:/etc/postfix/helo_access
-postmap hash:/etc/postfix/sender_access
-postmap hash:/etc/postfix/recipient_access
-postmap hash:/etc/postfix/rbl_access
+postmap lmdb:/etc/postfix/client_access
+postmap lmdb:/etc/postfix/helo_access
+postmap lmdb:/etc/postfix/sender_access
+postmap lmdb:/etc/postfix/recipient_access
+postmap lmdb:/etc/postfix/rbl_access
 
 /usr/sbin/postfix start
 /usr/sbin/postfix stop
