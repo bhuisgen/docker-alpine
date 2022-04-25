@@ -18,8 +18,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV ARCHIVA_VERSION=2.2.5 \
-    JETTY_VERSION=11.0.7 \
+ENV ARCHIVA_VERSION=2.2.7 \
+    JETTY_VERSION=11.0.9 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/var/lib/jetty \
     JETTY_MODULES=ext,plus,http,deploy
@@ -37,7 +37,7 @@ RUN apk add --update openjdk11-jre unzip && \
     mkdir ${JETTY_BASE} && \
     chown archiva:archiva ${JETTY_BASE} && \
     cd ${JETTY_BASE} && \
-    s6-setuidgid archiva java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES} && \
+    s6-setuidgid archiva java -jar "${JETTY_HOME}/start.jar" --add-module=${JETTY_MODULES} && \
     curl -sSL http://www-eu.apache.org/dist/archiva/${ARCHIVA_VERSION}/binaries/apache-archiva-${ARCHIVA_VERSION}.war \
         -o /tmp/archiva.war && \
     unzip /tmp/archiva.war -d ${JETTY_BASE}/webapps/root && \
