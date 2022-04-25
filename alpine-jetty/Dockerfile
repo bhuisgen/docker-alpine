@@ -18,7 +18,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV JETTY_VERSION=11.0.7 \
+ENV JETTY_VERSION=11.0.9 \
     JETTY_HOME=/usr/local/jetty \
     JETTY_BASE=/var/lib/jetty \
     JETTY_MODULES=ext,plus,http,deploy
@@ -34,7 +34,7 @@ RUN apk add --update openjdk11-jre && \
         tar -xzo -C ${JETTY_HOME} --strip-components 1 && \
     rm -fr ${JETTY_HOME}/demo-base && \
     cd ${JETTY_BASE} && \
-    s6-setuidgid jetty java -jar "${JETTY_HOME}/start.jar" --add-to-start=${JETTY_MODULES} && \
+    s6-setuidgid jetty java -jar "${JETTY_HOME}/start.jar" --add-module=${JETTY_MODULES} && \
     chown -R jetty:jetty ${JETTY_BASE} && \
     rm -rf /var/cache/apk/*
 
