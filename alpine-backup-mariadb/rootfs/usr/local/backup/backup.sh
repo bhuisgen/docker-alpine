@@ -6,7 +6,7 @@ trap 'exit 2' ERR INT TERM
 [ -z "${BACKUP_MARIADB_HOST}" ] && BACKUP_MARIADB_HOST="mariadb"
 [ -z "${BACKUP_MARIADB_PORT}" ] && BACKUP_MARIADB_PORT=3306
 [ -z "${BACKUP_ROTATE}" ] && BACKUP_ROTATE=1
-[ -z "${BACKUP_ROTATE_DAYS}" ] && BACKUP_ROTATE_DAYS=4
+[ -z "${BACKUP_ROTATE_DAYS}" ] && BACKUP_ROTATE_DAYS=3
 
 backup_dir="${BACKUP_PATH}/$(date +%Y%m%d_%H%M%S)"
 

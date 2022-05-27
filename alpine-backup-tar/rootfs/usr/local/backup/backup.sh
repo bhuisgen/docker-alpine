@@ -5,7 +5,7 @@ trap 'exit 2' ERR INT TERM
 [ -z "${BACKUP_PATH}" ] && BACKUP_PATH="/var/backups"
 [ -z "${BACKUP_DATA}" ] && BACKUP_DATA="/data"
 [ -z "${BACKUP_ROTATE}" ] && BACKUP_ROTATE=1
-[ -z "${BACKUP_ROTATE_DAYS}" ] && BACKUP_ROTATE_DAYS=4
+[ -z "${BACKUP_ROTATE_DAYS}" ] && BACKUP_ROTATE_DAYS=3
 
 backup_dir="${BACKUP_PATH}/$(date +%Y%m%d_%H%M%S)"
 

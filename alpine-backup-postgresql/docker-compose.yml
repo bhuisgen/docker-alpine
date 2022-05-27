@@ -18,4 +18,4 @@ services:
             #- BACKUP_POSTGRESQL_PORT=5432          # server port
             #- BACKUP_POSTGRESQL_DATABASE=          # database to backup (optional, comma delimited list)
             #- BACKUP_ROTATE=1                      # enable backup files rotation
-            #- BACKUP_ROTATE_DAYS=4                 # number of backup to keep in days
+            #- BACKUP_ROTATE_DAYS=3                 # number of backup to keep in days
