@@ -1,22 +1,23 @@
 #!/usr/bin/with-contenv sh
 
-postconf -e smtputf8_enable=no
-postconf -e inet_interfaces=all
-postconf -e inet_protocols=all
+if [ ! -f /var/lib/postfix/.config ]; then
+    postconf -e smtputf8_enable=no inet_interfaces=all inet_protocols=all
 
-newaliases
-postalias /etc/postfix/aliases
+    newaliases
+    postalias /etc/postfix/aliases
 
-postmap lmdb:/etc/postfix/canonical
-postmap lmdb:/etc/postfix/sender_canonical
-postmap lmdb:/etc/postfix/recipient_canonical
-postmap lmdb:/etc/postfix/generic
-postmap lmdb:/etc/postfix/relay_domains
-postmap lmdb:/etc/postfix/sasl_password
-postmap lmdb:/etc/postfix/transport
-postmap lmdb:/etc/postfix/virtual
+    postmap \
+        lmdb:/etc/postfix/canonical \
+        lmdb:/etc/postfix/sender_canonical \
+        lmdb:/etc/postfix/recipient_canonical \
+        lmdb:/etc/postfix/generic \
+        lmdb:/etc/postfix/relay_domains \
+        lmdb:/etc/postfix/sasl_password \
+        lmdb:/etc/postfix/transport \
+        lmdb:/etc/postfix/virtual
 
-/usr/sbin/postfix start
-/usr/sbin/postfix stop
+    /usr/sbin/postfix start
+    /usr/sbin/postfix stop
 
-touch /var/spool/postfix/config
+    touch /var/lib/postfix/.config
+fi

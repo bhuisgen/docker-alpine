@@ -4,7 +4,6 @@
 {{- $postfix_mydestination := env "POSTFIX_MYDESTINATION" -}}
 {{- $postfix_mynetworks := env "POSTFIX_MYNETWORKS" -}}
 {{- $postfix_relayhost := env "POSTFIX_RELAYHOST" -}}
-{{- $postfix_relaydomains := env "POSTFIX_RELAYDOMAINS" -}}
 {{- $postfix_smtp_tls_CAfile := env "POSTFIX_SMTPTLSCAFILE" -}}
 {{- $postfix_smtp_tls_cert_file := env "POSTFIX_SMTPTLSCERTFILE" -}}
 {{- $postfix_smtp_tls_key_file := env "POSTFIX_SMTPTLSKEYFILE" -}}
@@ -35,7 +34,6 @@ smtpd_banner = $myhostname ESMTP
 {{if $postfix_mydestination}}mydestination = {{$postfix_mydestination}}{{end}}
 {{if $postfix_mynetworks}}mynetworks = {{$postfix_mynetworks}}{{end}}
 {{if $postfix_relayhost}}relayhost = {{$postfix_relayhost}}{{end}}
-{{if $postfix_relaydomains}}relay_domains = {{$postfix_relaydomains}}{{end}}
 
 alias_database = /etc/aliases
 alias_maps = lmdb:/etc/postfix/aliases
@@ -94,6 +92,11 @@ smtpd_relay_restrictions =
 smtpd_data_restrictions =
     reject_unauth_pipelining
 
+smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
+mua_client_restrictions = permit_sasl_authenticated, reject
+mua_sender_restrictions = permit_sasl_authenticated, reject
+mua_helo_restrictions = permit_mynetworks, permit
+
 milter_default_action = accept
 milter_protocol = 6
 smtpd_milters =
@@ -101,8 +104,6 @@ smtpd_milters =
     {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
 
 smtpd_helo_required = yes
-smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
-mua_client_restrictions = permit_sasl_authenticated, reject
-mua_sender_restrictions = permit_sasl_authenticated, reject
-mua_helo_restrictions = permit_mynetworks, permit
+disable_vrfy_command = yes
+
 compatibility_level = 3.6

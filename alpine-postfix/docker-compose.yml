@@ -28,7 +28,6 @@ services:
             #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
             #- POSTFIX_MYNETWORKS=                          # networks list
             #- POSTFIX_RELAYHOST=10.10.0.1                  # relay host
-            #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
             #- POSTFIX_SMTPTLSCAFILE=                       # SMTP client TLS CA certificate file
             #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
             #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
@@ -57,7 +56,6 @@ services:
             #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
             #- POSTFIX_MYNETWORKS=                          # networks list
             #- POSTFIX_RELAYHOST=                           # relay host
-            #- POSTFIX_RELAYDOMAINS=                        # domains allowed to relay to
             #- POSTFIX_SMTPTLSCAFILE=                       # SMTP client TLS CA certificate file
             #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
             #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
@@ -78,3 +76,28 @@ services:
             #- POSTFIX_SASLSERVERS=dovecot:12345            # dovecot SASL servers list
             #- POSTFIX_LMTPSERVERS=dovecot:24               # dovecot LMTP servers list
             #- POSTFIX_VIRTUALMAILBOXDOMAINS=               # virtual mailbox domains list
+
+            #
+            # relay
+            #
+
+            #- POSTFIX_MYHOSTNAME=$$HOSTNAME                # mail hostname
+            #- POSTFIX_MYDOMAIN=my.domain                   # mail domain name
+            #- POSTFIX_MYORIGIN=$mydomain                   # mail domain for origin
+            #- POSTFIX_MYDESTINATION=$myhostname, localhost.$mydomain, localhost    # mail hosts and domains
+            #- POSTFIX_MYNETWORKS=                          # networks list
+            #- POSTFIX_RELAYHOST=10.10.0.1                  # relay host
+            #- POSTFIX_SMTPTLSCAFILE=                       # SMTP client TLS CA certificate file
+            #- POSTFIX_SMTPTLSCERTFILE=                     # SMTP client TLS certificate file
+            #- POSTFIX_SMTPTLSKEYFILE=                      # SMTP client TLS certificate key
+            #- POSTFIX_SMTPTLSMANDATORYPROTOCOLS=           # SMTP client TLS mandatory protocols
+            #- POSTFIX_SMTPTLSPROTOCOLS=                    # SMTP client TLS protocols
+            #- POSTFIX_SMTPTLSMANDATORYCIPHERS=             # SMTP client TLS mandatory ciphers
+            #- POSTFIX_SMTPDTLSCAFILE=                      # SMTP server TLS CA certificate file
+            #- POSTFIX_SMTPDTLSCERTFILE=                    # SMTP server TLS certificate file
+            #- POSTFIX_SMTPDTLSKEYFILE=                     # SMTP server TLS certificate key
+            #- POSTFIX_SMTPDTLSDH1024PARAMFILE=             # SMTP server TLS diffie-hellman parameters file
+            #- POSTFIX_SMTPDTLSMANDATORYPROTOCOLS=          # SMTP server TLS mandatory protocols
+            #- POSTFIX_SMTPDTLSPROTOCOLS=                   # SMTP server TLS protocols
+            #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=            # SMTP server TLS mandatory ciphers
+            #- POSTFIX_TLSMEDIUMCIPHERLIST=                 # TLS medium cipher list
