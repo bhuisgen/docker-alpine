@@ -185,7 +185,7 @@ http {
             {{if $nginx_try_files}}
             try_files $uri {{$nginx_try_files}};
             {{else}}
-            try_files $uri $uri/ /index.cgi?$args;
+            try_files $uri $uri/ /index.cgi?$args =404;
             {{end}}
 
             {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}
