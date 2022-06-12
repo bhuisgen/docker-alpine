@@ -1,5 +1,6 @@
 SUBDIRS = \
     alpine-base \
+	alpine-base-confd \
     alpine-base-consul \
     alpine-backup \
     alpine-backup-mariadb \

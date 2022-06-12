@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if ! confd -onetime -backend ${CONFD_BACKEND} ${CONFD_OPTIONS}; then
+    exit 1
+fi

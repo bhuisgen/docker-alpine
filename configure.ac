@@ -45,6 +45,7 @@ AC_ARG_VAR(PULL_OPTIONS, pull options)
 AC_CONFIG_FILES([
     Makefile
     alpine-base/Makefile
+    alpine-base-confd/Makefile
     alpine-base-consul/Makefile
     alpine-backup/Makefile
     alpine-backup-mariadb/Makefile
