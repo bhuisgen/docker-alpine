@@ -61,6 +61,7 @@ SUBDIRS = \
     alpine-opendmarc \
     alpine-openldap \
     alpine-openssh \
+	alpine-openvpn \
     alpine-packer \
     alpine-perl \
     alpine-php \

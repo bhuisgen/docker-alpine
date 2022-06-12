@@ -1,0 +1,60 @@
+version: '3.8'
+
+volumes:
+    openvpn:
+
+services:
+    openvpn:
+        image: bhuisgen/alpine-openvpn
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - "1194:1194"
+            - "1194:1194/udp"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - openvpn:/etc/openvpn/config       # volume for configuration
+        environment:
+            - ENV=local                         # environment name
+            #- OPENVPN_TEMPLATE=server          # configuration template
+
+            #
+            # template server
+            #
+
+            #- OPENVPN_OPTIONS=                 # openvpn options
+            #- OPENVPN_DEV=tun                  # network device
+            #- OPENVPN_PROTO=udp                # network protocol
+            #- OPENVPN_TLSCA=ca.crt             # TLS CA file
+            #- OPENVPN_TLSCERT=client.crt       # TLS server certificate file
+            #- OPENVPN_TLSKEY=client.key        # TLS server private key file
+            #- OPENVPN_DH=dh4096.pem            # Diffie-Hellmann key file
+            #- OPENVPN_SERVER=                  # server network configuration
+            #- OPENVPN_SERVERBRIDGE=            # server bridge configuration
+            #- OPENVPN_PUSH=                    # network settings pushed to clients (coma separated list)
+            #- OPENVPN_KEEPALIVEPING=10         # keepalive ping interval (seconds)
+            #- OPENVPN_KEEPALIVELIMIT=120       # keepalive limit to declare peer as dead (seconds)
+            #- OPENVPN_TLSAUTHKEY=ta.key        # TLS auth key file
+            #- OPENVPN_CIPHER=AES-256-CBC       # cryptographic cipher
+            #- OPENVPN_COMPRESSION=0            # enable compression
+            #- OPENVPN_MAXCLIENTS=100           # maximum of allowed clients
+            #- OPENVPN_VERB=3                   # verbosity level
+            #- OPENVPN_MUTE=0                   # enable muting of repeated messages
+            #- OPENVPN_EXPLICITEXITNOTIFY=1     # enable notify of server restart to clients
+
+            #
+            # template client
+            #
+
+            #- OPENVPN_OPTIONS=                 # openvpn options
+            #- OPENVPN_DEV=tun                  # network device
+            #- OPENVPN_PROTO=udp                # network protocol
+            #- OPENVPN_REMOTE=1.2.3.4           # list of remotes (coma separated list)
+            #- OPENVPN_TLSCA=ca.crt             # TLS CA file
+            #- OPENVPN_TLSCERT=client.crt       # TLS client certificate file
+            #- OPENVPN_TLSKEY=client.key        # TLS client private key file
+            #- OPENVPN_TLSAUTHKEY=ta.key        # TLS auth key file
+            #- OPENVPN_CIPHER=AES-256-CBC       # cryptographic cipher
+            #- OPENVPN_VERB=3                   # verbosity level
+            #- OPENVPN_COMP=0                   # flag to enable compression
+            #- OPENVPN_MUTE=0                   # flag to enable muting of repeated messages
