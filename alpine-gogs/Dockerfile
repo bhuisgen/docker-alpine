@@ -19,7 +19,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV GOGS_VERSION=0.11.91 \
+ENV GOGS_VERSION=0.12.6 \
     GOPATH=/usr/local
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
