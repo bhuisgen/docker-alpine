@@ -4,7 +4,7 @@ ARG TAG
 FROM bhuisgen/${BASE}:${TAG}
 LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV SPARK_VERSION=3.2.0 \
+ENV SPARK_VERSION=3.2.1 \
     HADOOP_VERSION=3.2 \
     SPARK_HOME=/usr/local/spark
 
