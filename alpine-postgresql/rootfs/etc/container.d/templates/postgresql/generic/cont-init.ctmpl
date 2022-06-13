@@ -4,7 +4,7 @@
 {{- $postgresql_address := env "POSTGRESQL_ADDRESS" -}}
 {{- $postgresql_createdb := env "POSTGRESQL_CREATEDB" -}}
 {{- $postgresql_allow_all := env "POSTGRESQL_ALLOWALL" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 POSTGRESQL_DATABASE="{{$postgresql_database}}"
 POSTGRESQL_USERNAME="{{$postgresql_username}}"

@@ -12,7 +12,7 @@
 {{- $rabbitmq_cluster := env "RABBITMQ_CLUSTER" -}}
 {{- $rabbitmq_clusterwait := env "RABBITMQ_CLUSTERWAIT" -}}
 {{- $rabbitmq_clusterram := env "RABBITMQ_CLUSTERRAM" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 RABBITMQ_ERLANGCOOKIE="{{$rabbitmq_erlangcookie}}"
 RABBITMQ_CLUSTERNAME="{{$rabbitmq_clustername}}"

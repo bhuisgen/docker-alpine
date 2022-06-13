@@ -15,7 +15,7 @@
 {{- $odoo_smtp_ssl := env "ODOO_SMTPSSL" -}}
 {{- $odoo_smtp_ssl_certificate := env "ODOO_SMTPSSLCERTIFICATE" -}}
 {{- $odoo_smtp_ssl_private_key := env "ODOO_SMTPSSLPRIVATEKEY" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 ODOO_DB="{{$odoo_db}}"
 ODOO_DBHOST="{{$odoo_db_host}}"

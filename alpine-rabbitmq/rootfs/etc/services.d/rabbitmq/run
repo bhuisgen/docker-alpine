@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 export USER=rabbitmq
 export HOME=/var/lib/rabbitmq

@@ -1,3 +1,3 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 exec /usr/bin/rsyslogd -n ${RSYSLOG_OPTIONS}

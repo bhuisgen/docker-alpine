@@ -1,3 +1,3 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 exec /usr/sbin/slapd -F ${OPENLDAP_CONFIGDIR} -u ldap -g ldap -h "ldap:///" -d0

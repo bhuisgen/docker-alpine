@@ -8,7 +8,7 @@
 {{- $zabbix_jmxkeystorepassword := env "ZABBIX_JMXSSLKEYSTOREPASSWORD" -}}
 {{- $zabbix_jmxtruststore := env "ZABBIX_JMXSSLTRUSTSTORE" -}}
 {{- $zabbix_jmxtruststorepassword := env "ZABBIX_JMXSSLTRUSTSTOREPASSWORD" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 cd "/usr/share/zabbix/zabbix_java" || exit 1
 exec s6-setuidgid zabbix /usr/bin/java \

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ -z "${SPARK_MASTERURL}" ]; then
     export SPARK_OPTIONS="org.apache.spark.deploy.master.Master"

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 export USER=odoo
 export HOME=/var/lib/odoo

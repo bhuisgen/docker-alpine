@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 cd /usr/local/portainer || exit 1
 exec s6-setuidgid portainer /usr/local/portainer/portainer -d "${PORTAINER_HOME}" --template-file=./templates.json \

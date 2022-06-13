@@ -1,5 +1,5 @@
 {{- $openldap_config_dir := env "OPENLDAP_CONFIGDIR" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 OPENLDAP_CONFIGDIR={{$openldap_config_dir}}
 

@@ -4,7 +4,7 @@
 {{- $mariadb_username := env "MARIADB_USERNAME" -}}
 {{- $mariadb_password := env "MARIADB_PASSWORD" -}}
 {{- $mariadb_hostmask := env "MARIADB_HOSTMASK" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 MARIADB_ROOTPASSWORD="{{$mariadb_rootpassword}}"
 MARIADB_ROOTHOSTMASK="{{$mariadb_roothostmask}}"

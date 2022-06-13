@@ -1,5 +1,5 @@
 {{- $strongswanmonitor := env "STRONGSWANMONITOR" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 STRONGSWANMONITOR="{{$strongswanmonitor}}"
 
