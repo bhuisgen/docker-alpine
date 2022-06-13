@@ -9,29 +9,30 @@ ARG GIT_COMMIT
 ARG GIT_URL
 
 LABEL maintainer="bhuisgen@hbis.fr" \
-      org.label-schema.build-date="$BUILD_DATE" \
-      org.label-schema.name="alpine-rundeck" \
-      org.label-schema.description="alpine-rundeck image" \
-      org.label-schema.vcs-ref="$GIT_COMMIT" \
-      org.label-schema.vcs-url="$GIT_URL" \
-      org.label-schema.vendor="Boris HUISGEN" \
-      org.label-schema.version="$BUILD_VERSION" \
-      org.label-schema.schema-version="1.0"
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-rundeck" \
+    org.label-schema.description="alpine-rundeck image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
 
-ENV RUNDECK_VERSION=3.4.10-20220118 \
-    RDECK_BASE=/home/rundeck \
+ENV RDECK_BASE=/home/rundeck \
     PATH=${PATH}:${RDECK_BASE}/tools/bin
 
 RUN addgroup -S rundeck && \
     adduser -S -D -g "" -G rundeck -s /bin/sh -h ${RDECK_BASE} rundeck && \
-    chown rundeck:rundeck ${RDECK_BASE}
+    chown rundeck:rundeck ${RDECK_BASE} && \
+    chmod 700 ${RDECK_BASE}
 
-RUN apk add --update openjdk11-jre openssh-client && \
+ADD https://packagecloud.io/pagerduty/rundeck/packages/java/org.rundeck/rundeck-4.3.0-20220602.war/artifacts/rundeck-4.3.0-20220602.war/download /tmp/rundeck.war
+
+RUN apk add --update --no-cache --progress openjdk11-jre openssh-client && \
+    mv /tmp/rundeck.war ${RDECK_BASE} && \
+    chown rundeck:rundeck ${RDECK_BASE}/rundeck.war && \
     cd ${RDECK_BASE} && \
-    curl -sSL https://packagecloud.io/pagerduty/rundeck/packages/java/org.rundeck/rundeck-${RUNDECK_VERSION}.war/artifacts/rundeck-${RUNDECK_VERSION}.war/download -o rundeck.war && \
-    s6-setuidgid rundeck java -jar rundeck.war --installonly && \
-    apk del tar && \
-    rm -rf /var/cache/apk/*
+    /command/s6-setuidgid rundeck java -jar rundeck.war --installonly
 
 COPY rootfs/ /
 

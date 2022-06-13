@@ -9,24 +9,24 @@ ARG GIT_COMMIT
 ARG GIT_URL
 
 LABEL maintainer="bhuisgen@hbis.fr" \
-      org.label-schema.build-date="$BUILD_DATE" \
-      org.label-schema.name="alpine-portainer" \
-      org.label-schema.description="alpine-portainer image" \
-      org.label-schema.vcs-ref="$GIT_COMMIT" \
-      org.label-schema.vcs-url="$GIT_URL" \
-      org.label-schema.vendor="Boris HUISGEN" \
-      org.label-schema.version="$BUILD_VERSION"
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-portainer" \
+    org.label-schema.description="alpine-portainer image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION"
 
-ENV PORTAINER_VERSION=2.9.3 \
-    PORTAINER_HOME=/var/lib/portainer
-
-RUN mkdir ${PORTAINER_HOME} && \
+RUN mkdir /var/lib/portainer && \
     addgroup -S portainer && \
-    adduser -S -D -g "" -G portainer -s /bin/sh -h ${PORTAINER_HOME} portainer && \
-    chown portainer:portainer ${PORTAINER_HOME}
+    adduser -S -D -g "" -G portainer -s /bin/sh -h /var/lib/portainer portainer && \
+    chown portainer:portainer /var/lib/portainer && \
+    chmod 700 /var/lib/portainer
 
-RUN curl -sSL https://github.com/portainer/portainer/releases/download/${PORTAINER_VERSION}/portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz | \
-    tar -xzo -C /usr/local
+ADD https://github.com/portainer/portainer/releases/download/2.13.1/portainer-2.13.1-linux-amd64.tar.gz /tmp/portainer.tar.gz
+
+RUN tar -xzf /tmp/portainer.tar.gz -C /usr/local && \
+    rm /tmp/portainer.tar.gz
 
 COPY rootfs/ /
 

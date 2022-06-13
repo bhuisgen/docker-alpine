@@ -1,7 +1,7 @@
 template {
   source      = "/etc/container.d/templates/postgresql/generic/cont-init.ctmpl"
   destination = "/etc/cont-init.d/40-postgresql"
-  perms       = 0750
+  perms       = 0755
 }
 
 template {

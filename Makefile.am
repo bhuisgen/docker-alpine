@@ -86,4 +86,12 @@ SUBDIRS = \
     alpine-traefik \
     alpine-unbound \
     alpine-vault \
-    alpine-wordpress
+    alpine-wordpress \
+    alpine-zabbix-agent \
+    alpine-zabbix-frontend-php \
+    alpine-zabbix-proxy-mysql \
+    alpine-zabbix-proxy-pgsql \
+    alpine-zabbix-proxy-sqlite \
+    alpine-zabbix-server-mysql \
+    alpine-zabbix-server-pgsql
+

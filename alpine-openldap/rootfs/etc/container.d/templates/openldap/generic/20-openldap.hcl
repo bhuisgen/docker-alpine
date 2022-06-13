@@ -7,6 +7,6 @@ template {
 template {
   source      = "/etc/container.d/templates/openldap/generic/slapd.conf.ctmpl"
   destination = "/etc/openldap/slapd.conf"
-  command     = "/bin/chown root:ldap /etc/openldap/slapd.conf"
+  command     = "/bin/chown ldap:ldap /etc/openldap/slapd.conf"
   perms       = 0640
 }

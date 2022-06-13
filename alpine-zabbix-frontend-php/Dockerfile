@@ -15,12 +15,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
       org.label-schema.version="$BUILD_VERSION" \
       org.label-schema.schema-version="1.0"
 
-ENV ZABBIX_VERSION=3.4.7
-
-COPY packages/*.apk /root/
-RUN tar xzf /root/zabbix-frontend-php-${ZABBIX_VERSION}-*.apk -C / && \
-    ln -s /usr/share/webapps/zabbix/ /var/www && \
-    rm -f /root/*.apk
+RUN apk add --update --no-cache --progress zabbix-webif && \
+    ln -s /usr/share/webapps/zabbix/ /var/www
 
 ENTRYPOINT ["/bin/sh"]
 CMD []

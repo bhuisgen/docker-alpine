@@ -2,20 +2,35 @@ ARG BASE
 ARG TAG
 
 FROM bhuisgen/${BASE}:${TAG}
-LABEL maintainer="bhuisgen@hbis.fr"
 
-ENV GRAFANA_VERSION=8.2.5
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-grafana" \
+    org.label-schema.description="alpine-grafana image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
 
 RUN mkdir /var/lib/grafana && \
     addgroup -S grafana && \
-    adduser -S -D -g "" -G grafana -s /sbin/nologin -h /var/lib/grafana grafana
+    adduser -S -D -g "" -G grafana -s /sbin/nologin -h /var/lib/grafana grafana && \
+    chown grafana:grafana /var/lib/grafana && \
+    chmod 700 /var/lib/grafana
 
-RUN apk add --update libc6-compat tar && \
+ADD https://dl.grafana.com/oss/release/grafana-8.5.5.linux-amd64.tar.gz /tmp/grafana.tar.gz
+
+RUN apk add --update --no-cache --progress libc6-compat tar && \
     mkdir /usr/local/grafana && \
-    curl -sSL https://dl.grafana.com/oss/release/grafana-${GRAFANA_VERSION}.linux-amd64.tar.gz | \
-        tar -xzo -C /usr/local/grafana --strip-components 1 && \
-    apk del tar && \
-    rm -rf /var/cache/apk/*
+    tar -xzf /tmp/grafana.tar.gz -C /usr/local/grafana --strip-components 1 && \
+    rm /tmp/grafana.tar.gz && \
+    apk del tar
 
 COPY rootfs/ /
 

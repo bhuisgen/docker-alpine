@@ -1,17 +1,25 @@
+ARG BASE
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="bhuisgen@hbis.fr"
+FROM bhuisgen/${BASE}:${TAG}
 
-ENV ZABBIX_VERSION=3.4.7
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
 
-COPY packages/*.apk /root/
-RUN apk add --update --allow-untrusted \
-        /root/zabbix-${ZABBIX_VERSION}-*.apk \
-        /root/zabbix-proxy-pgsql-${ZABBIX_VERSION}-*.apk \
-        /root/zabbix-setup-${ZABBIX_VERSION}-*.apk && \
-    rm -rf /var/cache/apk/* && \
-    rm -f /root/*.apk
+LABEL maintainer="bhuisgen@hbis.fr" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-zabbix-proxy-pgsql" \
+    org.label-schema.description="alpine-zabbix-proxy-pgsql image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
+
+RUN apk add --update --no-cache --progress zabbix-pgsql zabbix-setup && \
+    rm /usr/sbin/zabbix_server
 
 COPY rootfs/ /
 

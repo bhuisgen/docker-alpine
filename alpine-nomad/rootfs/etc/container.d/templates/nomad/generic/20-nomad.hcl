@@ -13,6 +13,6 @@ template {
 template {
   source      = "/etc/container.d/templates/nomad/generic/config.hcl.ctmpl"
   destination = "/etc/nomad.d/config.json"
-  command     = "/bin/chown root:nomad /etc/nomad.d/config.hcl"
+  command     = "/bin/chown nomad:nomad /etc/nomad.d/config.hcl"
   perms       = 0640
 }

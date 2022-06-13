@@ -1,7 +1,7 @@
 template {
   source      = "/etc/container.d/templates/postfix/dovecot/cont-init.ctmpl"
   destination = "/etc/cont-init.d/40-postfix"
-  command     = "/bin/sh -c 'test -d /var/run/s6/services/postfix && postfix reload || true'"
+  command     = "/bin/sh -c 'test -d /run/service/postfix && postfix reload || true'"
   perms       = 0755
 }
 

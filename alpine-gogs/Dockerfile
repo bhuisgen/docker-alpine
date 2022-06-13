@@ -10,34 +10,34 @@ ARG GIT_COMMIT
 ARG GIT_URL
 
 LABEL maintainer="bhuisgen@hbis.fr" \
-      org.label-schema.build-date="$BUILD_DATE" \
-      org.label-schema.name="alpine-gogs" \
-      org.label-schema.description="alpine-gogs image" \
-      org.label-schema.vcs-ref="$GIT_COMMIT" \
-      org.label-schema.vcs-url="$GIT_URL" \
-      org.label-schema.vendor="Boris HUISGEN" \
-      org.label-schema.version="$BUILD_VERSION" \
-      org.label-schema.schema-version="1.0"
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-gogs" \
+    org.label-schema.description="alpine-gogs image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
 
-ENV GOGS_VERSION=0.12.6 \
-    GOPATH=/usr/local
+ENV GOPATH=/usr/local
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \
     adduser -D -g "" -G git -s /bin/bash -h /var/lib/gogs/git git && \
     echo git:* | chpasswd 2>/dev/null && \
-    chown git:git /var/lib/gogs/git
+    chown git:git /var/lib/gogs
+ADD https://dl.gogs.io/0.12.6/gogs_0.12.6_linux_amd64.tar.gz /tmp/gogs.tar.gz
 
-RUN apk add --update git libc6-compat linux-pam openssh tar && \
+RUN apk add --update --no-cache --progress git libc6-compat linux-pam openssh tar && \
     mkdir /usr/local/gogs && \
-    curl -sSL https://dl.gogs.io/${GOGS_VERSION}/gogs_${GOGS_VERSION}_linux_amd64.tar.gz | tar -xzo -C /usr/local/gogs --strip-components 1 && \
+    tar -xzf /tmp/gogs.tar.gz -C /usr/local/gogs --strip-components 1 && \
+    rm /tmp/gogs.tar.gz && \
     mkdir -p /var/lib/gogs/app/custom /var/lib/gogs/app/data /var/lib/gogs/app/log && \
     chown -R git:git /var/lib/gogs/app && \
     ln -sf /var/lib/gogs/app/custom /usr/local/gogs/custom && \
     ln -sf /var/lib/gogs/app/data /usr/local/gogs/data && \
     ln -sf /var/lib/gogs/app/log /usr/local/gogs/log && \
-    apk del tar && \
-    rm -rf /var/cache/apk/*
+    apk del tar
 
 COPY rootfs/ /
 

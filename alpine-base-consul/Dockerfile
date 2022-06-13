@@ -25,7 +25,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 RUN mkdir /var/lib/consul && \
     addgroup -g 500 -S consul && \
     adduser -u 500 -S -D -g "" -G consul -s /sbin/nologin -h /var/lib/consul consul && \
-    chown consul:consul /var/lib/consul
+    chown consul:consul /var/lib/consul && \
+    chmod 700 /var/lib/consul
 
 ADD https://releases.hashicorp.com/consul-template/0.29.0/consul-template_0.29.0_linux_amd64.zip /tmp/consul-template.zip
 

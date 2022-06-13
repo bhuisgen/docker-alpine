@@ -14,3 +14,6 @@ services:
             - etcd:/var/lib/etcd                        # volume for data
         environment:
             - ENV=local                                 # environment name
+            - ETCD_NAME=my_cluster                      # etcd cluster name
+            - ETCD_USER=etcd                            # etcd user
+            - ETCD_DATA_DIR=/var/lib/etcd               # data directory

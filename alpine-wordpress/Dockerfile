@@ -15,13 +15,13 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ENV WORDPRESS_VERSION=6.0
+ADD https://wordpress.org/wordpress-6.0.tar.gz /tmp/wordpress.tar.gz
 
-RUN apk add --update curl tar && \
+RUN apk add --update --no-cache --progress tar && \
     mkdir /var/www && \
-    curl -sSL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz | tar -xzo -C /var/www --strip-components 1 && \
-    apk del curl tar && \
-    rm -rf /var/cache/apk/*
+    tar -xzf /tmp/wordpress.tar.gz -C /var/www --strip-components 1 && \
+    rm /tmp/wordpress.tar.gz && \
+    apk del tar
 
 ENTRYPOINT ["/bin/sh"]
 CMD []
