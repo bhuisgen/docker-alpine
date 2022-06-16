@@ -25,7 +25,8 @@ RUN mkdir ${SPARK_HOME} && \
     adduser -S -D -g "" -G spark -s /bin/sh -h ${SPARK_HOME} spark && \
     chown spark:spark ${SPARK_HOME}
 
-ADD http://apache.mirrors.ovh.net/ftp.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz /tmp/spark-hadoop.tgz
+ADD http://apache.mirrors.ovh.net/ftp.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
+        /tmp/spark-hadoop.tgz
 
 RUN apk add --update --no-cache --progress openjdk11-jre tar && \
     tar -xzf /tmp/spark-hadoop.tgz -C ${SPARK_HOME} --strip-components 1 && \

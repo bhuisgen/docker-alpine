@@ -15,7 +15,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://github.com/mantl/consul-cli/releases/download/v0.3.1/consul-cli_0.3.1_linux_amd64.tar.gz /tmp/consul-cli.tar.gz
+ADD https://github.com/mantl/consul-cli/releases/download/v0.3.1/consul-cli_0.3.1_linux_amd64.tar.gz \
+        /tmp/consul-cli.tar.gz
 
 RUN apk add --update --no-cache --progress tar && \
     tar -xzf /tmp/consul-cli.tar.gz -C /usr/local/bin --strip-components 1 && \

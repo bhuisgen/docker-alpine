@@ -25,7 +25,8 @@ RUN mkdir -p /var/lib/rabbitmq && \
     chown rabbitmq:rabbitmq /var/lib/rabbitmq && \
     chmod 700 /var/lib/rabbitmq
 
-ADD https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.10.5/rabbitmq-server-generic-unix-3.10.5.tar.xz /tmp/rabbitmq.tar.xz
+ADD https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.10.5/rabbitmq-server-generic-unix-3.10.5.tar.xz \
+        /tmp/rabbitmq.tar.xz
 
 RUN apk add --update --no-cache --progress erlang tar xz && \
     mkdir /usr/local/rabbitmq && \

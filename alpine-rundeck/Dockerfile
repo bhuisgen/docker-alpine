@@ -26,7 +26,8 @@ RUN addgroup -S rundeck && \
     chown rundeck:rundeck ${RDECK_BASE} && \
     chmod 700 ${RDECK_BASE}
 
-ADD https://packagecloud.io/pagerduty/rundeck/packages/java/org.rundeck/rundeck-4.3.0-20220602.war/artifacts/rundeck-4.3.0-20220602.war/download /tmp/rundeck.war
+ADD https://packagecloud.io/pagerduty/rundeck/packages/java/org.rundeck/rundeck-4.3.0-20220602.war/artifacts/rundeck-4.3.0-20220602.war/download \
+        /tmp/rundeck.war
 
 RUN apk add --update --no-cache --progress openjdk11-jre openssh-client && \
     mv /tmp/rundeck.war ${RDECK_BASE} && \

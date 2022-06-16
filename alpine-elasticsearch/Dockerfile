@@ -24,7 +24,8 @@ RUN mkdir /var/lib/elasticsearch && \
     chown elasticsearch:elasticsearch /var/lib/elasticsearch && \
     chmod 700 /var/lib/elasticsearch
 
-ADD https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.2.2-linux-x86_64.tar.gz /tmp/elasticsearch.tar.gz
+ADD https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.2.2-linux-x86_64.tar.gz \
+        /tmp/elasticsearch.tar.gz
 
 RUN apk add --update --no-cache --progress openjdk11-jre tar && \
     mkdir /usr/local/elasticsearch && \

@@ -18,7 +18,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://github.com/syncthing/syncthing/releases/download/v1.20.2/syncthing-linux-amd64-v1.20.2.tar.gz /tmp/syncthing.tar.gz
+ADD https://github.com/syncthing/syncthing/releases/download/v1.20.2/syncthing-linux-amd64-v1.20.2.tar.gz \
+        /tmp/syncthing.tar.gz
 
 RUN tar -xzf /tmp/syncthing.tar.gz -C /tmp --strip-components 1 && \
     rm /tmp/syncthing.tar.gz && \

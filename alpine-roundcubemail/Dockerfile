@@ -15,7 +15,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://github.com/roundcube/roundcubemail/releases/download/1.5.1/roundcubemail-1.5.1-complete.tar.gz /tmp/roundcubemail.tar.gz
+ADD https://github.com/roundcube/roundcubemail/releases/download/1.5.1/roundcubemail-1.5.1-complete.tar.gz \
+        /tmp/roundcubemail.tar.gz
 
 RUN apk add --update --no-cache --progress tar && \
     mkdir /var/www && \

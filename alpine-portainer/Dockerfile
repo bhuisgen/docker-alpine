@@ -23,7 +23,8 @@ RUN mkdir /var/lib/portainer && \
     chown portainer:portainer /var/lib/portainer && \
     chmod 700 /var/lib/portainer
 
-ADD https://github.com/portainer/portainer/releases/download/2.13.1/portainer-2.13.1-linux-amd64.tar.gz /tmp/portainer.tar.gz
+ADD https://github.com/portainer/portainer/releases/download/2.13.1/portainer-2.13.1-linux-amd64.tar.gz \
+        /tmp/portainer.tar.gz
 
 RUN tar -xzf /tmp/portainer.tar.gz -C /usr/local && \
     rm /tmp/portainer.tar.gz
