@@ -12,3 +12,9 @@ services:
             - backuppc:/var/www                     # volume for web files
         environment:
             - ENV=local                             # environment name
+            #- BACKUPPC_TEMPLATE=generic            # configuration template
+
+            #
+            # template generic
+            #
+            #- BACKUPPC_INIT=1                      # enable default config initialization

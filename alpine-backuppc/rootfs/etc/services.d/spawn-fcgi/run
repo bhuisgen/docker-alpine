@@ -1,3 +1,0 @@
-#!/command/with-contenv sh
-
-exec s6-setuidgid backuppc /usr/bin/spawn-fcgi -d /var/www/htdocs -p 9000 -n /usr/bin/fcgiwrap
