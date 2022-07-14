@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+    ipfs:
+
+services:
+    ipfs:
+        image: bhuisgen/alpine-ipfs
+        ports:
+            - "4001:4001"                                   # Swarm TCP port
+            - "4001/udp:4001/udp"                           # Swarm UDP port
+            - "127.0.0.1:5001:5001"                         # Daemon API (restrict to own clients)
+            - "127.0.0.1:8080:8080"                         # Web gateway
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ipfs:/var/lib/ipfs                            # volume for data
+        environment:
+            - ENV=local                                     # environment name

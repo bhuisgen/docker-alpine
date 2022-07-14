@@ -42,6 +42,7 @@ SUBDIRS = \
     alpine-hostapd \
     alpine-hugo \
     alpine-influxdb \
+    alpine-ipfs \
     alpine-java \
     alpine-jenkins \
     alpine-jetty \

@@ -89,6 +89,7 @@ AC_CONFIG_FILES([
     alpine-hostapd/Makefile
     alpine-hugo/Makefile
     alpine-influxdb/Makefile
+    alpine-ipfs/Makefile
     alpine-java/Makefile
     alpine-jenkins/Makefile
     alpine-jetty/Makefile
