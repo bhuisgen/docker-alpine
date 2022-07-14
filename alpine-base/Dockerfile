@@ -19,7 +19,8 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     fr.hbis.docker.base.vendor="Boris HUISGEN" \
     fr.hbis.docker.base.version="$BUILD_VERSION"
 
-ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=1
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=1 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-x86_64.tar.xz /tmp
