@@ -81,6 +81,7 @@ AC_CONFIG_FILES([
     alpine-elasticsearch/Makefile
     alpine-etcd/Makefile
     alpine-fabric/Makefile
+    alpine-geth/Makefile
     alpine-git/Makefile
     alpine-go/Makefile
     alpine-gogs/Makefile

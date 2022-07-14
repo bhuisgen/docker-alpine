@@ -34,6 +34,7 @@ SUBDIRS = \
     alpine-elasticsearch \
     alpine-etcd \
     alpine-fabric \
+    alpine-geth \
     alpine-git \
     alpine-go \
     alpine-gogs \

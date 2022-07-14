@@ -1,0 +1,13 @@
+version: '3.8'
+
+volumes:
+    geth:
+
+services:
+    geth:
+        image: bhuisgen/alpine-geth
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - geth:/var/lib/geth                    # volume for data
+        env:
+            - GETH_OPTIONS=                         # startup options

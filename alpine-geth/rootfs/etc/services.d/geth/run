@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+set -f
+
+export USER=geth
+export HOME=/var/lib/geth
+
+cd /var/lib/geth || exit 2
+
+exec s6-setuidgid geth /usr/bin/geth --datadir /var/lib/geth ${GETH_OPTIONS}
