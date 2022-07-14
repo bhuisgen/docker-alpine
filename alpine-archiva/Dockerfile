@@ -24,7 +24,7 @@ ENV JETTY_HOME=/usr/local/jetty \
 
 RUN mkdir -p /var/lib/archiva && \
     addgroup -S archiva && \
-    adduser -S -D -g "" -G archiva -s /bin/sh -h /var/lib/archiva archiva && \
+    adduser -S -D -g "" -G archiva -s /sbin/nologin -h /var/lib/archiva archiva && \
     chown archiva:archiva /var/lib/archiva && \
     chmod 700 /var/lib/archiva
 

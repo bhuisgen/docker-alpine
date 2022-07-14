@@ -24,7 +24,7 @@ ENV JETTY_HOME=/usr/local/jetty \
 
 RUN mkdir /var/lib/jetty && \
     addgroup -S jetty && \
-    adduser -S -D -g "" -G jetty -s /bin/sh -h /var/lib/jetty jetty && \
+    adduser -S -D -g "" -G jetty -s /sbin/nologin -h /var/lib/jetty jetty && \
     chown jetty:jetty /var/lib/jetty
 
 ADD https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.9/jetty-home-11.0.9.tar.gz /tmp/jetty.tar.gz

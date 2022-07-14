@@ -22,7 +22,7 @@ ENV CATALINA_HOME=/usr/local/tomcat
 
 RUN mkdir /var/lib/tomcat && \
     addgroup -S tomcat && \
-    adduser -S -D -g "" -G tomcat -s /bin/sh -h /var/lib/tomcat tomcat && \
+    adduser -S -D -g "" -G tomcat -s /sbin/nologin -h /var/lib/tomcat tomcat && \
     chown tomcat:tomcat /var/lib/tomcat
 
 ADD http://archive.apache.org/dist/tomcat/tomcat-10/v10.0.22/bin/apache-tomcat-10.0.22.tar.gz /tmp/tomcat.tar.gz

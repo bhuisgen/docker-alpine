@@ -19,7 +19,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 
 RUN mkdir /var/lib/portainer && \
     addgroup -S portainer && \
-    adduser -S -D -g "" -G portainer -s /bin/sh -h /var/lib/portainer portainer && \
+    adduser -S -D -g "" -G portainer -s /sbin/nologin -h /var/lib/portainer portainer && \
     chown portainer:portainer /var/lib/portainer && \
     chmod 700 /var/lib/portainer
 

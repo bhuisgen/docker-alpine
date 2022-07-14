@@ -22,7 +22,7 @@ ENV RDECK_BASE=/home/rundeck \
     PATH=${PATH}:${RDECK_BASE}/tools/bin
 
 RUN addgroup -S rundeck && \
-    adduser -S -D -g "" -G rundeck -s /bin/sh -h ${RDECK_BASE} rundeck && \
+    adduser -S -D -g "" -G rundeck -s /bin/sh/nologin -h ${RDECK_BASE} rundeck && \
     chown rundeck:rundeck ${RDECK_BASE} && \
     chmod 700 ${RDECK_BASE}
 

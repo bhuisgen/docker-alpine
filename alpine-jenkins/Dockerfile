@@ -22,7 +22,7 @@ ENV JENKINS_HOME=/home/jenkins
 
 RUN mkdir ${JENKINS_HOME} && \
     addgroup -S jenkins && \
-    adduser -S -D -g "" -G jenkins -s /bin/sh -h ${JENKINS_HOME} jenkins && \
+    adduser -S -D -g "" -G jenkins -s /sbin/nologin -h ${JENKINS_HOME} jenkins && \
     chown jenkins:jenkins ${JENKINS_HOME} && \
     chmod 700 ${JENKINS_HOME}
 
@@ -30,7 +30,8 @@ ADD http://mirrors.jenkins-ci.org/war-stable/2.332.3/jenkins.war /tmp/jenkins.wa
 
 RUN apk add --update --no-cache --progress git openjdk11-jre openssh-client ttf-dejavu && \
     mkdir /usr/local/jenkins && \
-    mv /tmp/jenkins.war /usr/local/jenkins/jenkins.war
+    mv /tmp/jenkins.war /usr/local/jenkins/jenkins.war && \
+    chmod 644 /usr/local/jenkins/jenkins.war
 
 COPY rootfs/ /
 

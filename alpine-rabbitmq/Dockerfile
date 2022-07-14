@@ -21,7 +21,7 @@ ENV PATH=/usr/local/rabbitmq/sbin:$PATH
 
 RUN mkdir -p /var/lib/rabbitmq && \
     addgroup -S rabbitmq && \
-    adduser -S -D -g "" -G rabbitmq -s /bin/sh -h /var/lib/rabbitmq rabbitmq && \
+    adduser -S -D -g "" -G rabbitmq -s /sbin/nologin -h /var/lib/rabbitmq rabbitmq && \
     chown rabbitmq:rabbitmq /var/lib/rabbitmq && \
     chmod 700 /var/lib/rabbitmq
 
@@ -33,10 +33,10 @@ RUN apk add --update --no-cache --progress erlang tar xz && \
     tar -xJf /tmp/rabbitmq.tar.xz -C /usr/local/rabbitmq --strip-components 1 && \
     rm /tmp/rabbitmq.tar.xz && \
     mkdir -p /var/lib/rabbitmq/config /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins \
-    /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq && \
+        /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq && \
     chown rabbitmq:rabbitmq /var/lib/rabbitmq/config /var/lib/rabbitmq/mnesia /var/lib/rabbitmq/plugins \
-    /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq \
-    /var/run/rabbitmq && \
+        /var/lib/rabbitmq/schema /var/lib/rabbitmq/logs /var/lib/rabbitmq/hipe/ebin /var/run/rabbitmq \
+        /var/run/rabbitmq && \
     apk del --purge tar xz
 
 COPY rootfs/ /

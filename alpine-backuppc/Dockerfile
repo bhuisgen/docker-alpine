@@ -20,7 +20,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 
 RUN mkdir -p /var/lib/backuppc && \
     addgroup -S backuppc && \
-    adduser -S -D -g "" -G backuppc -s /bin/sh -h /var/lib/backuppc backuppc && \
+    adduser -S -D -g "" -G backuppc -s /sbin/nologin -h /var/lib/backuppc backuppc && \
     chown backuppc:backuppc /var/lib/backuppc
 
 ADD https://github.com/backuppc/backuppc/releases/download/4.4.0/BackupPC-4.4.0.tar.gz /tmp/backuppc.tar.gz

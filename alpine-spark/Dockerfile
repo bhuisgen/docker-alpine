@@ -22,7 +22,7 @@ ENV SPARK_HOME=/usr/local/spark
 
 RUN mkdir ${SPARK_HOME} && \
     addgroup -S spark && \
-    adduser -S -D -g "" -G spark -s /bin/sh -h ${SPARK_HOME} spark && \
+    adduser -S -D -g "" -G spark -s /sbin/nologin -h ${SPARK_HOME} spark && \
     chown spark:spark ${SPARK_HOME}
 
 ADD http://apache.mirrors.ovh.net/ftp.apache.org/dist/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \

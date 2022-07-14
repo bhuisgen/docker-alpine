@@ -8,21 +8,21 @@ services:
         image: bhuisgen/alpine-consul
         hostname: consul
         ports:
-            - "127.0.0.1:8500:8500" # HTTP port for localhost access from localhost
-            #- "127.0.0.1:8501:8501"        # HTTPS port for localhost access from localhost
-            - "169.254.0.1:8500:8500" # HTTP port for access from localhost and docker networks
-            #- "169.254.0.1:8501:8501"      # HTTPS port for access from localhost and docker networks
-            #- "169.254.0.1:8600:8600"      # DNS TCP port for DNS cache forwarder
-            #- "169.254.0.1:8600:8600/udp"  # DNS UDP port for DNS cache forwarder
+            - "127.0.0.1:8500:8500"                     # HTTP port for localhost access from localhost
+            #- "127.0.0.1:8501:8501"                    # HTTPS port for localhost access from localhost
+            - "169.254.0.1:8500:8500"                   # HTTP port for access from localhost and docker networks
+            #- "169.254.0.1:8501:8501"                  # HTTPS port for access from localhost and docker networks
+            #- "169.254.0.1:8600:8600"                  # DNS TCP port for DNS cache forwarder
+            #- "169.254.0.1:8600:8600/udp"              # DNS UDP port for DNS cache forwarder
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - consul:/var/lib/consul # volume for data
+            - consul:/var/lib/consul                    # volume for data
         environment:
-            - ENV=local # environment name
+            - ENV=local                                 # environment name
             #- VAULT_ADDR=                              # vault address
             #- VAULT_TOKEN=                             # vault token
             #- VAULT_SECRET=                            # vault secret path
-            - CONSUL_TEMPLATE=generic # configuration template
+            - CONSUL_TEMPLATE=generic                   # configuration template
 
             #
             # template generic
@@ -30,9 +30,9 @@ services:
 
             - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui # minimal server for development
             #- CONSUL_NODENAME=                         # node name
-            - CONSUL_DATACENTER=local # datacenter
+            - CONSUL_DATACENTER=local                   # datacenter
             #- CONSUL_DOMAIN=consul                     # domain name
-            - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA== # encryption key
+            - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==   # encryption key
             #- CONSUL_RAFTMULTIPLIER=5                  # raft mutliplier
             #- CONSUL_TLS=0                             # enable TLS
             #- CONSUL_TLSCAPATH=                        # TLS CA directory

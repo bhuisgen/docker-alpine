@@ -23,7 +23,7 @@ ENV GOPATH=/usr/local
 
 RUN mkdir /var/lib/gogs /var/lib/gogs/git && \
     addgroup git && \
-    adduser -D -g "" -G git -s /bin/bash -h /var/lib/gogs/git git && \
+    adduser -D -g "" -G git -s /sbin/nologin -h /var/lib/gogs/git git && \
     echo git:* | chpasswd 2>/dev/null && \
     chown git:git /var/lib/gogs
 ADD https://dl.gogs.io/0.12.6/gogs_0.12.6_linux_amd64.tar.gz /tmp/gogs.tar.gz

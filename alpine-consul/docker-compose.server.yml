@@ -7,15 +7,15 @@ services:
     consul:
         image: bhuisgen/alpine-consul
         ports:
-            - "8300:8300"       # server RPC
-            - "8301:8301"       # serf LAN
-            - "8301:8301/udp"   # serf LAN (UDP)
-            - "8302:8302"       # serf WAN
-            - "8302:8302/udp"   # serf WAN (UDP)
-            - "8500:8500"       # HTTP
-            - "8501:8501"       # HTTPS
-            - "8600:8600"       # DNS
-            - "8600:8600/udp"   # DNS (UDP)
+            - "8300:8300"                               # server RPC
+            - "8301:8301"                               # serf LAN
+            - "8301:8301/udp"                           # serf LAN (UDP)
+            - "8302:8302"                               # serf WAN
+            - "8302:8302/udp"                           # serf WAN (UDP)
+            - "8500:8500"                               # HTTP
+            - "8501:8501"                               # HTTPS
+            - "8600:8600"                               # DNS
+            - "8600:8600/udp"                           # DNS (UDP)
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - consul:/var/lib/consul                    # volume for data
