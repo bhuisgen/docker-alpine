@@ -9,5 +9,11 @@ if [ ! -f /var/lib/ipfs/.config ]; then
     su -s /bin/sh -c "ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001" ipfs
     su -s /bin/sh -c "ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080" ipfs
 
+    su -s /bin/sh -c "ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[\"*\"]'" ipfs
+    su -s /bin/sh -c "ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"GET\", \"POST\"]'" ipfs
+    su -s /bin/sh -c "ipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers '[\"Authorization\"]'" ipfs
+    su -s /bin/sh -c "ipfs config --json API.HTTPHeaders.Access-Control-Expose-Headers '[\"Location\"]'" ipfs
+    su -s /bin/sh -c "ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '[\"true\"]'" ipfs
+
     touch /var/lib/ipfs/.config
 fi
