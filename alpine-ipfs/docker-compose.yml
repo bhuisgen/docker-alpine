@@ -16,3 +16,18 @@ services:
             - ipfs:/var/lib/ipfs                            # volume for data
         environment:
             - ENV=local                                     # environment name
+            - IPFS_TEMPLATE=generic                         # template
+
+            #
+            # generic
+            #
+
+            - IPFS_INITPROFILE=default-networking           # instance profile
+
+            #
+            # cluster
+            #
+
+            # - IPFS_INIT=0                                 # enable init
+            # - IPFS_INITPROFILE=default-networking         # instance profile
+            # - IPFS_PRIVATE=0                              # enable private network

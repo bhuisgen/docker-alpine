@@ -1,0 +1,13 @@
+{{- $ipfs_init_profile := env "IPFS_INITPROFILE" -}}
+#!/command/with-contenv sh
+
+IPFS_INITPROFILE="{{$ipfs_init_profile}}"
+
+if [ ! -f /var/lib/ipfs/.config ]; then
+    su -s /bin/sh -c "ipfs init --profile ${IPFS_INITPROFILE}" ipfs
+
+    su -s /bin/sh -c "ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001" ipfs
+    su -s /bin/sh -c "ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080" ipfs
+
+    touch /var/lib/ipfs/.config
+fi

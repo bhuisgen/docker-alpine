@@ -1,1 +1,5 @@
 #!/command/with-contenv sh
+
+if [ ! -z "${IPFS_TEMPLATE}" ]; then
+    cp "/etc/container.d/templates/ipfs/${IPFS_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+fi

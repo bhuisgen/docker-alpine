@@ -1,10 +1,1 @@
 #!/command/with-contenv sh
-
-if [ ! -f /var/lib/ipfs/.config ]; then
-    su -s /bin/sh -c "ipfs init --profile server" ipfs
-
-    su -s /bin/sh -c "ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001" ipfs
-    su -s /bin/sh -c "ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080" ipfs
-
-    touch /var/lib/ipfs/.config
-fi
