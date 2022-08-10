@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     consul:
@@ -8,12 +8,12 @@ services:
         image: bhuisgen/alpine-consul
         hostname: consul
         ports:
-            - "127.0.0.1:8500:8500"         # HTTP port for localhost access from localhost
-            #- "127.0.0.1:8501:8501"        # HTTPS port for localhost access from localhost
-            - "169.254.0.1:8500:8500"       # HTTP port for access from localhost and docker networks
-            #- "169.254.0.1:8501:8501"      # HTTPS port for access from localhost and docker networks
-            #- "169.254.0.1:8600:8600"      # DNS TCP port for DNS cache forwarder
-            #- "169.254.0.1:8600:8600/udp"  # DNS UDP port for DNS cache forwarder
+            - "127.0.0.1:8500:8500"                     # HTTP port for localhost access from localhost
+            #- "127.0.0.1:8501:8501"                    # HTTPS port for localhost access from localhost
+            - "169.254.0.1:8500:8500"                   # HTTP port for access from localhost and docker networks
+            #- "169.254.0.1:8501:8501"                  # HTTPS port for access from localhost and docker networks
+            #- "169.254.0.1:8600:8600"                  # DNS TCP port for DNS cache forwarder
+            #- "169.254.0.1:8600:8600/udp"              # DNS UDP port for DNS cache forwarder
         volumes:
             - /etc/localtime:/etc/localtime:ro
             - consul:/var/lib/consul                    # volume for data
@@ -28,7 +28,7 @@ services:
             # template generic
             #
 
-            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server for development
+            - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui # minimal server for development
             #- CONSUL_NODENAME=                         # node name
             - CONSUL_DATACENTER=local                   # datacenter
             #- CONSUL_DOMAIN=consul                     # domain name
@@ -39,11 +39,10 @@ services:
             #- CONSUL_TLSCAFILE=                        # TLS CA certificate file
             #- CONSUL_TLSCERTFILE=                      # TLS server certificate file
             #- CONSUL_TLSKEYFILE=                       # TLS server certificate key file
-            #- CONSUL_ACLDATACENTER=                    # ACL authoritative datacenter
-            #- CONSUL_ACLMASTERTOKEN=                   # ACL master token
-            #- CONSUL_ACLTOKEN=                         # ACL token
-            #- CONSUL_ACLREPLICATIONTOKEN=              # ACL token for replication outside of datacenter
+            #- CONSUL_ACLPRIMARYDATACENTER=             # ACL primary datacenter
             #- CONSUL_ACLDEFAULTPOLICY=extend-cache     # ACL default policy
             #- CONSUL_ACLDOWNPOLICY=extend-cache        # ACL down policy
-            #- CONSUL_ACLTTL=30                         # ACL TTL
-            #- CONSUL_ACLENFORCEVERSION8=true           # enforce ACL version 8
+            #- CONSUL_ACLTOKENTTL=30                    # ACL token TTL
+            #- CONSUL_ACLTOKENMASTER=                   # ACL master token
+            #- CONSUL_ACLTOKENDEFAULT=                  # ACL default token
+            #- CONSUL_ACLTOKENREPLICATION=              # ACL replication token

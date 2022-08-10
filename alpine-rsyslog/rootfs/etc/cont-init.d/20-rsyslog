@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${RSYSLOG_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/rsyslog/${RSYSLOG_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/

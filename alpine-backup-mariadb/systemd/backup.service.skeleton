@@ -1,0 +1,15 @@
+[Unit]
+Description=backup service
+After=docker.service
+Requires=docker.service
+Wants=backup.timer
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/sysconfig/backup
+ExecStart=/usr/bin/docker run --rm -v /etc/localtime:/etc/localtime:ro -v ${STORAGE_PATH}:/var/backups \
+    --network ${MARIADB_NETWORK} -e BACKUP_MARIADB_HOST=${MARIADB_HOST} \
+    -e BACKUP_MARIADB_PORT=${MARIADB_PORT} bhuisgen/alpine-backup-mariadb:latest
+
+[Install]
+WantedBy=multi-user.target

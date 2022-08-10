@@ -1,13 +1,11 @@
-{{- $mariadb_profile := env "MARIADB_PROFILE" -}}
 {{- $mariadb_rootpassword := env "MARIADB_ROOTPASSWORD" -}}
 {{- $mariadb_roothostmask := env "MARIADB_ROOTHOSTMASK" -}}
 {{- $mariadb_database := env "MARIADB_DATABASE" -}}
 {{- $mariadb_username := env "MARIADB_USERNAME" -}}
 {{- $mariadb_password := env "MARIADB_PASSWORD" -}}
 {{- $mariadb_hostmask := env "MARIADB_HOSTMASK" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
-MARIADB_PROFILE="{{$mariadb_profile}}"
 MARIADB_ROOTPASSWORD="{{$mariadb_rootpassword}}"
 MARIADB_ROOTHOSTMASK="{{$mariadb_roothostmask}}"
 MARIADB_DATABASE="{{$mariadb_database}}"
@@ -15,14 +13,6 @@ MARIADB_USERNAME="{{$mariadb_username}}"
 MARIADB_PASSWORD="{{$mariadb_password}}"
 MARIADB_HOSTMASK="{{$mariadb_hostmask}}"
 
-[ -z "${MARIADB_PROFILE}" ] && MARIADB_PROFILE="my-small"
-
-if [ ! -f "/usr/share/mysql/${MARIADB_PROFILE}.cnf" ]; then
-    echo "Configuration profile has not been found, aborting" >&2
-    exit 1
-fi
-
-cp "/usr/share/mysql/${MARIADB_PROFILE}.cnf" /etc/mysql/my.cnf
 echo "" >> /etc/mysql/my.cnf
 echo "!includedir /etc/mysql/conf.d/" >> /etc/mysql/my.cnf
 chown -R mysql:root /etc/mysql/my.cnf /etc/mysql/conf.d/
@@ -33,45 +23,41 @@ chown -R mysql:root /var/run/mysqld
 if [ ! -f /var/lib/mysql/.config ]; then
     mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --console
 
-    /usr/bin/mysqld_safe --skip-networking &
-
-    for i in {30..0}; do
-        if mysql -u root --protocol=socket -e "SELECT 1" > /dev/null 2>&1; then
-            break
-        fi
-
-        sleep 5
-    done
-
-    if [ "$i" = 0 ]; then
-        echo "Failed to initialize server, aborting" >&2
-        exit 3
-    fi
+	setup=$(mktemp)
 
     if [ ! -z "${MARIADB_ROOTPASSWORD}" ]; then
-        [ -z "${MARIADB_ROOTHOSTMASK}" ] && MARIADB_ROOTHOSTMASK="localhost"
+        cat << EOF > $setup
+SET @@SESSION.SQL_LOG_BIN=0;
+USE mysql;
+FLUSH PRIVILEGES;
+GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MARIADB_ROOTPASSWORD}');
+DROP DATABASE IF EXISTS test;
+FLUSH PRIVILEGES;
+EOF
+    fi
 
-        mysql -u root --protocol=socket -e " \
-            SET @@SESSION.SQL_LOG_BIN=0; \
-            DELETE FROM mysql.user; \
-            CREATE USER 'root'@'%' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}'; \
-            GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION; \
-            DROP DATABASE IF EXISTS test;
-            "
+    if [ ! -z "${MARIADB_ROOTHOSTMASK}" ]; then
+        cat << EOF >> $setup
+SET @@SESSION.SQL_LOG_BIN=0;
+USE mysql;
+GRANT ALL ON *.* TO 'root'@'${MARIADB_ROOTHOSTMASK}' IDENTIFIED BY '${MARIADB_ROOTPASSWORD}' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
     fi
 
     if [ ! -z "${MARIADB_DATABASE}" ] && [ ! -z "${MARIADB_USERNAME}" ] && [ ! -z "${MARIADB_PASSWORD}" ] && \
         [ ! -z "${MARIADB_HOSTMASK}" ]; then
-        mysql -u root --protocol=socket -e " \
-            SET @@SESSION.SQL_LOG_BIN=0; \
-            CREATE DATABASE \`${MARIADB_DATABASE}\`; \
-            CREATE USER '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
-            GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}'; \
-            FLUSH PRIVILEGES; \
-            "
+        cat << EOF >> $setup
+USE mysql;
+CREATE DATABASE \`${MARIADB_DATABASE}\`;
+GRANT ALL ON \`${MARIADB_DATABASE}\`.* TO '${MARIADB_USERNAME}'@'${MARIADB_HOSTMASK}' IDENTIFIED BY '${MARIADB_PASSWORD}';
+FLUSH PRIVILEGES;
+EOF
     fi
 
-    mysqladmin -u root --protocol=socket shutdown
+	/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $setup
 
+	rm -f $setup
     touch /var/lib/mysql/.config
 fi

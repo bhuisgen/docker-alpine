@@ -1,0 +1,62 @@
+{{- $odoo_db := env "ODOO_DB" -}}
+{{- $odoo_db_host := env "ODOO_DBHOST" -}}
+{{- $odoo_db_user := env "ODOO_DBUSER" -}}
+{{- $odoo_db_password := env "ODOO_DBPASSWORD" -}}
+{{- $odoo_db_filter := env "ODOO_DBFILTER" -}}
+{{- $odoo_no_db_list := env "ODOO_NODBLIST" -}}
+{{- $odoo_proxy_mode := env "ODOO_PROXYMODE" -}}
+{{- $odoo_workers := env "ODOO_WORKERS" -}}
+{{- $odoo_max_cron_threads := env "ODOO_MAXCRONTHREADS" -}}
+{{- $odoo_email_from := env "ODOO_EMAILFROM" -}}
+{{- $odoo_smtp := env "ODOO_SMTP" -}}
+{{- $odoo_smtp_port := env "ODOO_SMTPPORT" -}}
+{{- $odoo_smtp_user := env "ODOO_SMTPUSER" -}}
+{{- $odoo_smtp_password := env "ODOO_SMTPPASSWORD" -}}
+{{- $odoo_smtp_ssl := env "ODOO_SMTPSSL" -}}
+{{- $odoo_smtp_ssl_certificate := env "ODOO_SMTPSSLCERTIFICATE" -}}
+{{- $odoo_smtp_ssl_private_key := env "ODOO_SMTPSSLPRIVATEKEY" -}}
+#!/command/with-contenv sh
+
+ODOO_DB="{{$odoo_db}}"
+ODOO_DBHOST="{{$odoo_db_host}}"
+ODOO_DBUSER="{{$odoo_db_user}}"
+ODOO_DBPASSWORD="{{$odoo_db_password}}"
+ODOO_DBFILTER="{{$odoo_db_filter}}"
+ODOO_NODBLIST="{{$odoo_no_db_list}}"
+ODOO_WORKERS="{{$odoo_workers}}"
+ODOO_MAXCRONTHREADS="{{$odoo_max_cron_threads}}"
+ODOO_EMAILFROM="{{$odoo_email_from}}"
+ODOO_SMTP="{{$odoo_smtp}}"
+ODOO_SMTPPORT="{{$odoo_smtp_port}}"
+ODOO_SMTPUSER="{{$odoo_smtp_user}}"
+ODOO_SMTPPASSWORD="{{$odoo_smtp_password}}"
+ODOO_SMTPSSL="{{$odoo_smtp_ssl}}"
+ODOO_SMTPSSLCERTIFICATE="{{$odoo_smtp_ssl_certificate}}"
+ODOO_SMTPSSLPRIVATEKEY="{{$odoo_smtp_ssl_private_key}}"
+
+if [ ! -f /var/lib/odoo/.config ]; then
+    CMD="/usr/local/odoo/odoo-bin --init base --without-demo=all \
+        --database=${ODOO_DB} --db_host=${ODOO_DBHOST} --db_user=${ODOO_DBUSER} --db_password=${ODOO_DBPASSWORD} \
+        --stop-after-init --save"
+    [ ! -z "${ODOO_DBFILTER}" ] && CMD="$CMD --db-filter=${ODOO_DBFILTER}"
+    [ "${ODOO_NODBLIST}" == "1" ] && CMD="$CMD --no-database-list"
+    [ "${ODOO_PROXYMODE}" ] && CMD="$CMD --proxy-mode"
+    [ ! -z "${ODOO_WORKERS}" ] && CMD="$CMD --workers=${ODOO_WORKERS}"
+    [ ! -z "${ODOO_MAXCRONTHREADS}" ] && CMD="$CMD --max-cron-threads=${ODOO_MAXCRONTHREADS}"
+    [ ! -z "${ODOO_EMAILFROM}" ] && CMD="$CMD --email-from=${ODOO_EMAILFROM}"
+    [ ! -z "${ODOO_SMTP}" ] && CMD="$CMD --smtp=${ODOO_SMTP}"
+    [ ! -z "${ODOO_SMTPPORT}" ] && CMD="$CMD --smtp-port=${ODOO_SMTPPORT}"
+    [ ! -z "${ODOO_SMTPUSER}" ] && CMD="$CMD --smtp-user=${ODOO_SMTPUSER}"
+    [ ! -z "${ODOO_SMTPPASSWORD}" ] && CMD="$CMD --smtp-password=${ODOO_SMTPPASSWORD}"
+    [ ! -z "${ODOO_SMTPSSL}" ] && CMD="$CMD --smtp-ssl=${ODOO_SMTPSSL}"
+    [ ! -z "${ODOO_SMTPSSLCERTIFICATE}" ] && CMD="$CMD --smtp-ssl-certificate-filename=${ODOO_SMTPSSLCERTIFICATE}"
+    [ ! -z "${ODOO_SMTPSSLPRIVATEKEY}" ] && CMD="$CMD --smtp-ssl-private-key-filename=${ODOO_SMTPSSLPRIVATEKEY}"
+
+    export USER=odoo
+    export HOME=/var/lib/odoo
+    s6-setuidgid odoo ${CMD}
+
+    sleep 5
+
+    touch /var/lib/odoo/.config
+fi

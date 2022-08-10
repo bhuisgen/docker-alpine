@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${GIT_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/git/${GIT_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/

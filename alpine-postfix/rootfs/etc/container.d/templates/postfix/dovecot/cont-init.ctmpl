@@ -1,21 +1,43 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
-postconf -e smtputf8_enable=no
-postconf -e inet_interfaces=all
-postconf -e inet_protocols=all
+if [ ! -f /var/lib/postfix/.config ]; then
+    postconf -e smtputf8_enable=no inet_interfaces=all inet_protocols=all
 
-newaliases
-postalias /etc/postfix/aliases
-postmap hash:/etc/postfix/recipient_access
-postmap hash:/etc/postfix/sender_access
-postmap hash:/etc/postfix/canonical
-postmap hash:/etc/postfix/recipient_canonical
-postmap hash:/etc/postfix/sender_canonical
-postmap hash:/etc/postfix/generic
-postmap hash:/etc/postfix/relay_domains
-postmap hash:/etc/postfix/sasl_password
-postmap hash:/etc/postfix/transport
-postmap hash:/etc/postfix/virtual
+    newaliases
+    postalias /etc/postfix/aliases
 
-/usr/sbin/postfix start
-/usr/sbin/postfix stop
+    postmap \
+        lmdb:/etc/postfix/canonical \
+        lmdb:/etc/postfix/sender_canonical \
+        lmdb:/etc/postfix/recipient_canonical \
+        lmdb:/etc/postfix/generic \
+        lmdb:/etc/postfix/relay_domains \
+        lmdb:/etc/postfix/sasl_password \
+        lmdb:/etc/postfix/transport \
+        lmdb:/etc/postfix/virtual
+
+    touch \
+        /etc/postfix/header_checks \
+        /etc/postfix/body_checks \
+        /etc/postfix/mime_checks
+
+    touch \
+        /etc/postfix/client_access \
+        /etc/postfix/helo_access \
+        /etc/postfix/sender_access \
+        /etc/postfix/recipient_access \
+        /etc/postfix/rbl_access
+    postmap \
+        lmdb:/etc/postfix/client_access \
+        lmdb:/etc/postfix/helo_access \
+        lmdb:/etc/postfix/sender_access \
+        lmdb:/etc/postfix/recipient_access \
+        lmdb:/etc/postfix/rbl_access
+
+    /usr/sbin/postfix start
+    /usr/sbin/postfix stop
+
+    touch /var/lib/postfix/.config
+    chown postfix:postfix /var/lib/postfix/.config
+    chmod 600 /var/lib/postfix/.config
+fi

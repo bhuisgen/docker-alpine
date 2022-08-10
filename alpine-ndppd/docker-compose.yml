@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+    ndppd:
+        image: bhuisgen/alpine-ndppd
+        cap_add:
+            - NET_ADMIN
+            - NET_RAW
+        network_mode: host
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - ENV=local                             # environment name
+            #- NDPPD_TEMPLATE=generic               # configuration template
+
+            #
+            # template generic
+            #
+
+            #- NDPPD_PROXYINTERFACE=                # interface to listen Neighbor Solicitation messages
+            #- NDPPD_FORWARDINTERFACE=              # interface to forward Neighbor Solicitation messages
+            #- NDPPD_IPV6SUBNET=                    # IPv6 subnet to match

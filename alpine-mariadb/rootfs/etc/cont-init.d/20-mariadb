@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${MARIADB_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/mariadb/${MARIADB_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/

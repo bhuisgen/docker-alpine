@@ -1,0 +1,41 @@
+version: '3.8'
+
+volumes:
+    odoo:
+
+services:
+    odoo:
+        image: bhuisgen/alpine-odoo
+        ports:
+            - "8069:8069"
+            - "8071:8071"
+            - "8072:8072"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - odoo:/var/lib/odoo                        # volume for data
+        environment:
+            - ENV=local                                 # environment name
+            #- ODOO_TEMPLATE=generic                    # configuration template
+            #- ODOO_OPTIONS=                            # startup options
+
+            #
+            # template generic
+            #
+
+            #- ODOO_DB=                                 # database name
+            #- ODOO_DBHOST=                             # database host
+            #- ODOO_DBUSER=                             # database user
+            #- ODOO_DBPASSWORD=                         # database password
+            #- ODOO_DBFILTER=                           # database filter
+            #- ODOO_NODBLIST=0                          # disable databases list
+            #- ODOO_PROXYMODE=0                         # enable proxy mode
+            #- ODOO_WORKERS=                            # number of workers
+            #- ODOO_MAXCRONTHREADS=                     # number of cron threads
+            #- ODOO_EMAILFROM=                          # email sender
+            #- ODOO_SMTP=                               # SMTP server
+            #- ODOO_SMTPPORT=                           # SMTP port
+            #- ODOO_SMTPUSER=                           # STMP user
+            #- ODOO_SMTPPASSWORD=                       # STMP password
+            #- ODOO_SMTPSSL=                            # enable SMTP SSL
+            #- ODOO_SMTPSSLCERTIFICATE=                 # SMTP SSL certificate file
+            #- ODOO_SMTPSSLPRIVATEKEY=                  # STMP SSL private key file

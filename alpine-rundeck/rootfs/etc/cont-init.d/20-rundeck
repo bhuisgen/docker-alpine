@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${RUNDECK_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/rundeck/${RUNDECK_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/

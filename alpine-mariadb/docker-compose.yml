@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     mariadb:
@@ -19,7 +19,6 @@ services:
             # template generic
             #
 
-            #- MARIADB_PROFILE=my-small             # default configuration profile to use (my-small, my-medium ...)
             #- MARIADB_ROOTPASSWORD=mariadb         # root password (optional)
             #- MARIADB_ROOTHOSTMASK=localhost       # root user hostmask (optional)
             #- MARIADB_DATABASE=                    # create user database (optional)

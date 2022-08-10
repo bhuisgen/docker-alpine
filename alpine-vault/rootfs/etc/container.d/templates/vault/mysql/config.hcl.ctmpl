@@ -31,3 +31,5 @@ storage "mysql" {
   password = "{{ $vault_storage_password }}"
   database = "{{ $vault_storage_database }}"
 }
+
+disable_mlock = true

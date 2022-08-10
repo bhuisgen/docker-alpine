@@ -8,22 +8,22 @@
 {{- $ca_file := env "CONSUL_TLSCAFILE" -}}
 {{- $cert_file := env "CONSUL_TLSCERTFILE" -}}
 {{- $key_file := env "CONSUL_TLSKEYFILE" -}}
-{{- $acl_datacenter := env "CONSUL_ACLDATACENTER" -}}
-{{- $acl_master_token := env "CONSUL_ACLMASTERTOKEN" -}}
-{{- $acl_token := env "CONSUL_ACLTOKEN" -}}
-{{- $acl_agent_master_token := env "CONSUL_ACLAGENTMASTERTOKEN" -}}
-{{- $acl_agent_token := env "CONSUL_ACLAGENTTOKEN" -}}
-{{- $acl_replication_token := env "CONSUL_ACLREPLICATIONTOKEN" -}}
+{{- $acl_primary_datacenter := env "CONSUL_ACLPRIMARYDATACENTER" -}}
 {{- $acl_default_policy := env "CONSUL_ACLDEFAULTPOLICY" -}}
 {{- $acl_down_policy := env "CONSUL_ACLDOWNPOLICY" -}}
-{{- $acl_ttl := env "CONSUL_ACLTTL" -}}
-{{- $acl_enforce_version_8 := env "CONSUL_ACLENFORCEVERSION8" -}}
+{{- $acl_token_ttl := env "CONSUL_ACLTOKENTTL" -}}
+{{- $acl_token_master := env "CONSUL_ACLTOKENMASTER" -}}
+{{- $acl_token_default := env "CONSUL_ACLTOKENDEFAULT" -}}
+{{- $acl_token_agent_master := env "CONSUL_ACLTOKENAGENTMASTER" -}}
+{{- $acl_token_agent := env "CONSUL_ACLTOKENAGENT" -}}
+{{- $acl_token_replication := env "CONSUL_ACLTOKENREPLICATION" -}}
 {{ if $node_name }}node_name = "{{ $node_name }}"{{ end }}
 {{ if $datacenter }}datacenter = "{{ $datacenter }}"{{ end}}
 {{ if $domain }}domain = "{{ $domain }}"{{ end }}
 {{ if $encrypt }}encrypt = "{{ $encrypt }}"{{ end }}
 data_dir = "/var/lib/consul"
 log_level = "INFO"
+
 disable_anonymous_signature = true
 disable_update_check = true
 
@@ -34,26 +34,35 @@ performance {
 {{ end }}
 
 {{ if eq $tls "1" }}
+ports {
+    https = 8501
+}
+
 {{ if $ca_path }}ca_path = "{{ $ca_path }}"{{ end }}
 {{ if $ca_file }}ca_file = "{{ $ca_file }}"{{ end }}
 {{ if $cert_file }}cert_file = "{{ $cert_file }}"{{ end }}
 {{ if $key_file }}key_file = "{{ $key_file }}"{{ end }}
+
 verify_server_hostname = true
 verify_incoming = true
 verify_outgoing = true
-
-ports {
-    https = 8501
-}
 {{ end }}
 
-{{ if $acl_datacenter }}acl_datacenter = "{{ $acl_datacenter }}"{{ end }}
-{{ if $acl_master_token }}acl_master_token = "{{ $acl_master_token }}"{{ end }}
-{{ if $acl_token }}acl_token = "{{ $acl_token }}"{{ end }}
-{{ if $acl_agent_master_token }}acl_agent_master_token = "{{ $acl_agent_master_token }}"{{ end }}
-{{ if $acl_agent_token }}acl_agent_token = "{{ $acl_agent_token }}"{{ end }}
-{{ if $acl_replication_token }}acl_replication_token = "{{ $acl_replication_token }}"{{ end }}
-{{ if $acl_default_policy }}acl_default_policy = "{{ $acl_default_policy }}"{{ end }}
-{{ if $acl_down_policy }}acl_down_policy = "{{ $acl_down_policy }}"{{ end }}
-{{ if $acl_ttl }}acl_ttl = "{{ $acl_ttl }}"{{ end }}
-{{ if $acl_enforce_version_8 }}acl_enforce_version_8 = {{ $acl_enforce_version_8 }}{{ end }}
+{{ if or $acl_primary_datacenter $acl_default_policy $acl_down_policy $acl_token_ttl }}
+acl {
+    {{ if $acl_primary_datacenter }}primary_datacenter = "{{ $acl_primary_datacenter }}"{{ end }}
+    {{ if $acl_default_policy }}default_policy = "{{ $acl_default_policy }}"{{ end }} =
+    {{ if $acl_down_policy }}down_policy = "{{ $acl_down_policy }}"{{ end }}
+    {{ if $acl_token_ttl }}token_ttl = "{{ $acl_token_ttl }}"{{ end }} =
+
+    {{ if or $acl_token_master $acl_token_default $acl_token_agent_master $acl_token_agent $acl_token_replication }}
+    tokens {
+        {{ if $acl_token_master }}master = "{{ $acl_token_master }}"{{ end }}
+        {{ if $acl_token_default }}default = "{{ $acl_token_default }}"{{ end }}
+        {{ if $acl_token_agent_master }}agent_master = "{{ $acl_token_agent_master }}"{{ end }}
+        {{ if $acl_token_agent }}agent = "{{ $acl_token_agent }}"{{ end }}
+        {{ if $acl_token_replication }}replication = "{{ $acl_token_replication }}"{{ end }}
+    }
+    {{ end }}
+}
+{{ end }}

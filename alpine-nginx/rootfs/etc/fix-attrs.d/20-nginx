@@ -1,2 +1,0 @@
-/var/www false root:root 0644 0755
-/var/cache/nginx false root:root 0644 0755

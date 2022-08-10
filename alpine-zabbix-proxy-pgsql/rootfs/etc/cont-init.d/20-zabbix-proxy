@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${ZABBIX_TEMPLATE}" ]; then
     cp "/etc/container.d/templates/zabbix-proxy/${ZABBIX_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/

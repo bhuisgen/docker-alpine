@@ -2,28 +2,28 @@ template {
   source      = "/etc/container.d/templates/tomcat/generic/setenv.sh.ctmpl"
   destination = "/usr/local/tomcat/bin/setenv.sh"
   command     = "/bin/chown tomcat:tomcat /usr/local/tomcat/bin/setenv.sh"
-  perms       = 0755
+  perms       = 0750
 }
 
 template {
   source      = "/etc/container.d/templates/tomcat/generic/catalina.policy.ctmpl"
   destination = "/usr/local/tomcat/conf/catalina.policy"
   command     = "/bin/chown tomcat:tomcat /usr/local/tomcat/conf/catalina.policy"
-  perms       = 0644
+  perms       = 0640
 }
 
 template {
   source      = "/etc/container.d/templates/tomcat/generic/catalina.properties.ctmpl"
   destination = "/usr/local/tomcat/conf/catalina.properties"
   command     = "/bin/chown tomcat:tomcat /usr/local/tomcat/conf/catalina.properties"
-  perms       = 0644
+  perms       = 0640
 }
 
 template {
   source      = "/etc/container.d/templates/tomcat/generic/context.xml.ctmpl"
   destination = "/usr/local/tomcat/conf/context.xml"
   command     = "/bin/chown tomcat:tomcat /usr/local/tomcat/conf/context.xml"
-  perms       = 0644
+  perms       = 0640
 }
 
 template {

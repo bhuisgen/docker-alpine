@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 cd /usr/local/logstash || exit 1
 exec s6-setuidgid logstash /usr/local/logstash/bin/logstash -f /usr/local/logstash/config/logstash.conf \

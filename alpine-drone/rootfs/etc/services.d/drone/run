@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -z "${DRONE_HOST}" ]; then
     exec s6-setuidgid drone /usr/local/bin/drone-server ${DRONE_OPTIONS}

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ -S /var/run/docker.sock ]; then
     GID=$(stat -c "%g" /var/run/docker.sock)

@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     postgresql:
@@ -22,4 +22,6 @@ services:
             #- POSTGRESQL_DATABASE=                 # create database (optional)
             #- POSTGRESQL_USERNAME=                 # database user name
             #- POSTGRESQL_PASSWORD=                 # database user password
-            #- POSTGRESQL_ADDRESS=                  # database user address
+            #- POSTGRESQL_ADDRESS=                  # source address mask allowed for this user
+            #- POSTGRESQL_CREATEDB=0                # enable user to create new databases
+            #- POSTGRESQL_ALLOWALL=0                # enable user to access to all databases

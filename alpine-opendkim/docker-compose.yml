@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     opendkim:
@@ -10,7 +10,6 @@ services:
             - "8891:8891"
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /dev/log:/dev/log
             - opendkim:/var/lib/opendkim            # volume for data
         environment:
             - ENV=local                             # environment name
@@ -20,7 +19,8 @@ services:
             # template generic
             #
 
-            #- OPENDKIM_KEYTABLE=                   # opendkim key table file of signing keys
-            #- OPENDKIM_SIGNINGTABLE=               # opendkim table file for selecting signatures
-            #- OPENDKIM_EXTERNALIGNORELIST=         # opendkim ignore list file
-            #- OPENDKIM_INTERNALHOSTS=              # opendkim internal hosts file
+            #- OPENDKIM_KEYTABLE=                   # key table file of signing keys
+            #- OPENDKIM_SIGNINGTABLE=               # table file for selecting signatures
+            #- OPENDKIM_EXTERNALIGNORELIST=         # ignore list file
+            #- OPENDKIM_INTERNALHOSTS=              # internal hosts file
+            #- OPENDKIM_SYSLOG=0                    # enable syslog

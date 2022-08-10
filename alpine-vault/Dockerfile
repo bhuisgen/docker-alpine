@@ -1,23 +1,36 @@
+ARG BASE
 ARG TAG
 
-FROM bhuisgen/alpine-base-consul:${TAG}
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+FROM bhuisgen/${BASE}:${TAG}
 
-ENV VAULT_VERSION=0.10.4
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-vault" \
+    org.label-schema.description="alpine-vault image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
 
 RUN mkdir /var/lib/vault && \
     addgroup -S vault && \
     adduser -S -D -g "" -G vault -s /sbin/nologin -h /var/lib/vault vault && \
-    chown vault:vault /var/lib/vault
+    chown vault:vault /var/lib/vault && \
+    chmod 700 /var/lib/vault
 
-RUN apk add --update libcap zip && \
-    curl -sSL https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
-        -o /tmp/vault.zip && \
+ADD https://releases.hashicorp.com/vault/1.10.4/vault_1.10.4_linux_amd64.zip /tmp/vault.zip
+
+RUN apk add --update --no-cache --progress libcap zip && \
     unzip /tmp/vault.zip -d /bin && \
-    setcap cap_ipc_lock=+ep $(readlink -f $(which vault)) && \
     rm /tmp/vault.zip && \
-    apk del libcap zip && \
-    rm -rf /var/cache/apk/*
+    setcap cap_ipc_lock=+ep $(readlink -f $(which vault)) && \
+    apk del libcap zip
 
 COPY rootfs/ /
 

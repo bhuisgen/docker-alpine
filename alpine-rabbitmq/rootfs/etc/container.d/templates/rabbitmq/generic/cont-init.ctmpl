@@ -12,7 +12,7 @@
 {{- $rabbitmq_cluster := env "RABBITMQ_CLUSTER" -}}
 {{- $rabbitmq_clusterwait := env "RABBITMQ_CLUSTERWAIT" -}}
 {{- $rabbitmq_clusterram := env "RABBITMQ_CLUSTERRAM" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 RABBITMQ_ERLANGCOOKIE="{{$rabbitmq_erlangcookie}}"
 RABBITMQ_CLUSTERNAME="{{$rabbitmq_clustername}}"
@@ -38,6 +38,9 @@ else
 fi
 
 if [ ! -f /var/lib/rabbitmq/.config ]; then
+    export HOME=/var/lib/rabbitmq
+    export RABBITMQ_CONF_ENV_FILE=/var/lib/rabbitmq/config/rabbitmq-env.conf
+
     if [ ! -z "${RABBITMQ_ERLANGCOOKIE}" ]; then
         echo "${RABBITMQ_ERLANGCOOKIE}" > /var/lib/rabbitmq/.erlang.cookie
         chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
@@ -45,51 +48,51 @@ if [ ! -f /var/lib/rabbitmq/.config ]; then
     fi
 
     if [ ! -z "${RABBITMQ_HIPECOMPILE}" ] && [ "${RABBITMQ_HIPECOMPILE}" == "true" ]; then
-        su -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
+        su -s /bin/sh -c "rabbitmqctl hipe_compile ${RABBITMQ_SERVER_CODE_PATH}" rabbitmq
     fi
 
     if [ ! -z "${RABBITMQ_MANAGEMENT}" ] && [ "${RABBITMQ_MANAGEMENT}" -eq 1 ]; then
-        su -c "rabbitmq-plugins enable --offline rabbitmq_management" rabbitmq
+        rabbitmq-plugins enable --offline rabbitmq_management
     elif [ ! -z "${RABBITMQ_MANAGEMENTAGENT}" ] && [ "${RABBITMQ_MANAGEMENTAGENT}" -eq 1 ]; then
-        su -c "rabbitmq-plugins enable --offline rabbitmq_management_agent" rabbitmq
+        rabbitmq-plugins enable --offline rabbitmq_management_agent
     fi
 
     if [ ! -z "${RABBITMQ_MQTT}" ] && [ "${RABBITMQ_MQTT}" -eq 1 ]; then
-        su -c "rabbitmq-plugins enable --offline rabbitmq_mqtt" rabbitmq
+        rabbitmq-plugins enable --offline rabbitmq_mqtt
     fi
 
     if [ ! -z "${RABBITMQ_STOMP}" ] && [ "${RABBITMQ_STOMP}" -eq 1 ]; then
-        su -c "rabbitmq-plugins enable --offline rabbitmq_stomp" rabbitmq
+        rabbitmq-plugins enable --offline rabbitmq_stomp
     fi
 
     if [ ! -z "${RABBITMQ_PLUGINS}" ]; then
         PLUGINS=$(echo "${RABBITMQ_PLUGINS}"|tr ',' ' ')
-        su -c "rabbitmq-plugins enable --offline ${PLUGINS}" rabbitmq
+        rabbitmq-plugins enable --offline ${PLUGINS}
     fi
 
-    su -c " \
+    su -s /bin/sh -c " \
         rabbitmq-server -detached; \
         sleep 30; \
         " rabbitmq
 
     if [ -z "${RABBITMQ_CLUSTER}" ]; then
         if [ ! -z "${RABBITMQ_CLUSTERNAME}" ]; then
-            su -c "rabbitmqctl set_cluster_name ${RABBITMQ_CLUSTERNAME}" rabbitmq
+            su -s /bin/sh -c "rabbitmqctl set_cluster_name ${RABBITMQ_CLUSTERNAME}" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_GUESTPASSWORD}" ]; then
-            su -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
+            su -s /bin/sh -c "rabbitmqctl change_password guest ${RABBITMQ_GUESTPASSWORD}" rabbitmq
         fi
 
         if [ ! -z "${RABBITMQ_USERNAME}" ] && [ ! -z "${RABBITMQ_PASSWORD}" ]; then
-            su -c " \
+            su -s /bin/sh -c " \
                 rabbitmqctl add_user ${RABBITMQ_USERNAME} ${RABBITMQ_PASSWORD}; \
                 rabbitmqctl set_user_tags ${RABBITMQ_USERNAME} administrator; \
                 rabbitmqctl set_permissions -p / ${RABBITMQ_USERNAME} \".*\" \".*\" \".*\"; \
                 " rabbitmq
         fi
     else
-        su -c " \
+        su -s /bin/sh -c " \
             rabbitmqctl stop_app; \
             sleep 5; \
             " rabbitmq
@@ -99,18 +102,18 @@ if [ ! -f /var/lib/rabbitmq/.config ]; then
         fi
 
         if [ ! -z "${RABBITMQ_CLUSTERRAM}" ] && [ "${RABBITMQ_CLUSTERRAM}" -eq 1 ]; then
-            su -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
+            su -s /bin/sh -c "rabbitmqctl join_cluster --ram ${RABBITMQ_CLUSTER}" rabbitmq
         else
-            su -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
+            su -s /bin/sh -c "rabbitmqctl join_cluster ${RABBITMQ_CLUSTER}" rabbitmq
         fi
 
-        su -c " \
+        su -s /bin/sh -c " \
             sleep 5; \
             rabbitmqctl cluster_status; \
             " rabbitmq
     fi
 
-    su -c " \
+    su -s /bin/sh -c " \
         rabbitmqctl stop; \
         sleep 5; \
         " rabbitmq

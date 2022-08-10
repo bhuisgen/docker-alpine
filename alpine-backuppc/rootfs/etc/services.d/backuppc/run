@@ -1,3 +1,3 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
-exec s6-setuidgid backuppc /usr/share/BackupPC/bin/BackupPC
+exec s6-setuidgid backuppc /usr/local/backuppc/bin/BackupPC

@@ -1,0 +1,22 @@
+version: '3.8'
+
+volumes:
+    n8n:
+
+services:
+    n8n:
+        image: bhuisgen/alpine-n8n
+        ports:
+            - "5678:5678"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - n8n:/var/lib/n8n                              # volume for data
+        environment:
+            - ENV=local                                     # environment name
+            #- N8N_TEMPLATE=generic                         # configuration template
+
+            #
+            # template generic
+            #
+
+            #- N8N_TEMPLATE=                                # exec options

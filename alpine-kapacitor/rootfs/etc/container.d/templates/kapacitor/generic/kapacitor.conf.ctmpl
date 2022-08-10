@@ -431,7 +431,7 @@ default-retention-policy = ""
 [reporting]
   # Send usage statistics
   # every 12 hours to Enterprise.
-  enabled = true
+  enabled = false
   url = "https://usage.influxdata.com"
 
 [stats]

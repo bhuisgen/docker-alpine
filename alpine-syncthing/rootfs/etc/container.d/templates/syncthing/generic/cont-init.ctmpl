@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 if [ ! -f /var/lib/syncthing/.config ]; then
     if [ -z "${SYNCTHING_UID}" ]; then

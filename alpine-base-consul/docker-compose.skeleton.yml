@@ -1,9 +1,9 @@
-version: '3.7'
+version: '3.8'
 
 services:
     foo:
-        ports:
-            - "1234:1234"
+        #ports:
+            #- "1234:1234"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:

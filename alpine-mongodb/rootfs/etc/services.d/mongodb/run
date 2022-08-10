@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-exec s6-setuidgid mongodb /usr/bin/mongod -f /etc/mongod.conf ${MONGODB_OPTIONS}

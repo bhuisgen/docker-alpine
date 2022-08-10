@@ -1,13 +1,13 @@
-version: '3.7'
+version: '3.8'
 
 services:
     spark-master:
         image: bhuisgen/alpine-spark
         ports:
-          - "4040:4040"
-          - "6066:6066"
-          - "7077:7077"
-          - "8080:8080"
+            - "4040:4040"
+            - "6066:6066"
+            - "7077:7077"
+            - "8080:8080"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:
@@ -16,7 +16,7 @@ services:
     spark-worker1:
         image: bhuisgen/alpine-spark
         ports:
-          - "8081:8081"
+            - "8081:8081"
         volumes:
             - /etc/localtime:/etc/localtime:ro
         environment:

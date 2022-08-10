@@ -1,0 +1,5 @@
+#!/command/with-contenv sh
+
+if [ ! -z "${ODOO_TEMPLATE}" ]; then
+    cp "/etc/container.d/templates/odoo/${ODOO_TEMPLATE}"/*.hcl /etc/container.d/conf-services.d/
+fi

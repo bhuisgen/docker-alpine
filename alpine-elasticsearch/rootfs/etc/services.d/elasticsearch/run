@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 java_opts="
         -Des.path.home=/var/lib/elasticsearch

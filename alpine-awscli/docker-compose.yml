@@ -1,9 +1,0 @@
-version: '3.7'
-
-services:
-    awscli:
-        image: bhuisgen/alpine-awscli
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - ./:/data
-            - $HOME/.aws:/root/.aws

@@ -214,9 +214,8 @@ http {
         {{end}}
 
         {{if eq $nginx_expire "1"}}
-        location ~* \.(woff|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
+        location ~* \.(woff|woff2|eot|ttf|svg|mp4|webm|jpg|jpeg|png|gif|ico|css|js)$ {
             expires {{if $nginx_expire_delay}}{{$nginx_expire_delay}}{{else}}1d{{end}};
-            add_header Pragma public;
             add_header Cache-Control "public";
             {{if eq $nginx_expire_access_log "0"}}access_log off;{{end}}
         }
@@ -226,7 +225,7 @@ http {
             {{if $nginx_try_files}}
             try_files $uri {{$nginx_try_files}};
             {{else}}
-            try_files $uri $uri/ /index.php?$args;
+            try_files $uri $uri/ /index.php?$args =404;
             {{end}}
 
             {{if and $nginx_auth_basic $nginx_auth_basic_user_file}}

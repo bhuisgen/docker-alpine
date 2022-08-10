@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+    go:
+        image: bhuisgen/alpine-go
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        environment:
+            - ENV=local                             # environment name

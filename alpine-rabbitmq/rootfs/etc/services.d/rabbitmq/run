@@ -1,7 +1,8 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 export USER=rabbitmq
 export HOME=/var/lib/rabbitmq
+export RABBITMQ_CONF_ENV_FILE=/var/lib/rabbitmq/config/rabbitmq-env.conf
 
 cd /usr/local/rabbitmq || exit 1
 exec s6-setuidgid rabbitmq /usr/local/rabbitmq/sbin/rabbitmq-server

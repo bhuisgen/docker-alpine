@@ -1,5 +1,5 @@
 {{- $strongswan_interface := env "STRONGSWAN_INTERFACE" -}}
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 STRONGSWAN_INTERFACE="{{$strongswan_interface}}"
 

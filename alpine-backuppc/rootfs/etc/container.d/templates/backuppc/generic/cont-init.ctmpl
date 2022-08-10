@@ -1,0 +1,14 @@
+{{- $backuppc_init := env "BACKUPPC_INIT" -}}
+#!/command/with-contenv sh
+
+BACKUPPC_INIT="{{$backuppc_init}}"
+
+if [ ! -f /var/lib/backuppc/.config ]; then
+
+    if [ "${BACKUPPC_INIT}" == "1" ]; then 
+        cp -fr /etc/container.d/templates/backuppc/generic/config/* /var/lib/backuppc/etc/
+        chown -R backuppc:backuppc /var/lib/backuppc
+    fi
+
+    touch /var/lib/backuppc/.config
+fi

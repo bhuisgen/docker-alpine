@@ -1,10 +1,10 @@
-version: '3.7'
+version: '3.8'
 
 services:
     backup:
         image: bhuisgen/alpine-backup
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /srv/backups:/var/backups             # volume for storage
+            - /srv/backups:/var/backups             # storage volume
         environment:
             - ENV=local                             # environment name

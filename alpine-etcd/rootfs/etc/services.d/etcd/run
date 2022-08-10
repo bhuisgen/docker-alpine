@@ -1,0 +1,5 @@
+#!/command/with-contenv sh
+
+unset ETCD_VERSION
+
+exec s6-setuidgid etcd /usr/local/etcd/etcd ${ETCD_OPTIONS}

@@ -1,0 +1,19 @@
+version: '3.8'
+
+volumes:
+    etcd:
+
+services:
+    etcd:
+        image: bhuisgen/alpine-etcd
+        ports:
+            - "2379:2379"
+            - "2380:2380"
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - etcd:/var/lib/etcd                        # volume for data
+        environment:
+            - ENV=local                                 # environment name
+            - ETCD_NAME=my_cluster                      # etcd cluster name
+            - ETCD_USER=etcd                            # etcd user
+            - ETCD_DATA_DIR=/var/lib/etcd               # data directory

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/command/with-contenv sh
 
 cd /usr/local/influxdb || exit 1
 exec s6-setuidgid influxdb /usr/local/influxdb/usr/bin/influxd run -config ./etc/influxdb/influxdb.conf \

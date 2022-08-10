@@ -1,11 +1,25 @@
-FROM alpine:3.7
-LABEL maintainer="Boris HUISGEN <bhuisgen@hbis.fr>"
+FROM alpine:3.15
 
-RUN apk add --update ca-certificates libffi openssl python2 py2-pip && \
-    apk add --update --no-cache --virtual .build-deps build-base ca-certificates libffi-dev openssl-dev python2-dev && \
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG GIT_COMMIT
+ARG GIT_URL
+
+LABEL maintainer="bhuisgen@hbis.fr" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.name="alpine-fabric" \
+    org.label-schema.description="alpine-fabric image" \
+    org.label-schema.vcs-ref="$GIT_COMMIT" \
+    org.label-schema.vcs-url="$GIT_URL" \
+    org.label-schema.vendor="Boris HUISGEN" \
+    org.label-schema.version="$BUILD_VERSION" \
+    org.label-schema.schema-version="1.0"
+
+RUN apk add --update --no-cache --progress ca-certificates libffi openssl python3 py3-pip && \
+    apk add --virtual .build-deps --no-cache --progress build-base ca-certificates cargo libffi-dev openssl-dev \
+        python3-dev rust && \
     pip install fabric && \
-    apk del .build-deps && \
-    rm -rf /var/cache/apk/*
+    apk del .build-deps
 
 ENTRYPOINT ["/usr/bin/fab"]
 CMD []

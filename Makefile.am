@@ -1,70 +1,70 @@
 SUBDIRS = \
     alpine-base \
+	alpine-base-confd \
     alpine-base-consul \
     alpine-backup \
     alpine-backup-mariadb \
-    alpine-backup-mongodb \
     alpine-backup-postgresql \
     alpine-backup-rsync \
     alpine-backup-tar \
     alpine-build \
     alpine-build-make \
+    alpine-build-go \
     alpine-build-make-ansible \
     alpine-build-make-packer \
     alpine-build-make-terraform \
     alpine-build-maven \
-    alpine-build-npm \
+    alpine-build-nodejs-npm \
+    alpine-build-nodejs-yarn \
     alpine-build-python \
     alpine-build-rpi \
     alpine-build-rpi-make \
     alpine-build-rpi-python \
-    alpine-build-yarn \
     alpine-ansible \
     alpine-archiva \
-    alpine-awscli \
-    alpine-backuppc \
-    alpine-certbot \
+	alpine-certbot \
     alpine-chronograf \
-    alpine-cli53 \
     alpine-consul \
-    alpine-consul-cli \
     alpine-dnsmasq \
-    alpine-docker-compose \
-    alpine-docker-machine \
+	alpine-docker \
     alpine-docker-registry \
     alpine-dovecot \
     alpine-drone \
     alpine-drone-cli \
-    alpine-dynamodb \
     alpine-elasticsearch \
+    alpine-etcd \
     alpine-fabric \
+    alpine-geth \
     alpine-git \
+    alpine-go \
     alpine-gogs \
     alpine-grafana \
     alpine-haproxy \
     alpine-hostapd \
     alpine-hugo \
     alpine-influxdb \
+    alpine-ipfs \
     alpine-java \
     alpine-jenkins \
-    alpine-jenkins-slave \
     alpine-jetty \
     alpine-kapacitor \
     alpine-kibana \
     alpine-logstash \
     alpine-mailhog \
     alpine-mariadb \
-    alpine-mongodb \
+	alpine-n8n \
+    alpine-ndppd \
     alpine-nginx \
     alpine-node-red \
     alpine-nodejs \
     alpine-nomad \
+	alpine-odoo \
     alpine-opendkim \
     alpine-opendmarc \
     alpine-openldap \
     alpine-openssh \
+	alpine-openvpn \
     alpine-packer \
-    alpine-passbolt \
     alpine-perl \
     alpine-php \
     alpine-phpmyadmin \
@@ -72,8 +72,7 @@ SUBDIRS = \
     alpine-postfix \
     alpine-postgresql \
     alpine-python \
-    alpine-rabbitmq \
-    alpine-rabbitmqadmin \
+	alpine-rabbitmq \
     alpine-redis \
     alpine-rng \
     alpine-roundcubemail \
@@ -86,16 +85,15 @@ SUBDIRS = \
     alpine-telegraf \
     alpine-terraform \
     alpine-tomcat \
+    alpine-traefik \
     alpine-unbound \
-    alpine-xvfb \
     alpine-vault \
     alpine-wordpress \
     alpine-zabbix-agent \
     alpine-zabbix-frontend-php \
-    alpine-zabbix-java-gateway \
-    alpine-zabbix-monitor \
     alpine-zabbix-proxy-mysql \
     alpine-zabbix-proxy-pgsql \
     alpine-zabbix-proxy-sqlite \
     alpine-zabbix-server-mysql \
     alpine-zabbix-server-pgsql
+

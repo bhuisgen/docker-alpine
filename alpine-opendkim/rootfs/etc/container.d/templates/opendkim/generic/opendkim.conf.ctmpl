@@ -7,4 +7,4 @@
 {{if $opendkim_signingtable}}SigningTable {{$opendkim_signingtable}}{{end}}
 {{if $opendkim_externalignorelist}}ExternalIgnoreList {{$opendkim_externalignorelist}}{{end}}
 {{if $opendkim_internalhosts}}InternalHosts {{$opendkim_internalhosts}}{{end}}
-{{if $opendkim_syslog}}Syslog {{$opendkim_syslog}}{{end}}
+{{if eq $opendkim_syslog "1"}}Syslog {{$opendkim_syslog}}{{end}}

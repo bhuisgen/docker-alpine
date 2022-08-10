@@ -27,3 +27,5 @@ listener "tcp" {
 storage "postgresql" {
   connection_url = "{{ $vault_storage_connection_url }}"
 }
+
+disable_mlock = true

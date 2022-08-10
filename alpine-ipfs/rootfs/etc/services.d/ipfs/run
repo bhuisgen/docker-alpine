@@ -1,0 +1,6 @@
+#!/command/with-contenv sh
+
+export USER=ipfs
+export HOME=/var/lib/ipfs
+
+exec s6-setuidgid ipfs /usr/bin/ipfs daemon ${IPFS_OPTIONS}

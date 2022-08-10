@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     data:
@@ -8,9 +8,11 @@ services:
         image: bhuisgen/alpine-backup-rsync
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /srv/backups:/var/backups             # volume for storage
-            - data:/data                            # volume to backup
+            - /srv/backups:/var/backups             # storage path
+            - data:/data                            # data volume
         environment:
             - ENV=local                             # environment name
-            #- BACKUP_PATH=/var/backups             # backup storage path
-            - BACKUP_RSYNC_DIR=/data                # data directory to backup (required)
+            #- BACKUP_PATH=/var/backups             # backup path
+            #- BACKUP_DATA=/data                    # data directory to backup
+            #- BACKUP_ROTATE=1                      # enable backup files rotation
+            #- BACKUP_ROTATE_DAYS=3                 # number of backup to keep in days

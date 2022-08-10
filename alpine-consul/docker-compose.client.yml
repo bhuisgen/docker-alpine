@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 volumes:
     consul:
@@ -32,9 +32,8 @@ services:
             #- CONSUL_TLSCAFILE=                        # TLS CA certificate file
             #- CONSUL_TLSCERTFILE=                      # TLS client certificate file
             #- CONSUL_TLSKEYFILE=                       # TLS client certificate key file
-            #- CONSUL_ACLDATACENTER=                    # ACL authoritative datacenter
-            #- CONSUL_ACLTOKEN=                         # ACL token
-            #- CONSUL_ACLAGENTMASTERTOKEN=              # ACL token during server outage
-            #- CONSUL_ACLAGENTTOKEN=                    # ACL token for internal operations (ACL token by default)
+            #- CONSUL_ACLPRIMARYDATACENTER=             # ACL primary datacenter
             #- CONSUL_ACLDOWNPOLICY=extend-cache        # ACL down policy
-            #- CONSUL_ACLENFORCEVERSION8=true           # enforce ACL version 8
+            #- CONSUL_ACLTOKENDEFAULT=                  # ACL default token
+            #- CONSUL_ACLTOKENAGENTMASTER=              # ACL agent master token
+            #- CONSUL_ACLTOKENAGENT=                    # ACL agent token

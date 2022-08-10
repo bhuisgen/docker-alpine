@@ -1,0 +1,4 @@
+STORAGE_PATH=/srv/backups
+MARIADB_NETWORK=backend
+MARIADB_HOST=postgresql
+MARIADB_PORT=5432
