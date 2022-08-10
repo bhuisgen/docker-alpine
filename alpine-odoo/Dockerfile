@@ -18,8 +18,6 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://github.com/odoo/odoo/archive/15.0.tar.gz /tmp/odoo.tar.gz
-
 RUN mkdir /var/lib/odoo && \
     addgroup -S odoo && \
     adduser -S -D -g "" -G odoo -s /sbin/nologin -h /var/lib/odoo odoo && \
@@ -29,6 +27,8 @@ RUN mkdir /var/lib/odoo && \
 # wkhtmltopdf
 COPY --from=madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10-606718795 \
     /bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+# gevent, greenlet
+COPY ./requirements.txt /root
 
 RUN apk add --update --no-cache --progress gettext git ghostscript gnupg nodejs npm openssl postgresql-client python3 \
         libffi libxml2 libxslt freetype jpeg lcms2 openjpeg tcl tiff tk zlib py3-pyldap py3-pip libgcc libstdc++ \
@@ -38,10 +38,9 @@ RUN apk add --update --no-cache --progress gettext git ghostscript gnupg nodejs 
     apk add --virtual .build-deps --no-cache --progress build-base python3-dev libffi-dev libxml2-dev libxslt-dev \
         freetype-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev linux-headers postgresql-dev \
         openldap-dev rust cargo && \
-    mkdir /usr/local/odoo && \
-    tar -xzf /tmp/odoo.tar.gz -C /usr/local/odoo --strip-components 1 && \
-    rm /tmp/odoo.tar.gz && \
+    git clone --depth 1 https://github.com/odoo/odoo.git -b 15.0 /usr/local/odoo && \
     cd /usr/local/odoo && \
+    mv /root/requirements.txt . && \
     pip3 install -r ./requirements.txt && \
     apk del .build-deps && \
     mkdir -p /var/log/odoo /opt/addons /opt/community && \
