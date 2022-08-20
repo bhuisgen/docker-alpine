@@ -18,7 +18,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-RUN apk add --update --no-cache --progress iptables strongswan
+RUN apk add --update --no-cache --progress iptables ip6tables strongswan
 
 COPY rootfs/ /
 
