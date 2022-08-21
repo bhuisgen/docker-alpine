@@ -1,0 +1,47 @@
+{{- $strongswan_cacert := env "STRONGSWAN_CACERT" -}}
+{{- $strongswan_left := env "STRONGSWAN_LEFT" -}}
+{{- $strongswan_left_cert := env "STRONGSWAN_LEFTCERT" -}}
+{{- $strongswan_left_id := env "STRONGSWAN_LEFTID" -}}
+{{- $strongswan_left_subnet := env "STRONGSWAN_LEFTSUBNET" -}}
+{{- $strongswan_right := env "STRONGSWAN_RIGHT" -}}
+{{- $strongswan_right_id := env "STRONGSWAN_RIGHTID" -}}
+{{- $strongswan_right_subnet := env "STRONGSWAN_RIGHTSUBNET" -}}
+{{- $strongswan_start_action := env "STRONGSWAN_STARTACTION" -}}
+authorities {
+    strongswan {
+        cacert = {{$strongswan_cacert}}
+    }
+}
+
+connections {
+    net-net {
+        local_addrs  = {{$strongswan_left}}
+        remote_addrs = {{$strongswan_right}}
+
+        local {
+            auth = pubkey
+            certs = {{$strongswan_left_cert}}
+            id = {{$strongswan_left_id}}
+        }
+
+        remote {
+            auth = pubkey
+            id = {{$strongswan_right_id}}
+        }
+
+        children {
+            net-net {
+                local_ts = {{$strongswan_left_subnet}}
+                remote_ts = {{$strongswan_right_subnet}}
+
+                updown = /usr/lib/strongswan/_updown iptables
+                esp_proposals = aes128-sha256-x25519
+                start_action = {{$strongswan_action}}
+            }
+        }
+
+        version = 2
+        mobike = no
+        proposals = aes128-sha256-x25519
+    }
+}
