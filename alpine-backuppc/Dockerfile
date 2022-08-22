@@ -29,7 +29,7 @@ ADD https://github.com/backuppc/rsync-bpc/releases/download/3.1.3.0/rsync-bpc-3.
 
 RUN apk add --update --no-cache --progress openssh-client perl perl-archive-zip perl-xml-rss perl-cgi \
         perl-file-listing perl-json-xs rrdtool ttf-dejavu rsync samba-client sudo tar gzip pigz \
-        lighttpd lighttpd-mod_auth && \
+        lighttpd lighttpd-mod_auth msmtp && \
     apk add --update --no-cache --progress -X http://dl-cdn.alpinelinux.org/alpine/edge/community par2cmdline && \
     apk add --update --no-cache --virtual build-dependencies gcc g++ autoconf automake make git perl-dev acl-dev && \
     mkdir /tmp/backuppc-xs && \
@@ -52,7 +52,8 @@ RUN apk add --update --no-cache --progress openssh-client perl perl-archive-zip 
         --log-dir /var/lib/backuppc/log --html-dir /var/www/html/BackupPC --html-dir-url /BackupPC \
         --hostname "$HOSTNAME" --backuppc-user backuppc && \    
     rm -fr /tmp/backuppc* && \
-    apk del build-dependencies
+    apk del build-dependencies && \
+    ln -sf /usr/bin/msmtp /usr/sbin/sendmail
 
 COPY rootfs/ /
 

@@ -1,0 +1,21 @@
+{{- $mail_host := env "BACKUPPC_MAILHOST" -}}
+{{- $mail_port := env "BACKUPPC_MAILPORT" -}}
+{{- $mail_from := env "BACKUPPC_MAILFROM" -}}
+{{- $mail_user := env "BACKUPPC_MAILUSER" -}}
+{{- $mail_password := env "BACKUPPC_MAILUSERPASSWORD" -}}
+defaults
+auth           on
+tls            on
+tls_starttls   on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        ~/.msmtp.log
+
+account        mail
+auth           plain
+host           {{$mail_host}}
+port           {{$mail_port}}
+from           {{$mail_from}}
+user           {{$mail_user}}
+password       {{$mail_password}}
+
+account default : mail

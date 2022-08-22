@@ -18,3 +18,8 @@ services:
             # template generic
             #
             #- BACKUPPC_INIT=1                      # enable default config initialization
+            #- BACKUPPC_MAILHOST=                   # mail host
+            #- BACKUPPC_MAILPORT=                   # mail port
+            #- BACKUPPC_MAILFROM=                   # mail from address
+            #- BACKUPPC_MAILUSER=                   # mail auth user
+            #- BACKUPPC_MAILUSERPASSWORD=           # mail auth password
