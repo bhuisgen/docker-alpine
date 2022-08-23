@@ -147,6 +147,7 @@ milter_protocol = 6
 smtpd_milters =
     {{if $postfix_opendkim_servers}}{{range $server := $postfix_opendkim_servers | split ","}}{{$server}}{{end}}{{end}}
     {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
+non_smtpd_milters = $smtpd_milters
 
 virtual_transport =
     {{if $postfix_lmtp_servers}}{{range $server := $postfix_lmtp_servers | split ","}}lmtp:{{$server}}{{end}}{{end}}

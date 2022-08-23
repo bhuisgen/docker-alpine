@@ -102,6 +102,7 @@ milter_protocol = 6
 smtpd_milters =
     {{if $postfix_opendkim_servers}}{{range $server := $postfix_opendkim_servers | split ","}}{{$server}}{{end}}{{end}}
     {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
+non_smtpd_milters = $smtpd_milters
 
 smtpd_helo_required = yes
 disable_vrfy_command = yes
