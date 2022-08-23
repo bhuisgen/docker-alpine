@@ -1,0 +1,18 @@
+{{- $strongswanmonitor := env "STRONGSWANMONITOR" -}}
+{{- $strongswanping := env "STRONGSWANPING" -}}
+#!/command/with-contenv sh
+
+STRONGSWANMONITOR="{{$strongswanmonitor}}"
+STRONGSWANPING="{{$strongswanping}}"
+
+if [ ! -z "${STRONGSWANMONITOR}" ] && [ "${STRONGSWANMONITOR}" -eq 1 ]; then
+    rm -f /etc/services.d/strongswan-monitor/down
+else
+    touch /etc/services.d/strongswan-monitor/down
+fi
+
+if [ ! -z "${STRONGSWANPING}" ] && [ "${STRONGSWANPING}" -eq 1 ]; then
+    rm -f /etc/services.d/strongswan-ping/down
+else
+    touch /etc/services.d/strongswan-ping/down
+fi

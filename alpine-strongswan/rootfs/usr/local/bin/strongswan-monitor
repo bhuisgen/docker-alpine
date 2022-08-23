@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+function usage {
+    echo -e "Usage: $(basename "$0") [-s <SECS>] [-i <SECS>]"
+    echo -e ""
+    echo -e "Monitor strongswan connections."
+    echo -e ""
+    echo -e "Options:"
+    echo -e "  -s, --startup <SECS>\t\tstartup delay in seconds"
+    echo -e "  -i, --interval <SECS>\t\tcheck interval in seconds"
+    echo -e ""
+    echo -e "  -h, --help\t\t\tdisplay this help and exit"
+}
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case "$key" in
+        -s|--startup)
+        if [ -z "$2" ]; then
+            usage
+            exit 1
+        fi
+
+        STRONGSWANMONITOR_STARTUP=$2
+        shift 2
+        ;;
+
+        -i|--interval)
+        if [ -z "$2" ]; then
+            usage
+            exit 1
+        fi
+
+        STRONGSWANMONITOR_INTERVAL=$2
+        shift 2
+        ;;
+
+        -h|-help)
+        usage
+        exit 0
+        ;;
+
+        *)
+        usage
+        exit 1
+        ;;
+    esac
+done
+
+if [ -z "${STRONGSWANMONITOR_STARTUP}" ]; then
+    STRONGSWANMONITOR_STARTUP=60
+fi
+
+if [ -z "${STRONGSWANMONITOR_INTERVAL}" ]; then
+    STRONGSWANMONITOR_INTERVAL=60
+fi
+
+trap 'exit 1' ERR INT TERM
+
+sleep "${STRONGSWANMONITOR_STARTUP}"
+
+while true; do
+    conns=$(swanctl --list-conns|grep -v '^ '|cut -d':' -f 1)
+    for c in ${conns}; do
+        (status=$(swanctl --list-sas --ike "${c}"|grep -c "^${c}:.*, ESTABLISHED") && [ "${status}" -eq 1 ]) || ( \
+            echo "Starting connection ${c} ..."
+            swanctl --initiate --ike "${c}" )
+    done
+
+    sleep ${STRONGSWANMONITOR_INTERVAL}
+done

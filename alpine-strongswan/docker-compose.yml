@@ -31,3 +31,7 @@ services:
             #- STRONGSWAN_RIGHTID="CN=vpn-02"               # VPN right id
             #- STRONGSWAN_RIGHTSUBNET=10.2.0.0/16           # VPN right subnet
             #- STRONGSWAN_STARTACTION=start                 # startup action
+            #- STRONGSWANMONITOR=0                          # enable monitor
+            #- STRONGSWANMONITOR_OPTIONS=                   # monitor options
+            #- STRONGSWANPING=0                             # enable ping
+            #- STRONGSWANPING_OPTIONS=                      # ping options
