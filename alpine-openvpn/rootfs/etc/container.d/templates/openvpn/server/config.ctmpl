@@ -1,3 +1,22 @@
+{{- $openvpn_dev := env "OPENVPN_DEV" -}}
+{{- $openvpn_proto := env "OPENVPN_PROTO" -}}
+{{- $openvpn_tls_ca := env "OPENVPN_TLSCA" -}}
+{{- $openvpn_tls_cert := env "OPENVPN_TLSCERT" -}}
+{{- $openvpn_tls_key := env "OPENVPN_TLSKEY" -}}
+{{- $openvpn_tls_auth_key := env "OPENVPN_TLSAUTHKEY" -}}
+{{- $openvpn_dh := env "OPENVPN_DH" -}}
+{{- $openvpn_server := env "OPENVPN_SERVER" -}}
+{{- $openvpn_server_bridge := env "OPENVPN_SERVERBRIDGE" -}}
+{{- $openvpn_push := env "OPENVPN_PUSH" -}}
+{{- $openvpn_clienttoclient := "OPENVPN_CLIENTTOCLIENT" -}}
+{{- $openvpn_duplicatecn := "OPENVPN_DUPLICATECN" -}}
+{{- $openvpn_keepalive_ping := env "OPENVPN_KEEPALIVEPING" -}}
+{{- $openvpn_keepalive_limit := env "OPENVPN_KEEPALIVELIMIT" -}}
+{{- $openvpn_cipher := env "OPENVPN_CIPHER" -}}
+{{- $openvpn_max_clients := env "OPENVPN_MAXCLIENTS" -}}
+{{- $openvpn_verb := env "OPENVPN_VERB" -}}
+{{- $openvpn_comp := env "OPENVPN_COMP" -}}
+{{- $openvpn_mute := env "OPENVPN_MUTE" -}}
 #################################################
 # Sample OpenVPN 2.0 config file for            #
 # multi-client server.                          #
@@ -32,8 +51,7 @@
 port 1194
 
 # TCP or UDP server?
-;proto tcp
-proto udp
+proto {{if $openvpn_proto}}{{$openvpn_proto}}{{else}}udp{{end}}
 
 # "dev tun" will create a routed IP tunnel,
 # "dev tap" will create an ethernet tunnel.
@@ -49,8 +67,7 @@ proto udp
 # On most systems, the VPN will not function
 # unless you partially or fully disable
 # the firewall for the TUN/TAP interface.
-;dev tap
-dev tun
+dev {{$openvpn_dev}}
 
 # Windows needs the TAP-Win32 adapter name
 # from the Network Connections panel if you
@@ -75,14 +92,14 @@ dev tun
 # Any X509 key management system can be used.
 # OpenVPN can also use a PKCS #12 formatted key file
 # (see "pkcs12" directive in man page).
-ca ca.crt
-cert server.crt
-key server.key  # This file should be kept secret
+ca {{if $openvpn_tls_ca}}{{$openvpn_tls_ca}}{{else}}ca.crt{{end}}
+cert {{if $openvpn_tls_cert}}{{$openvpn_tls_cert}}{{else}}server.crt{{end}}
+key {{if $openvpn_tls_key}}{{$openvpn_tls_key}}{{else}}server.key{{end}} # This file should be kept secret
 
 # Diffie hellman parameters.
 # Generate your own with:
 #   openssl dhparam -out dh2048.pem 2048
-dh dh2048.pem
+{{if $openvpn_dh}}dh {{$openvpn_dh}}{{end}}
 
 # Network topology
 # Should be subnet (addressing via IP)
@@ -98,7 +115,7 @@ dh dh2048.pem
 # Each client will be able to reach the server
 # on 10.8.0.1. Comment this line out if you are
 # ethernet bridging. See the man page for more info.
-server 10.8.0.0 255.255.255.0
+server {{$openvpn_server}}
 
 # Maintain a record of client <-> virtual IP address
 # associations in this file.  If OpenVPN goes down or
@@ -117,7 +134,8 @@ ifconfig-pool-persist ipp.txt
 # (start=10.8.0.50 end=10.8.0.100) to allocate
 # to connecting clients.  Leave this line commented
 # out unless you are ethernet bridging.
-;server-bridge 10.8.0.4 255.255.255.0 10.8.0.50 10.8.0.100
+{{;server-bridge 10.8.0.4 255.255.255.0 10.8.0.50 10.8.0.100}}
+{{if $openvpn_server_bridge}}server-bridge {{$openvpn_server_bridge}}{{end}}
 
 # Configure server mode for ethernet bridging
 # using a DHCP-proxy, where clients talk
@@ -130,6 +148,10 @@ ifconfig-pool-persist ipp.txt
 # Windows), where the client-side TAP adapter is
 # bound to a DHCP client.
 ;server-bridge
+
+{{range $push := $openvpn_push | split ","}}
+push {{$push}}
+{{end}}
 
 # Push routes to the client to allow it
 # to reach other private subnets behind
@@ -206,7 +228,7 @@ ifconfig-pool-persist ipp.txt
 # To force clients to only see the server, you
 # will also need to appropriately firewall the
 # server's TUN/TAP interface.
-;client-to-client
+{{if eq $openvpn_clienttoclient 1}}client-to-client{{else}};client-to-client{{end}}
 
 # Uncomment this directive if multiple clients
 # might connect with the same certificate/key
@@ -219,7 +241,7 @@ ifconfig-pool-persist ipp.txt
 # CERTIFICATE/KEY PAIRS FOR EACH CLIENT,
 # EACH HAVING ITS OWN UNIQUE "COMMON NAME",
 # UNCOMMENT THIS LINE OUT.
-;duplicate-cn
+{{if eq $openvpn_duplicatecn}}duplicate-cn{{else}};duplicate-cn{{end}}
 
 # The keepalive directive causes ping-like
 # messages to be sent back and forth over
@@ -228,7 +250,7 @@ ifconfig-pool-persist ipp.txt
 # Ping every 10 seconds, assume that remote
 # peer is down if no ping received during
 # a 120 second time period.
-keepalive 10 120
+keepalive {{if $openvpn_keepalive_ping}}{{$openvpn_keepalive_ping}}{{else}}10{{end}} {{if $openvpn_keepalive_limit}}{{$openvpn_keepalive_limit}}{{else}}120{{end}}
 
 # For extra security beyond that provided
 # by SSL/TLS, create an "HMAC firewall"
@@ -241,7 +263,7 @@ keepalive 10 120
 # a copy of this key.
 # The second parameter should be '0'
 # on the server and '1' on the clients.
-tls-auth ta.key 0 # This file is secret
+tls-auth {{if $openvpn_tls_auth_key}}{{$openvpn_tls_auth_key}}{{else}}ta.key{{end}} 0 # This file is secret
 
 # Select a cryptographic cipher.
 # This config item must be copied to
@@ -249,7 +271,7 @@ tls-auth ta.key 0 # This file is secret
 # Note that v2.4 client/server will automatically
 # negotiate AES-256-GCM in TLS mode.
 # See also the ncp-cipher option in the manpage
-cipher AES-256-CBC
+cipher {{if $openvpn_cipher}}{{$openvpn_cipher}}{{else}}AES-256-CBC{{end}}
 
 # Enable compression on the VPN link and push the
 # option to the client (v2.4+ only, for earlier
@@ -260,11 +282,11 @@ cipher AES-256-CBC
 # For compression compatible with older clients use comp-lzo
 # If you enable it here, you must also
 # enable it in the client config file.
-;comp-lzo
+{{if eq $openvpn_comp 1}}comp-lzo{{else}};comp-lzo{{end}}
 
 # The maximum number of concurrently connected
 # clients we want to allow.
-;max-clients 100
+{{if $openvpn_max_clients}}max-clients {{$openvpn_max_clients}}{{else}};max-clients 100{{end}}
 
 # It's a good idea to reduce the OpenVPN
 # daemon's privileges after initialization.
@@ -303,7 +325,7 @@ status openvpn-status.log
 # 4 is reasonable for general usage
 # 5 and 6 can help to debug connection problems
 # 9 is extremely verbose
-verb 3
+verb {{if $openvpn_verb}}{{$openvpn_verb}}{{else}}3{{end}}
 
 # Silence repeating messages.  At most 20
 # sequential messages of the same message

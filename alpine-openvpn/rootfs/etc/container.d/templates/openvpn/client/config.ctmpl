@@ -9,7 +9,6 @@
 {{- $openvpn_verb := env "OPENVPN_VERB" -}}
 {{- $openvpn_comp := env "OPENVPN_COMP" -}}
 {{- $openvpn_mute := env "OPENVPN_MUTE" -}}
-
 ##############################################
 # Sample client-side OpenVPN 2.0 config file #
 # for connecting to multi-client server.     #
@@ -32,8 +31,7 @@ client
 # On most systems, the VPN will not function
 # unless you partially or fully disable
 # the firewall for the TUN/TAP interface.
-;dev tap
-
+dev {{$openvpn_dev}}
 
 # Windows needs the TAP-Win32 adapter name
 # from the Network Connections panel
@@ -51,8 +49,9 @@ proto {{if $openvpn_proto}}{{$openvpn_proto}}{{else}}udp{{end}}
 # The hostname/IP and port of the server.
 # You can have multiple remote entries
 # to load balance between the servers.
-;remote my-server-2 1194
-remote my-server-1 1194
+{{range $remote := $openvpn_remotes | split ","}}
+remote {{$remote}}
+{{end}}
 
 # Choose a random host from the remote
 # list for load-balancing.  Otherwise
@@ -97,9 +96,9 @@ persist-tun
 # a separate .crt/.key file pair
 # for each client.  A single ca
 # file can be used for all clients.
-ca ca.crt
-cert client.crt
-key client.key
+ca {{if $openvpn_tls_ca}}{{$openvpn_tls_ca}}{{else}}ca.crt{{end}}
+cert {{if $openvpn_tls_cert}}{{$openvpn_tls_cert}}{{else}}client.crt{{end}}
+key {{if $openvpn_tls_key}}{{$openvpn_tls_key}}{{else}}client.key{{end}}
 
 # Verify server certificate by checking that the
 # certificate has the correct key usage set.
@@ -117,7 +116,7 @@ remote-cert-tls server
 
 # If a tls-auth key is used on the server
 # then every client must also have the key.
-tls-auth ta.key 1
+tls-auth {{if $openvpn_tls_auth_key}}{{$openvpn_tls_auth_key}}{{else}}ta.key{{end}} 1
 
 # Select a cryptographic cipher.
 # If the cipher option is used on the server
@@ -125,15 +124,15 @@ tls-auth ta.key 1
 # Note that v2.4 client/server will automatically
 # negotiate AES-256-GCM in TLS mode.
 # See also the data-ciphers option in the manpage
-cipher AES-256-CBC
+cipher {{if $openvpn_cipher}}{{$openvpn_cipher}}{{else}}AES-256-CBC{{end}}
 
 # Enable compression on the VPN link.
 # Don't enable this unless it is also
 # enabled in the server config file.
-#comp-lzo
+{{if eq $openvpn_comp 1}}comp-lzo{{else}};comp-lzo{{end}}
 
 # Set log file verbosity.
-verb 3
+verb {{if $openvpn_verb}}{{$openvpn_verb}}{{else}}3{{end}}
 
 # Silence repeating messages
 ;mute 20
