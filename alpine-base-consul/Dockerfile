@@ -28,7 +28,7 @@ RUN mkdir /var/lib/consul && \
     chown consul:consul /var/lib/consul && \
     chmod 700 /var/lib/consul
 
-ADD https://releases.hashicorp.com/consul-template/0.29.0/consul-template_0.29.0_linux_amd64.zip \
+ADD https://releases.hashicorp.com/consul-template/0.29.4/consul-template_0.29.4_linux_amd64.zip \
         /tmp/consul-template.zip
 
 RUN apk add --update --no-cache --progress zip && \
