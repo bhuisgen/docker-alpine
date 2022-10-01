@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://releases.hashicorp.com/packer/1.8.1/packer_1.8.1_linux_amd64.zip /tmp/packer.zip
+ADD https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip /tmp/packer.zip
 
 RUN apk add --update --no-cache --progress zip && \
     unzip /tmp/packer.zip -d /usr/bin && \
