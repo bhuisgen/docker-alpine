@@ -18,7 +18,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://releases.hashicorp.com/consul/1.12.2/consul_1.12.2_linux_amd64.zip /tmp/consul.zip
+ADD https://releases.hashicorp.com/consul/1.13.2/consul_1.13.2_linux_amd64.zip /tmp/consul.zip
 
 RUN apk add --update --no-cache --progress zip && \
     unzip /tmp/consul.zip -d /bin && \
