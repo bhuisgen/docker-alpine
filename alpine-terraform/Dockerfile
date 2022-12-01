@@ -18,11 +18,11 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 ADD https://releases.hashicorp.com/terraform/1.3.1/terraform_1.3.1_linux_amd64.zip /tmp/terraform.zip
 
 RUN apk add --update --no-cache --progress zip && \
-    unzip /tmp/terraform.zip -d /usr/bin && \
+    unzip /tmp/terraform.zip -d /usr/local/bin && \
     rm /tmp/terraform.zip && \
     apk del zip
 
-ENTRYPOINT ["/usr/bin/terraform"]
+ENTRYPOINT ["/usr/local/bin/terraform"]
 CMD []
 
 VOLUME ["/data"]
