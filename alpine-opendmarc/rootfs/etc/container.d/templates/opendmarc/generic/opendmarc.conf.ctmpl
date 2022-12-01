@@ -1,8 +1,12 @@
 {{- $opendmarc_authservid := env "OPENDMARC_AUTHSERVID" -}}
 {{- $opendmarc_ignoremailfrom := env "OPENDMARC_IGNOREMAILFROM" -}}
+{{- $opendmarc_ignoreauthenticatedclients := env "OPENDMARC_IGNOREAUTHENTICATEDCLIENTS" -}}
 {{- $opendmarc_rejectfailures := env "OPENDMARC_REJECTFAILURES" -}}
+{{- $opendmarc_spfselfvalidate := env "OPENDMARC_SPFSELFVALIDATE" -}}
 {{- $opendmarc_syslog := env "OPENDMARC_SYSLOG" -}}
 {{if $opendmarc_authservid}}AuthservID {{$opendmarc_authservid}}{{end}}
 {{if $opendmarc_ignoremailfrom}}IgnoreMailFrom {{$opendmarc_ignoremailfrom}}{{end}}
+{{if $opendmarc_ignoreauthenticatedclients}}IgnoreAuthenticatedClients {{$opendmarc_ignoreauthenticatedclients}}{{end}}
 {{if $opendmarc_rejectfailures}}RejectFailures {{$opendmarc_rejectfailures}}{{end}}
+{{if $opendmarc_spfselfvalidate}}SPFSelfValidate {{$opendmarc_spfselfvalidate}}{{end}}
 {{if eq $opendmarc_syslog "1"}}Syslog {{$opendmarc_syslog}}{{end}}
