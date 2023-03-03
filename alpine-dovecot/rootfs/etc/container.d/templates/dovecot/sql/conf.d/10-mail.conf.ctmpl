@@ -49,11 +49,11 @@ namespace inbox {
   # Hierarchy separator to use. You should use the same separator for all
   # namespaces or some clients get confused. '/' is usually a good one.
   # The default however depends on the underlying mail storage format.
-  #separator =
+  #separator = 
 
   # Prefix required to access this namespace. This needs to be different for
   # all namespaces. For example "Public/".
-  #prefix =
+  #prefix = 
 
   # Physical location of the mailbox. This is in same format as
   # mail_location, which is also the default for it.
@@ -135,7 +135,7 @@ namespace inbox {
 
 # A comment or note that is associated with the server. This value is
 # accessible for authenticated users through the IMAP METADATA server
-# entry "/shared/comment".
+# entry "/shared/comment". 
 #mail_server_comment = ""
 
 # Indicates a method for contacting the server administrator. According to
@@ -143,7 +143,7 @@ namespace inbox {
 # is currently not enforced. Use for example mailto:admin@example.com. This
 # value is accessible for authenticated users through the IMAP METADATA server
 # entry "/shared/admin".
-#mail_server_admin =
+#mail_server_admin = 
 
 ##
 ## Mail processes
@@ -199,7 +199,7 @@ namespace inbox {
 # WARNING: Never add directories here which local users can modify, that
 # may lead to root exploit. Usually this should be done only if you don't
 # allow shell access for users. <doc/wiki/Chrooting.txt>
-#valid_chroot_dirs =
+#valid_chroot_dirs = 
 
 # Default chroot directory for mail processes. This can be overridden for
 # specific users in user database by giving /./ in user's home directory
@@ -207,7 +207,7 @@ namespace inbox {
 # need to do chrooting, Dovecot doesn't allow users to access files outside
 # their mail directory anyway. If your home directories are prefixed with
 # the chroot directory, append "/." to mail_chroot. <doc/wiki/Chrooting.txt>
-#mail_chroot =
+#mail_chroot = 
 
 # UNIX socket path to master authentication server to find users.
 # This is used by imap (for shared users) and lda.
@@ -218,7 +218,7 @@ namespace inbox {
 
 # Space separated list of plugins to load for all services. Plugins specific to
 # IMAP, LDA, etc. are added to this list in their own .conf files.
-#mail_plugins =
+#mail_plugins = 
 
 ##
 ## Mailbox handling optimizations
@@ -341,7 +341,7 @@ mbox_write_locks = fcntl
 # fallbacks to re-reading the whole mbox file whenever something in mbox isn't
 # how it's expected to be. The only real downside to this setting is that if
 # some other MUA changes message flags, Dovecot doesn't notice it immediately.
-# Note that a full sync is done with SELECT, EXAMINE, EXPUNGE and CHECK
+# Note that a full sync is done with SELECT, EXAMINE, EXPUNGE and CHECK 
 # commands.
 #mbox_dirty_syncs = yes
 
@@ -410,7 +410,8 @@ mbox_write_locks = fcntl
 # Settings to control adding $HasAttachment or $HasNoAttachment keywords.
 # By default, all MIME parts with Content-Disposition=attachment, or inlines
 # with filename parameter are consired attachments.
-#   add-flags-on-save - Add the keywords when saving new mails.
+#   add-flags - Add the keywords when saving new mails or when fetching can
+#      do it efficiently.
 #   content-type=type or !type - Include/exclude content type. Excluding will
 #     never consider the matched MIME part as attachment. Including will only
 #     negate an exclusion (e.g. content-type=!foo/* content-type=foo/bar).

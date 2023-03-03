@@ -2,7 +2,7 @@
 
 # Don't forget to add the sieve_extprograms plugin to the sieve_plugins setting.
 # Also enable the extensions you need (one or more of vnd.dovecot.pipe,
-# vnd.dovecot.filter and vnd.dovecot.execute) by adding these	to the
+# vnd.dovecot.filter and vnd.dovecot.execute) by adding these   to the
 # sieve_extensions or sieve_global_extensions settings. Restricting these
 # extensions to a global context using sieve_global_extensions is recommended.
 
@@ -33,11 +33,11 @@ plugin {
   # Use some unprivileged user for executing the program
   #user = dovenull
 
-  # The unix socket located in the sieve_pipe_socket_dir (as defined in the
+  # The unix socket located in the sieve_pipe_socket_dir (as defined in the 
   # plugin {} section above)
   #unix_listener sieve-pipe/do-something {
     # LDA/LMTP must have access
-  #  user = vmail
+  #  user = vmail  
   #  mode = 0600
   #}
 #}

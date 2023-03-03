@@ -29,7 +29,7 @@ ssl_key = <{{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/s
 # PEM encoded trusted certificate authority. Set this only if you intend to use
 # ssl_verify_client_cert=yes. The file should contain the CA certificate(s)
 # followed by the matching CRL(s). (e.g. ssl_ca = </etc/ssl/certs/ca.pem)
-#ssl_ca =
+#ssl_ca = 
 
 # Require that CRL check succeeds for client certificates.
 #ssl_require_crl = yes
@@ -62,8 +62,11 @@ ssl_key = <{{if $dovecot_ssl_key}}{{$dovecot_ssl_key}}{{else}}/etc/ssl/dovecot/s
 #ssl_dh = </etc/dovecot/dh.pem
 
 # Minimum SSL protocol version to use. Potentially recognized values are SSLv3,
-# TLSv1, TLSv1.1, and TLSv1.2, depending on the OpenSSL version used.
-{{if $dovecot_ssl_min_protocol}}ssl_min_protocol = {{$dovecot_ssl_min_protocol}}{{else}}#ssl_min_protocol = TLSv1{{end}}
+# TLSv1, TLSv1.1, TLSv1.2 and TLSv1.3, depending on the OpenSSL version used.
+#
+# Dovecot also recognizes values ANY and LATEST. ANY matches with any protocol
+# version, and LATEST matches with the latest version supported by library.
+{{if $dovecot_ssl_min_protocol}}ssl_min_protocol = {{$dovecot_ssl_min_protocol}}{{else}}#ssl_min_protocol = TLSv1.2{{end}}
 
 # SSL ciphers to use, the default is:
 #ssl_cipher_list = ALL:!kRSA:!SRP:!kDHd:!DSS:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH

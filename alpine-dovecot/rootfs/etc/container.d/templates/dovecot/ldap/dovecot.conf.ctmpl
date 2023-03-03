@@ -27,10 +27,10 @@
 # options. The paths listed here are for configure --prefix=/usr
 # --sysconfdir=/etc --localstatedir=/var
 
-# Protocols we want to be serving.
+# Enable installed protocols.
 {{if $dovecot_protocols}}protocols = {{$dovecot_protocols}}{{else}}#protocols = imap pop3 lmtp{{end}}
 
-# A comma separated list of IPs or hosts where to listen in for connections.
+# A comma separated list of IPs or hosts where to listen in for connections. 
 # "*" listens in all IPv4 interfaces, "::" listens in all IPv6 interfaces.
 # If you want to specify non-default ports or anything more complex,
 # edit conf.d/master.conf.

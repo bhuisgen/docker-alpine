@@ -43,7 +43,7 @@ hosts = {{$dovecot_ldap_hosts}}
 
 # LDAP URIs to use. You can use this instead of hosts list. Note that this
 # setting isn't supported by all LDAP libraries.
-#uris =
+#uris = 
 
 # Distinguished Name - the username used to login to the LDAP server.
 # Leave it commented out to bind anonymously (useful with auth_bind=yes).

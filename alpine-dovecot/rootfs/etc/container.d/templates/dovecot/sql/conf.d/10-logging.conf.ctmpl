@@ -7,9 +7,9 @@
 log_path = /dev/stderr
 
 # Log file to use for informational messages. Defaults to log_path.
-#info_log_path =
+#info_log_path = 
 # Log file to use for debug messages. Defaults to info_log_path.
-#debug_log_path =
+#debug_log_path = 
 
 # Syslog facility to use if you're logging to syslog. Usually if you don't
 # want to use "mail", you'll use local0..local7. Also other standard
@@ -23,22 +23,18 @@ log_path = /dev/stderr
 # Log filter is a space-separated list conditions. If any of the conditions
 # match, the log filter matches (i.e. they're ORed together). Parenthesis
 # are supported if multiple conditions need to be matched together.
-# Supported conditions are:
-#  event:<name wildcard> - Match event name. '*' and '?' wildcards supported.
-#  source:<filename>[:<line number>] - Match source code filename [and line]
-#  field:<key>=<value wildcard> - Match field key to a value. Can be specified
-#    multiple times to match multiple keys.
-#  cat[egory]:<value> - Match a category. Can be specified multiple times to
-#    match multiple categories.
-# For example: event:http_request_* (cat:error cat:storage)
-
+#
+# See https://doc.dovecot.org/configuration_manual/event_filter/ for details.
+#
+# For example: event=http_request_* AND category=error AND category=storage
+#
 # Filter to specify what debug logging to enable. This will eventually replace
 # mail_debug and auth_debug settings.
-#log_debug =
+#log_debug = 
 
-# Crash after logging a matching event. For example category:error will crash
+# Crash after logging a matching event. For example category=error will crash
 # any time an error is logged, which can be useful for debugging.
-#log_core_filter =
+#log_core_filter = 
 
 # Log unsuccessful authentication attempts and the reasons why they failed.
 #auth_verbose = no
@@ -89,7 +85,7 @@ plugin {
 # Login log format. %s contains login_log_format_elements string, %$ contains
 # the data we want to log.
 #login_log_format = %$: %s
-
+ 
 # Log prefix for mail processes. See doc/wiki/Variables.txt for list of
 # possible variables you can use.
 #mail_log_prefix = "%s(%u)<%{pid}><%{session}>: "
