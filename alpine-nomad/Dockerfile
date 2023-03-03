@@ -26,10 +26,10 @@ RUN mkdir /var/lib/nomad && \
 
 ADD https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub /etc/apk/keys/sgerrand.rsa.pub
 ADD https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r0/glibc-2.35-r0.apk /tmp/glibc.apk
-ADD https://releases.hashicorp.com/nomad/1.3.1/nomad_1.3.1_linux_amd64.zip /tmp/nomad.zip
+ADD https://releases.hashicorp.com/nomad/1.4.4/nomad_1.4.4_linux_amd64.zip /tmp/nomad.zip
 
 RUN apk add --update --no-cache --progress zip && \
-    apk add /tmp/glibc.apk && \
+    apk add --force-overwrite /tmp/glibc.apk && \
     rm /tmp/glibc.apk && \
     unzip /tmp/nomad.zip -d /bin && \
     rm /tmp/nomad.zip && \
