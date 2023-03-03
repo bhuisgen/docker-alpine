@@ -10,7 +10,7 @@ RUN mkdir /var/lib/mailhog && \
 
 RUN apk add --update --no-cache --progress --virtual .build-deps go git musl-dev && \
     export GOPATH=/usr/local/src/ && \
-    go get github.com/mailhog/MailHog && \
+    go install github.com/mailhog/MailHog@latest && \
     mv /usr/local/src/bin/MailHog /usr/local/bin && \
     apk del .build-deps && \
     rm -rf /usr/local/src/*
