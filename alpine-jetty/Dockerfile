@@ -27,7 +27,7 @@ RUN mkdir /var/lib/jetty && \
     adduser -S -D -g "" -G jetty -s /sbin/nologin -h /var/lib/jetty jetty && \
     chown jetty:jetty /var/lib/jetty
 
-ADD https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.9/jetty-home-11.0.9.tar.gz /tmp/jetty.tar.gz
+ADD https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.14/jetty-home-11.0.14.tar.gz /tmp/jetty.tar.gz
 
 RUN apk add --update --no-cache --progress openjdk11-jre && \
     mkdir ${JETTY_HOME} && \
