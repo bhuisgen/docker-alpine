@@ -15,7 +15,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
     org.label-schema.version="$BUILD_VERSION" \
     org.label-schema.schema-version="1.0"
 
-ADD https://releases.hashicorp.com/terraform/1.3.1/terraform_1.3.1_linux_amd64.zip /tmp/terraform.zip
+ADD https://releases.hashicorp.com/terraform/1.3.9/terraform_1.3.9_linux_amd64.zip /tmp/terraform.zip
 
 RUN apk add --update --no-cache --progress zip && \
     unzip /tmp/terraform.zip -d /usr/local/bin && \
