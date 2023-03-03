@@ -1,5 +1,6 @@
 Babel==2.9.1  # min version = 2.6.0 (Focal with security backports)
 chardet==3.0.4
+cryptography==38.0.4
 decorator==4.4.2
 docutils==0.16
 ebaysdk==2.1.5
@@ -26,7 +27,7 @@ psutil==5.6.7 # min version = 5.5.1 (Focal with security backports)
 psycopg2==2.7.7; sys_platform != 'win32' and python_version < '3.8'
 psycopg2==2.8.6; sys_platform == 'win32' or python_version >= '3.8'
 pydot==1.4.1
-pyopenssl==19.0.0
+pyopenssl==23.0.0
 PyPDF2==1.26.0
 pypiwin32 ; sys_platform == 'win32'
 pyserial==3.4

@@ -31,9 +31,9 @@ COPY --from=madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10-606718795 \
 COPY ./requirements.txt /root
 
 RUN apk add --update --no-cache --progress gettext git ghostscript gnupg nodejs npm openssl postgresql-client python3 \
-        libffi libxml2 libxslt freetype jpeg lcms2 openjpeg tcl tiff tk zlib py3-pyldap py3-pip libgcc libstdc++ \
-        libx11 glib libxrender libxext libintl ttf-cantarell ttf-dejavu ttf-droid ttf-freefont ttf-liberation \
-        ttf-opensans && \
+        libffi libssl1.1 libxml2 libxslt freetype jpeg lcms2 openjpeg tcl tiff tk zlib py3-pyldap py3-pip libgcc \
+        libstdc++ libx11 glib libxrender libxext libintl ttf-cantarell ttf-dejavu ttf-droid ttf-freefont \
+        ttf-liberation ttf-opensans && \
     echo -n "INPUT ( libldap.so )" > /usr/lib/libldap_r.so && \
     apk add --virtual .build-deps --no-cache --progress build-base python3-dev libffi-dev libxml2-dev libxslt-dev \
         freetype-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev linux-headers postgresql-dev \
