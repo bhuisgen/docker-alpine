@@ -24,7 +24,7 @@ RUN mkdir /var/lib/vault && \
     chown vault:vault /var/lib/vault && \
     chmod 700 /var/lib/vault
 
-ADD https://releases.hashicorp.com/vault/1.11.4/vault_1.11.4_linux_amd64.zip /tmp/vault.zip
+ADD https://releases.hashicorp.com/vault/1.12.3/vault_1.12.3_linux_amd64.zip /tmp/vault.zip
 
 RUN apk add --update --no-cache --progress libcap zip && \
     unzip /tmp/vault.zip -d /bin && \
