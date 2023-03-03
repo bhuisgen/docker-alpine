@@ -20,9 +20,7 @@ LABEL maintainer="bhuisgen@hbis.fr" \
 
 ENV OPENLDAP_CONFIGDIR=/var/lib/openldap/slapd.d
 
-RUN apk add --update --no-cache --progress openldap openldap-back-mdb openldap-clients openldap-overlay-all && \
-    mkdir /var/run/openldap && \
-    chown ldap:ldap /var/run/openldap
+RUN apk add --update --no-cache --progress openldap openldap-back-mdb openldap-clients openldap-overlay-all
 
 COPY rootfs/ /
 
