@@ -28,8 +28,8 @@ RUN mkdir -p /var/lib/archiva && \
     chown archiva:archiva /var/lib/archiva && \
     chmod 700 /var/lib/archiva
 
-ADD https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.9/jetty-home-11.0.9.tar.gz /tmp/jetty.tar.gz
-ADD http://www-eu.apache.org/dist/archiva/2.2.7/binaries/apache-archiva-2.2.7.war /tmp/archiva.war
+ADD https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.14/jetty-home-11.0.14.tar.gz /tmp/jetty.tar.gz
+ADD http://www-eu.apache.org/dist/archiva/2.2.9/binaries/apache-archiva-2.2.9.war /tmp/archiva.war
 
 RUN apk add --update --no-cache --progress openjdk11-jre unzip && \
     mkdir ${JETTY_HOME} && \
