@@ -119,8 +119,9 @@ AC_CONFIG_FILES([
     alpine-postfix/Makefile
     alpine-postgresql/Makefile
     alpine-python/Makefile
-	alpine-rabbitmq/Makefile \
+	alpine-rabbitmq/Makefile
     alpine-redis/Makefile
+    alpine-rspamd/Makefile
     alpine-rng/Makefile
     alpine-roundcubemail/Makefile
     alpine-rsyslog/Makefile

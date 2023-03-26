@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+    rspamd:
+
+services:
+    rspamd:
+        image: bhuisgen/alpine-rspamd
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - rspamd:/var/lib/rspamd              # volume for data
+        environment:
+            - ENV=local                           # environment name
+            #- RSPAMD_TEMPLATE=generic            # configuration template
+
+            #
+            # template generic
+            #

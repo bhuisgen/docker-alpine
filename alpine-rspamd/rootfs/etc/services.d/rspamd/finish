@@ -1,0 +1,6 @@
+#!/command/execlineb -S1
+
+if { eltest ${1} -ne 0 }
+if { eltest ${1} -ne 256 }
+
+s6-svscanctl -t /run/service

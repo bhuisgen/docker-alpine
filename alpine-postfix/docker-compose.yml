@@ -43,8 +43,7 @@ services:
             #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=            # SMTP server TLS mandatory ciphers
             #- POSTFIX_TLSMEDIUMCIPHERLIST=                 # TLS medium cipher list
             #- POSTFIX_SUBMISSION=0                         # enable submission port
-            #- POSTFIX_OPENDKIMSERVERS=                     # opendkim servers list
-            #- POSTFIX_OPENDMARCSERVERS=                    # opendmarc servers list
+            #- POSTFIX_SMTPDMILTERS=                        # milters list
 
             #
             # template dovecot
@@ -71,8 +70,7 @@ services:
             #- POSTFIX_SMTPDTLSMANDATORYCIPHERS=            # SMTP server TLS mandatory ciphers
             #- POSTFIX_TLSMEDIUMCIPHERLIST=                 # TLS medium cipher list
             #- POSTFIX_SUBMISSION=0                         # enable submission port
-            #- POSTFIX_OPENDKIMSERVERS=                     # opendkim servers list
-            #- POSTFIX_OPENDMARCSERVERS=                    # opendmarc servers list
+            #- POSTFIX_SMTPDMILTERS=                        # milters list
             #- POSTFIX_SASLSERVERS=dovecot:12345            # dovecot SASL servers list
             #- POSTFIX_LMTPSERVERS=dovecot:24               # dovecot LMTP servers list
             #- POSTFIX_VIRTUALMAILBOXDOMAINS=               # virtual mailbox domains list

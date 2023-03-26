@@ -18,8 +18,7 @@
 {{- $postfix_smtpd_tls_protocols := env "POSTFIX_SMTPDTLSPROTOCOLS" -}}
 {{- $postfix_smtpd_tls_mandatory_ciphers := env "POSTFIX_SMTPDTLSMANDATORYCIPHERS" -}}
 {{- $postfix_tls_medium_cipherlist := env "POSTFIX_TLSMEDIUMCIPHERLIST" -}}
-{{- $postfix_opendkim_servers := env "POSTFIX_OPENDKIMSERVERS" -}}
-{{- $postfix_opendmarc_servers := env "POSTFIX_OPENDMARCSERVERS" -}}
+{{- $postfix_smtpd_milters := env "POSTFIX_SMTPDMILTERS" -}}
 smtputf8_enable = no
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib/postfix
@@ -99,10 +98,7 @@ mua_helo_restrictions = permit_mynetworks, permit
 
 milter_default_action = accept
 milter_protocol = 6
-smtpd_milters =
-    {{if $postfix_opendkim_servers}}{{range $server := $postfix_opendkim_servers | split ","}}{{$server}}{{end}}{{end}}
-    {{if $postfix_opendmarc_servers}}{{range $server := $postfix_opendmarc_servers | split ","}}{{$server}}{{end}}{{end}}
-non_smtpd_milters = $smtpd_milters
+smtpd_milters = {{if $postfix_smtpd_milters}}{{$postfix_smtpd_milters}}{{end}}
 
 smtpd_helo_required = yes
 disable_vrfy_command = yes

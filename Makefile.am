@@ -76,6 +76,7 @@ SUBDIRS = \
     alpine-redis \
     alpine-rng \
     alpine-roundcubemail \
+    alpine-rspamd \
     alpine-rsyslog \
     alpine-ruby \
     alpine-rundeck \

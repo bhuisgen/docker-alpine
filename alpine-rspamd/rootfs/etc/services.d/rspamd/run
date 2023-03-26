@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd /var/lib/rspamd || exit 1
+exec /usr/sbin/rspamd -f -u rspamd -g rspamd ${RSPAMD_OPTIONS}
