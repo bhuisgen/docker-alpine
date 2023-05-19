@@ -22,7 +22,7 @@ RUN mkdir /var/lib/traefik && \
     addgroup -S traefik && \
     adduser -S -D -g "" -G traefik -s /sbin/nologin -h /var/lib/traefik traefik
 
-ADD https://github.com/traefik/traefik/releases/download/v2.9.8/traefik_v2.9.8_linux_amd64.tar.gz /tmp/traefik.tar.gz
+ADD https://github.com/traefik/traefik/releases/download/v2.10.1/traefik_v2.10.1_linux_amd64.tar.gz /tmp/traefik.tar.gz
 
 RUN apk add --update --no-cache --progress tar && \
     mkdir /usr/local/traefik && \
