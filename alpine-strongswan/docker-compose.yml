@@ -34,4 +34,4 @@ services:
             #- STRONGSWANMONITOR=0                          # enable monitor
             #- STRONGSWANMONITOR_OPTIONS=                   # monitor options
             #- STRONGSWANPING=0                             # enable ping
-            #- STRONGSWANPING_OPTIONS=                      # ping options
+            #- STRONGSWANPING_HOST=                         # host/IP to ping (coma seperated list)

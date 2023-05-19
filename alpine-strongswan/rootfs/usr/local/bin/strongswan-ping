@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function usage {
-    echo -e "Usage: $(basename "$0") [-s <SECS>] [-i <SECS>] <IP>[,<IP>...]"
+    echo -e "Usage: $(basename "$0") [-s <SECS>] [-i <SECS>] <HOST>[,<HOST>...]"
     echo -e ""
     echo -e "Ping strongswan connections."
     echo -e ""
