@@ -38,7 +38,7 @@ RUN apk add --update --no-cache --progress gettext git ghostscript gnupg nodejs 
     apk add --virtual .build-deps --no-cache --progress build-base python3-dev libffi-dev libxml2-dev libxslt-dev \
         freetype-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev linux-headers postgresql-dev \
         openldap-dev rust cargo && \
-    git clone --depth 1 https://github.com/odoo/odoo.git -b 15.0 /usr/local/odoo && \
+    git clone --depth 1 -b 15.0 https://github.com/odoo/odoo.git /usr/local/odoo && \
     cd /usr/local/odoo && \
     mv /root/requirements.txt . && \
     pip3 install -r ./requirements.txt && \
